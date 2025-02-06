@@ -41,6 +41,13 @@ forgejoDefaultServer = "https://v8.next.forgejo.org"
   # (Merged header: originally "basic" then later "fixed" – using "fixed")
   layout = "fixed"
 
+[header.nav]
+  right = [
+    { identifier = "projects", name = "Projects", url = "/projects", weight = 1 },
+    { identifier = "blog", name = "Blog", url = "/blog", weight = 2 },
+    { identifier = "about", name = "About", url = "/about", weight = 3 }
+  ]
+
 [footer]
   showMenu = false
   showCopyright = true
@@ -51,11 +58,27 @@ forgejoDefaultServer = "https://v8.next.forgejo.org"
 
 # -- Custom Parameters --
 [params]
+  # Shared across all pages
+  defaultFeaturedImage = "preview.png"
+  defaultBackgroundImage = "preview.png"
+  borderRadius = "lg"
+  boxShadow = "xl"
   description = "Portfolio of Srachet Rai – Cybersecurity Enthusiast & BTech CSE"
   favicon = "favicon.ico"
   colorScheme = "fire"
   primaryColor = "purple"  # options: slate, gray, zinc, neutral, stone, red, orange, amber, yellow, lime, green, emerald, teal, cyan, sky, blue, indigo, violet, purple, fuchsia, pink, rose
   container = "full"  # critical for full-width layout (options: full, constrained)
+  
+  # Social proof section
+  [[params.metrics]]
+    icon = "fas fa-shield-alt"
+    value = "50+"
+    label = "Projects Secured"
+  
+  [[params.metrics]]
+    icon = "fas fa-certificate"
+    value = "10+"
+    label = "Certifications"
 
 # -- Homepage Settings --
 [homepage]

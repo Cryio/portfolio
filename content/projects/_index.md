@@ -1,5 +1,9 @@
 ---
 title: "Projects"
+layout: "background"
+homepageImage: "preview.png"
+cardView: true
+cardViewScreenWidth: true
 description: "Explore my professional projects and contributions."
 ---
 

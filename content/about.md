@@ -1,12 +1,14 @@
 ---
 title: "About Me"
 layout: "simple"
+date: 2024-07-23
+homepageImage: "preview.png"
 ---
 
 ![Profile Image](profile.png)
 
   <p class="text-xl leading-relaxed mb-6">
-    I am a cybersecurity Enthusiast with a solid foundation in web development and ethical hacking. As a Computer Science student, I am dedicated to securing digital infrastructures and addressing emerging cyber threats.
+    I am a Cybersecurity Enthusiast with a solid foundation in web development and ethical hacking. As a Computer Science student, I am dedicated to securing digital infrastructures and addressing emerging cyber threats.
   </p>
   <p class="text-xl leading-relaxed mb-6">
     I have contributed to impactful projects—including developing a mobile application that tackles real-world health challenges—and earned certifications in Ethical Hacking and Machine Learning. My goal is to deliver innovative, practical solutions that blend creativity with technical expertise.
