@@ -46,6 +46,8 @@ forgejoDefaultServer = "https://v8.next.forgejo.org"
   showCopyright = true
   showAppearanceSwitcher = true
   showScrollToTop = true
+  showThemeAttribution = false
+
 
 # -- Custom Parameters --
 [params]
