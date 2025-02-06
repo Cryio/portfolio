@@ -10,36 +10,9 @@
   weight = 10
 
 [[main]]
-  name = "Blog"
-  pageRef = "posts"     # Adjust based on your content organization for blog posts
-  weight = 20
-
-[[main]]
   name = "About"
   pageRef = "about"     # Links to your About page (content/about.md)
   weight = 30
-
-# Create a parent menu for additional resources.
-[[main]]
-  name = "Resources"
-  weight = 40
-
-[[main]]
-  name = "Tutorials"
-  parent = "Resources"  # This creates a submenu under "Resources"
-  pageRef = "tutorials"
-  weight = 10
-
-[[main]]
-  name = "Docs"
-  parent = "Resources"
-  pageRef = "docs"
-  weight = 20
-
-[[main]]
-  name = "Contact"
-  url = "/contact/"     # Alternatively, if you have a dedicated contact page
-  weight = 50
 
 
 # -- Footer Menu Configuration --

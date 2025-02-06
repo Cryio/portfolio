@@ -1,5 +1,5 @@
 # -- Site Configuration --
-baseURL = "https://cryio.github.io/"
+baseURL = ""
 title = "Srachet Rai - Portfolio"
 defaultContentLanguage = "en"
 theme = "blowfish"
@@ -11,7 +11,7 @@ theme = "blowfish"
 # These options control how the theme functions and allow you to customise the display of your website.
 # See: https://blowfish.page/docs/configuration/#theme-parameters
 
-colorScheme = "blowfish"
+colorScheme = "fire"
 defaultAppearance = "dark"       # valid options: light or dark
 autoSwitchAppearance = true
 
@@ -42,7 +42,7 @@ forgejoDefaultServer = "https://v8.next.forgejo.org"
   layout = "fixed"
 
 [footer]
-  showMenu = true
+  showMenu = false
   showCopyright = true
   showAppearanceSwitcher = true
   showScrollToTop = true
@@ -51,7 +51,10 @@ forgejoDefaultServer = "https://v8.next.forgejo.org"
 [params]
   description = "Portfolio of Srachet Rai – Cybersecurity Enthusiast & BTech CSE"
   favicon = "favicon.ico"
-  colorScheme = "noir"  # choose from Blowfish built-in schemes
+  colorScheme = "fire"
+  primaryColor = "purple"  # options: slate, gray, zinc, neutral, stone, red, orange, amber, yellow, lime, green, emerald, teal, cyan, sky, blue, indigo, violet, purple, fuchsia, pink, rose
+  container = "full"  # critical for full-width layout (options: full, constrained)
+  containerPadding = "1.5rem"
 
 # -- Homepage Settings --
 [homepage]
@@ -62,14 +65,17 @@ forgejoDefaultServer = "https://v8.next.forgejo.org"
   showMoreLink = true             # Display a “Show More” link at the end of recent articles
   showMoreLinkDest = "/projects/"    # Destination for the “Show More” link
   cardView = true                 # Display recent articles as a gallery of cards
-  cardViewScreenWidth = false     # Adjust card gallery to full width if needed
+  cardViewScreenWidth = true     # Adjust card gallery to full width if needed
   layoutBackgroundBlur = true     # Apply a background blur (used with certain layouts)
-
+  layoutBackgroundHeaderSpace = true
+  layoutBackgroundOpacity = 0.8
+  layoutBackgroundPadding = "4rem 0"
+  
 # -- Article Settings --
 [article]
   # Note: There were two article sections. These have been merged.
-  showHero = false              # (If false, hero image won’t show on individual articles)
-  heroStyle = "background"      # Valid options: basic, big, background, thumbAndBackground
+  showHero = true              # (If false, hero image won’t show on individual articles)
+  heroStyle = "big"      # Valid options: basic, big, background, thumbAndBackground
   showSummary = true
   showRelatedContent = true
   relatedContentLimit = 3
@@ -96,27 +102,8 @@ forgejoDefaultServer = "https://v8.next.forgejo.org"
   showTaxonomies = false
   showAuthorsBadges = false
   showWordCount = true
-  # sharingLinks = [ "linkedin", "twitter", "bluesky", "mastodon", "reddit", "pinterest", "facebook", "email", "whatsapp", "telegram" ]
+  sharingLinks = [ "linkedin", "twitter", "bluesky", "mastodon", "reddit", "pinterest", "facebook", "email", "whatsapp", "telegram" ]
   showZenMode = false
-
-# -- List Settings --
-[list]
-  # Merged settings from two list blocks
-  showHero = false
-  # heroStyle not set
-  layoutBackgroundBlur = true     # Only used when heroStyle equals background or thumbAndBackground
-  layoutBackgroundHeaderSpace = true
-  showBreadcrumbs = false
-  showSummary = false
-  showViews = false
-  showLikes = false
-  showTableOfContents = false
-  showCards = false               # (choose true or false as desired; here set to false)
-  orderByWeight = false
-  groupByYear = true
-  cardView = false
-  cardViewScreenWidth = false
-  constrainItemsWidth = false
 
 # -- Sitemap Settings --
 [sitemap]
