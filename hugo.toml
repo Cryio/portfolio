@@ -1,14 +1,15 @@
 baseURL = "https://cryio.github.io/"
-title = "Your Name - Portfolio"
+title = "Cryio - Portfolio"
 theme = "blowfish"
 
 [params]
-description = "Portfolio of Your Name - Profession/Title"
-  [params.Author]
-    name = "Your Name"
-favicon = "favicon.ico"
-colorScheme = "auto"
+  description = "Portfolio of Cryio - Cybersecurity Enthusiast"
+  favicon = "favicon.ico"
+  colorScheme = "auto"
+
+  [params.author]
+    name = "Cryio"
 
 [params.nav]
-enabled = true
-menu = "auto"
+  enabled = true
+  menu = "auto"
