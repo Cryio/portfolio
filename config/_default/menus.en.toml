@@ -1,69 +1,64 @@
-# -- Main Menu --
-# The main menu is displayed in the header at the top of the page.
-# Acceptable parameters are name, pageRef, page, url, title, weight.
-# 
-# The simplest menu configuration is to provide:
-#   name = The name to be displayed for this menu link
-#   pageRef = The identifier of the page or section to link to
-#
-# By default the menu is ordered alphabetically. This can be
-# overridden by providing a weight value. The menu will then be
-# ordered by weight from lowest to highest.
+# -- Main Menu Configuration --
+[[main]]
+  name = "Home"
+  url = "/"
+  weight = 1
 
-#[[main]]
-#  name = "Blog"
-#  pageRef = "posts"
-#  weight = 10
+[[main]]
+  name = "Projects"
+  pageRef = "projects"  # Links to content under /projects/ (ensure you have a section with this identifier)
+  weight = 10
 
-#[[main]]
-#  name = "Parent"
-#  weight = 20
+[[main]]
+  name = "Blog"
+  pageRef = "posts"     # Adjust based on your content organization for blog posts
+  weight = 20
 
-#[[main]]
-#  name = "example sub-menu 1"
-#  parent = "Parent"
-#  pageRef = "posts"
-#  weight = 20
+[[main]]
+  name = "About"
+  pageRef = "about"     # Links to your About page (content/about.md)
+  weight = 30
 
-#[[main]]
-#  name = "example sub-menu 2"
-#  parent = "Parent"
-#  pageRef = "posts"
-#  weight = 20
+# Create a parent menu for additional resources.
+[[main]]
+  name = "Resources"
+  weight = 40
 
-#[[subnavigation]]
-#  name = "An interesting topic"
-#  pageRef = "tags/interesting-topic"
-#  weight = 10
+[[main]]
+  name = "Tutorials"
+  parent = "Resources"  # This creates a submenu under "Resources"
+  pageRef = "tutorials"
+  weight = 10
 
-#[[subnavigation]]
-#  name = "My Awesome Category"
-#  pre = "github"
-#  pageRef = "categories/awesome"
-#  weight = 20
+[[main]]
+  name = "Docs"
+  parent = "Resources"
+  pageRef = "docs"
+  weight = 20
 
-#[[main]]
-#  name = "Categories"
-#  pageRef = "categories"
-#  weight = 20
-
-#[[main]]
-#  name = "Tags"
-#  pageRef = "tags"
-#  weight = 30
+[[main]]
+  name = "Contact"
+  url = "/contact/"     # Alternatively, if you have a dedicated contact page
+  weight = 50
 
 
-# -- Footer Menu --
-# The footer menu is displayed at the bottom of the page, just before
-# the copyright notice. Configure as per the main menu above.
+# -- Footer Menu Configuration --
+[[footer]]
+  name = "Categories"
+  pageRef = "categories"  # Ensure you have a categories section or taxonomy configured
+  weight = 10
 
+[[footer]]
+  name = "Tags"
+  pageRef = "tags"        # Similarly, ensure your tags taxonomy is set up
+  weight = 20
 
-# [[footer]]
-#   name = "Tags"
-#   pageRef = "tags"
-#   weight = 10
+[[footer]]
+  name = "Privacy Policy"
+  url = "/privacy/"
+  weight = 30
 
-# [[footer]]
-#   name = "Categories"
-#   pageRef = "categories"
-#   weight = 20
+[[footer]]
+  name = "Terms of Service"
+  url = "/terms/"
+  weight = 40

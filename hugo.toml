@@ -1,15 +1,39 @@
 baseURL = "https://cryio.github.io/"
-title = "Cryio - Portfolio"
+title = "Srachet Rai - Portfolio"
 theme = "blowfish"
+defaultContentLanguage = "en"
+
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
 
 [params]
-  description = "Portfolio of Cryio - Cybersecurity Enthusiast"
+  description = "Portfolio of Srachet Rai - Cybersecurity Enthusiast"
+  colorScheme = "dark"
   favicon = "favicon.ico"
-  colorScheme = "auto"
-
-  [params.author]
-    name = "Cryio"
 
 [params.nav]
   enabled = true
-  menu = "auto"
+  menu = "main"
+
+[menu]
+[[menu.main]]
+  identifier = "projects"
+  name = "Projects"
+  url = "/projects/"
+  weight = 1
+
+[[menu.main]]
+  identifier = "about"
+  name = "About"
+  url = "/about/"
+  weight = 2
+
+[[menu.main]]
+  identifier = "docs"
+  name = "Docs"
+  url = "/docs/"
+  weight = 3
+
+[social]
+  github = "https://github.com/Cryio"
+  linkedin = "https://linkedin.com/in/srachetrai"

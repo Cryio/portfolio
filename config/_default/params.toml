@@ -1,17 +1,22 @@
+# -- Site Configuration --
+baseURL = "https://cryio.github.io/"
+title = "Srachet Rai - Portfolio"
+defaultContentLanguage = "en"
+theme = "blowfish"
+
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+
 # -- Theme Options --
-# These options control how the theme functions and allow you to
-# customise the display of your website.
-#
-# Refer to the theme docs for more details about each of these parameters.
-# https://blowfish.page/docs/configuration/#theme-parameters
+# These options control how the theme functions and allow you to customise the display of your website.
+# See: https://blowfish.page/docs/configuration/#theme-parameters
 
 colorScheme = "blowfish"
-defaultAppearance = "light" # valid options: light or dark
+defaultAppearance = "dark"       # valid options: light or dark
 autoSwitchAppearance = true
 
 enableSearch = true
 enableCodeCopy = false
-
 replyByEmail = false
 
 # mainSections = ["section1", "section2"]
@@ -21,8 +26,8 @@ disableImageOptimization = false
 disableTextInHeader = false
 # backgroundImageWidth = 1200
 
-# defaultBackgroundImage = "IMAGE.jpg" # used as default for background images 
-# defaultFeaturedImage = "IMAGE.jpg" # used as default for featured images in all articles
+# defaultBackgroundImage = "IMAGE.jpg"   # used as default for background images 
+# defaultFeaturedImage = "IMAGE.jpg"       # used as default for featured images in all articles
 
 # highlightCurrentMenuArea = true
 # smartTOC = true
@@ -31,43 +36,56 @@ disableTextInHeader = false
 giteaDefaultServer = "https://git.fsfe.org"
 forgejoDefaultServer = "https://v8.next.forgejo.org"
 
+# -- Header & Footer --
 [header]
-  layout = "basic" # valid options: basic, fixed, fixed-fill, fixed-gradient, fixed-fill-blur
+  # (Merged header: originally "basic" then later "fixed" – using "fixed")
+  layout = "fixed"
 
 [footer]
   showMenu = true
   showCopyright = true
-  showThemeAttribution = true
   showAppearanceSwitcher = true
   showScrollToTop = true
 
-[homepage]
-  layout = "profile" # valid options: page, profile, hero, card, background, custom
-  #homepageImage = "IMAGE.jpg" # used in: hero, and card
-  showRecent = false
-  showRecentItems = 5
-  showMoreLink = false
-  showMoreLinkDest = "/posts/"
-  cardView = false
-  cardViewScreenWidth = false
-  layoutBackgroundBlur = false # only used when layout equals background
+# -- Custom Parameters --
+[params]
+  description = "Portfolio of Srachet Rai – Cybersecurity Enthusiast & BTech CSE"
+  favicon = "favicon.ico"
+  colorScheme = "noir"  # choose from Blowfish built-in schemes
 
+# -- Homepage Settings --
+[homepage]
+  layout = "background"               # Options: profile, page, hero, background, card, custom
+  homepageImage = "preview.png"     # Place your image in the assets folder (or static, as appropriate)
+  showRecent = true               # Show recent articles below the main content
+  showRecentItems = 6             # Number of recent items to show
+  showMoreLink = true             # Display a “Show More” link at the end of recent articles
+  showMoreLinkDest = "/projects/"    # Destination for the “Show More” link
+  cardView = true                 # Display recent articles as a gallery of cards
+  cardViewScreenWidth = false     # Adjust card gallery to full width if needed
+  layoutBackgroundBlur = true     # Apply a background blur (used with certain layouts)
+
+# -- Article Settings --
 [article]
+  # Note: There were two article sections. These have been merged.
+  showHero = false              # (If false, hero image won’t show on individual articles)
+  heroStyle = "background"      # Valid options: basic, big, background, thumbAndBackground
+  showSummary = true
+  showRelatedContent = true
+  relatedContentLimit = 3
   showDate = true
-  showViews = false
+  showViews = true
   showLikes = false
   showDateOnlyInArticle = false
   showDateUpdated = false
   showAuthor = true
-  # showAuthorBottom = false
-  showHero = false
-  # heroStyle = "basic" # valid options: basic, big, background, thumbAndBackground
-  layoutBackgroundBlur = true # only used when heroStyle equals background or thumbAndBackground
-  layoutBackgroundHeaderSpace = true # only used when heroStyle equals background
+  # showAuthorBottom = false    # (optional)
+  layoutBackgroundBlur = true   # Only used when heroStyle equals background or thumbAndBackground
+  layoutBackgroundHeaderSpace = true  # Only used when heroStyle equals background
   showBreadcrumbs = false
   showDraftLabel = true
   showEdit = false
-  # editURL = "https://github.com/username/repo/"
+  # editURL = "https://github.com/username/repo/"  # (optional)
   editAppendPath = true
   seriesOpened = false
   showHeadingAnchors = true
@@ -75,47 +93,50 @@ forgejoDefaultServer = "https://v8.next.forgejo.org"
   invertPagination = false
   showReadingTime = true
   showTableOfContents = false
-  # showRelatedContent = false
-  # relatedContentLimit = 3
   showTaxonomies = false
   showAuthorsBadges = false
   showWordCount = true
-  # sharingLinks = [ "linkedin", "twitter", "bluesky", "mastodon", "reddit", "pinterest", "facebook", "email", "whatsapp", "telegram"]
+  # sharingLinks = [ "linkedin", "twitter", "bluesky", "mastodon", "reddit", "pinterest", "facebook", "email", "whatsapp", "telegram" ]
   showZenMode = false
 
+# -- List Settings --
 [list]
+  # Merged settings from two list blocks
   showHero = false
-  # heroStyle = "background" # valid options: basic, big, background, thumbAndBackground
-  layoutBackgroundBlur = true # only used when heroStyle equals background or thumbAndBackground
-  layoutBackgroundHeaderSpace = true # only used when heroStyle equals background
+  # heroStyle not set
+  layoutBackgroundBlur = true     # Only used when heroStyle equals background or thumbAndBackground
+  layoutBackgroundHeaderSpace = true
   showBreadcrumbs = false
   showSummary = false
   showViews = false
   showLikes = false
   showTableOfContents = false
-  showCards = false
+  showCards = false               # (choose true or false as desired; here set to false)
   orderByWeight = false
   groupByYear = true
   cardView = false
   cardViewScreenWidth = false
   constrainItemsWidth = false
 
+# -- Sitemap Settings --
 [sitemap]
   excludedKinds = ["taxonomy", "term"]
 
+# -- Taxonomy Settings --
 [taxonomy]
   showTermCount = true
   showHero = false
-  # heroStyle = "background" # valid options: basic, big, background, thumbAndBackground
+  # heroStyle not set
   showBreadcrumbs = false
   showViews = false
   showLikes = false
   showTableOfContents = false
   cardView = false
 
+# -- Term Settings --
 [term]
   showHero = false
-  # heroStyle = "background" # valid options: basic, big, background, thumbAndBackground
+  # heroStyle not set
   showBreadcrumbs = false
   showViews = false
   showLikes = false
@@ -124,7 +145,9 @@ forgejoDefaultServer = "https://v8.next.forgejo.org"
   cardView = false
   cardViewScreenWidth = false
 
+# -- Firebase Settings --
 [firebase]
+  # Uncomment and set your Firebase keys if you use Firebase integrations.
   # apiKey = "XXXXXX"
   # authDomain = "XXXXXX"
   # projectId = "XXXXXX"
@@ -133,10 +156,12 @@ forgejoDefaultServer = "https://v8.next.forgejo.org"
   # appId = "XXXXXX"
   # measurementId = "XXXXXX"
 
+# -- Fathom Analytics --
 [fathomAnalytics]
   # site = "ABC12345"
   # domain = "llama.yoursite.com"
 
+# -- Umami Analytics --
 [umamiAnalytics]
   # websiteid = "ABC12345"
   # domain = "llama.yoursite.com"
@@ -144,10 +169,12 @@ forgejoDefaultServer = "https://v8.next.forgejo.org"
   # scriptName = ""
   # enableTrackEvent = true
 
+# -- Seline Analytics --
 [selineAnalytics]
   # token = "XXXXXX"
   # enableTrackEvent = true
 
+# -- BuyMeACoffee Settings --
 [buymeacoffee]
   # identifier = ""
   # globalWidget = true
@@ -155,6 +182,7 @@ forgejoDefaultServer = "https://v8.next.forgejo.org"
   # globalWidgetColor = "#FFDD00"
   # globalWidgetPosition = "Right"
 
+# -- Verification Settings --
 [verification]
   # google = ""
   # bing = ""
@@ -162,6 +190,7 @@ forgejoDefaultServer = "https://v8.next.forgejo.org"
   # yandex = ""
   # fediverse = ""
 
+# -- RSSNext Settings --
 [rssnext]
   # feedId = ""
   # userId = ""
