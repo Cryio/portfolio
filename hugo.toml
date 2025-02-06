@@ -28,12 +28,6 @@ defaultContentLanguage = "en"
   url = "/about/"
   weight = 2
 
-[[menu.main]]
-  identifier = "docs"
-  name = "Docs"
-  url = "/docs/"
-  weight = 3
-
 [social]
   github = "https://github.com/Cryio"
   linkedin = "https://linkedin.com/in/srachetrai"

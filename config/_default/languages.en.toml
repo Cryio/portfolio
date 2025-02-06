@@ -9,8 +9,8 @@ title = "Srachet Rai"
   isoCode = "en"
   rtl = false
   dateFormat = "2 January 2006"
-  logo = "android-chrome-512x512.png"
-  # secondaryLogo = "img/secondary-logo.png"
+  logo = "logo-small.png"
+  secondaryLogo = "logo-small.png"
   # Uncomment and update for a site description:
   # description = "My awesome website"
   # Uncomment to set a custom copyright:
