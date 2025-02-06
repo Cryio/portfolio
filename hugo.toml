@@ -1,0 +1,13 @@
+baseURL = "https://cryio.github.io/"
+title = "Your Name - Portfolio"
+theme = "blowfish"
+
+[params]
+description = "Portfolio of Your Name - Profession/Title"
+author = "Your Name"
+favicon = "favicon.ico"
+colorScheme = "auto"
+
+[params.nav]
+enabled = true
+menu = "auto"
