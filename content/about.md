@@ -5,7 +5,15 @@ layout: "simple"
 
 ![Profile Image](profile.png)
 
-Hi, I'm Srachet Rai — a cybersecurity professional with a solid foundation in computer science and a passion for creative design. I’ve worked on projects ranging from network security to innovative software solutions.
+  <p class="text-xl leading-relaxed mb-6">
+    I am a cybersecurity Enthusiast with a solid foundation in web development and ethical hacking. As a Computer Science student, I am dedicated to securing digital infrastructures and addressing emerging cyber threats.
+  </p>
+  <p class="text-xl leading-relaxed mb-6">
+    I have contributed to impactful projects—including developing a mobile application that tackles real-world health challenges—and earned certifications in Ethical Hacking and Machine Learning. My goal is to deliver innovative, practical solutions that blend creativity with technical expertise.
+  </p>
+  <p class="text-xl leading-relaxed">
+    In my leadership roles with the Google Developers Student Club and TEDxNIITUniversity, I drive innovation and leverage my animation skills to craft immersive user experiences. Welcome to my portfolio.
+  </p><br></br>
 
 ## My Journey
 

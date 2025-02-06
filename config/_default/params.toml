@@ -54,31 +54,28 @@ forgejoDefaultServer = "https://v8.next.forgejo.org"
   colorScheme = "fire"
   primaryColor = "purple"  # options: slate, gray, zinc, neutral, stone, red, orange, amber, yellow, lime, green, emerald, teal, cyan, sky, blue, indigo, violet, purple, fuchsia, pink, rose
   container = "full"  # critical for full-width layout (options: full, constrained)
-  containerPadding = "1.5rem"
 
 # -- Homepage Settings --
 [homepage]
   layout = "background"               # Options: profile, page, hero, background, card, custom
   homepageImage = "preview.png"     # Place your image in the assets folder (or static, as appropriate)
-  showRecent = true               # Show recent articles below the main content
-  showRecentItems = 6             # Number of recent items to show
+  showRecent = true  
+  mainSections = ["/projects/"]             # Show recent articles below the main content
   showMoreLink = true             # Display a “Show More” link at the end of recent articles
-  showMoreLinkDest = "/projects/"    # Destination for the “Show More” link
+  showMoreLinkDest = "/about/"    # Destination for the “Show More” link
   cardView = true                 # Display recent articles as a gallery of cards
   cardViewScreenWidth = true     # Adjust card gallery to full width if needed
   layoutBackgroundBlur = true     # Apply a background blur (used with certain layouts)
   layoutBackgroundHeaderSpace = true
-  layoutBackgroundOpacity = 0.8
-  layoutBackgroundPadding = "4rem 0"
   
 # -- Article Settings --
 [article]
   # Note: There were two article sections. These have been merged.
   showHero = true              # (If false, hero image won’t show on individual articles)
-  heroStyle = "big"      # Valid options: basic, big, background, thumbAndBackground
+  heroStyle = "background"      # Valid options: basic, big, background, thumbAndBackground
   showSummary = true
   showRelatedContent = true
-  relatedContentLimit = 3
+  relatedContentLimit = 6
   showDate = true
   showViews = true
   showLikes = false
@@ -87,8 +84,8 @@ forgejoDefaultServer = "https://v8.next.forgejo.org"
   showAuthor = true
   # showAuthorBottom = false    # (optional)
   layoutBackgroundBlur = true   # Only used when heroStyle equals background or thumbAndBackground
-  layoutBackgroundHeaderSpace = true  # Only used when heroStyle equals background
-  showBreadcrumbs = false
+  layoutBackgroundHeaderSpace = false  # Only used when heroStyle equals background
+  showBreadcrumbs = true
   showDraftLabel = true
   showEdit = false
   # editURL = "https://github.com/username/repo/"  # (optional)
@@ -102,7 +99,6 @@ forgejoDefaultServer = "https://v8.next.forgejo.org"
   showTaxonomies = false
   showAuthorsBadges = false
   showWordCount = true
-  sharingLinks = [ "linkedin", "twitter", "bluesky", "mastodon", "reddit", "pinterest", "facebook", "email", "whatsapp", "telegram" ]
   showZenMode = false
 
 # -- Sitemap Settings --

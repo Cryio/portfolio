@@ -9,8 +9,7 @@ title = "Srachet Rai"
   isoCode = "en"
   rtl = false
   dateFormat = "2 January 2006"
-  # Uncomment and update these if you have logos:
-  # logo = "img/logo.png"
+  logo = "android-chrome-512x512.png"
   # secondaryLogo = "img/secondary-logo.png"
   # Uncomment and update for a site description:
   # description = "My awesome website"
