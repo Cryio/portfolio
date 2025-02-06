@@ -20,11 +20,17 @@ description: "Hi, I'm Srachet Rai – a Cybersecurity Enthusiast & BTech CSE. We
 Discover my latest projects on GitHub. Below is a selection of repositories from my profile:
 
   {{< github repo="Cryio/Wifi-CSI-Based-Activity-Recognition" >}}
+  <br></br>
   {{< github repo="Cryio/TinyLinux" >}}
+  <br></br>
   {{< github repo="Cryio/healthmate" >}}
+  <br></br>
   {{< github repo="Cryio/Synergy_Project" >}}
+  <br></br>
   {{< github repo="Cryio/siNUsoidCTF" >}}
+  <br></br>
   {{< github repo="Cryio/Maa_Karmaa" >}}
+  <br></br>
   {{< github repo="Cryio/portfolio" >}}
 
 <br></br>
