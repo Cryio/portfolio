@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Blog on Srachet Rai</title>
+    <link>http://localhost:1313/tags/blog/</link>
+    <description>Recent content in Blog on Srachet Rai</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <managingEditor>srachetrai@gmail.com (Srachet Rai)</managingEditor>
+    <webMaster>srachetrai@gmail.com (Srachet Rai)</webMaster>
+    <copyright>© 2025 Srachet Rai</copyright>
+    <atom:link href="http://localhost:1313/tags/blog/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Lazy Product Reviews</title>
+      <link>http://localhost:1313/example/users/3fa4eb553f5d984050d2ee4954960034/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <author>srachetrai@gmail.com (Srachet Rai)</author>
+      <guid>http://localhost:1313/example/users/3fa4eb553f5d984050d2ee4954960034/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>zzzhome</title>
+      <link>http://localhost:1313/example/users/46ea5d4b3698fa18fc0b79faa3d89bef/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <author>srachetrai@gmail.com (Srachet Rai)</author>
+      <guid>http://localhost:1313/example/users/46ea5d4b3698fa18fc0b79faa3d89bef/</guid>
+      <description></description>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:1313/example/users/46ea5d4b3698fa18fc0b79faa3d89bef/feature.jpg" />
+    </item>
+    
+  </channel>
+</rss>
