@@ -15,16 +15,24 @@ jobs:
           submodules: true
           fetch-depth: 0
 
+      - name: Setup Git Identity
+        run: |
+          git config --global user.email "srachetrai@gmail.com"
+          git config --global user.name "Cryio"
+
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v2
         with:
-          hugo-version: '0.142.0' 
+          hugo-version: '0.142.0'
           extended: true
 
       - name: Build Site
         run: hugo --minify
 
-      - name: GitHub Pages
+      - name: Create .nojekyll file
+        run: echo > public/.nojekyll
+
+      - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
