@@ -20,12 +20,12 @@ title = "Srachet Rai"
   [params.author]
     name = "Srachet Rai"
     email = "srachetrai@gmail.com"
-    image = "profile.jpg"      # Place this image in your assets or static folder
+    image = "preview.png"      # Place this image in your assets or static folder
     imageQuality = 96
     headline = "Cybersecurity Enthusiast & BTech CSE"
     bio = "I am a cybersecurity professional with a passion for technology, research, and creative design. Welcome to my portfolio!"
     links = [
-      { email = "mailto:srachetrai@gmail.com" },
       { github = "https://github.com/Cryio" },
       { linkedin = "https://linkedin.com/in/srachetrai" },
+      { email = "mailto:srachetrai@gmail.com" },
     ]

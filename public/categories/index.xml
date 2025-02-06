@@ -2,14 +2,14 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Categories on Srachet Rai</title>
-    <link>https://cryio.github.io/categories/</link>
+    <link>http://localhost:1313/categories/</link>
     <description>Recent content in Categories on Srachet Rai</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <managingEditor>srachetrai@gmail.com (Srachet Rai)</managingEditor>
     <webMaster>srachetrai@gmail.com (Srachet Rai)</webMaster>
     <copyright>© 2025 Srachet Rai</copyright>
-    <atom:link href="https://cryio.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/categories/index.xml" rel="self" type="application/rss+xml" />
     
   </channel>
 </rss>
