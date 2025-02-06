@@ -4,7 +4,8 @@ theme = "blowfish"
 
 [params]
 description = "Portfolio of Your Name - Profession/Title"
-author = "Your Name"
+  [params.Author]
+    name = "Your Name"
 favicon = "favicon.ico"
 colorScheme = "auto"
 
