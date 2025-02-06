@@ -5,6 +5,7 @@ description: "Hi, I'm Srachet Rai – a Cybersecurity Enthusiast & BTech CSE. We
 ---
 <br></br>
   <h1 class="text-5xl font-bold mb-8 text-center">Hi, I'm Srachet Rai</h1>
+  <br></br>
   A cybersecurity Enthusiast with a solid foundation in computer science and a passion for creative design. I’ve worked on projects ranging from network security to innovative software solutions.
 
 
