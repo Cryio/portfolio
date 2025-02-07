@@ -20,7 +20,7 @@ homepageImage: "preview.png"
 ## My Journey
 
 {{< timeline >}}
-{{< timelineItem icon="graduation-cap" header="Graduated" badge="2026" subheader="BTech in Computer Science" >}}
+{{< timelineItem icon="graduation-cap" header="Graduation" badge="2026" subheader="BTech in Computer Science" >}}
 Completed my BTech CSE with a focus on cybersecurity and software development.
 {{< /timelineItem >}}
 
