@@ -15,8 +15,10 @@ homepageImage: "preview.png"
   </p>
   <p class="text-xl leading-relaxed">
     In my leadership roles with the Google Developers Student Club and TEDxNIITUniversity, I drive innovation and leverage my animation skills to craft immersive user experiences. Welcome to my portfolio.
-  </p><br></br>
+  </p>
 
+### [Here is my CV](/cv.pdf)
+<br></br>
 ## My Journey
 
 {{< timeline >}}
@@ -68,7 +70,7 @@ Designed and developed web interfaces in a remote internship.
 - User-Centered Design  
 {{< /timelineItem >}}
 
-{{< timelineItem icon="graduation-cap" header="Higher Secondary" badge="2021" subheader="12th (CBSE)" >}}
+{{< timelineItem icon="graduation-cap" header="Higher Secondary" badge="2022" subheader="12th (CBSE)" >}}
 Started my career working on threat intelligence and security operations.  
 <br><h4>Skills</h4>  
 - Critical Thinking  
