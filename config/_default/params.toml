@@ -85,6 +85,7 @@ forgejoDefaultServer = "https://v8.next.forgejo.org"
   layout = "background"               # Options: profile, page, hero, background, card, custom
   homepageImage = "preview.png"     # Place your image in the assets folder (or static, as appropriate)
   showRecent = true  
+  recentPostsTitle = "Recent Projects"
   mainSections = ["/projects/"]             # Show recent articles below the main content
   showMoreLink = true             # Display a “Show More” link at the end of recent articles
   showMoreLinkDest = "/about/"    # Destination for the “Show More” link
