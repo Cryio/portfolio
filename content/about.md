@@ -5,8 +5,6 @@ date: 2024-07-23
 homepageImage: "preview.png"
 ---
 
-![Profile Image](profile.png)
-
   <p class="text-xl leading-relaxed mb-6">
     I am a Cybersecurity Enthusiast with a solid foundation in web development and ethical hacking. As a Computer Science student, I am dedicated to securing digital infrastructures and addressing emerging cyber threats.
   </p>
