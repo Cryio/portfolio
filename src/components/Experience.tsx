@@ -1,6 +1,5 @@
 import { Experience as ExperienceType } from "../types";
 import { Card } from "./ui/card";
-import { Badge } from "@/components/ui/badge";
 
 interface ExperienceProps {
   experience: ExperienceType;
