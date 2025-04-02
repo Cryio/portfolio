@@ -1,6 +1,5 @@
 'use client';
 
-import { portfolioData } from "../../data/portfolio";
 import GithubProjects from "../../components/GithubProjects";
 import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
 

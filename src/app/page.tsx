@@ -83,7 +83,7 @@ export default function Home() {
             Role & Responsibilities
           </h2>
           <div className="space-y-8">
-            {portfolioData.experiences.slice(0, 2).map((experience, index) => (
+            {portfolioData.experiences.slice(0, 2).map((experience) => (
               <Role key={experience.title} experience={experience} />
             ))}
           </div>

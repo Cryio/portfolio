@@ -3,7 +3,7 @@
 import { Certification as CertificationType } from "@/types";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Button } from "./ui/button";
-import { Award, ExternalLink, Image as ImageIcon, ChevronDown, ChevronUp } from "lucide-react";
+import { Award, ExternalLink, Image as ImageIcon, ChevronDown } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 
