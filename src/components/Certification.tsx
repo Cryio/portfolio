@@ -134,6 +134,7 @@ interface CertificationsProps {
 export function Certifications({ certifications }: CertificationsProps) {
   // Group certifications by issuer
   const googleCertifications = certifications.filter(cert => cert.issuer === "Google");
+  const ciscoCertifications = certifications.filter(cert => cert.issuer === "Cisco");
   const udemyCertifications = certifications.filter(cert => cert.issuer === "Udemy");
   const niitCertifications = certifications.filter(cert => 
     cert.issuer === "NIIT Foundation" || 
@@ -147,31 +148,37 @@ export function Certifications({ certifications }: CertificationsProps) {
     <div className="space-y-12">
       {googleCertifications.length > 0 && (
         <CertificationSection 
-          title="Google Certifications" 
+          title="Google" 
           certifications={googleCertifications} 
+        />
+      )}
+      {ciscoCertifications.length > 0 && (
+        <CertificationSection 
+          title="Cisco" 
+          certifications={ciscoCertifications} 
         />
       )}
       {udemyCertifications.length > 0 && (
         <CertificationSection 
-          title="Udemy Certifications" 
+          title="Udemy" 
           certifications={udemyCertifications} 
         />
       )}
       {niitCertifications.length > 0 && (
         <CertificationSection 
-          title="NIIT Certifications" 
+          title="NIIT" 
           certifications={niitCertifications} 
         />
       )}
       {iitCertifications.length > 0 && (
         <CertificationSection 
-          title="IIT Bombay Certifications" 
+          title="IIT Bombay" 
           certifications={iitCertifications} 
         />
       )}
       {sinusoidCertifications.length > 0 && (
         <CertificationSection 
-          title="siNUsoid Certifications" 
+          title="siNUsoid" 
           certifications={sinusoidCertifications} 
         />
       )}

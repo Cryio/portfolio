@@ -292,6 +292,13 @@ export const portfolioData: PortfolioData = {
   // Certifications
   certifications: [
     {
+      title: "Introduction to Cybersecurity",
+      issuer: "Cisco",
+      date: "Apr 06, 2025",
+      description: "Explore the exciting field of cybersecurity and why cybersecurity is a future-proof career.",
+      credentialUrl: "/certificates/Certificate_Introduction to Cybersecurity.jpg"
+    },
+    {
       title: "Introduction to Blender",
       issuer: "Udemy",
       date: "2024",

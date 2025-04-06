@@ -56,6 +56,8 @@ export interface Certification {
   credentialId?: string;
   credentialUrl?: string;
   image?: string;
+  skills?: string[];
+  hours?: number;
 }
 
 export interface PortfolioData {
