@@ -31,7 +31,7 @@ export default function Home() {
           </p>
           <div className="flex justify-center gap-4">
             <Button size="lg" asChild>
-              <a href="/assets/cv.pdf" download className="flex items-center gap-2">
+              <a href="/assets/Srachet Rai CV - Cyber Sec.pdf" download className="flex items-center gap-2">
                 <Download className="h-5 w-5" />
                 Download CV
               </a>
