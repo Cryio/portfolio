@@ -19,7 +19,7 @@ export const portfolioData: PortfolioData = {
     My goal is to deliver innovative, practical solutions that blend creativity with technical expertise.
 
     In my leadership roles with the Google Developers Student Club and TEDxNIITUniversity, I drive 
-    innovation and leverage my animation skills to craft immersive user experiences. Welcome to my portfolio.
+    innovation and leverage my animation skills to craft immersive user experiences.
   `,
 
   // Technology Categories
