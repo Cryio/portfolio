@@ -292,10 +292,27 @@ export const portfolioData: PortfolioData = {
   // Certifications
   certifications: [
     {
+      title: "Networking Devices and Initial Configuration",
+      issuer: "Cisco",
+      date: "Apr, 2025",
+      description: "Mastery in cloud and virtualization benefits, IP addressing schemes, Cisco device configuration, connectivity testing, and Cisco Packet Tracer proficiency.",
+      skills: ["Cloud and virtualization", "IP addressing", "Cisco device configuration", "Connectivity testing", "Cisco Packet Tracer"],
+      credentialUrl: "/certificates/Certificate_Networking Devices and Initial Configuration.jpg"
+    },
+    {
+      title: "Networking Basics",
+      issuer: "Cisco",
+      date: "Apr, 2025",
+      description: "Comprehensive understanding of network devices and protocols, data flow analysis, device configuration, and network troubleshooting.",
+      skills: ["Network devices", "Protocols", "Data flow analysis", "Device configuration", "Network troubleshooting"],
+      credentialUrl: "/certificates/Certificate_Networking Basics.jpg"
+    },
+    {
       title: "Introduction to Cybersecurity",
       issuer: "Cisco",
-      date: "Apr 06, 2025",
+      date: "Apr, 2025",
       description: "Explore the exciting field of cybersecurity and why cybersecurity is a future-proof career.",
+      skills: ["Cybersecurity fundamentals", "Threat analysis", "Risk management", "Secure coding practices"],
       credentialUrl: "/certificates/Certificate_Introduction to Cybersecurity.jpg"
     },
     {
@@ -303,6 +320,7 @@ export const portfolioData: PortfolioData = {
       issuer: "Udemy",
       date: "2024",
       description: "Comprehensive training in Blender fundamentals and 3D modeling basics.",
+      skills: ["3D modeling", "Animation", "Rendering", "Blender fundamentals"],
       credentialId: "UC-b2df5c82-4b15-4ca9-937c-68f95487b621",
       credentialUrl: "https://www.ude.my/UC-b2df5c82-4b15-4ca9-937c-68f95487b621/"
     },
@@ -311,6 +329,7 @@ export const portfolioData: PortfolioData = {
       issuer: "Udemy",
       date: "2024",
       description: "Python programming fundamentals and advanced concepts for beginners.",
+      skills: ["Python programming", "Data structures", "Algorithms", "Web development"],
       credentialId: "UC-279c235e-f1e0-44b4-8cba-d3053bfe8027",
       credentialUrl: "https://www.ude.my/UC-279c235e-f1e0-44b4-8cba-d3053bfe8027/"
     },
@@ -319,6 +338,7 @@ export const portfolioData: PortfolioData = {
       issuer: "TEDxNIITUniversity",
       date: "2024",
       description: "Leadership and digital design expertise in TEDx event organization.",
+      skills: ["Digital design", "Leadership", "Event organization", "Creative direction"],
       credentialUrl: "/certificates/TEDxCertificate.png"
     },
     {
@@ -326,6 +346,7 @@ export const portfolioData: PortfolioData = {
       issuer: "Indian Institute of Technology, Bombay",
       date: "2023",
       description: "Comprehensive training in machine learning concepts and practical applications.",
+      skills: ["Machine learning fundamentals", "Data analysis", "Model training", "Algorithm implementation"],
       credentialUrl: "/certificates/Certificate.png"
     },
     {
@@ -333,6 +354,7 @@ export const portfolioData: PortfolioData = {
       issuer: "Google",
       date: "2023",
       description: "Expertise in creating and managing resources in Google Cloud Platform (GCP).",
+      skills: ["Cloud resource management", "GCP services", "Infrastructure setup", "Cost management"],
       credentialId: "5574243",
       credentialUrl: "https://www.cloudskillsboost.google/public_profiles/b93a9482-9eb5-4db0-8cc4-3aaf176705c2/badges/5574243"
     },
@@ -341,6 +363,7 @@ export const portfolioData: PortfolioData = {
       issuer: "Google",
       date: "2023",
       description: "Core concepts and applications of Generative AI technologies.",
+      skills: ["Generative AI concepts", "Model training", "AI applications", "Ethical considerations"],
       credentialId: "5615591",
       credentialUrl: "https://www.cloudskillsboost.google/public_profiles/b93a9482-9eb5-4db0-8cc4-3aaf176705c2/badges/5615591"
     },
@@ -349,6 +372,7 @@ export const portfolioData: PortfolioData = {
       issuer: "Google",
       date: "2023",
       description: "Foundational knowledge of cloud computing concepts and Google Cloud Platform.",
+      skills: ["Cloud computing fundamentals", "GCP architecture", "Service models", "Deployment strategies"],
       credentialId: "5567418",
       credentialUrl: "https://www.cloudskillsboost.google/public_profiles/b93a9482-9eb5-4db0-8cc4-3aaf176705c2/badges/5567418"
     },
@@ -357,6 +381,7 @@ export const portfolioData: PortfolioData = {
       issuer: "Google",
       date: "2023",
       description: "Understanding of data processing, machine learning, and AI services in GCP.",
+      skills: ["Data processing", "Machine learning services", "AI tools", "GCP integration"],
       credentialId: "5573816",
       credentialUrl: "https://www.cloudskillsboost.google/public_profiles/b93a9482-9eb5-4db0-8cc4-3aaf176705c2/badges/5573816"
     },
@@ -365,6 +390,7 @@ export const portfolioData: PortfolioData = {
       issuer: "Google",
       date: "2023",
       description: "Deep dive into GCP infrastructure services and best practices.",
+      skills: ["Infrastructure management", "GCP services", "Best practices", "Security measures"],
       credentialId: "5571191",
       credentialUrl: "https://www.cloudskillsboost.google/public_profiles/b93a9482-9eb5-4db0-8cc4-3aaf176705c2/badges/5571191"
     },
@@ -373,6 +399,7 @@ export const portfolioData: PortfolioData = {
       issuer: "Google",
       date: "2023",
       description: "Comprehensive understanding of networking concepts in Google Cloud.",
+      skills: ["Networking fundamentals", "GCP networking", "Security protocols", "Network design"],
       credentialId: "5572287",
       credentialUrl: "https://www.cloudskillsboost.google/public_profiles/b93a9482-9eb5-4db0-8cc4-3aaf176705c2/badges/5572287"
     },
@@ -381,6 +408,7 @@ export const portfolioData: PortfolioData = {
       issuer: "Google",
       date: "2023",
       description: "Introduction to generative AI concepts and applications.",
+      skills: ["Generative AI", "Model training", "Applications", "Ethical considerations"],
       credentialId: "5615591",
       credentialUrl: "https://www.cloudskillsboost.google/public_profiles/b93a9482-9eb5-4db0-8cc4-3aaf176705c2/badges/5615143"
     },
@@ -389,6 +417,7 @@ export const portfolioData: PortfolioData = {
       issuer: "Google",
       date: "2023",
       description: "Understanding of large language models and their applications.",
+      skills: ["Language models", "Natural language processing", "Applications", "Model training"],
       credentialId: "5615359",
       credentialUrl: "https://www.cloudskillsboost.google/public_profiles/b93a9482-9eb5-4db0-8cc4-3aaf176705c2/badges/5615359"
     },
@@ -397,6 +426,7 @@ export const portfolioData: PortfolioData = {
       issuer: "Google",
       date: "2023",
       description: "Ethical considerations and responsible practices in AI development.",
+      skills: ["Ethical AI", "Responsible practices", "AI governance", "Bias mitigation"],
       credentialId: "5615469",
       credentialUrl: "https://www.cloudskillsboost.google/public_profiles/b93a9482-9eb5-4db0-8cc4-3aaf176705c2/badges/5615469"
     },
@@ -405,6 +435,7 @@ export const portfolioData: PortfolioData = {
       issuer: "Google",
       date: "2023",
       description: "Advanced techniques in prompt engineering for generative AI models.",
+      skills: ["Prompt engineering", "Generative AI", "Model optimization", "Use case development"],
       credentialId: "5576903",
       credentialUrl: "https://www.cloudskillsboost.google/public_profiles/b93a9482-9eb5-4db0-8cc4-3aaf176705c2/badges/5576903"
     },
@@ -413,6 +444,7 @@ export const portfolioData: PortfolioData = {
       issuer: "Google",
       date: "2023",
       description: "Practical implementation of ML and AI tasks in Google Cloud Platform.",
+      skills: ["Data tasks", "Machine learning", "AI implementation", "GCP tools"],
       credentialId: "5575600",
       credentialUrl: "https://www.cloudskillsboost.google/public_profiles/b93a9482-9eb5-4db0-8cc4-3aaf176705c2/badges/5575600"
     },
@@ -421,6 +453,7 @@ export const portfolioData: PortfolioData = {
       issuer: "Google",
       date: "2023",
       description: "Hands-on experience with GCP infrastructure management.",
+      skills: ["Infrastructure tasks", "GCP management", "Best practices", "Resource allocation"],
       credentialId: "5574788",
       credentialUrl: "https://www.cloudskillsboost.google/public_profiles/b93a9482-9eb5-4db0-8cc4-3aaf176705c2/badges/5574788"
     },
@@ -428,14 +461,16 @@ export const portfolioData: PortfolioData = {
       title: "Learners' Premier League",
       issuer: "NIIT University",
       date: "2023",
-      description: "Certificate of achievement presented as Best Researcher in Leerbers' Premier League 2022.",
+      description: "Certificate of achievement presented as Best Researcher in Learners' Premier League 2022.",
+      skills: ["Research skills", "Analytical thinking", "Presentation skills", "Team collaboration"],
       credentialUrl: "/certificates/Researcher_certificate.jpg"
     },
     {
       title: "English Tutoring for Job Training",
       issuer: "NIIT Foundation",
       date: "2022",
-      description: "Certificate of Appreciation for volunteering efforts to provide tutoring for English for Job Training to NIIT Foundation students. Showcasing diligent and proactive approach, completed 20 hours of volunteering tenure from October 28, 2022 to December 14, 2022 at the Career Development Center in Mokhada. Recognized for commitment and positive impact on students' career advancement.",
+      description: "Certificate of Appreciation for volunteering efforts to provide tutoring for English for Job Training to NIIT Foundation students.",
+      skills: ["Tutoring", "Communication skills", "Mentoring", "Volunteer work"],
       credentialUrl: "/certificates/Teaching_certificate.jpg"
     },
     {
@@ -443,6 +478,7 @@ export const portfolioData: PortfolioData = {
       issuer: "siNUsoid",
       date: "2022",
       description: "Expertise in digital design principles and practices.",
+      skills: ["Digital design", "Graphic design", "Creative thinking", "Software proficiency"],
       credentialUrl: "/certificates/sinu_design.jpg"
     },
     {
@@ -450,6 +486,7 @@ export const portfolioData: PortfolioData = {
       issuer: "siNUsoid",
       date: "2022",
       description: "Technical contribution using CSS, GitHub, and HTML.",
+      skills: ["Web development", "Collaboration", "Technical skills", "Problem-solving"],
       credentialUrl: "/certificates/sinu_tech.jpg"
     },
     {
@@ -457,6 +494,7 @@ export const portfolioData: PortfolioData = {
       issuer: "Udemy",
       date: "2021",
       description: "Practical ethical hacking techniques and methodologies.",
+      skills: ["Ethical hacking", "Penetration testing", "Security assessment", "Vulnerability analysis"],
       credentialId: "UC-4a138727-9b8e-4d45-a9fd-667a7113b1b3",
       credentialUrl: "https://www.ude.my/UC-4a138727-9b8e-4d45-a9fd-667a7113b1b3/"
     },
@@ -465,6 +503,7 @@ export const portfolioData: PortfolioData = {
       issuer: "Udemy",
       date: "2021",
       description: "Fundamentals of ethical hacking and security testing.",
+      skills: ["Ethical hacking", "Security testing", "Network security", "Risk assessment"],
       credentialId: "UC-718ea92c-6082-4ce1-899e-3b04d94db66b",
       credentialUrl: "https://www.ude.my/UC-718ea92c-6082-4ce1-899e-3b04d94db66b/"
     },
@@ -473,6 +512,7 @@ export const portfolioData: PortfolioData = {
       issuer: "Udemy",
       date: "2021",
       description: "Introduction to Kali Linux and penetration testing methodologies.",
+      skills: ["Kali Linux", "Penetration testing", "Security tools", "Ethical hacking"],
       credentialId: "UC-c9a71c15-f501-42d7-898f-5100487f1fa7",
       credentialUrl: "https://www.ude.my/UC-c9a71c15-f501-42d7-898f-51004871f1a7"
     }

@@ -6,6 +6,7 @@ import { Button } from "./ui/button";
 import { Award, ExternalLink, Image as ImageIcon, ChevronDown } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
+import { Badge } from "./ui/badge";
 
 interface CertificationProps {
   certification: CertificationType;
@@ -63,6 +64,15 @@ export function Certification({ certification }: CertificationProps) {
                 <p className="text-sm text-muted-foreground">
                   {certification.description}
                 </p>
+              )}
+              {certification.skills && (
+            <div className="flex flex-wrap gap-2">
+              {certification.skills.map((skill) => (
+                <Badge key={skill} className="bg-primary text-white">
+                  {skill}
+                </Badge>
+                  ))}
+                </div>
               )}
               {certification.credentialId && (
                 <p className="text-xs text-muted-foreground">
