@@ -297,7 +297,7 @@ export const portfolioData: PortfolioData = {
       date: "Apr, 2025",
       description: "Mastery in cloud and virtualization benefits, IP addressing schemes, Cisco device configuration, connectivity testing, and Cisco Packet Tracer proficiency.",
       skills: ["Cloud and virtualization", "IP addressing", "Cisco device configuration", "Connectivity testing", "Cisco Packet Tracer"],
-      credentialUrl: "/certificates/Certificate_Networking Devices and Initial Configuration.jpg"
+      credentialUrl: "/certificates/certificate_networking_device_and_initial_conf.jpg"
     },
     {
       title: "Networking Basics",
@@ -305,7 +305,7 @@ export const portfolioData: PortfolioData = {
       date: "Apr, 2025",
       description: "Comprehensive understanding of network devices and protocols, data flow analysis, device configuration, and network troubleshooting.",
       skills: ["Network devices", "Protocols", "Data flow analysis", "Device configuration", "Network troubleshooting"],
-      credentialUrl: "/certificates/Certificate_Networking Basics.jpg"
+      credentialUrl: "/certificates/certificate_networking_basics.jpg"
     },
     {
       title: "Introduction to Cybersecurity",
