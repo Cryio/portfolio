@@ -29,7 +29,23 @@ export default function RoleAndResponsibilities() {
               "Continuous Learning"
             ]}
           />
-
+          <Timeline.Item
+            header="Technology Intern – Cyber Security"
+            badge="July 2025 – Present"
+            subheader="Fluidech IT Services Private Limited"
+            location="Gurgaon, Haryana"
+            description={[
+              "Undertaking internship focused on core cyber security operations, risk assessment, and secure software practices as part of Fluidech."
+            ]}
+            skills={[
+              "Cybersecurity",
+              "OT Security",
+              "Threat Intelligence",
+              "Vulnerability Assessment",
+              "Reverse Engineering",
+              "Incident Response"
+            ]}
+          />
           <Timeline.Item
             header="Graduation"
             badge="2026"
