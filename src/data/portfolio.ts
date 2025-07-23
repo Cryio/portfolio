@@ -515,6 +515,38 @@ export const portfolioData: PortfolioData = {
       skills: ["Kali Linux", "Penetration testing", "Security tools", "Ethical hacking"],
       credentialId: "UC-c9a71c15-f501-42d7-898f-5100487f1fa7",
       credentialUrl: "https://www.ude.my/UC-c9a71c15-f501-42d7-898f-51004871f1a7"
+    },
+    {
+      title: "Differences in Deployments of Industrial Control Systems (210W-01)",
+      issuer: "Cybersecurity and Infrastructure Security Agency (CISA)",
+      date: "2024",
+      description: "Completed foundational training on the differences in deployments of Industrial Control Systems (ICS), focusing on unique architectures, operational environments, and security considerations for ICS versus traditional IT systems.",
+      skills: ["ICS architecture", "Deployment models", "Security best practices", "Industrial cybersecurity"],
+      credentialUrl: "/certificates/210W-01 1 of 1.png"
+    },
+    {
+      title: "Influence of IT Components on Industrial Control Systems (210W-02)",
+      issuer: "Cybersecurity and Infrastructure Security Agency (CISA)",
+      date: "2024",
+      description: "Completed training on the influence of IT components on Industrial Control Systems (ICS), covering integration challenges, security implications, and the impact of IT/OT convergence on critical infrastructure.",
+      skills: ["IT/OT convergence", "ICS integration", "Security implications", "Critical infrastructure"],
+      credentialUrl: "/certificates/210W-02 1 of 1.png"
+    },
+    {
+      title: "Common ICS Components (210W-03)",
+      issuer: "Cybersecurity and Infrastructure Security Agency (CISA)",
+      date: "2024",
+      description: "Completed training on common components of Industrial Control Systems (ICS), including an overview of devices, protocols, and security practices essential for protecting industrial environments.",
+      skills: ["ICS components", "Industrial protocols", "Device security", "Operational technology"],
+      credentialUrl: "/certificates/210W-03 1 of 1.png"
+    },
+    {
+      title: "Cato Certified Associate (CCA)",
+      issuer: "Cato Networks",
+      date: "July 22, 2025",
+      description: "Successfully completed the Cato Certified Associate (CCA) course, demonstrating foundational knowledge in secure network architecture, cloud security, and the Cato SASE platform.",
+      skills: ["Secure network architecture", "Cloud security", "SASE platform", "Network fundamentals"],
+      credentialUrl: "/certificates/certificate-cato.png"
     }
   ],
 
