@@ -145,6 +145,8 @@ export function Certifications({ certifications }: CertificationsProps) {
   // Group certifications by issuer
   const googleCertifications = certifications.filter(cert => cert.issuer === "Google");
   const ciscoCertifications = certifications.filter(cert => cert.issuer === "Cisco");
+  const catoCertifications = certifications.filter(cert => cert.issuer === "Cato Networks");
+  const cisaCertifications = certifications.filter(cert => cert.issuer === "Cybersecurity and Infrastructure Security Agency (CISA)");
   const udemyCertifications = certifications.filter(cert => cert.issuer === "Udemy");
   const niitCertifications = certifications.filter(cert => 
     cert.issuer === "NIIT Foundation" || 
@@ -153,8 +155,6 @@ export function Certifications({ certifications }: CertificationsProps) {
   );
   const iitCertifications = certifications.filter(cert => cert.issuer === "Indian Institute of Technology, Bombay");
   const sinusoidCertifications = certifications.filter(cert => cert.issuer === "siNUsoid");
-  const catoCertifications = certifications.filter(cert => cert.issuer === "Cato Networks");
-  const cisaCertifications = certifications.filter(cert => cert.issuer === "Cybersecurity and Infrastructure Security Agency (CISA)");
   const otherCertifications = certifications.filter(cert =>
     [
       "Google",
@@ -165,7 +165,8 @@ export function Certifications({ certifications }: CertificationsProps) {
       "TEDxNIITUniversity",
       "Indian Institute of Technology, Bombay",
       "siNUsoid",
-      "Cato Networks"
+      "Cato Networks",
+      "Cybersecurity and Infrastructure Security Agency (CISA)"
     ].indexOf(cert.issuer) === -1
   );
 
