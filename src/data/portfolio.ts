@@ -1,7 +1,6 @@
-import { PortfolioData } from "../types";
 import { technologyLogos } from "./technologies";
 
-export const portfolioData: PortfolioData = {
+export const portfolioData = {
   // Basic Information
   name: "Srachet Rai",
   title: "Cybersecurity Enthusiast & BTech CSE",
