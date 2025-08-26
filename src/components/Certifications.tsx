@@ -6,41 +6,27 @@ import { Button } from "./ui/button";
 import { Award, ExternalLink, Image as ImageIcon, ChevronDown, BookOpen, GraduationCap } from "lucide-react";
 import { Badge } from "./ui/badge";
 
-// TypeScript interfaces (keep your existing ones)
-interface CertificationData {
-  title: string;
-  issuer: string;
-  date: string;
-  description?: string;
-  skills?: string[];
-  credentialId?: string;
-  credentialUrl?: string;
-  image?: string;
-  type?: string;
-}
+// Import interfaces from types file instead of defining them here
+import { 
+  Certification, 
+  Achievement, 
+  CertificationPath, 
+  PathCertificate 
+} from "../types";
 
-interface CertificationPathData {
-  title: string;
-  issuer: string;
-  description: string;
-  completionDate: string;
-  totalCertificates: number;
-  skills: string[];
-  certificates: CertificationData[];
-}
-
+// Component prop interfaces
 interface CertificationProps {
-  certification: CertificationData;
+  certification: Certification;
 }
 
 interface CertificationPathProps {
-  certificationPath: CertificationPathData;
+  certificationPath: CertificationPath;
 }
 
 interface CertificationsProps {
-  certificationPaths?: CertificationPathData[];
-  individualCertifications?: CertificationData[];
-  achievements?: CertificationData[];
+  certificationPaths?: CertificationPath[];
+  individualCertifications?: Certification[];
+  achievements?: Achievement[];
 }
 
 // Individual Certification Component (unchanged)
@@ -56,6 +42,7 @@ export function Certification({ certification }: CertificationProps) {
       <CardHeader className={`flex flex-row items-center gap-4 transition-colors duration-300 ${isExpanded ? 'bg-muted/50' : ''}`}>
         {certification.image ? (
           <div className="relative w-16 h-16 flex-shrink-0">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={certification.image}
               alt={certification.title}
@@ -292,7 +279,7 @@ export function CertificationPath({ certificationPath }: CertificationPathProps)
 }
 
 // Section Component for Individual Certs and Achievements
-export function CertificationSection({ title, certifications }: { title: string; certifications: CertificationData[] }) {
+export function CertificationSection({ title, certifications }: { title: string; certifications: (Certification | Achievement)[] }) {
   return (
     <div className="mb-12">
       <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
@@ -309,7 +296,6 @@ export function CertificationSection({ title, certifications }: { title: string;
 
 // Main Certifications Component
 export function Certifications({ 
-  // Remove this line: certifications = [], 
   certificationPaths = [],
   individualCertifications = [],
   achievements = []
