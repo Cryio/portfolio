@@ -1,11 +1,11 @@
 import Image from "next/image";
-import { portfolioData } from "@/data/portfolio";
 import { Button } from "@/components/ui/button";
 import { TechnologyCard } from "@/components/TechnologyCard";
 import { Download, Github, Linkedin } from "lucide-react";
 import { Role } from "@/components/Experience";
 import { Project } from "@/components/Project";
-import { Certification } from "@/components/Certification";
+import { Certifications } from "@/components/Certifications";
+import portfolioData from "@/data/portfolio";
 
 export default function Home() {
   return (
@@ -103,8 +103,11 @@ export default function Home() {
           </h2>
           <div className="grid gap-8 md:grid-cols-2">
             {portfolioData.certifications.slice(5, 9).map((certification) => (
-              <Certification key={certification.title} certification={certification} />
-            ))}
+            <Certifications 
+              certificationPaths={portfolioData.certificationPaths || []}
+              individualCertifications={portfolioData.individualCertifications || []}
+              achievements={portfolioData.achievements || []}
+            />))}
           </div>
           <div className="mt-8 text-center">
             <Button variant="outline" size="lg" asChild>
