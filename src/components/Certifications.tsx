@@ -38,7 +38,6 @@ interface CertificationPathProps {
 }
 
 interface CertificationsProps {
-  certifications?: CertificationData[];
   certificationPaths?: CertificationPathData[];
   individualCertifications?: CertificationData[];
   achievements?: CertificationData[];
@@ -310,7 +309,7 @@ export function CertificationSection({ title, certifications }: { title: string;
 
 // Main Certifications Component
 export function Certifications({ 
-  certifications = [], 
+  // Remove this line: certifications = [], 
   certificationPaths = [],
   individualCertifications = [],
   achievements = []
