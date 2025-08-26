@@ -35,7 +35,7 @@ export function Certification({ certification }: CertificationProps) {
 
   return (
     <Card 
-      className="w-full bg-card hover:bg-card/90 transition-all duration-300 hover:shadow-lg cursor-pointer overflow-hidden border border-border"
+      className="backdrop-blur-sm bg-background/80 hover:bg-background/90 transition-all duration-300 hover:shadow-lg cursor-pointer overflow-hidden"
       onClick={() => setIsExpanded(!isExpanded)}
     >
       <CardHeader className={`flex flex-row items-center gap-4 transition-colors duration-300 ${isExpanded ? 'bg-muted/30' : ''}`}>
@@ -139,7 +139,7 @@ export function CertificationPath({ certificationPath }: CertificationPathProps)
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
-    <Card className="w-full bg-card hover:bg-card/90 transition-all duration-300 hover:shadow-lg border border-border">
+    <Card className="backdrop-blur-sm bg-background/80 hover:bg-background/90 transition-all duration-300 hover:shadow-lg">
       <CardHeader 
         className="cursor-pointer"
         onClick={() => setIsExpanded(!isExpanded)}
@@ -217,7 +217,7 @@ export function CertificationPath({ certificationPath }: CertificationPathProps)
               
               <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
                 {certificationPath.certificates.map((cert) => (
-                  <div key={cert.title} className="p-4 bg-muted/20 rounded-lg border border-border/50">
+                  <div key={cert.title} className="p-4 backdrop-blur-sm bg-background/60 rounded-lg border border-border/30">
                     <div className="flex items-start gap-3">
                       <Award className="w-6 h-6 text-primary mt-1 flex-shrink-0" />
                       <div className="flex-grow min-w-0">
