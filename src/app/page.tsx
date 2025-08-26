@@ -103,8 +103,8 @@ export default function Home() {
           </h2>
           <Certifications 
             certificationPaths={portfolioData.certificationPaths.slice(0, 2)}
-            individualCertifications={portfolioData.individualCertifications.slice(0, 2)}
-            achievements={portfolioData.achievements.slice(0, 2)}
+            individualCertifications={portfolioData.individualCertifications.slice(0, 3)}
+            achievements={portfolioData.achievements.slice(0, 3)}
           />
           <div className="mt-8 text-center">
             <Button variant="outline" size="lg" asChild>
