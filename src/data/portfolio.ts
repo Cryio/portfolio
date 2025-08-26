@@ -289,6 +289,96 @@ export const portfolioData = {
   // Certifications organized by learning paths
   certificationPaths: [
     {
+      title: "Palo Alto Networks Certified Cybersecurity Practitioner",
+      issuer: "Palo Alto Networks",
+      description: "Comprehensive cybersecurity practitioner certification covering cloud security, endpoint security, network security fundamentals, and security operations.",
+      completionDate: "2024",
+      totalCertificates: 6,
+      skills: ["Network security", "Cloud security", "Endpoint security", "Security operations", "Incident response", "Threat detection"],
+      certificates: [
+        {
+          title: "Cloud Security Fundamentals",
+          date: "2024",
+          description: "Foundational knowledge of cloud security principles and best practices.",
+          skills: ["Cloud security principles", "Cloud architecture", "Security controls", "Risk management"],
+          credentialUrl: "/certificates/Cloud Security Fundamentals.png"
+        },
+        {
+          title: "Cybersecurity Fundamentals",
+          date: "2024",
+          description: "Core cybersecurity concepts and threat landscape understanding.",
+          skills: ["Cybersecurity basics", "Threat landscape", "Security frameworks", "Risk assessment"],
+          credentialUrl: "/certificates/Cybersecurity Fundamentals.png"
+        },
+        {
+          title: "Endpoint Security",
+          date: "2024",
+          description: "Protection strategies for endpoints including detection and response techniques.",
+          skills: ["Endpoint protection", "Malware detection", "Incident response", "Threat hunting"],
+          credentialUrl: "/certificates/Endpoint Security.png"
+        },
+        {
+          title: "Network Security Fundamentals",
+          date: "2024",
+          description: "Network security principles, firewalls, and intrusion prevention systems.",
+          skills: ["Network security", "Firewall management", "IPS/IDS", "Network monitoring"],
+          credentialUrl: "/certificates/Network Security Fundamentals.png"
+        },
+        {
+          title: "Security Operations Fundamentals",
+          date: "2024",
+          description: "Security operations center processes and incident management.",
+          skills: ["SOC operations", "Incident management", "Security monitoring", "Threat analysis"],
+          credentialUrl: "/certificates/Security Operations Fundamentals.png"
+        },
+        {
+          title: "Understanding Security Operations - Foundational",
+          date: "2024",
+          description: "Foundational understanding of security operations and best practices.",
+          skills: ["Security operations", "Best practices", "Process management", "Team coordination"],
+          credentialUrl: "/certificates/Understanding Security Operations - Foundational.png"
+        }
+      ]
+    },
+    {
+      title: "Palo Alto Networks Certified Network Security Analyst",
+      issuer: "Palo Alto Networks",
+      description: "Advanced network security analyst certification focusing on PAN-OS, Panorama management, and security services.",
+      completionDate: "2024",
+      totalCertificates: 4,
+      skills: ["PAN-OS administration", "Panorama management", "Traffic decryption", "Log analysis", "Security policy management"],
+      certificates: [
+        {
+          title: "Decryption - Features",
+          date: "2024",
+          description: "Advanced traffic decryption and SSL inspection techniques.",
+          skills: ["SSL decryption", "Traffic inspection", "Certificate management", "Security policies"],
+          credentialUrl: "/certificates/Decryption - Features.png"
+        },
+        {
+          title: "PAN-OS",
+          date: "2024",
+          description: "Comprehensive PAN-OS administration and configuration.",
+          skills: ["PAN-OS administration", "Firewall configuration", "Policy management", "System maintenance"],
+          credentialUrl: "/certificates/PAN-OS .png"
+        },
+        {
+          title: "Panorama - Features",
+          date: "2024",
+          description: "Centralized management using Panorama for multiple firewalls.",
+          skills: ["Panorama management", "Centralized policies", "Device monitoring", "Template management"],
+          credentialUrl: "/certificates/Panorama - Features.png"
+        },
+        {
+          title: "Strata Logging Service - Features",
+          date: "2024",
+          description: "Cloud-based logging and analysis service for enhanced security insights.",
+          skills: ["Cloud logging", "Log analysis", "Security insights", "Threat intelligence"],
+          credentialUrl: "/certificates/Strata Logging Service - Features.png"
+        }
+      ]
+    },
+    {
       title: "Cisco Networking & Cybersecurity Track",
       issuer: "Cisco",
       description: "Comprehensive networking and cybersecurity foundation from Cisco NetAcad",
@@ -476,6 +566,14 @@ export const portfolioData = {
 
   // Individual/Standalone Certifications
   individualCertifications: [
+    {
+      title: "ICS 300 (CISA)",
+      issuer: "CISA (Cybersecurity and Infrastructure Security Agency)",
+      date: "2024",
+      description: "Advanced Industrial Control Systems security training focusing on comprehensive ICS security practices.",
+      skills: ["Advanced ICS security", "Critical infrastructure protection", "Security assessment", "Risk management"],
+      credentialUrl: "/certificates/ICS 300 (CISA).png"
+    },
     {
       title: "Cato Certified Associate (CCA)",
       issuer: "Cato Networks",
