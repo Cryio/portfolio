@@ -1,5 +1,5 @@
 import { Certifications } from "@/components/Certifications";
-import { portfolioData } from "@/data/portfolio";
+import { getAllCertifications } from "@/data/portfolio";
 
 export default function CertificationsPage() {
   return (
@@ -9,7 +9,7 @@ export default function CertificationsPage() {
           Certifications & Achievements
         </h1>
         <div className="space-y-12">
-          <Certifications certifications={(portfolioData as any).certifications || []} />
+          <Certifications certifications={getAllCertifications()} />
         </div>
       </div>
     </div>

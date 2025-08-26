@@ -544,24 +544,29 @@ export const portfolioData: PortfolioData = {
   }
 };
 
-portfolioData.certifications = [
-  // Flatten certification paths into individual certifications
-  ...portfolioData.certificationPaths.flatMap(path => 
-    path.certificates.map(cert => ({
+// Helper function to get all certifications with proper typing
+export const getAllCertifications = () => {
+  const allCerts = [
+    // Flatten certification paths
+    ...portfolioData.certificationPaths.flatMap(path => 
+      path.certificates.map(cert => ({
+        ...cert,
+        issuer: path.issuer,
+        skills: cert.skills || path.skills,
+        type: 'path' as const
+      }))
+    ),
+    // Add individual certifications
+    ...portfolioData.individualCertifications.map(cert => ({
       ...cert,
-      issuer: path.issuer,
-      skills: cert.skills || path.skills,
-      type: 'path'
+      type: 'individual' as const
+    })),
+    // Add achievements
+    ...portfolioData.achievements.map(cert => ({
+      ...cert,
+      type: 'achievement' as const
     }))
-  ),
-  // Add individual certifications
-  ...portfolioData.individualCertifications.map(cert => ({
-    ...cert,
-    type: 'individual'
-  })),
-  // Add achievements
-  ...portfolioData.achievements.map(cert => ({
-    ...cert,
-    type: 'achievement'
-  }))
-].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  ];
+  
+  return allCerts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+};
