@@ -289,266 +289,254 @@ export const portfolioData: PortfolioData = {
     }
   ],
 
-  // Certifications
-  certifications: [
-    {
-      title: "Networking Devices and Initial Configuration",
-      issuer: "Cisco",
-      date: "Apr, 2025",
-      description: "Mastery in cloud and virtualization benefits, IP addressing schemes, Cisco device configuration, connectivity testing, and Cisco Packet Tracer proficiency.",
-      skills: ["Cloud and virtualization", "IP addressing", "Cisco device configuration", "Connectivity testing", "Cisco Packet Tracer"],
-      credentialUrl: "/certificates/certificate_networking_device_and_initial_conf.jpg"
-    },
-    {
-      title: "Networking Basics",
-      issuer: "Cisco",
-      date: "Apr, 2025",
-      description: "Comprehensive understanding of network devices and protocols, data flow analysis, device configuration, and network troubleshooting.",
-      skills: ["Network devices", "Protocols", "Data flow analysis", "Device configuration", "Network troubleshooting"],
-      credentialUrl: "/certificates/certificate_networking_basics.jpg"
-    },
-    {
-      title: "Introduction to Cybersecurity",
-      issuer: "Cisco",
-      date: "Apr, 2025",
-      description: "Explore the exciting field of cybersecurity and why cybersecurity is a future-proof career.",
-      skills: ["Cybersecurity fundamentals", "Threat analysis", "Risk management", "Secure coding practices"],
-      credentialUrl: "/certificates/Certificate_Introduction to Cybersecurity.jpg"
-    },
-    {
-      title: "Introduction to Blender",
-      issuer: "Udemy",
-      date: "2024",
-      description: "Comprehensive training in Blender fundamentals and 3D modeling basics.",
-      skills: ["3D modeling", "Animation", "Rendering", "Blender fundamentals"],
-      credentialId: "UC-b2df5c82-4b15-4ca9-937c-68f95487b621",
-      credentialUrl: "https://www.ude.my/UC-b2df5c82-4b15-4ca9-937c-68f95487b621/"
-    },
-    {
-      title: "Python",
-      issuer: "Udemy",
-      date: "2024",
-      description: "Python programming fundamentals and advanced concepts for beginners.",
-      skills: ["Python programming", "Data structures", "Algorithms", "Web development"],
-      credentialId: "UC-279c235e-f1e0-44b4-8cba-d3053bfe8027",
-      credentialUrl: "https://www.ude.my/UC-279c235e-f1e0-44b4-8cba-d3053bfe8027/"
-    },
-    {
-      title: "Design Core",
-      issuer: "TEDxNIITUniversity",
-      date: "2024",
-      description: "Leadership and digital design expertise in TEDx event organization.",
-      skills: ["Digital design", "Leadership", "Event organization", "Creative direction"],
-      credentialUrl: "/certificates/TEDxCertificate.png"
-    },
-    {
-      title: "Machine Learning",
-      issuer: "Indian Institute of Technology, Bombay",
-      date: "2023",
-      description: "Comprehensive training in machine learning concepts and practical applications.",
-      skills: ["Machine learning fundamentals", "Data analysis", "Model training", "Algorithm implementation"],
-      credentialUrl: "/certificates/Certificate.png"
-    },
-    {
-      title: "Create and Manage Cloud Resources",
-      issuer: "Google",
-      date: "2023",
-      description: "Expertise in creating and managing resources in Google Cloud Platform (GCP).",
-      skills: ["Cloud resource management", "GCP services", "Infrastructure setup", "Cost management"],
-      credentialId: "5574243",
-      credentialUrl: "https://www.cloudskillsboost.google/public_profiles/b93a9482-9eb5-4db0-8cc4-3aaf176705c2/badges/5574243"
-    },
-    {
-      title: "Generative AI Fundamentals",
-      issuer: "Google",
-      date: "2023",
-      description: "Core concepts and applications of Generative AI technologies.",
-      skills: ["Generative AI concepts", "Model training", "AI applications", "Ethical considerations"],
-      credentialId: "5615591",
-      credentialUrl: "https://www.cloudskillsboost.google/public_profiles/b93a9482-9eb5-4db0-8cc4-3aaf176705c2/badges/5615591"
-    },
-    {
-      title: "Google Cloud Computing Foundations: Cloud Computing Fundamentals",
-      issuer: "Google",
-      date: "2023",
-      description: "Foundational knowledge of cloud computing concepts and Google Cloud Platform.",
-      skills: ["Cloud computing fundamentals", "GCP architecture", "Service models", "Deployment strategies"],
-      credentialId: "5567418",
-      credentialUrl: "https://www.cloudskillsboost.google/public_profiles/b93a9482-9eb5-4db0-8cc4-3aaf176705c2/badges/5567418"
-    },
-    {
-      title: "Google Cloud Computing Foundations: Data, ML, and AI in Google Cloud",
-      issuer: "Google",
-      date: "2023",
-      description: "Understanding of data processing, machine learning, and AI services in GCP.",
-      skills: ["Data processing", "Machine learning services", "AI tools", "GCP integration"],
-      credentialId: "5573816",
-      credentialUrl: "https://www.cloudskillsboost.google/public_profiles/b93a9482-9eb5-4db0-8cc4-3aaf176705c2/badges/5573816"
-    },
-    {
-      title: "Google Cloud Computing Foundations: Infrastructure in Google Cloud",
-      issuer: "Google",
-      date: "2023",
-      description: "Deep dive into GCP infrastructure services and best practices.",
-      skills: ["Infrastructure management", "GCP services", "Best practices", "Security measures"],
-      credentialId: "5571191",
-      credentialUrl: "https://www.cloudskillsboost.google/public_profiles/b93a9482-9eb5-4db0-8cc4-3aaf176705c2/badges/5571191"
-    },
-    {
-      title: "Google Cloud Computing Foundations: Networking",
-      issuer: "Google",
-      date: "2023",
-      description: "Comprehensive understanding of networking concepts in Google Cloud.",
-      skills: ["Networking fundamentals", "GCP networking", "Security protocols", "Network design"],
-      credentialId: "5572287",
-      credentialUrl: "https://www.cloudskillsboost.google/public_profiles/b93a9482-9eb5-4db0-8cc4-3aaf176705c2/badges/5572287"
-    },
-    {
-      title: "Introduction to Generative AI",
-      issuer: "Google",
-      date: "2023",
-      description: "Introduction to generative AI concepts and applications.",
-      skills: ["Generative AI", "Model training", "Applications", "Ethical considerations"],
-      credentialId: "5615591",
-      credentialUrl: "https://www.cloudskillsboost.google/public_profiles/b93a9482-9eb5-4db0-8cc4-3aaf176705c2/badges/5615143"
-    },
-    {
-      title: "Introduction to Large Language Models",
-      issuer: "Google",
-      date: "2023",
-      description: "Understanding of large language models and their applications.",
-      skills: ["Language models", "Natural language processing", "Applications", "Model training"],
-      credentialId: "5615359",
-      credentialUrl: "https://www.cloudskillsboost.google/public_profiles/b93a9482-9eb5-4db0-8cc4-3aaf176705c2/badges/5615359"
-    },
-    {
-      title: "Introduction to Responsible AI",
-      issuer: "Google",
-      date: "2023",
-      description: "Ethical considerations and responsible practices in AI development.",
-      skills: ["Ethical AI", "Responsible practices", "AI governance", "Bias mitigation"],
-      credentialId: "5615469",
-      credentialUrl: "https://www.cloudskillsboost.google/public_profiles/b93a9482-9eb5-4db0-8cc4-3aaf176705c2/badges/5615469"
-    },
-    {
-      title: "Level 3 GenAI: Prompt Engineering",
-      issuer: "Google",
-      date: "2023",
-      description: "Advanced techniques in prompt engineering for generative AI models.",
-      skills: ["Prompt engineering", "Generative AI", "Model optimization", "Use case development"],
-      credentialId: "5576903",
-      credentialUrl: "https://www.cloudskillsboost.google/public_profiles/b93a9482-9eb5-4db0-8cc4-3aaf176705c2/badges/5576903"
-    },
-    {
-      title: "Perform Foundational Data, ML, and AI Tasks in Google Cloud",
-      issuer: "Google",
-      date: "2023",
-      description: "Practical implementation of ML and AI tasks in Google Cloud Platform.",
-      skills: ["Data tasks", "Machine learning", "AI implementation", "GCP tools"],
-      credentialId: "5575600",
-      credentialUrl: "https://www.cloudskillsboost.google/public_profiles/b93a9482-9eb5-4db0-8cc4-3aaf176705c2/badges/5575600"
-    },
-    {
-      title: "Perform Foundational Infrastructure Tasks in Google Cloud",
-      issuer: "Google",
-      date: "2023",
-      description: "Hands-on experience with GCP infrastructure management.",
-      skills: ["Infrastructure tasks", "GCP management", "Best practices", "Resource allocation"],
-      credentialId: "5574788",
-      credentialUrl: "https://www.cloudskillsboost.google/public_profiles/b93a9482-9eb5-4db0-8cc4-3aaf176705c2/badges/5574788"
-    },
-    {
-      title: "Learners' Premier League",
-      issuer: "NIIT University",
-      date: "2023",
-      description: "Certificate of achievement presented as Best Researcher in Learners' Premier League 2022.",
-      skills: ["Research skills", "Analytical thinking", "Presentation skills", "Team collaboration"],
-      credentialUrl: "/certificates/Researcher_certificate.jpg"
-    },
-    {
-      title: "English Tutoring for Job Training",
-      issuer: "NIIT Foundation",
-      date: "2022",
-      description: "Certificate of Appreciation for volunteering efforts to provide tutoring for English for Job Training to NIIT Foundation students.",
-      skills: ["Tutoring", "Communication skills", "Mentoring", "Volunteer work"],
-      credentialUrl: "/certificates/Teaching_certificate.jpg"
-    },
-    {
-      title: "Digital Design",
-      issuer: "siNUsoid",
-      date: "2022",
-      description: "Expertise in digital design principles and practices.",
-      skills: ["Digital design", "Graphic design", "Creative thinking", "Software proficiency"],
-      credentialUrl: "/certificates/sinu_design.jpg"
-    },
-    {
-      title: "Tech Team volunteer",
-      issuer: "siNUsoid",
-      date: "2022",
-      description: "Technical contribution using CSS, GitHub, and HTML.",
-      skills: ["Web development", "Collaboration", "Technical skills", "Problem-solving"],
-      credentialUrl: "/certificates/sinu_tech.jpg"
-    },
-    {
-      title: "Learn Ethical Hacking By Hacking Real Websites Legally",
-      issuer: "Udemy",
-      date: "2021",
-      description: "Practical ethical hacking techniques and methodologies.",
-      skills: ["Ethical hacking", "Penetration testing", "Security assessment", "Vulnerability analysis"],
-      credentialId: "UC-4a138727-9b8e-4d45-a9fd-667a7113b1b3",
-      credentialUrl: "https://www.ude.my/UC-4a138727-9b8e-4d45-a9fd-667a7113b1b3/"
-    },
-    {
-      title: "Learn Hacking From Scratch",
-      issuer: "Udemy",
-      date: "2021",
-      description: "Fundamentals of ethical hacking and security testing.",
-      skills: ["Ethical hacking", "Security testing", "Network security", "Risk assessment"],
-      credentialId: "UC-718ea92c-6082-4ce1-899e-3b04d94db66b",
-      credentialUrl: "https://www.ude.my/UC-718ea92c-6082-4ce1-899e-3b04d94db66b/"
-    },
-    {
-      title: "Start Kali Linux, Ethical Hacking and Penetration Testing!",
-      issuer: "Udemy",
-      date: "2021",
-      description: "Introduction to Kali Linux and penetration testing methodologies.",
-      skills: ["Kali Linux", "Penetration testing", "Security tools", "Ethical hacking"],
-      credentialId: "UC-c9a71c15-f501-42d7-898f-5100487f1fa7",
-      credentialUrl: "https://www.ude.my/UC-c9a71c15-f501-42d7-898f-51004871f1a7"
-    },
-    {
-      title: "Differences in Deployments of Industrial Control Systems (210W-01)",
-      issuer: "Cybersecurity and Infrastructure Security Agency (CISA)",
-      date: "2024",
-      description: "Completed foundational training on the differences in deployments of Industrial Control Systems (ICS), focusing on unique architectures, operational environments, and security considerations for ICS versus traditional IT systems.",
-      skills: ["ICS architecture", "Deployment models", "Security best practices", "Industrial cybersecurity"],
-      credentialUrl: "/certificates/210W-01 1 of 1.png"
-    },
-    {
-      title: "Influence of IT Components on Industrial Control Systems (210W-02)",
-      issuer: "Cybersecurity and Infrastructure Security Agency (CISA)",
-      date: "2024",
-      description: "Completed training on the influence of IT components on Industrial Control Systems (ICS), covering integration challenges, security implications, and the impact of IT/OT convergence on critical infrastructure.",
-      skills: ["IT/OT convergence", "ICS integration", "Security implications", "Critical infrastructure"],
-      credentialUrl: "/certificates/210W-02 1 of 1.png"
-    },
-    {
-      title: "Common ICS Components (210W-03)",
-      issuer: "Cybersecurity and Infrastructure Security Agency (CISA)",
-      date: "2024",
-      description: "Completed training on common components of Industrial Control Systems (ICS), including an overview of devices, protocols, and security practices essential for protecting industrial environments.",
-      skills: ["ICS components", "Industrial protocols", "Device security", "Operational technology"],
-      credentialUrl: "/certificates/210W-03 1 of 1.png"
-    },
-    {
-      title: "Cato Certified Associate (CCA)",
-      issuer: "Cato Networks",
-      date: "July 22, 2025",
-      description: "Successfully completed the Cato Certified Associate (CCA) course, demonstrating foundational knowledge in secure network architecture, cloud security, and the Cato SASE platform.",
-      skills: ["Secure network architecture", "Cloud security", "SASE platform", "Network fundamentals"],
-      credentialUrl: "/certificates/certificate-cato.png"
-    }
-  ],
+// Certifications organized by learning paths
+certificationPaths: [
+  {
+    title: "Cisco Networking & Cybersecurity Track",
+    issuer: "Cisco",
+    description: "Comprehensive networking and cybersecurity foundation from Cisco NetAcad",
+    completionDate: "Apr 2025",
+    totalCertificates: 3,
+    skills: ["Networking fundamentals", "Cybersecurity", "Device configuration", "Protocol analysis", "Cisco technologies"],
+    certificates: [
+      {
+        title: "Introduction to Cybersecurity",
+        date: "Apr 2025",
+        description: "Explore the exciting field of cybersecurity and why cybersecurity is a future-proof career.",
+        credentialUrl: "/certificates/Certificate_Introduction to Cybersecurity.jpg"
+      },
+      {
+        title: "Networking Basics",
+        date: "Apr 2025", 
+        description: "Comprehensive understanding of network devices and protocols, data flow analysis, device configuration, and network troubleshooting.",
+        credentialUrl: "/certificates/certificate_networking_basics.jpg"
+      },
+      {
+        title: "Networking Devices and Initial Configuration",
+        date: "Apr 2025",
+        description: "Mastery in cloud and virtualization benefits, IP addressing schemes, Cisco device configuration, connectivity testing, and Cisco Packet Tracer proficiency.",
+        credentialUrl: "/certificates/certificate_networking_device_and_initial_conf.jpg"
+      }
+    ]
+  },
+  {
+    title: "Google Cloud & AI Specialization",
+    issuer: "Google Cloud",
+    description: "Comprehensive Google Cloud Platform expertise with focus on AI/ML and infrastructure management",
+    completionDate: "2023",
+    totalCertificates: 12,
+    skills: ["Cloud computing", "Machine learning", "AI/ML", "Infrastructure management", "Generative AI", "Data processing"],
+    certificates: [
+      {
+        title: "Google Cloud Computing Foundations: Cloud Computing Fundamentals",
+        date: "2023",
+        credentialId: "5567418",
+        credentialUrl: "https://www.cloudskillsboost.google/public_profiles/b93a9482-9eb5-4db0-8cc4-3aaf176705c2/badges/5567418"
+      },
+      {
+        title: "Google Cloud Computing Foundations: Infrastructure in Google Cloud",
+        date: "2023",
+        credentialId: "5571191",
+        credentialUrl: "https://www.cloudskillsboost.google/public_profiles/b93a9482-9eb5-4db0-8cc4-3aaf176705c2/badges/5571191"
+      },
+      {
+        title: "Google Cloud Computing Foundations: Networking",
+        date: "2023",
+        credentialId: "5572287",
+        credentialUrl: "https://www.cloudskillsboost.google/public_profiles/b93a9482-9eb5-4db0-8cc4-3aaf176705c2/badges/5572287"
+      },
+      {
+        title: "Google Cloud Computing Foundations: Data, ML, and AI in Google Cloud",
+        date: "2023",
+        credentialId: "5573816",
+        credentialUrl: "https://www.cloudskillsboost.google/public_profiles/b93a9482-9eb5-4db0-8cc4-3aaf176705c2/badges/5573816"
+      },
+      {
+        title: "Create and Manage Cloud Resources",
+        date: "2023",
+        credentialId: "5574243",
+        credentialUrl: "https://www.cloudskillsboost.google/public_profiles/b93a9482-9eb5-4db0-8cc4-3aaf176705c2/badges/5574243"
+      },
+      {
+        title: "Perform Foundational Infrastructure Tasks in Google Cloud",
+        date: "2023",
+        credentialId: "5574788",
+        credentialUrl: "https://www.cloudskillsboost.google/public_profiles/b93a9482-9eb5-4db0-8cc4-3aaf176705c2/badges/5574788"
+      },
+      {
+        title: "Perform Foundational Data, ML, and AI Tasks in Google Cloud",
+        date: "2023",
+        credentialId: "5575600",
+        credentialUrl: "https://www.cloudskillsboost.google/public_profiles/b93a9482-9eb5-4db0-8cc4-3aaf176705c2/badges/5575600"
+      },
+      {
+        title: "Introduction to Generative AI",
+        date: "2023",
+        credentialId: "5615143",
+        credentialUrl: "https://www.cloudskillsboost.google/public_profiles/b93a9482-9eb5-4db0-8cc4-3aaf176705c2/badges/5615143"
+      },
+      {
+        title: "Introduction to Large Language Models",
+        date: "2023",
+        credentialId: "5615359",
+        credentialUrl: "https://www.cloudskillsboost.google/public_profiles/b93a9482-9eb5-4db0-8cc4-3aaf176705c2/badges/5615359"
+      },
+      {
+        title: "Introduction to Responsible AI",
+        date: "2023",
+        credentialId: "5615469",
+        credentialUrl: "https://www.cloudskillsboost.google/public_profiles/b93a9482-9eb5-4db0-8cc4-3aaf176705c2/badges/5615469"
+      },
+      {
+        title: "Generative AI Fundamentals",
+        date: "2023",
+        credentialId: "5615591",
+        credentialUrl: "https://www.cloudskillsboost.google/public_profiles/b93a9482-9eb5-4db0-8cc4-3aaf176705c2/badges/5615591"
+      },
+      {
+        title: "Level 3 GenAI: Prompt Engineering",
+        date: "2023",
+        credentialId: "5576903",
+        credentialUrl: "https://www.cloudskillsboost.google/public_profiles/b93a9482-9eb5-4db0-8cc4-3aaf176705c2/badges/5576903"
+      }
+    ]
+  },
+  {
+    title: "Ethical Hacking & Penetration Testing Track",
+    issuer: "Udemy",
+    description: "Comprehensive ethical hacking education from fundamentals to advanced techniques",
+    completionDate: "2021",
+    totalCertificates: 3,
+    skills: ["Ethical hacking", "Penetration testing", "Kali Linux", "Security assessment", "Vulnerability analysis"],
+    certificates: [
+      {
+        title: "Learn Hacking From Scratch",
+        date: "2021",
+        credentialId: "UC-718ea92c-6082-4ce1-899e-3b04d94db66b",
+        credentialUrl: "https://www.ude.my/UC-718ea92c-6082-4ce1-899e-3b04d94db66b/"
+      },
+      {
+        title: "Start Kali Linux, Ethical Hacking and Penetration Testing!",
+        date: "2021",
+        credentialId: "UC-c9a71c15-f501-42d7-898f-5100487f1fa7",
+        credentialUrl: "https://www.ude.my/UC-c9a71c15-f501-42d7-898f-51004871f1a7"
+      },
+      {
+        title: "Learn Ethical Hacking By Hacking Real Websites Legally",
+        date: "2021",
+        credentialId: "UC-4a138727-9b8e-4d45-a9fd-667a7113b1b3",
+        credentialUrl: "https://www.ude.my/UC-4a138727-9b8e-4d45-a9fd-667a7113b1b3/"
+      }
+    ]
+  },
+  {
+    title: "Industrial Control Systems (ICS) Security",
+    issuer: "CISA (Cybersecurity and Infrastructure Security Agency)",
+    description: "Specialized training in Industrial Control Systems cybersecurity",
+    completionDate: "2024",
+    totalCertificates: 3,
+    skills: ["ICS security", "Industrial protocols", "Critical infrastructure", "IT/OT convergence", "SCADA systems"],
+    certificates: [
+      {
+        title: "Differences in Deployments of Industrial Control Systems (210W-01)",
+        date: "2024",
+        credentialUrl: "/certificates/210W-01 1 of 1.png"
+      },
+      {
+        title: "Influence of IT Components on Industrial Control Systems (210W-02)",
+        date: "2024",
+        credentialUrl: "/certificates/210W-02 1 of 1.png"
+      },
+      {
+        title: "Common ICS Components (210W-03)",
+        date: "2024",
+        credentialUrl: "/certificates/210W-03 1 of 1.png"
+      }
+    ]
+  }
+],
+
+// Individual/Standalone Certifications
+individualCertifications: [
+  {
+    title: "Cato Certified Associate (CCA)",
+    issuer: "Cato Networks",
+    date: "July 22, 2025",
+    description: "Successfully completed the Cato Certified Associate (CCA) course, demonstrating foundational knowledge in secure network architecture, cloud security, and the Cato SASE platform.",
+    skills: ["Secure network architecture", "Cloud security", "SASE platform", "Network fundamentals"],
+    credentialUrl: "/certificates/certificate-cato.png"
+  },
+  {
+    title: "Machine Learning",
+    issuer: "Indian Institute of Technology, Bombay",
+    date: "2023",
+    description: "Comprehensive training in machine learning concepts and practical applications.",
+    skills: ["Machine learning fundamentals", "Data analysis", "Model training", "Algorithm implementation"],
+    credentialUrl: "/certificates/Certificate.png"
+  },
+  {
+    title: "Python",
+    issuer: "Udemy",
+    date: "2024",
+    description: "Python programming fundamentals and advanced concepts for beginners.",
+    skills: ["Python programming", "Data structures", "Algorithms", "Web development"],
+    credentialId: "UC-279c235e-f1e0-44b4-8cba-d3053bfe8027",
+    credentialUrl: "https://www.ude.my/UC-279c235e-f1e0-44b4-8cba-d3053bfe8027/"
+  },
+  {
+    title: "Introduction to Blender",
+    issuer: "Udemy",
+    date: "2024",
+    description: "Comprehensive training in Blender fundamentals and 3D modeling basics.",
+    skills: ["3D modeling", "Animation", "Rendering", "Blender fundamentals"],
+    credentialId: "UC-b2df5c82-4b15-4ca9-937c-68f95487b621",
+    credentialUrl: "https://www.ude.my/UC-b2df5c82-4b15-4ca9-937c-68f95487b621/"
+  }
+],
+
+// Achievement & Recognition Certificates
+achievements: [
+  {
+    title: "Design Core",
+    issuer: "TEDxNIITUniversity",
+    date: "2024",
+    description: "Leadership and digital design expertise in TEDx event organization.",
+    skills: ["Digital design", "Leadership", "Event organization", "Creative direction"],
+    credentialUrl: "/certificates/TEDxCertificate.png"
+  },
+  {
+    title: "Learners' Premier League - Best Researcher",
+    issuer: "NIIT University",
+    date: "2023",
+    description: "Certificate of achievement presented as Best Researcher in Learners' Premier League 2022.",
+    skills: ["Research skills", "Analytical thinking", "Presentation skills", "Team collaboration"],
+    credentialUrl: "/certificates/Researcher_certificate.jpg"
+  },
+  {
+    title: "English Tutoring for Job Training",
+    issuer: "NIIT Foundation",
+    date: "2022",
+    description: "Certificate of Appreciation for volunteering efforts to provide tutoring for English for Job Training to NIIT Foundation students.",
+    skills: ["Tutoring", "Communication skills", "Mentoring", "Volunteer work"],
+    credentialUrl: "/certificates/Teaching_certificate.jpg"
+  },
+  {
+    title: "Digital Design",
+    issuer: "siNUsoid",
+    date: "2022",
+    description: "Expertise in digital design principles and practices.",
+    skills: ["Digital design", "Graphic design", "Creative thinking", "Software proficiency"],
+    credentialUrl: "/certificates/sinu_design.jpg"
+  },
+  {
+    title: "Tech Team Volunteer",
+    issuer: "siNUsoid",
+    date: "2022",
+    description: "Technical contribution using CSS, GitHub, and HTML.",
+    skills: ["Web development", "Collaboration", "Technical skills", "Problem-solving"],
+    credentialUrl: "/certificates/sinu_tech.jpg"
+  }
+],
 
   // Contact Information
   contact: {
