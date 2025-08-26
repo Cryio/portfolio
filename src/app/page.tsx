@@ -101,10 +101,7 @@ export default function Home() {
           <h2 className="text-3xl font-semibold mb-8 text-center text-foreground">
             Certifications
           </h2>
-          <div className="grid gap-8 md:grid-cols-2">
-            {portfolioData.certifications.slice(5, 9).map((certification) => (
-            <Certifications certifications={portfolioData.certifications || []} />))}
-          </div>
+          <Certifications certifications={portfolioData.certifications.slice(5, 9)} />
           <div className="mt-8 text-center">
             <Button variant="outline" size="lg" asChild>
               <a href="/certifications" className="flex items-center gap-2">
@@ -113,7 +110,7 @@ export default function Home() {
             </Button>
           </div>
         </section>
-
+        
         {/* Contact Section */}
         <section className="text-center space-y-4 mb-16">
           <h2 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/80">
