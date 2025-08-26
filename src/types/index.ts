@@ -48,30 +48,6 @@ export interface ContactInfo {
   twitter?: string;
 }
 
-export interface Certification {
-  title: string;
-  issuer: string;
-  date: string;
-  description: string;
-  credentialId?: string;
-  credentialUrl?: string;
-  image?: string;
-  skills?: string[];
-  hours?: number;
-}
-
-export interface PortfolioData {
-  name: string;
-  title: string;
-  description: string;
-  aboutDescription: string;
-  technologies: TechnologySection[];
-  projects: Project[];
-  experiences: Experience[];
-  certifications?: Certification[];
-  contact: ContactInfo;
-}
-
 export interface Repository {
   name: string;
   full_name: string;
@@ -82,4 +58,49 @@ export interface Repository {
   stargazers_count: number;
   forks: number;
 } 
+export interface PortfolioData {
+  name: string;
+  title: string;
+  description: string;
+  aboutDescription: string;
+  technologies: TechnologySection[];
+  experiences: Experience[];
+  projects: Project[];
+  certificationPaths: CertificationPath[];
+  individualCertifications: Certification[];
+  achievements: Achievement[];
+  certifications?: Certification[]; 
+  contact: ContactInfo;
+}
+
+interface CertificationPath {
+  title: string;
+  issuer: string;
+  description: string;
+  completionDate: string;
+  totalCertificates: number;
+  skills: string[];
+  certificates: Certification[];
+}
+
+interface Certification {
+  title: string;
+  issuer: string;
+  date: string;
+  description?: string;
+  skills?: string[];
+  credentialId?: string;
+  credentialUrl?: string;
+  image?: string;
+  type?: string;
+}
+
+interface Achievement {
+  title: string;
+  issuer: string;
+  date: string;
+  description?: string;
+  skills?: string[];
+  credentialUrl?: string;
+}
 
