@@ -6,8 +6,34 @@ import { Button } from "./ui/button";
 import { Award, ExternalLink, Image as ImageIcon, ChevronDown } from "lucide-react";
 import { Badge } from "./ui/badge";
 
-// Keep the existing Certification component
-export function Certification({ certification }) {
+// Add proper TypeScript interfaces
+interface CertificationData {
+  title: string;
+  issuer: string;
+  date: string;
+  description?: string;
+  skills?: string[];
+  credentialId?: string;
+  credentialUrl?: string;
+  image?: string;
+  type?: string;
+}
+
+interface CertificationProps {
+  certification: CertificationData;
+}
+
+interface CertificationSectionProps {
+  title: string;
+  certifications: CertificationData[];
+}
+
+interface CertificationsProps {
+  certifications?: CertificationData[];
+}
+
+// Updated Certification component with proper types
+export function Certification({ certification }: CertificationProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const isMediaFile = certification.credentialUrl?.endsWith('.png') || certification.credentialUrl?.endsWith('.jpg');
 
@@ -111,7 +137,7 @@ export function Certification({ certification }) {
   );
 }
 
-export function CertificationSection({ title, certifications }) {
+export function CertificationSection({ title, certifications }: CertificationSectionProps) {
   return (
     <div className="mb-12">
       <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
@@ -126,10 +152,11 @@ export function CertificationSection({ title, certifications }) {
   );
 }
 
-export function Certifications({ certifications = [] }) {
+export function Certifications({ certifications = [] }: CertificationsProps) {
   // Group certifications by issuer
-  const googleCertifications = certifications.filter(cert => cert.issuer === "Google");
+  const googleCertifications = certifications.filter(cert => cert.issuer === "Google Cloud");
   const ciscoCertifications = certifications.filter(cert => cert.issuer === "Cisco");
+  const paloAltoCertifications = certifications.filter(cert => cert.issuer === "Palo Alto Networks");
   const catoCertifications = certifications.filter(cert => cert.issuer === "Cato Networks");
   const cisaCertifications = certifications.filter(cert => cert.issuer === "Cybersecurity and Infrastructure Security Agency (CISA)");
   const udemyCertifications = certifications.filter(cert => cert.issuer === "Udemy");
@@ -141,9 +168,10 @@ export function Certifications({ certifications = [] }) {
   const iitCertifications = certifications.filter(cert => cert.issuer === "Indian Institute of Technology, Bombay");
   const sinusoidCertifications = certifications.filter(cert => cert.issuer === "siNUsoid");
   const otherCertifications = certifications.filter(cert =>
-    [
-      "Google",
+    ![
+      "Google Cloud",
       "Cisco",
+      "Palo Alto Networks",
       "Udemy",
       "NIIT Foundation",
       "NIIT University",
@@ -152,14 +180,14 @@ export function Certifications({ certifications = [] }) {
       "siNUsoid",
       "Cato Networks",
       "Cybersecurity and Infrastructure Security Agency (CISA)"
-    ].indexOf(cert.issuer) === -1
+    ].includes(cert.issuer)
   );
 
   return (
     <div className="space-y-12">
       {googleCertifications.length > 0 && (
         <CertificationSection 
-          title="Google" 
+          title="Google Cloud" 
           certifications={googleCertifications} 
         />
       )}
@@ -167,6 +195,12 @@ export function Certifications({ certifications = [] }) {
         <CertificationSection 
           title="Cisco" 
           certifications={ciscoCertifications} 
+        />
+      )}
+      {paloAltoCertifications.length > 0 && (
+        <CertificationSection 
+          title="Palo Alto Networks" 
+          certifications={paloAltoCertifications} 
         />
       )}
       {udemyCertifications.length > 0 && (
