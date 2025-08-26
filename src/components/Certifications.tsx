@@ -6,8 +6,8 @@ import { Button } from "./ui/button";
 import { Award, ExternalLink, Image as ImageIcon, ChevronDown, BookOpen, GraduationCap } from "lucide-react";
 import { Badge } from "./ui/badge";
 
-// Import interfaces from types file (removed PathCertificate as it's not directly used)
-import { 
+// Import interfaces from types file using type-only imports to avoid conflicts
+import type { 
   Certification, 
   Achievement, 
   CertificationPath 
