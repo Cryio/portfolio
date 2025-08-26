@@ -68,7 +68,7 @@ export interface PortfolioData {
   technologies: TechnologySection[];
   projects: Project[];
   experiences: Experience[];
-  certifications: Certification[];
+  certifications?: Certification[];
   contact: ContactInfo;
 }
 
@@ -82,3 +82,4 @@ export interface Repository {
   stargazers_count: number;
   forks: number;
 } 
+
