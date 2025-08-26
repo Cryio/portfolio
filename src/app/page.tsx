@@ -5,7 +5,7 @@ import { Download, Github, Linkedin } from "lucide-react";
 import { Role } from "@/components/Experience";
 import { Project } from "@/components/Project";
 import { Certifications } from "@/components/Certifications";
-import { getAllCertifications } from "@/data/portfolio";
+import { portfolioData, getAllCertifications } from "@/data/portfolio";
 
 export default function Home() {
   return (
