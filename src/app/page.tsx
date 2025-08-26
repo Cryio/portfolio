@@ -4,7 +4,7 @@ import { TechnologyCard } from "@/components/TechnologyCard";
 import { Download, Github, Linkedin } from "lucide-react";
 import { Role } from "@/components/Experience";
 import { Project } from "@/components/Project";
-import { CertificationAdapter } from "@/components/Certifications";
+import { Certifications } from "@/components/Certifications";
 import portfolioData from "@/data/portfolio";
 
 export default function Home() {
@@ -103,7 +103,7 @@ export default function Home() {
           </h2>
           <div className="grid gap-8 md:grid-cols-2">
             {portfolioData.certifications.slice(5, 9).map((certification) => (
-            <CertificationAdapter certifications={portfolioData.certifications} />))}
+            <Certifications certifications={portfolioData.certifications || []} />))}
           </div>
           <div className="mt-8 text-center">
             <Button variant="outline" size="lg" asChild>

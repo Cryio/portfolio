@@ -1,11 +1,5 @@
-import { Metadata } from "next";
-import { CertificationAdapter } from "@/components/Certifications";
+import { Certifications } from "@/components/Certifications";
 import portfolioData from "@/data/portfolio";
-
-export const metadata: Metadata = {
-  title: "Certifications | Portfolio",
-  description: "View my professional certifications and achievements",
-};
 
 export default function CertificationsPage() {
   return (
@@ -15,7 +9,7 @@ export default function CertificationsPage() {
           Certifications & Achievements
         </h1>
         <div className="space-y-12">
-          <CertificationAdapter certifications={portfolioData.certifications || []} />
+          <Certifications certifications={portfolioData.certifications || []} />
         </div>
       </div>
     </div>
