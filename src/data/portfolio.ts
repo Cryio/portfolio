@@ -194,60 +194,48 @@ export const portfolioData = {
     }
   ],
 
-  // Professional Experience
-  experiences: [
-    {
-      title: "Junior Web Designer",
-      company: "Maa Karma Global Engineering LLP",
-      location: "Remote",
-      period: "2023",
-      description: [
-        "Designed and developed web interfaces in a remote internship",
-        "Implemented user-centered design principles",
-        "Created responsive and accessible web solutions"
-      ],
-      technologies: ["Web Development", "Frontend Design", "CSS", "UI/UX", "Graphic Design", "User-Centered Design"]
-    },
-    {
-      title: "English Language Instructor",
-      company: "NIIT Foundation",
-      location: "Career Development Center, Mokhada",
-      period: "28 Oct 2022 - 14 Dec 2022",
-      description: [
-        "Conducted English language training for job readiness programs at the Career Development Center",
-        "Completed dedicated volunteering tenure over a 6-week period",
-        "Provided personalized guidance to enhance students' career advancement prospects",
-        "Received recognition for diligent and proactive teaching approach",
-        "Contributed to the Foundation's mission of empowering students through language skills"
-      ],
-      technologies: ["English Language Training", "Career Development", "Teaching", "Mentoring", "Volunteer Work"]
-    },
-    {
-      title: "Design Core",
-      company: "TEDxNIITUniversity",
-      location: "Neemrana, Rajasthan",
-      period: "2023 - 2024",
-      description: [
-        "Worked on visual storytelling and creative direction for TEDx events",
-        "Developed 3D designs and graphics for event branding",
-        "Managed public speaking aesthetics and event visuals"
-      ],
-      technologies: ["3D Design", "Graphic Design", "Event Branding", "Creative Direction", "Public Speaking Aesthetics"]
-    },
-    {
-      title: "Design Lead",
-      company: "Google Developers Student Club - NIIT University",
-      location: "Neemrana, Rajasthan",
-      period: "2023 - 2024",
-      description: [
-        "Led the design team, focusing on branding, graphics, and community engagement",
-        "Developed and implemented UI/UX strategies for club projects",
-        "Managed creative direction for club events and initiatives"
-      ],
-      technologies: ["UI/UX", "Graphic Design", "Branding", "Leadership", "Community Engagement", "CSS", "Mass Media"]
-    }
+// Professional Experience
+experiences: [
+  {
+    title: "Technology Intern – Cyber Security",
+    company: "Fluidech IT Services Private Limited",
+    location: "Gurgaon, Haryana",
+    period: "July 2025 – Present",
+    description: [
+      "Undertaking internship focused on core cyber security operations, risk assessment, and secure software practices as part of Fluidech",
+      "Working on threat intelligence and security operations",
+      "Participating in vulnerability assessment and incident response activities",
+      "Gaining hands-on experience in OT security and reverse engineering techniques"
+    ],
+    technologies: ["Cybersecurity", "OT Security", "Threat Intelligence", "Vulnerability Assessment", "Reverse Engineering", "Incident Response"]
+  },
+  {
+    title: "Junior Web Designer",
+    company: "Maa Karma Global Engineering LLP",
+    location: "Remote",
+    period: "2023",
+    description: [
+      "Designed and developed web interfaces in a remote internship",
+      "Created responsive and user-friendly website layouts",
+      "Implemented modern UI/UX principles in design solutions",
+      "Developed responsive and accessible web solutions"
+    ],
+    technologies: ["Web Development", "Frontend Design", "CSS", "UI/UX", "Graphic Design", "User-Centered Design"]
+  },
+  {
+    title: "Design Core",
+    company: "TEDxNIITUniversity",
+    location: "Neemrana, Rajasthan",
+    period: "2023 - 2024",
+    description: [
+      "Worked on visual storytelling and creative direction for TEDx events",
+      "Created engaging visual content for social media and event promotions",
+      "Collaborated with speakers to develop presentation visuals",
+      "Developed 3D designs and graphics for event branding"
+    ],
+    technologies: ["3D Design", "Graphic Design", "Event Branding", "Creative Direction", "Public Speaking Aesthetics"]
+  },
   ],
-
   // Projects
   projects: [
     {
