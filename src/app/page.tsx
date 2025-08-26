@@ -101,7 +101,11 @@ export default function Home() {
           <h2 className="text-3xl font-semibold mb-8 text-center text-foreground">
             Certifications
           </h2>
-          <Certifications certifications={getAllCertifications().slice(0, 4)} />
+          <Certifications 
+            certificationPaths={portfolioData.certificationPaths.slice(0, 2)}
+            individualCertifications={portfolioData.individualCertifications.slice(0, 2)}
+            achievements={portfolioData.achievements.slice(0, 2)}
+          />
           <div className="mt-8 text-center">
             <Button variant="outline" size="lg" asChild>
               <a href="/certifications" className="flex items-center gap-2">

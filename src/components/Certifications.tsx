@@ -3,10 +3,10 @@
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Button } from "./ui/button";
-import { Award, ExternalLink, Image as ImageIcon, ChevronDown } from "lucide-react";
+import { Award, ExternalLink, Image as ImageIcon, ChevronDown, BookOpen, GraduationCap } from "lucide-react";
 import { Badge } from "./ui/badge";
 
-// Add proper TypeScript interfaces
+// TypeScript interfaces (keep your existing ones)
 interface CertificationData {
   title: string;
   issuer: string;
@@ -19,20 +19,32 @@ interface CertificationData {
   type?: string;
 }
 
+interface CertificationPathData {
+  title: string;
+  issuer: string;
+  description: string;
+  completionDate: string;
+  totalCertificates: number;
+  skills: string[];
+  certificates: CertificationData[];
+}
+
 interface CertificationProps {
   certification: CertificationData;
 }
 
-interface CertificationSectionProps {
-  title: string;
-  certifications: CertificationData[];
+interface CertificationPathProps {
+  certificationPath: CertificationPathData;
 }
 
 interface CertificationsProps {
   certifications?: CertificationData[];
+  certificationPaths?: CertificationPathData[];
+  individualCertifications?: CertificationData[];
+  achievements?: CertificationData[];
 }
 
-// Updated Certification component with proper types
+// Individual Certification Component (unchanged)
 export function Certification({ certification }: CertificationProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const isMediaFile = certification.credentialUrl?.endsWith('.png') || certification.credentialUrl?.endsWith('.jpg');
@@ -137,7 +149,151 @@ export function Certification({ certification }: CertificationProps) {
   );
 }
 
-export function CertificationSection({ title, certifications }: CertificationSectionProps) {
+// New Certification Path Component (Expandable Group)
+export function CertificationPath({ certificationPath }: CertificationPathProps) {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  return (
+    <Card className="w-full backdrop-blur-sm bg-gradient-to-br from-primary/5 to-primary/10 hover:from-primary/10 hover:to-primary/15 transition-all duration-300 hover:shadow-xl border-primary/20">
+      <CardHeader 
+        className="cursor-pointer"
+        onClick={() => setIsExpanded(!isExpanded)}
+      >
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <div className="p-3 bg-primary/10 rounded-lg">
+              <BookOpen className="w-8 h-8 text-primary" />
+            </div>
+            <div className="flex-grow">
+              <CardTitle className="text-2xl text-foreground mb-1">
+                {certificationPath.title}
+              </CardTitle>
+              <div className="text-sm text-muted-foreground mb-2">
+                {certificationPath.issuer} • Completed {certificationPath.completionDate}
+              </div>
+              <div className="flex items-center gap-2 text-sm text-primary">
+                <GraduationCap className="w-4 h-4" />
+                <span className="font-medium">{certificationPath.totalCertificates} Certifications</span>
+              </div>
+            </div>
+          </div>
+          <Button
+            variant="ghost"
+            size="icon"
+            className={`h-10 w-10 transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`}
+          >
+            <ChevronDown className="h-5 w-5" />
+          </Button>
+        </div>
+        
+        {/* Path description and skills when collapsed */}
+        {!isExpanded && (
+          <div className="mt-4 space-y-3">
+            <p className="text-sm text-muted-foreground">
+              {certificationPath.description}
+            </p>
+            <div className="flex flex-wrap gap-1">
+              {certificationPath.skills.slice(0, 5).map((skill) => (
+                <Badge key={skill} variant="secondary" className="text-xs">
+                  {skill}
+                </Badge>
+              ))}
+              {certificationPath.skills.length > 5 && (
+                <Badge variant="secondary" className="text-xs">
+                  +{certificationPath.skills.length - 5} more
+                </Badge>
+              )}
+            </div>
+          </div>
+        )}
+      </CardHeader>
+
+      {/* Expanded content showing all certificates */}
+      <div
+        className={`grid transition-all duration-500 ease-in-out ${
+          isExpanded ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
+        }`}
+      >
+        <div className="overflow-hidden">
+          <CardContent className="pt-0 pb-6">
+            <div className="space-y-4">
+              <div className="border-t border-border/50 pt-4">
+                <p className="text-sm text-muted-foreground mb-4">
+                  {certificationPath.description}
+                </p>
+                <div className="flex flex-wrap gap-2 mb-6">
+                  {certificationPath.skills.map((skill) => (
+                    <Badge key={skill} variant="secondary">
+                      {skill}
+                    </Badge>
+                  ))}
+                </div>
+              </div>
+              
+              <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
+                {certificationPath.certificates.map((cert) => (
+                  <div key={cert.title} className="p-4 bg-background/50 rounded-lg border border-border/30">
+                    <div className="flex items-start gap-3">
+                      <Award className="w-6 h-6 text-primary mt-1 flex-shrink-0" />
+                      <div className="flex-grow min-w-0">
+                        <h4 className="font-semibold text-foreground text-sm mb-1 leading-tight">
+                          {cert.title}
+                        </h4>
+                        <p className="text-xs text-muted-foreground mb-2">
+                          {cert.date}
+                        </p>
+                        {cert.description && (
+                          <p className="text-xs text-muted-foreground mb-2">
+                            {cert.description}
+                          </p>
+                        )}
+                        {cert.skills && cert.skills.length > 0 && (
+                          <div className="flex flex-wrap gap-1 mb-2">
+                            {cert.skills.slice(0, 3).map((skill) => (
+                              <Badge key={skill} variant="outline" className="text-xs px-1 py-0">
+                                {skill}
+                              </Badge>
+                            ))}
+                            {cert.skills.length > 3 && (
+                              <Badge variant="outline" className="text-xs px-1 py-0">
+                                +{cert.skills.length - 3}
+                              </Badge>
+                            )}
+                          </div>
+                        )}
+                        {cert.credentialUrl && (
+                          <Button 
+                            variant="ghost" 
+                            size="sm" 
+                            asChild
+                            className="h-6 px-2 text-xs"
+                          >
+                            <a
+                              href={cert.credentialUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="flex items-center gap-1"
+                            >
+                              <ExternalLink className="h-3 w-3" />
+                              View
+                            </a>
+                          </Button>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </CardContent>
+        </div>
+      </div>
+    </Card>
+  );
+}
+
+// Section Component for Individual Certs and Achievements
+export function CertificationSection({ title, certifications }: { title: string; certifications: CertificationData[] }) {
   return (
     <div className="mb-12">
       <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
@@ -152,97 +308,42 @@ export function CertificationSection({ title, certifications }: CertificationSec
   );
 }
 
-export function Certifications({ certifications = [] }: CertificationsProps) {
-  // Group certifications by issuer
-  const googleCertifications = certifications.filter(cert => cert.issuer === "Google Cloud");
-  const ciscoCertifications = certifications.filter(cert => cert.issuer === "Cisco");
-  const paloAltoCertifications = certifications.filter(cert => cert.issuer === "Palo Alto Networks");
-  const catoCertifications = certifications.filter(cert => cert.issuer === "Cato Networks");
-  const cisaCertifications = certifications.filter(cert => cert.issuer === "Cybersecurity and Infrastructure Security Agency (CISA)");
-  const udemyCertifications = certifications.filter(cert => cert.issuer === "Udemy");
-  const niitCertifications = certifications.filter(cert => 
-    cert.issuer === "NIIT Foundation" || 
-    cert.issuer === "NIIT University" ||
-    cert.issuer === "TEDxNIITUniversity"
-  );
-  const iitCertifications = certifications.filter(cert => cert.issuer === "Indian Institute of Technology, Bombay");
-  const sinusoidCertifications = certifications.filter(cert => cert.issuer === "siNUsoid");
-  const otherCertifications = certifications.filter(cert =>
-    ![
-      "Google Cloud",
-      "Cisco",
-      "Palo Alto Networks",
-      "Udemy",
-      "NIIT Foundation",
-      "NIIT University",
-      "TEDxNIITUniversity",
-      "Indian Institute of Technology, Bombay",
-      "siNUsoid",
-      "Cato Networks",
-      "Cybersecurity and Infrastructure Security Agency (CISA)"
-    ].includes(cert.issuer)
-  );
-
+// Main Certifications Component
+export function Certifications({ 
+  certifications = [], 
+  certificationPaths = [],
+  individualCertifications = [],
+  achievements = []
+}: CertificationsProps) {
   return (
     <div className="space-y-12">
-      {googleCertifications.length > 0 && (
+      {/* Certification Paths Section */}
+      {certificationPaths.length > 0 && (
+        <div className="mb-12">
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-8">
+            Certification Tracks & Learning Paths
+          </h2>
+          <div className="space-y-6">
+            {certificationPaths.map((path) => (
+              <CertificationPath key={path.title} certificationPath={path} />
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Individual Certifications */}
+      {individualCertifications.length > 0 && (
         <CertificationSection 
-          title="Google Cloud" 
-          certifications={googleCertifications} 
+          title="Individual Certifications" 
+          certifications={individualCertifications} 
         />
       )}
-      {ciscoCertifications.length > 0 && (
+
+      {/* Achievements */}
+      {achievements.length > 0 && (
         <CertificationSection 
-          title="Cisco" 
-          certifications={ciscoCertifications} 
-        />
-      )}
-      {paloAltoCertifications.length > 0 && (
-        <CertificationSection 
-          title="Palo Alto Networks" 
-          certifications={paloAltoCertifications} 
-        />
-      )}
-      {udemyCertifications.length > 0 && (
-        <CertificationSection 
-          title="Udemy" 
-          certifications={udemyCertifications} 
-        />
-      )}
-      {niitCertifications.length > 0 && (
-        <CertificationSection 
-          title="NIIT" 
-          certifications={niitCertifications} 
-        />
-      )}
-      {iitCertifications.length > 0 && (
-        <CertificationSection 
-          title="IIT Bombay" 
-          certifications={iitCertifications} 
-        />
-      )}
-      {sinusoidCertifications.length > 0 && (
-        <CertificationSection 
-          title="siNUsoid" 
-          certifications={sinusoidCertifications} 
-        />
-      )}
-      {catoCertifications.length > 0 && (
-        <CertificationSection 
-          title="Cato Networks" 
-          certifications={catoCertifications} 
-        />
-      )}
-      {cisaCertifications.length > 0 && (
-        <CertificationSection 
-          title="Cybersecurity and Infrastructure Security Agency (CISA)" 
-          certifications={cisaCertifications} 
-        />
-      )}
-      {otherCertifications.length > 0 && (
-        <CertificationSection 
-          title="Other" 
-          certifications={otherCertifications} 
+          title="Achievements & Recognition" 
+          certifications={achievements} 
         />
       )}
     </div>
