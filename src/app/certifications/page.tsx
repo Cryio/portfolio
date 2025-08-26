@@ -1,5 +1,5 @@
 import { Certifications } from "@/components/Certifications";
-import portfolioData from "@/data/portfolio";
+import { portfolioData } from "@/data/portfolio";
 
 export default function CertificationsPage() {
   return (
