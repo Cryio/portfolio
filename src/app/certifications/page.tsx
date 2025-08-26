@@ -9,7 +9,7 @@ export default function CertificationsPage() {
           Certifications & Achievements
         </h1>
         <div className="space-y-12">
-          <Certifications certifications={portfolioData.certifications || []} />
+          <Certifications certifications={(portfolioData as any).certifications || []} />
         </div>
       </div>
     </div>
