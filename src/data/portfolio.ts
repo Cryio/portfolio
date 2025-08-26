@@ -300,18 +300,21 @@ export const portfolioData = {
           title: "Introduction to Cybersecurity",
           date: "Apr 2025",
           description: "Explore the exciting field of cybersecurity and why cybersecurity is a future-proof career.",
+          skills: ["Cybersecurity fundamentals", "Security threats", "Risk management", "Security principles"],
           credentialUrl: "/certificates/Certificate_Introduction to Cybersecurity.jpg"
         },
         {
           title: "Networking Basics",
           date: "Apr 2025", 
           description: "Comprehensive understanding of network devices and protocols, data flow analysis, device configuration, and network troubleshooting.",
+          skills: ["Network protocols", "Network devices", "Data flow analysis", "Network troubleshooting"],
           credentialUrl: "/certificates/certificate_networking_basics.jpg"
         },
         {
           title: "Networking Devices and Initial Configuration",
           date: "Apr 2025",
           description: "Mastery in cloud and virtualization benefits, IP addressing schemes, Cisco device configuration, connectivity testing, and Cisco Packet Tracer proficiency.",
+          skills: ["Cisco device configuration", "IP addressing", "Cisco Packet Tracer", "Network connectivity"],
           credentialUrl: "/certificates/certificate_networking_device_and_initial_conf.jpg"
         }
       ]
@@ -327,72 +330,84 @@ export const portfolioData = {
         {
           title: "Google Cloud Computing Foundations: Cloud Computing Fundamentals",
           date: "2023",
+          skills: ["Cloud computing fundamentals", "Google Cloud Platform", "Cloud services", "Infrastructure basics"],
           credentialId: "5567418",
           credentialUrl: "https://www.cloudskillsboost.google/public_profiles/b93a9482-9eb5-4db0-8cc4-3aaf176705c2/badges/5567418"
         },
         {
           title: "Google Cloud Computing Foundations: Infrastructure in Google Cloud",
           date: "2023",
+          skills: ["Cloud infrastructure", "Virtual machines", "Networking", "Storage solutions"],
           credentialId: "5571191",
           credentialUrl: "https://www.cloudskillsboost.google/public_profiles/b93a9482-9eb5-4db0-8cc4-3aaf176705c2/badges/5571191"
         },
         {
           title: "Google Cloud Computing Foundations: Networking",
           date: "2023",
+          skills: ["Cloud networking", "VPC", "Load balancing", "Network security"],
           credentialId: "5572287",
           credentialUrl: "https://www.cloudskillsboost.google/public_profiles/b93a9482-9eb5-4db0-8cc4-3aaf176705c2/badges/5572287"
         },
         {
           title: "Google Cloud Computing Foundations: Data, ML, and AI in Google Cloud",
           date: "2023",
+          skills: ["Data processing", "Machine learning", "AI services", "BigQuery"],
           credentialId: "5573816",
           credentialUrl: "https://www.cloudskillsboost.google/public_profiles/b93a9482-9eb5-4db0-8cc4-3aaf176705c2/badges/5573816"
         },
         {
           title: "Create and Manage Cloud Resources",
           date: "2023",
+          skills: ["Resource management", "Cloud deployment", "Service configuration", "Monitoring"],
           credentialId: "5574243",
           credentialUrl: "https://www.cloudskillsboost.google/public_profiles/b93a9482-9eb5-4db0-8cc4-3aaf176705c2/badges/5574243"
         },
         {
           title: "Perform Foundational Infrastructure Tasks in Google Cloud",
           date: "2023",
+          skills: ["Infrastructure automation", "Cloud Shell", "Compute Engine", "Cloud Storage"],
           credentialId: "5574788",
           credentialUrl: "https://www.cloudskillsboost.google/public_profiles/b93a9482-9eb5-4db0-8cc4-3aaf176705c2/badges/5574788"
         },
         {
           title: "Perform Foundational Data, ML, and AI Tasks in Google Cloud",
           date: "2023",
+          skills: ["Data analysis", "ML model training", "AI APIs", "Data visualization"],
           credentialId: "5575600",
           credentialUrl: "https://www.cloudskillsboost.google/public_profiles/b93a9482-9eb5-4db0-8cc4-3aaf176705c2/badges/5575600"
         },
         {
           title: "Introduction to Generative AI",
           date: "2023",
+          skills: ["Generative AI concepts", "AI applications", "Machine learning basics", "AI ethics"],
           credentialId: "5615143",
           credentialUrl: "https://www.cloudskillsboost.google/public_profiles/b93a9482-9eb5-4db0-8cc4-3aaf176705c2/badges/5615143"
         },
         {
           title: "Introduction to Large Language Models",
           date: "2023",
+          skills: ["Large language models", "Natural language processing", "AI text generation", "Model architecture"],
           credentialId: "5615359",
           credentialUrl: "https://www.cloudskillsboost.google/public_profiles/b93a9482-9eb5-4db0-8cc4-3aaf176705c2/badges/5615359"
         },
         {
           title: "Introduction to Responsible AI",
           date: "2023",
+          skills: ["AI ethics", "Responsible AI practices", "Bias mitigation", "AI governance"],
           credentialId: "5615469",
           credentialUrl: "https://www.cloudskillsboost.google/public_profiles/b93a9482-9eb5-4db0-8cc4-3aaf176705c2/badges/5615469"
         },
         {
           title: "Generative AI Fundamentals",
           date: "2023",
+          skills: ["Generative AI fundamentals", "AI model types", "Content generation", "AI applications"],
           credentialId: "5615591",
           credentialUrl: "https://www.cloudskillsboost.google/public_profiles/b93a9482-9eb5-4db0-8cc4-3aaf176705c2/badges/5615591"
         },
         {
           title: "Level 3 GenAI: Prompt Engineering",
           date: "2023",
+          skills: ["Prompt engineering", "AI prompt optimization", "Content generation", "AI interaction design"],
           credentialId: "5576903",
           credentialUrl: "https://www.cloudskillsboost.google/public_profiles/b93a9482-9eb5-4db0-8cc4-3aaf176705c2/badges/5576903"
         }
@@ -409,18 +424,21 @@ export const portfolioData = {
         {
           title: "Learn Hacking From Scratch",
           date: "2021",
+          skills: ["Ethical hacking fundamentals", "Security testing", "Vulnerability assessment", "Penetration testing basics"],
           credentialId: "UC-718ea92c-6082-4ce1-899e-3b04d94db66b",
           credentialUrl: "https://www.ude.my/UC-718ea92c-6082-4ce1-899e-3b04d94db66b/"
         },
         {
           title: "Start Kali Linux, Ethical Hacking and Penetration Testing!",
           date: "2021",
+          skills: ["Kali Linux", "Security tools", "Network penetration", "System exploitation"],
           credentialId: "UC-c9a71c15-f501-42d7-898f-5100487f1fa7",
           credentialUrl: "https://www.ude.my/UC-c9a71c15-f501-42d7-898f-51004871f1a7"
         },
         {
           title: "Learn Ethical Hacking By Hacking Real Websites Legally",
           date: "2021",
+          skills: ["Web application security", "Legal hacking", "Web vulnerabilities", "Security assessment"],
           credentialId: "UC-4a138727-9b8e-4d45-a9fd-667a7113b1b3",
           credentialUrl: "https://www.ude.my/UC-4a138727-9b8e-4d45-a9fd-667a7113b1b3/"
         }
@@ -437,16 +455,19 @@ export const portfolioData = {
         {
           title: "Differences in Deployments of Industrial Control Systems (210W-01)",
           date: "2024",
+          skills: ["ICS deployment models", "Industrial network architecture", "Control system design", "System integration"],
           credentialUrl: "/certificates/210W-01 1 of 1.png"
         },
         {
           title: "Influence of IT Components on Industrial Control Systems (210W-02)",
           date: "2024",
+          skills: ["IT/OT convergence", "Industrial cybersecurity", "Network segmentation", "Risk assessment"],
           credentialUrl: "/certificates/210W-02 1 of 1.png"
         },
         {
           title: "Common ICS Components (210W-03)",
           date: "2024",
+          skills: ["SCADA systems", "PLC programming", "HMI design", "Industrial protocols"],
           credentialUrl: "/certificates/210W-03 1 of 1.png"
         }
       ]
