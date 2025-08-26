@@ -28,17 +28,17 @@ interface CertificationsProps {
   achievements?: Achievement[];
 }
 
-// Individual Certification Component (unchanged)
+// Individual Certification Component
 export function Certification({ certification }: CertificationProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const isMediaFile = certification.credentialUrl?.endsWith('.png') || certification.credentialUrl?.endsWith('.jpg');
 
   return (
     <Card 
-      className="w-full backdrop-blur-sm bg-background/80 hover:bg-background/90 transition-all duration-300 hover:shadow-lg cursor-pointer overflow-hidden"
+      className="w-full bg-card hover:bg-card/90 transition-all duration-300 hover:shadow-lg cursor-pointer overflow-hidden border border-border"
       onClick={() => setIsExpanded(!isExpanded)}
     >
-      <CardHeader className={`flex flex-row items-center gap-4 transition-colors duration-300 ${isExpanded ? 'bg-muted/50' : ''}`}>
+      <CardHeader className={`flex flex-row items-center gap-4 transition-colors duration-300 ${isExpanded ? 'bg-muted/30' : ''}`}>
         {certification.image ? (
           <div className="relative w-16 h-16 flex-shrink-0">
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -134,12 +134,12 @@ export function Certification({ certification }: CertificationProps) {
   );
 }
 
-// New Certification Path Component (Expandable Group)
+// Certification Path Component (Expandable Group)
 export function CertificationPath({ certificationPath }: CertificationPathProps) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
-    <Card className="w-full backdrop-blur-sm bg-gradient-to-br from-primary/5 to-primary/10 hover:from-primary/10 hover:to-primary/15 transition-all duration-300 hover:shadow-xl border-primary/20">
+    <Card className="w-full bg-card hover:bg-card/90 transition-all duration-300 hover:shadow-lg border border-border">
       <CardHeader 
         className="cursor-pointer"
         onClick={() => setIsExpanded(!isExpanded)}
@@ -217,7 +217,7 @@ export function CertificationPath({ certificationPath }: CertificationPathProps)
               
               <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
                 {certificationPath.certificates.map((cert) => (
-                  <div key={cert.title} className="p-4 bg-background/50 rounded-lg border border-border/30">
+                  <div key={cert.title} className="p-4 bg-muted/20 rounded-lg border border-border/50">
                     <div className="flex items-start gap-3">
                       <Award className="w-6 h-6 text-primary mt-1 flex-shrink-0" />
                       <div className="flex-grow min-w-0">
