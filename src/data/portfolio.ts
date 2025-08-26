@@ -301,42 +301,42 @@ export const portfolioData = {
           date: "2024",
           description: "Foundational knowledge of cloud security principles and best practices.",
           skills: ["Cloud security principles", "Cloud architecture", "Security controls", "Risk management"],
-          credentialUrl: "/certificates/Cloud Security Fundamentals.png"
+          credentialUrl: "certificates/Palo Alto Networks Certified Cybersecurity Practitioner/Cloud Security Fundamentals.png"
         },
         {
           title: "Cybersecurity Fundamentals",
           date: "2024",
           description: "Core cybersecurity concepts and threat landscape understanding.",
           skills: ["Cybersecurity basics", "Threat landscape", "Security frameworks", "Risk assessment"],
-          credentialUrl: "/certificates/Cybersecurity Fundamentals.png"
+          credentialUrl: "/certificates/Palo Alto Networks Certified Cybersecurity Practitioner/Cybersecurity Fundamentals.png"
         },
         {
           title: "Endpoint Security",
           date: "2024",
           description: "Protection strategies for endpoints including detection and response techniques.",
           skills: ["Endpoint protection", "Malware detection", "Incident response", "Threat hunting"],
-          credentialUrl: "/certificates/Endpoint Security.png"
+          credentialUrl: "/certificates/Palo Alto Networks Certified Cybersecurity Practitioner/Endpoint Security.png"
         },
         {
           title: "Network Security Fundamentals",
           date: "2024",
           description: "Network security principles, firewalls, and intrusion prevention systems.",
           skills: ["Network security", "Firewall management", "IPS/IDS", "Network monitoring"],
-          credentialUrl: "/certificates/Network Security Fundamentals.png"
+          credentialUrl: "/certificates/Palo Alto Networks Certified Cybersecurity Practitioner/Network Security Fundamentals.png"
         },
         {
           title: "Security Operations Fundamentals",
           date: "2024",
           description: "Security operations center processes and incident management.",
           skills: ["SOC operations", "Incident management", "Security monitoring", "Threat analysis"],
-          credentialUrl: "/certificates/Security Operations Fundamentals.png"
+          credentialUrl: "/certificates/Palo Alto Networks Certified Cybersecurity Practitioner/Security Operations Fundamentals.png"
         },
         {
           title: "Understanding Security Operations - Foundational",
           date: "2024",
           description: "Foundational understanding of security operations and best practices.",
           skills: ["Security operations", "Best practices", "Process management", "Team coordination"],
-          credentialUrl: "/certificates/Understanding Security Operations - Foundational.png"
+          credentialUrl: "/certificate/Palo Alto Networks Certified Cybersecurity Practitioner//Understanding Security Operations - Foundational.png"
         }
       ]
     },
@@ -353,28 +353,28 @@ export const portfolioData = {
           date: "2024",
           description: "Advanced traffic decryption and SSL inspection techniques.",
           skills: ["SSL decryption", "Traffic inspection", "Certificate management", "Security policies"],
-          credentialUrl: "/certificates/Decryption - Features.png"
+          credentialUrl: "/certificates/Palo Alto Networks Certified Network Security Analyst/Decryption - Features.png"
         },
         {
           title: "PAN-OS",
           date: "2024",
           description: "Comprehensive PAN-OS administration and configuration.",
           skills: ["PAN-OS administration", "Firewall configuration", "Policy management", "System maintenance"],
-          credentialUrl: "/certificates/PAN-OS .png"
+          credentialUrl: "/certificates/Palo Alto Networks Certified Network Security Analyst/PAN-OS .png"
         },
         {
           title: "Panorama - Features",
           date: "2024",
           description: "Centralized management using Panorama for multiple firewalls.",
           skills: ["Panorama management", "Centralized policies", "Device monitoring", "Template management"],
-          credentialUrl: "/certificates/Panorama - Features.png"
+          credentialUrl: "/certificates/Palo Alto Networks Certified Network Security Analyst/Panorama - Features.png"
         },
         {
           title: "Strata Logging Service - Features",
           date: "2024",
           description: "Cloud-based logging and analysis service for enhanced security insights.",
           skills: ["Cloud logging", "Log analysis", "Security insights", "Threat intelligence"],
-          credentialUrl: "/certificates/Strata Logging Service - Features.png"
+          credentialUrl: "/certificates/Palo Alto Networks Certified Network Security Analyst/Strata Logging Service - Features.png"
         }
       ]
     },
