@@ -44,7 +44,7 @@ export const technologyLogos = {
   wireshark: "assets/tech/wireshark.png",
   nessus: "assets/tech/nessus.png",
   cuckoo: "assets/tech/cuckoo-sandbox.png",
-  cuckooDark: "assets/tech/dark/cuckoo-sandboxDark.png",
+  cuckooDark: "assets/tech/cuckoo-sandboxDark.png",
   quickscope: "assets/tech/quickscope.png",
   x64dbg: "assets/tech/x64dbg.png",
   x64dbgWhite: "assets/tech/x64dbgWhite.png"

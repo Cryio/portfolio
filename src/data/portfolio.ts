@@ -84,6 +84,7 @@ technologies: [
         name: "ExifTool",
         logo: technologyLogos.exiftool,
         alt: "ExifTool",
+        darkLogo: technologyLogos.exiftoolDark,
         description: "Metadata extraction and manipulation tool"
       },
       {
@@ -113,9 +114,9 @@ technologies: [
       },
       {
         name: "x64dbg",
-        logo: technologyLogos.x64dbgWhite,
+        logo: technologyLogos.x64dbg,
         alt: "x64dbg",
-        darkLogo: technologyLogos.x64dbg,
+        darkLogo: technologyLogos.x64dbgWhite,
         description: "An open-source x64/x32 debugger for windows."
       }
     ]
