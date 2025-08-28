@@ -43,6 +43,7 @@ export const technologyLogos = {
   wireshark: "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/wireshark.svg",
   aircrack: "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/aircrack-ng.svg",
   cuckoo: "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/cuckoosandbox.svg",
-  quickscope: "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/quickscope.svg"
+  quickscope: "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/quickscope.svg",
+  x64dbg: "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/x64dbg.svg"
 };
 

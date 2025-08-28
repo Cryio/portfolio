@@ -109,6 +109,12 @@ technologies: [
         logo: technologyLogos.quickscope,
         alt: "QuickScope",
         description: "Nmap NSE script for reconnaissance scanning"
+      },
+      {
+        name: "x64dbg",
+        logo: technologyLogos.x64dbg,
+        alt: "x64dbg",
+        description: "An open-source x64/x32 debugger for windows."
       }
     ]
   },
