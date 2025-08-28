@@ -22,7 +22,96 @@ export const portfolioData = {
   `,
 
   // Technology Categories
-  technologies: [
+technologies: [
+  {
+    title: "Security & Penetration Testing Tools",
+    items: [
+      {
+        name: "OpenVAS",
+        logo: technologyLogos.openvas,
+        alt: "OpenVAS",
+        description: "Open-source vulnerability scanner and management tool"
+      },
+      {
+        name: "Nikto",
+        logo: technologyLogos.nikto,
+        alt: "Nikto",
+        description: "Web server vulnerability scanner"
+      },
+      {
+        name: "Burp Suite",
+        logo: technologyLogos.burpsuite,
+        alt: "Burp Suite",
+        description: "Web application security testing platform"
+      },
+      {
+        name: "Responder",
+        logo: technologyLogos.responder,
+        alt: "Responder",
+        description: "LLMNR/NBT-NS poisoning and SMB relay tool"
+      },
+      {
+        name: "Ghidra",
+        logo: technologyLogos.ghidra,
+        alt: "Ghidra",
+        description: "Software reverse engineering framework"
+      },
+      {
+        name: "Metasploit",
+        logo: technologyLogos.metasploit,
+        alt: "Metasploit",
+        description: "Penetration testing and vulnerability exploitation framework"
+      },
+      {
+        name: "SQLmap",
+        logo: technologyLogos.sqlmap,
+        alt: "SQLmap",
+        description: "Automated SQL injection testing tool"
+      },
+      {
+        name: "Recon-ng",
+        logo: technologyLogos.reconng,
+        alt: "Recon-ng",
+        description: "Web-based OSINT reconnaissance framework"
+      },
+      {
+        name: "ExifTool",
+        logo: technologyLogos.exiftool,
+        alt: "ExifTool",
+        description: "Metadata extraction and manipulation tool"
+      },
+      {
+        name: "Frida",
+        logo: technologyLogos.frida,
+        alt: "Frida",
+        description: "Dynamic instrumentation and reverse engineering toolkit"
+      },
+      {
+        name: "Wireshark",
+        logo: technologyLogos.wireshark,
+        alt: "Wireshark",
+        description: "Network protocol analyzer and packet capture"
+      },
+      {
+        name: "Aircrack-ng",
+        logo: technologyLogos.aircrack,
+        alt: "Aircrack-ng",
+        description: "Wireless network security assessment suite"
+      },
+      {
+        name: "Cuckoo Sandbox",
+        logo: technologyLogos.cuckoo,
+        alt: "Cuckoo Sandbox",
+        description: "Automated malware analysis system"
+      },
+      {
+        name: "QuickScope",
+        logo: technologyLogos.quickscope,
+        alt: "QuickScope",
+        description: "Nmap NSE script for reconnaissance scanning"
+      }
+    ]
+  },
     {
       title: "Programming Languages & Tools",
       items: [

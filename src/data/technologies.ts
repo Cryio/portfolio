@@ -29,5 +29,20 @@ export const technologyLogos = {
   github: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg",
   githubDark: "./assets/tech/dark/github.svg",
   virtualbox: "/assets/tech/virtualbox.svg",
-  jenkins: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jenkins/jenkins-original.svg"
-}; 
+  jenkins: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jenkins/jenkins-original.svg",
+  openvas: "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/openvas.svg",
+  nikto: "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/nikto.svg",
+  burpsuite: "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/burpsuite.svg",
+  responder: "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/responder.svg",
+  ghidra: "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/ghidra.svg",
+  metasploit: "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/metasploit.svg",
+  sqlmap: "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/sqlmap.svg",
+  reconng: "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/recon-ng.svg",
+  exiftool: "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/exiftool.svg",
+  frida: "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/frida.svg",
+  wireshark: "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/wireshark.svg",
+  aircrack: "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/aircrack-ng.svg",
+  cuckoo: "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/cuckoosandbox.svg",
+  quickscope: "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/quickscope.svg"
+};
+
