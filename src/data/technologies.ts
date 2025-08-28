@@ -39,7 +39,7 @@ export const technologyLogos = {
   sqlmap: "assets/tech/sqlmap.png",
   reconng: "assets/tech/recon.png",
   exiftool: "assets/tech/exiftoolWhite.png",
-  exiftoolDark: "assets/tech/dark/exiftool.svg",
+  exiftoolDark: "assets/tech/exiftool.svg",
   frida: "assets/tech/frida.png",
   wireshark: "assets/tech/wireshark.png",
   nessus: "assets/tech/nessus.png",
