@@ -27,6 +27,12 @@ technologies: [
     title: "Security & Penetration Testing Tools",
     items: [
       {
+        name: "Nessus",
+        logo: technologyLogos.nessus,
+        alt: "Nessus",
+        description: "Vulnerability scanning and assessment"
+      },
+      {
         name: "OpenVAS",
         logo: technologyLogos.openvas,
         alt: "OpenVAS",
@@ -93,15 +99,10 @@ technologies: [
         description: "Network protocol analyzer and packet capture"
       },
       {
-        name: "Aircrack-ng",
-        logo: technologyLogos.aircrack,
-        alt: "Aircrack-ng",
-        description: "Wireless network security assessment suite"
-      },
-      {
         name: "Cuckoo Sandbox",
         logo: technologyLogos.cuckoo,
         alt: "Cuckoo Sandbox",
+        darkLogo: technologyLogos.cuckooDark,
         description: "Automated malware analysis system"
       },
       {
@@ -112,8 +113,9 @@ technologies: [
       },
       {
         name: "x64dbg",
-        logo: technologyLogos.x64dbg,
+        logo: technologyLogos.x64dbgWhite,
         alt: "x64dbg",
+        darkLogo: technologyLogos.x64dbg,
         description: "An open-source x64/x32 debugger for windows."
       }
     ]

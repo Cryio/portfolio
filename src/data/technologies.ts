@@ -35,15 +35,18 @@ export const technologyLogos = {
   burpsuite: "assets/tech/burp_suite.png",
   responder: "assets/tech/responder.png",
   ghidra: "assets/tech/ghidra.png",
-  metasploit: "assets/tech/metasploit.svg",
+  metasploit: "assets/tech/metasploit.png",
   sqlmap: "assets/tech/sqlmap.png",
   reconng: "assets/tech/recon.png",
-  exiftool: "assets/tech/exiftool.svg",
+  exiftool: "assets/tech/exiftoolWhite.png",
+  exiftoolDark: "assets/tech/dark/exiftool.svg",
   frida: "assets/tech/frida.png",
   wireshark: "assets/tech/wireshark.png",
-  aircrack: "assets/tech/Aircrack-ng.png",
+  nessus: "assets/tech/nessus.png",
   cuckoo: "assets/tech/cuckoo-sandbox.png",
+  cuckooDark: "assets/tech/dark/cuckoo-sandboxDark.png",
   quickscope: "assets/tech/quickscope.png",
-  x64dbg: "assets/tech/x64dbg.png"
+  x64dbg: "assets/tech/x64dbg.png",
+  x64dbgWhite: "assets/tech/x64dbgWhite.png"
 };
 
