@@ -2,6 +2,8 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import Link from "next/link";
+import { ChevronRight, Home, Terminal as TerminalIcon } from "lucide-react";
 
 interface CommandDefinition {
   description: string;
@@ -314,6 +316,9 @@ export default function Terminal() {
   const [commandHistory, setCommandHistory] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
   const [lineCounter, setLineCounter] = useState(1);
+  
+  // Added state for breadcrumb path
+  const [currentPath, setCurrentPath] = useState<string[]>(["~"]);
 
   const inputRef = useRef<HTMLInputElement>(null);
   const terminalRef = useRef<HTMLDivElement>(null);
@@ -368,6 +373,32 @@ export default function Terminal() {
     // Special command handlers
     if (lowerCommand === 'clear') {
       setLines([]);
+      return;
+    }
+    
+    // Added cd command for navigation
+    if (lowerCommand === 'cd') {
+      if (args.length === 0 || args[0] === '~') {
+        setCurrentPath(["~"]);
+        addLines(["Changed directory to: ~"], 'system');
+      } else if (args[0] === '..') {
+        if (currentPath.length > 1) {
+          setCurrentPath(prev => prev.slice(0, -1));
+          addLines([`Changed directory to: ${currentPath.slice(0, -1).join('/')}`], 'system');
+        } else {
+          addLines(["Already at root directory"], 'warning');
+        }
+      } else {
+        // Simulate directory change
+        setCurrentPath(prev => [...prev, args[0]]);
+        addLines([`Changed directory to: ${[...currentPath, args[0]].join('/')}`], 'system');
+      }
+      return;
+    }
+    
+    // Added pwd command to show current path
+    if (lowerCommand === 'pwd') {
+      addLines([`Current directory: ${currentPath.join('/')}`], 'system');
       return;
     }
 
@@ -476,32 +507,64 @@ export default function Terminal() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-start min-h-screen bg-gray-100 py-8">
-      {/* Page Header + Breadcrumbs */}
-      <header className="w-full max-w-4xl px-4 mb-4">
-        <nav className="text-sm text-gray-500">
-          <ol className="inline-flex items-center space-x-1">
-            <li><a href="/" className="hover:text-gray-700">Home</a></li>
-            <li>›</li>
-            <li><span className="text-gray-700 font-medium">Terminal</span></li>
+    <div className="flex flex-col items-center justify-start min-h-screen bg-gray-100 py-8 pt-24">
+      {/* Enhanced Breadcrumbs with proper Next.js Links */}
+      <header className="w-full max-w-4xl px-4 mb-6">
+        <nav aria-label="Breadcrumb" className="mb-4">
+          <ol className="flex items-center space-x-2 text-sm text-gray-500">
+            <li className="flex items-center">
+              <Link 
+                href="/" 
+                className="flex items-center hover:text-primary transition-colors"
+              >
+                <Home className="h-4 w-4 mr-1" />
+                <span>Home</span>
+              </Link>
+            </li>
+            <li className="flex items-center">
+              <ChevronRight className="h-4 w-4 mx-1 text-gray-400" aria-hidden="true" />
+              <Link 
+                href="/projects" 
+                className="hover:text-primary transition-colors"
+              >
+                Projects
+              </Link>
+            </li>
+            <li className="flex items-center">
+              <ChevronRight className="h-4 w-4 mx-1 text-gray-400" aria-hidden="true" />
+              <span className="font-medium text-gray-800 flex items-center">
+                <TerminalIcon className="h-4 w-4 mr-1 text-primary" />
+                Terminal
+              </span>
+            </li>
           </ol>
         </nav>
-        <h1 className="mt-2 text-2xl font-semibold text-gray-800">Cybersec Terminal</h1>
+        
+        <div className="flex justify-between items-center">
+          <h1 className="text-3xl font-bold text-gray-800">Security Terminal</h1>
+          <div className="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full flex items-center">
+            <span className="h-2 w-2 bg-green-500 rounded-full mr-1"></span>
+            Connected
+          </div>
+        </div>
+        <p className="text-gray-600 mt-1">
+          Explore my background through an interactive command-line interface
+        </p>
       </header>
 
       {/* Terminal Window */}
-      <div className="w-full max-w-4xl bg-white rounded-xl shadow-md overflow-hidden border border-gray-200">
+      <div className="w-full max-w-4xl bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200">
         {/* Title Bar */}
-        <div className="flex items-center px-4 py-2 bg-gray-50 border-b border-gray-200">
+        <div className="flex items-center px-4 py-2 bg-gray-800 text-white">
           <div className="flex space-x-2 mr-4">
-            <span className="w-3 h-3 bg-red-400 rounded-full"></span>
+            <span className="w-3 h-3 bg-red-500 rounded-full"></span>
             <span className="w-3 h-3 bg-yellow-400 rounded-full"></span>
-            <span className="w-3 h-3 bg-green-400 rounded-full"></span>
+            <span className="w-3 h-3 bg-green-500 rounded-full"></span>
           </div>
-          <span className="flex-1 text-center font-mono text-sm text-gray-600">
-            srachet-rai@cybersec-terminal ~ $
+          <span className="flex-1 text-center font-mono text-sm opacity-90">
+            srachet-rai@cybersec:{currentPath.join('/')} $
           </span>
-          <span className="text-xs text-gray-400">ENCRYPTED CONNECTION</span>
+          <span className="text-xs bg-green-900 text-green-300 px-2 py-0.5 rounded">SECURE</span>
         </div>
 
         {/* Terminal Content */}
@@ -547,8 +610,14 @@ export default function Terminal() {
         </div>
 
         {/* Footer / Status Bar */}
-        <div className="px-4 py-2 bg-gray-50 border-t border-gray-200 text-xs text-gray-500">
-          Type <kbd className="px-1 bg-gray-200 rounded">help</kbd>, <kbd className="px-1 bg-gray-200 rounded">scan</kbd>, <kbd className="px-1 bg-gray-200 rounded">matrix</kbd> or use ↑/↓ for history.
+        <div className="px-4 py-2 bg-gray-900 border-t border-gray-700 text-xs text-gray-400 flex justify-between items-center">
+          <div>
+            Type <kbd className="px-1 bg-gray-700 text-gray-300 rounded">help</kbd> for available commands
+          </div>
+          <div className="flex items-center space-x-3">
+            <span>Use <kbd className="px-1 bg-gray-700 text-gray-300 rounded">↑/↓</kbd> for history</span>
+            <span>Press <kbd className="px-1 bg-gray-700 text-gray-300 rounded">Tab</kbd> for autocompletion</span>
+          </div>
         </div>
       </div>
     </div>
