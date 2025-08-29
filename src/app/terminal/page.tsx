@@ -252,20 +252,14 @@ const COMMANDS: Record<string, CommandDefinition> = {
     description: "Show current date and time",
     execute: () => new Date().toString()
   },
-  banner: {
+banner: {
   description: "Display the welcome banner",
   execute: () => [
     "",
-    "   _____  _____            _____  _    _  ______  _______",
-    "  / ____||  __ \\     /\\   / ____|| |  | ||  ____||__   __|",
-    " | (___  | |__) |   /  \\ | |     | |__| || |__      | |   ",
-    "  \\___ \\ |  _  /   / /\\ \\| |     |  __  ||  __|     | |   ",
-    "  ____) || | \\ \\  / ____ \\ |____ | |  | || |____    | |   ",
-    " |_____/ |_|  \\_\\/_/    \\_\\_____||_|  |_||______|   |_|   ",
+    "SRACHET RAI",
+    "CYBERSECURITY PROFESSIONAL",
     "",
-    "                 CYBERSECURITY PROFESSIONAL                ",
-    "",
-    "                 Type 'help' to get started                ",
+    "Type 'help' to get started",
     ""
   ]
 }
