@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 import { Button } from "./ui/button";
-import { Menu } from "lucide-react";
+import { Menu, Terminal } from "lucide-react";
 import { ThemeToggle } from "./ThemeToggle";
 
 export function Navigation() {
@@ -30,6 +30,12 @@ export function Navigation() {
           </Button>
           <Button variant="ghost" asChild>
             <Link href="/certifications">Certifications</Link>
+          </Button>
+          <Button variant="ghost" asChild>
+            <Link href="/terminal" className="flex items-center gap-1.5">
+              <Terminal className="h-4 w-4" />
+              Terminal
+            </Link>
           </Button>
           <ThemeToggle />
         </div>
@@ -59,6 +65,12 @@ export function Navigation() {
                 </Button>
                 <Button variant="ghost" asChild>
                   <Link href="/certifications">Certifications</Link>
+                </Button>
+                <Button variant="ghost" asChild>
+                  <Link href="/terminal" className="flex items-center gap-1.5">
+                    <Terminal className="h-4 w-4" />
+                    Terminal
+                  </Link>
                 </Button>
               </div>
             </SheetContent>
