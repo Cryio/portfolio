@@ -142,7 +142,7 @@ function MatrixRain({ show }: { show: boolean }) {
 // --- Main Terminal Component ---
 export default function Terminal() {
   // Initial banner from COMMANDS.banner.execute()
-  const bannerLines = COMMANDS.banner.execute();
+  const bannerLines = COMMANDS.banner?.execute() ?? [];
   const initialBanner = Array.isArray(bannerLines) ? bannerLines : [bannerLines];
 
   // State
