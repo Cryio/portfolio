@@ -3,9 +3,29 @@
 import React, { useState, useRef, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
+// --- Typing Animation Helper ---
+function TypingAnimation({ text, speed = 17, onFinish }: { text: string, speed?: number, onFinish?: () => void }) {
+  const [displayed, setDisplayed] = useState("");
+  useEffect(() => {
+    let i = 0;
+    setDisplayed(""); // Reset for each new `text`
+    const timeout = setInterval(() => {
+      setDisplayed(t => text.slice(0, i++));
+      if (i > text.length) {
+        clearInterval(timeout);
+        onFinish?.();
+      }
+    }, speed);
+    return () => clearInterval(timeout);
+  }, [text]);
+  return <span>{displayed}<span className="animate-pulse text-green-400">|</span></span>;
+}
+
+// --- Command Registry ---
 interface CommandDefinition {
   description: string;
-  execute: () => string | string[];
+  execute: (args?: string[]) => string | string[];
+  usage?: string;
 }
 
 const COMMANDS: Record<string, CommandDefinition> = {
@@ -27,6 +47,7 @@ const COMMANDS: Record<string, CommandDefinition> = {
       "  decrypt [text] - ROT13 decrypt provided text",
       "  date - Show current date and time",
       "  banner - Display the welcome banner",
+      "  matrix - Toggle Matrix rain effect",
       "",
       "Type 'help [command]' for more information about a specific command."
     ]
@@ -182,14 +203,6 @@ const COMMANDS: Record<string, CommandDefinition> = {
     description: "Clear the terminal",
     execute: () => []
   },
-  encrypt: {
-    description: "ROT13 encrypt provided text",
-    execute: () => "Use: encrypt [text to encrypt]"
-  },
-  decrypt: {
-    description: "ROT13 decrypt provided text",
-    execute: () => "Use: decrypt [text to decrypt]"
-  },
   scan: {
     description: "Run a mock security scan",
     execute: () => [
@@ -212,10 +225,9 @@ const COMMANDS: Record<string, CommandDefinition> = {
       "Terminal security status: SECURE"
     ]
   },
-  // Keep the date and banner commands as they are
   date: {
     description: "Show current date and time",
-    execute: () => new Date().toString()
+    execute: () => [new Date().toString()]
   },
   certifications: {
     description: "List my certification details",
@@ -286,16 +298,56 @@ const COMMANDS: Record<string, CommandDefinition> = {
       "│         (this page is still under development)                      │",
       "└─────────────────────────────────────────────────────────────────────┘"
     ]
+  },
+  matrix: {
+    description: "Toggle Matrix rain background effect",
+    execute: () => [
+      "[Matrix effect toggled.]",
+      "Welcome to the Matrix... Follow the green code.",
+      "Run 'matrix' again to disable the effect."
+    ]
   }
 };
 
+// --- TerminalLine Model ---
 interface TerminalLine {
   id: number;
   content: string;
-  type: 'input' | 'output' | 'system' | 'warning' | 'success';
+  type: 'input' | 'output' | 'system' | 'warning' | 'success' | 'typing';
 }
 
+// --- Matrix Rain Visual (Enhanced SVG Effect) ---
+function MatrixRain({ show }: { show: boolean }) {
+  if (!show) return null;
+  
+  return (
+    <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden opacity-20">
+      <div className="matrix-rain">
+        {Array.from({ length: 50 }).map((_, i) => (
+          <div
+            key={i}
+            className="matrix-column"
+            style={{
+              left: `${i * 2}%`,
+              animationDelay: `${Math.random() * 2}s`,
+              animationDuration: `${3 + Math.random() * 2}s`
+            }}
+          >
+            {Array.from({ length: 20 }).map((_, j) => (
+              <span key={j} className="matrix-char">
+                {String.fromCharCode(0x30A0 + Math.floor(Math.random() * 96))}
+              </span>
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// --- Main Terminal Component ---
 export default function Terminal() {
+  // --- State ---
   const bannerLines = COMMANDS.banner.execute();
   const initialBanner = Array.isArray(bannerLines) ? bannerLines : [bannerLines];
 
@@ -314,11 +366,13 @@ export default function Terminal() {
   const [input, setInput] = useState("");
   const [commandHistory, setCommandHistory] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
-  const [lineCounter, setLineCounter] = useState(1);
+  const [lineCounter, setLineCounter] = useState(initialBanner.length + 1);
+  const [matrixOn, setMatrixOn] = useState(false);
 
   const inputRef = useRef<HTMLInputElement>(null);
   const terminalRef = useRef<HTMLDivElement>(null);
 
+  // --- Focus and Scroll on Output Change ---
   useEffect(() => {
     inputRef.current?.focus();
     if (terminalRef.current) {
@@ -326,6 +380,7 @@ export default function Terminal() {
     }
   }, [lines]);
 
+  // --- ROT13 Encryption/Decryption ---
   const rot13 = (text: string): string => {
     return text.replace(/[a-zA-Z]/g, (char) => {
       const base = char.toLowerCase() === char ? 'a'.charCodeAt(0) : 'A'.charCodeAt(0);
@@ -333,6 +388,7 @@ export default function Terminal() {
     });
   };
 
+  // --- Add Lines Helper ---
   const addLines = (newLines: string[], type: 'input' | 'output' | 'system' | 'warning' | 'success' = 'output') => {
     const linesToAdd = Array.isArray(newLines) ? newLines : [newLines];
     setLines(prev => [
@@ -346,7 +402,25 @@ export default function Terminal() {
     setLineCounter(lineCounter + linesToAdd.length);
   };
 
-  const handleCommand = (cmd: string) => {
+  // --- Typing Animation Handler ---
+  const typingOutput = async (texts: string[], delay = 5) => {
+    for (const text of texts) {
+      setLines(prev => [
+        ...prev,
+        { id: lineCounter + prev.length, content: text, type: "typing" }
+      ]);
+      await new Promise(res => setTimeout(res, text.length * delay + 100));
+      setLines(prev => prev.map(line =>
+        line.type === "typing" && line.content === text
+          ? { ...line, type: "output" }
+          : line
+      ));
+    }
+    setLineCounter(lc => lc + texts.length);
+  };
+
+  // --- Core Command Handling Logic ---
+  const handleCommand = async (cmd: string) => {
     // Add to command history if not empty and different from last command
     if (cmd.trim() && (commandHistory.length === 0 || commandHistory[0] !== cmd)) {
       setCommandHistory(prev => [cmd, ...prev.slice(0, 19)]); // Keep last 20 commands
@@ -355,12 +429,12 @@ export default function Terminal() {
 
     // Handle empty command
     if (!cmd.trim()) {
-      addLines([""], 'input');
+      addLines([`$ `], 'input');
       return;
     }
 
     // Add the command to terminal output
-    addLines([`${cmd}`], 'input');
+    addLines([`$ ${cmd}`], 'input');
 
     // Parse command and arguments
     const [command, ...args] = cmd.trim().split(' ');
@@ -372,12 +446,18 @@ export default function Terminal() {
       return;
     }
 
+    if (lowerCommand === 'matrix') {
+      setMatrixOn(e => !e);
+      await typingOutput(COMMANDS["matrix"].execute() as string[]);
+      return;
+    }
+
     if (lowerCommand === 'encrypt') {
       const text = args.join(' ');
       if (text) {
-        addLines([rot13(text)]);
+        await typingOutput([rot13(text)]);
       } else {
-        addLines(["Usage: encrypt [text to encrypt]"], 'warning');
+        await typingOutput(["Usage: encrypt [text to encrypt]"], 10);
       }
       return;
     }
@@ -385,9 +465,9 @@ export default function Terminal() {
     if (lowerCommand === 'decrypt') {
       const text = args.join(' ');
       if (text) {
-        addLines([rot13(text)]);
+        await typingOutput([rot13(text)]);
       } else {
-        addLines(["Usage: decrypt [text to decrypt]"], 'warning');
+        await typingOutput(["Usage: decrypt [text to decrypt]"], 10);
       }
       return;
     }
@@ -395,7 +475,7 @@ export default function Terminal() {
     if (lowerCommand === 'help' && args.length > 0) {
       const helpTopic = args[0].toLowerCase();
       if (COMMANDS[helpTopic]) {
-        addLines([
+        await typingOutput([
           `Command: ${helpTopic}`,
           `Description: ${COMMANDS[helpTopic].description}`,
           `Usage: ${helpTopic}`
@@ -406,17 +486,18 @@ export default function Terminal() {
 
     // Execute standard commands
     if (COMMANDS[lowerCommand]) {
-        const result = COMMANDS[lowerCommand].execute();
-        if (Array.isArray(result)) {
-            addLines(result);
-        } else {
-            addLines([result]);
-        }
+      const result = COMMANDS[lowerCommand].execute();
+      if (Array.isArray(result)) {
+        await typingOutput(result);
+      } else {
+        await typingOutput([result]);
+      }
     } else {
-        addLines([`Command not found: ${command}. Type 'help' for available commands.`], 'warning');
+      await typingOutput([`Command not found: ${command}. Type 'help' for available commands.`], 10);
     }
   };
 
+  // --- Handle Submit (Enter) ---
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (input !== null) {
@@ -425,6 +506,7 @@ export default function Terminal() {
     }
   };
 
+  // --- Arrow Up/Down & Tab for Command Navigation/Completion ---
   const handleKeyDown = (e: React.KeyboardEvent) => {
     // Handle up arrow for command history navigation
     if (e.key === 'ArrowUp') {
@@ -459,29 +541,33 @@ export default function Terminal() {
         if (matches.length === 1) {
           setInput(matches[0]);
         } else if (matches.length > 1) {
-          addLines([`> ${input}`, 'Available completions:']);
-          addLines(matches);
+          addLines([`Available completions: ${matches.join(', ')}`], 'system');
         }
       }
     }
   };
 
+  // --- Line Color Mapper ---
   const getLineColor = (type: string) => {
     switch(type) {
       case 'input': return 'text-cyan-400';
       case 'system': return 'text-purple-400';
       case 'warning': return 'text-yellow-500';
       case 'success': return 'text-green-500';
+      case 'typing': return 'text-green-400 flicker';
       default: return 'text-green-400';
     }
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-gray-900">
+    <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-gray-900 relative overflow-hidden">
+      {/* Matrix Rain Visual Effect */}
+      <MatrixRain show={matrixOn} />
+
       <div 
-        className="w-full max-w-4xl bg-gray-950 rounded-md overflow-hidden shadow-2xl border border-gray-800"
+        className="w-full max-w-4xl bg-gray-950 rounded-md overflow-hidden shadow-2xl border border-gray-800 relative z-10"
         style={{
-          boxShadow: "0 0 30px rgba(0, 255, 144, 0.15)",
+          boxShadow: matrixOn ? "0 0 50px #00FF41, 0 0 20px #00FF41" : "0 0 30px rgba(0, 255, 144, 0.15)",
         }}
       >
         {/* Terminal Header */}
@@ -515,8 +601,11 @@ export default function Terminal() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.2 }}
               >
-                {line.type === 'input' ? <span className="text-yellow-500">$ </span> : null}
-                {line.content}
+                {line.type === 'input' ? null : null}
+                {line.type === 'typing' 
+                  ? <TypingAnimation text={line.content} />
+                  : line.content
+                }
               </motion.div>
             ))}
           </AnimatePresence>
@@ -541,9 +630,51 @@ export default function Terminal() {
       </div>
       
       {/* Terminal Info */}
-      <div className="mt-4 text-gray-400 text-xs text-center">
-        <p>Type &apos;help&apos; for available commands • &apos;scan&apos; to run security check • Use Up/Down arrows for command history</p>
+      <div className="mt-4 text-gray-400 text-xs text-center relative z-10">
+        <p>Type 'help' for available commands • 'scan' to run security check • 'matrix' for effects • Use Up/Down arrows for command history</p>
       </div>
+
+      {/* CSS Animations */}
+      <style jsx>{`
+        .flicker {
+          animation: flickerAnim 2s infinite;
+        }
+        @keyframes flickerAnim {
+          0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; }
+          20%, 22%, 24%, 55% { opacity: 0.6; }
+        }
+        
+        .matrix-rain {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          overflow: hidden;
+        }
+        
+        .matrix-column {
+          position: absolute;
+          top: -100px;
+          width: 20px;
+          height: 100vh;
+          color: #00FF41;
+          font-family: monospace;
+          font-size: 14px;
+          animation: matrixFall linear infinite;
+        }
+        
+        @keyframes matrixFall {
+          0% { transform: translateY(-100vh); }
+          100% { transform: translateY(100vh); }
+        }
+        
+        .matrix-char {
+          display: block;
+          line-height: 1.2;
+          opacity: 0.8;
+        }
+      `}</style>
     </div>
   );
 }
