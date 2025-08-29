@@ -1,23 +1,31 @@
+// File: terminal.tsx
+
 'use client';
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
 // --- Typing Animation Helper ---
 function TypingAnimation({ text, speed = 17, onFinish }: { text: string, speed?: number, onFinish?: () => void }) {
   const [displayed, setDisplayed] = useState("");
+  
+  const memoizedOnFinish = useCallback(() => {
+    onFinish?.();
+  }, [onFinish]);
+  
   useEffect(() => {
     let i = 0;
     setDisplayed(""); // Reset for each new `text`
     const timeout = setInterval(() => {
-      setDisplayed(t => text.slice(0, i++));
+      setDisplayed(text.slice(0, i++));
       if (i > text.length) {
         clearInterval(timeout);
-        onFinish?.();
+        memoizedOnFinish();
       }
     }, speed);
     return () => clearInterval(timeout);
-  }, [text]);
+  }, [text, speed, memoizedOnFinish]);
+  
   return <span>{displayed}<span className="animate-pulse text-green-400">|</span></span>;
 }
 
@@ -49,7 +57,7 @@ const COMMANDS: Record<string, CommandDefinition> = {
       "  banner - Display the welcome banner",
       "  matrix - Toggle Matrix rain effect",
       "",
-      "Type 'help [command]' for more information about a specific command."
+      "Type &apos;help [command]&apos; for more information about a specific command."
     ]
   },
   about: {
@@ -112,10 +120,10 @@ const COMMANDS: Record<string, CommandDefinition> = {
       "",
       "4. Healthmate Zen Garden",
       "   - Wellness application combining meditation tracking and health monitoring",
-      "   - Interactive garden grows based on user's meditation progress",
+      "   - Interactive garden grows based on user&apos;s meditation progress",
       "   - Technologies: React Native, Node.js, MongoDB, WebGL",
       "",
-      "Type 'project [number]' for more details."
+      "Type &apos;project [number]&apos; for more details."
     ]
   },
   contact: {
@@ -183,7 +191,7 @@ const COMMANDS: Record<string, CommandDefinition> = {
       "• Cato Certified Associate (CCA) - Cato Networks (2025)",
       "• Machine Learning - Indian Institute of Technology, Bombay (2023)",
       "",
-      "Type 'certifications' for a more detailed list."
+      "Type &apos;certifications&apos; for a more detailed list."
     ]
   },
   social: {
@@ -194,6 +202,7 @@ const COMMANDS: Record<string, CommandDefinition> = {
       "└───────────────────────────────────────┘",
       "GitHub: github.com/Cryio",
       "LinkedIn: linkedin.com/in/srachetrai",
+      "HackTheBox: hackthebox.eu/profile/srachetrai",
       "TryHackMe: tryhackme.com/p/srachetrai",
       "Google Cloud: cloudskillsboost.google/public_profiles/b93a9482-9eb5-4db0-8cc4-3aaf176705c2"
     ]
@@ -293,7 +302,7 @@ const COMMANDS: Record<string, CommandDefinition> = {
       "│                                                                     │",
       "│               CYBERSECURITY PROFESSIONAL                            │",
       "│                                                                     │",
-      "│               Type 'help' to get started                            │",
+      "│               Type &apos;help&apos; to get started                            │",
       "│         (this page is still under development)                      │",
       "└─────────────────────────────────────────────────────────────────────┘"
     ]
@@ -303,7 +312,7 @@ const COMMANDS: Record<string, CommandDefinition> = {
     execute: () => [
       "[Matrix effect toggled.]",
       "Welcome to the Matrix... Follow the green code.",
-      "Run 'matrix' again to disable the effect."
+      "Run &apos;matrix&apos; again to disable the effect."
     ]
   }
 };
@@ -358,7 +367,7 @@ export default function Terminal() {
     })),
     { 
       id: initialBanner.length, 
-      content: "Type 'help' to see available commands", 
+      content: "Type &apos;help&apos; to see available commands", 
       type: 'system' 
     },
   ]);
@@ -388,25 +397,25 @@ export default function Terminal() {
   };
 
   // --- Add Lines Helper ---
-  const addLines = (newLines: string[], type: 'input' | 'output' | 'system' | 'warning' | 'success' = 'output') => {
+  const addLines = useCallback((newLines: string[], type: 'input' | 'output' | 'system' | 'warning' | 'success' = 'output') => {
     const linesToAdd = Array.isArray(newLines) ? newLines : [newLines];
     setLines(prev => [
       ...prev, 
-      ...linesToAdd.map(line => ({ 
-        id: lineCounter + prev.length, 
+      ...linesToAdd.map((line, index) => ({ 
+        id: prev.length + index + 1, 
         content: line, 
         type 
       }))
     ]);
-    setLineCounter(lineCounter + linesToAdd.length);
-  };
+    setLineCounter(prev => prev + linesToAdd.length);
+  }, []);
 
   // --- Typing Animation Handler ---
-  const typingOutput = async (texts: string[], delay = 5) => {
+  const typingOutput = useCallback(async (texts: string[], delay = 5) => {
     for (const text of texts) {
       setLines(prev => [
         ...prev,
-        { id: lineCounter + prev.length, content: text, type: "typing" }
+        { id: prev.length + 1, content: text, type: "typing" }
       ]);
       await new Promise(res => setTimeout(res, text.length * delay + 100));
       setLines(prev => prev.map(line =>
@@ -415,11 +424,11 @@ export default function Terminal() {
           : line
       ));
     }
-    setLineCounter(lc => lc + texts.length);
-  };
+    setLineCounter(prev => prev + texts.length);
+  }, []);
 
   // --- Core Command Handling Logic ---
-  const handleCommand = async (cmd: string) => {
+  const handleCommand = useCallback(async (cmd: string) => {
     // Add to command history if not empty and different from last command
     if (cmd.trim() && (commandHistory.length === 0 || commandHistory[0] !== cmd)) {
       setCommandHistory(prev => [cmd, ...prev.slice(0, 19)]); // Keep last 20 commands
@@ -492,9 +501,9 @@ export default function Terminal() {
         await typingOutput([result]);
       }
     } else {
-      await typingOutput([`Command not found: ${command}. Type 'help' for available commands.`], 10);
+      await typingOutput([`Command not found: ${command}. Type &apos;help&apos; for available commands.`], 10);
     }
-  };
+  }, [commandHistory, addLines, typingOutput, rot13]);
 
   // --- Handle Submit (Enter) ---
   const handleSubmit = (e: React.FormEvent) => {
@@ -600,7 +609,6 @@ export default function Terminal() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.2 }}
               >
-                {line.type === 'input' ? null : null}
                 {line.type === 'typing' 
                   ? <TypingAnimation text={line.content} />
                   : line.content
@@ -630,7 +638,7 @@ export default function Terminal() {
       
       {/* Terminal Info */}
       <div className="mt-4 text-gray-400 text-xs text-center relative z-10">
-        <p>Type 'help' for available commands • 'scan' to run security check • 'matrix' for effects • Use Up/Down arrows for command history</p>
+        <p>Type &apos;help&apos; for available commands • &apos;scan&apos; to run security check • &apos;matrix&apos; for effects • Use Up/Down arrows for command history</p>
       </div>
 
       {/* CSS Animations */}
