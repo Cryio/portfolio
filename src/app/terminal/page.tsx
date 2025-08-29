@@ -292,34 +292,37 @@ const COMMANDS: Record<string, CommandDefinition> = {
 
 interface TerminalLine {
   id: number;
-  content: string;
-  type: 'input' | 'output' | 'system' | 'warning' | 'success';
+  content: string | React.ReactNode;
+  type: 'input' | 'output' | 'system' | 'warning' | 'success' | 'banner';
 }
 
 export default function Terminal() {
-  // Get banner for initial display
   const bannerLines = COMMANDS.banner.execute();
-  const initialBanner = Array.isArray(bannerLines) ? bannerLines : [bannerLines];
+  const initialBanner = Array.isArray(bannerLines) ? bannerLines.join('\n') : bannerLines;
 
-  // Terminal state
+  // Special handling for the banner as a single pre-formatted block
   const [lines, setLines] = useState<TerminalLine[]>([
-    ...initialBanner.map((content, index) => ({
-      id: index,
-      content,
-      type: 'output' as const
-    })),
+    {
+      id: 0,
+      content: (
+        <pre className="text-green-400 dark:text-green-300 m-0 p-0 font-mono whitespace-pre leading-tight">
+          {initialBanner}
+        </pre>
+      ),
+      type: 'banner'
+    },
     { 
-      id: initialBanner.length, 
+      id: 1, 
       content: "Type 'help' to see available commands", 
       type: 'system' 
     },
   ]);
+  
   const [input, setInput] = useState("");
   const [commandHistory, setCommandHistory] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
-  const [lineCounter, setLineCounter] = useState(initialBanner.length + 1);
+  const [lineCounter, setLineCounter] = useState(2); 
   
-  // Path simulation state
   const [currentPath, setCurrentPath] = useState<string[]>(["~"]);
 
   const inputRef = useRef<HTMLInputElement>(null);
