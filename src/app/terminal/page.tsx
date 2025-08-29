@@ -357,7 +357,7 @@ export default function Terminal() {
             addLines([result]);
         }
     } else {
-    addLines([`Command not found: ${command}. Type &apos;help&apos; for available commands.`], 'warning');
+        addLines([`Command not found: ${command}. Type 'help' for available commands.`], 'warning');
     }
   };
 
