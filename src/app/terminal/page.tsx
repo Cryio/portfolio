@@ -482,7 +482,7 @@ export default function Terminal() {
       
       {/* Terminal Info */}
       <div className="mt-4 text-gray-400 text-xs text-center">
-        <p>Type 'help' for available commands • 'scan' to run security check • Use Up/Down arrows for command history</p>
+        <p>Type &apos;help&apos; for available commands • &apos;scan&apos; to run security check • Use Up/Down arrows for command history</p>
       </div>
     </div>
   );
