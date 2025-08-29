@@ -104,14 +104,14 @@ const COMMANDS: Record<string, CommandDefinition> = {
       "┌───────────────────────────────────────┐",
       "│ Contact Information                   │",
       "└───────────────────────────────────────┘",
-      "Email: srachet.rai@securemail.com",
-      "Phone: +1 (555) 123-4567",
-      "Location: San Francisco, CA",
+      "Email: ......",
+      "Phone: .....",
+      "Location: ......",
       "",
       "PGP Key: 0xF721AC3D45BF1E89",
       "Signal: Available upon request",
       "",
-      "Preferred contact method: Encrypted email"
+      "Preferred contact method: ......"
     ]
   },
   experience: {
