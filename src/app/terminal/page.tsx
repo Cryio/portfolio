@@ -49,8 +49,7 @@ const COMMANDS: Record<string, CommandDefinition> = {
       "sharing, research, and participating in CTF competitions. My goal is to",
       "make digital environments safer for everyone.",
       "",
-      "When not hunting threats, I enjoy exploring new security tools, participating",
-      "in bug bounty programs, and mentoring aspiring security professionals."
+      "When not hunting threats, I enjoy exploring new security tools",
     ]
   },
   skills: {
