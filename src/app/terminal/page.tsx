@@ -350,10 +350,14 @@ export default function Terminal() {
 
     // Execute standard commands
     if (COMMANDS[lowerCommand]) {
-      const result = COMMANDS[lowerCommand].execute();
-      addLines(result);
+        const result = COMMANDS[lowerCommand].execute();
+        if (Array.isArray(result)) {
+            addLines(result);
+        } else {
+            addLines([result]);
+        }
     } else {
-      addLines([`Command not found: ${command}. Type 'help' for available commands.`], 'warning');
+    addLines([`Command not found: ${command}. Type &apos;help&apos; for available commands.`], 'warning');
     }
   };
 
