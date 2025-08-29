@@ -194,7 +194,6 @@ const COMMANDS: Record<string, CommandDefinition> = {
       "└───────────────────────────────────────┘",
       "GitHub: github.com/Cryio",
       "LinkedIn: linkedin.com/in/srachetrai",
-      "HackTheBox: hackthebox.eu/profile/srachetrai",
       "TryHackMe: tryhackme.com/p/srachetrai",
       "Google Cloud: cloudskillsboost.google/public_profiles/b93a9482-9eb5-4db0-8cc4-3aaf176705c2"
     ]
