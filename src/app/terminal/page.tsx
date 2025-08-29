@@ -259,7 +259,6 @@ banner: {
     "SRACHET RAI",
     "CYBERSECURITY PROFESSIONAL",
     "",
-    "Type 'help' to get started",
     ""
   ]
 }
