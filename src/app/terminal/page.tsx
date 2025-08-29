@@ -1,50 +1,11 @@
 'use client';
 
-import React, { useState, useRef, useEffect, useCallback } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
-// --- Typing Animation Helper ---
-function TypingAnimation({
-  text,
-  speed = 17,
-  onFinish,
-}: {
-  text: string;
-  speed?: number;
-  onFinish?: () => void;
-}) {
-  const [displayed, setDisplayed] = useState("");
-
-  const memoizedOnFinish = useCallback(() => {
-    onFinish?.();
-  }, [onFinish]);
-
-  useEffect(() => {
-    let i = 0;
-    setDisplayed("");
-    const timeout = setInterval(() => {
-      setDisplayed(text.slice(0, i++));
-      if (i > text.length) {
-        clearInterval(timeout);
-        memoizedOnFinish();
-      }
-    }, speed);
-    return () => clearInterval(timeout);
-  }, [text, speed, memoizedOnFinish]);
-
-  return (
-    <span>
-      {displayed}
-      <span className="animate-pulse text-green-400">|</span>
-    </span>
-  );
-}
-
-// --- Command Registry (complete) ---
 interface CommandDefinition {
   description: string;
-  execute: (args?: string[]) => string | string[];
-  usage?: string;
+  execute: () => string | string[];
 }
 
 const COMMANDS: Record<string, CommandDefinition> = {
@@ -52,34 +13,23 @@ const COMMANDS: Record<string, CommandDefinition> = {
     description: "Show available commands",
     execute: () => [
       "Available commands:",
-      "  help       - Show this help message",
-      "  about      - Display information about me",
-      "  skills     - List my cybersecurity skills",
-      "  projects   - Show my security portfolio projects",
-      "  contact    - Display my contact information",
+      "  help - Show this help message",
+      "  about - Display information about me",
+      "  skills - List my cybersecurity skills",
+      "  projects - Show my security portfolio projects",
+      "  contact - Display my contact information",
       "  experience - Show my work experience",
-      "  education  - Display my educational background and certifications",
-      "  social     - List my professional profiles",
-      "  clear      - Clear the terminal",
-      "  scan       - Run a mock security scan",
-      "  encrypt    - ROT13 encrypt provided text",
-      "  decrypt    - ROT13 decrypt provided text",
-      "  date       - Show current date and time",
-      "  banner     - Display the welcome banner",
-      "  matrix     - Toggle Matrix rain effect",
+      "  education - Display my educational background and certifications",
+      "  social - List my professional profiles",
+      "  clear - Clear the terminal",
+      "  scan - Run a mock security scan",
+      "  encrypt [text] - ROT13 encrypt provided text",
+      "  decrypt [text] - ROT13 decrypt provided text",
+      "  date - Show current date and time",
+      "  banner - Display the welcome banner",
       "",
-      "Type 'help [command]' for more information about a specific command.",
-    ],
-    usage: "help [command]",
-  },
-  banner: {
-    description: "Display the welcome banner",
-    execute: () => [
-      "┌─────────────────────────────────────────────────────────────────────┐",
-      "│                       CYBERSEC TERMINAL                           │",
-      "│           Type 'help' to see available commands                   │",
-      "└─────────────────────────────────────────────────────────────────────┘",
-    ],
+      "Type 'help [command]' for more information about a specific command."
+    ]
   },
   about: {
     description: "Display information about me",
@@ -87,253 +37,518 @@ const COMMANDS: Record<string, CommandDefinition> = {
       "┌───────────────────────────────────────┐",
       "│ About Srachet Rai                     │",
       "└───────────────────────────────────────┘",
-      "Cybersecurity Enthusiast • Web Developer • Ethical Hacker",
-    ],
+      "I am a Cybersecurity Enthusiast with a solid foundation in web development",
+      "and ethical hacking. As a Computer Science student, I am dedicated to",
+      "securing digital infrastructures and addressing emerging cyber threats.",
+      "",
+      "I have contributed to impactful projects—including developing a mobile",
+      "application that tackles real-world health challenges—and earned certifications",
+      "in Ethical Hacking and Machine Learning. My goal is to deliver innovative,", 
+      "practical solutions that blend creativity with technical expertise.",
+      "",
+      "In my leadership roles with the Google Developers Student Club and",
+      "TEDxNIITUniversity, I drive innovation and leverage my animation skills",
+      "to craft immersive user experiences."
+    ]
   },
   skills: {
     description: "List my cybersecurity skills",
     execute: () => [
-      "Offensive Security: Penetration testing, Ethical hacking",
-      "Defensive Security: SIEM, IDS/IPS, Threat hunting",
-      "Network Security: Firewalls, VPN, Zero Trust",
-      "Cloud Security: AWS, Azure, GCP",
-      "Tools: Nessus, Burp Suite, Metasploit, Wireshark",
-      "Programming: Python, JavaScript, Bash",
-      "Certifications: Palo Alto, Cisco, CISA",
-    ],
+      "┌───────────────────────────────────────┐",
+      "│ Security Skills                       │",
+      "└───────────────────────────────────────┘",
+      "Offensive Security: Penetration testing, Vulnerability assessment, Ethical hacking",
+      "Defensive Security: SIEM, IDS/IPS, Threat hunting, Security monitoring",
+      "Network Security: Firewall management, VPN, Zero Trust architecture",
+      "Cloud Security: AWS, Azure, GCP security configurations",
+      "Security Tools: Nessus, OpenVAS, Burp Suite, Metasploit, SQLmap",
+      "Reverse Engineering: Ghidra, Frida, x64dbg, Cuckoo Sandbox",
+      "Network Analysis: Wireshark, Nikto, Responder, ExifTool",
+      "Programming: Python, JavaScript, Java, Bash scripting",
+      "Certifications: Palo Alto Networks, Cisco, Google Cloud Security"
+    ]
   },
   projects: {
     description: "Show my security portfolio projects",
     execute: () => [
-      "1. Wifi-CSI Activity Recognition (Python, TensorFlow)",
-      "2. TinyLinux Distro (C, Assembly, Linux Kernel)",
-      "3. TCPIP Synergy Toolkit (C++, Networking)",
-      "4. Healthmate Zen Garden App (React Native, Node.js)",
-    ],
+      "┌───────────────────────────────────────┐",
+      "│ Security Projects                     │",
+      "└───────────────────────────────────────┘",
+      "1. Wifi-CSI Based Activity Recognition",
+      "   - Developed machine learning model using WiFi Channel State Information",
+      "   - Recognizes human activities with high accuracy",
+      "   - Technologies: Python, TensorFlow, NumPy, Pandas",
+      "",
+      "2. TinyLinux",
+      "   - Created minimalist Linux distribution from scratch",
+      "   - Implemented custom kernel configurations and security hardening",
+      "   - Technologies: C, Assembly, Linux, Shell",
+      "",
+      "3. TCPIP Synergy",
+      "   - Comprehensive networking toolkit implementing TCP/IP protocols",
+      "   - Features packet analysis and network diagnostics",
+      "   - Technologies: C++, Networking, TCP/IP, Embedded Systems",
+      "",
+      "4. Healthmate Zen Garden",
+      "   - Wellness application combining meditation tracking and health monitoring",
+      "   - Interactive garden grows based on user's meditation progress",
+      "   - Technologies: React Native, Node.js, MongoDB, WebGL",
+      "",
+      "Type 'project [number]' for more details."
+    ]
   },
   contact: {
     description: "Display my contact information",
     execute: () => [
+      "┌───────────────────────────────────────┐",
+      "│ Contact Information                   │",
+      "└───────────────────────────────────────┘",
       "Email: srachetrai@gmail.com",
       "GitHub: github.com/Cryio",
       "LinkedIn: linkedin.com/in/srachetrai",
+      "",
       "PGP Key: 0xF721AC3D45BF1E89",
-    ],
+      "Signal: Available upon request",
+      "",
+      "Preferred contact method: Email"
+    ]
   },
   experience: {
     description: "Show my work experience",
     execute: () => [
-      "Intern – Cyber Security @ Fluidech IT Services (July 2025–Present)",
-      "Junior Web Designer @ Maa Karma Global (2023)",
-      "Design Core @ TEDxNIITUniversity (2023–2024)",
-    ],
+      "┌───────────────────────────────────────┐",
+      "│ Work Experience                       │",
+      "└───────────────────────────────────────┘",
+      "Technology Intern – Cyber Security | Fluidech IT Services Private Limited",
+      "Gurgaon, Haryana | July 2025 – Present",
+      "- Undertaking internship focused on core cyber security operations",
+      "- Working on threat intelligence and security operations",
+      "- Participating in vulnerability assessment and incident response",
+      "- Gaining hands-on experience in OT security and reverse engineering",
+      "",
+      "Junior Web Designer | Maa Karma Global Engineering LLP",
+      "Remote | 2023",
+      "- Designed and developed web interfaces in a remote internship",
+      "- Created responsive and user-friendly website layouts",
+      "- Implemented modern UI/UX principles in design solutions",
+      "- Developed responsive and accessible web solutions",
+      "",
+      "Design Core | TEDxNIITUniversity",
+      "Neemrana, Rajasthan | 2023 - 2024",
+      "- Worked on visual storytelling and creative direction for TEDx events",
+      "- Created engaging visual content for social media and event promotions",
+      "- Collaborated with speakers to develop presentation visuals",
+      "- Developed 3D designs and graphics for event branding"
+    ]
   },
   education: {
     description: "Display my educational background and certifications",
     execute: () => [
+      "┌───────────────────────────────────────┐",
+      "│ Education & Certifications            │",
+      "└───────────────────────────────────────┘",
       "BTech Computer Science & Engineering | NIIT University",
-      "Certifications: Palo Alto Networks, Cisco, CISA, Google Cloud",
-    ],
+      "",
+      "Key Certification Paths:",
+      "• Palo Alto Networks Certified Cybersecurity Practitioner (2024)",
+      "• Palo Alto Networks Certified Network Security Analyst (2024)",
+      "• Cisco Networking & Cybersecurity Track (2025)",
+      "• Google Cloud & AI Specialization (2023)",
+      "• Ethical Hacking & Penetration Testing Track (2021)",
+      "• Industrial Control Systems (ICS) Security - CISA (2024)",
+      "",
+      "Notable Individual Certifications:",
+      "• ICS 300 - CISA (2024)",
+      "• Cato Certified Associate (CCA) - Cato Networks (2025)",
+      "• Machine Learning - Indian Institute of Technology, Bombay (2023)",
+      "",
+      "Type 'certifications' for a more detailed list."
+    ]
   },
   social: {
     description: "List my professional profiles",
     execute: () => [
+      "┌───────────────────────────────────────┐",
+      "│ Professional Profiles                 │",
+      "└───────────────────────────────────────┘",
       "GitHub: github.com/Cryio",
       "LinkedIn: linkedin.com/in/srachetrai",
       "HackTheBox: hackthebox.eu/profile/srachetrai",
       "TryHackMe: tryhackme.com/p/srachetrai",
-    ],
+      "Google Cloud: cloudskillsboost.google/public_profiles/b93a9482-9eb5-4db0-8cc4-3aaf176705c2"
+    ]
   },
   clear: {
     description: "Clear the terminal",
-    execute: () => [],
+    execute: () => []
+  },
+  encrypt: {
+    description: "ROT13 encrypt provided text",
+    execute: () => "Use: encrypt [text to encrypt]"
+  },
+  decrypt: {
+    description: "ROT13 decrypt provided text",
+    execute: () => "Use: decrypt [text to decrypt]"
   },
   scan: {
     description: "Run a mock security scan",
     execute: () => [
-      "Security scan started...",
-      "No issues found. System secure.",
-    ],
+      "Initializing security scan...",
+      "Scanning network interfaces...",
+      "Analyzing open ports...",
+      "Checking for outdated software...",
+      "Examining firewall rules...",
+      "Searching for known vulnerabilities...",
+      "Reviewing security configurations...",
+      "",
+      "Security scan complete.",
+      "",
+      "Issues found: 0",
+      "Port scan: Clean",
+      "Vulnerability assessment: No critical findings",
+      "Software status: All up to date",
+      "System integrity: Verified",
+      "",
+      "Terminal security status: SECURE"
+    ]
   },
-  encrypt: {
-    description: "ROT13 encrypt provided text",
-    execute: () => ["Usage: encrypt [text]"],
-    usage: "encrypt [text]",
-  },
-  decrypt: {
-    description: "ROT13 decrypt provided text",
-    execute: () => ["Usage: decrypt [text]"],
-    usage: "decrypt [text]",
+  certifications: {
+    description: "List my certification details",
+    execute: () => [
+      "┌───────────────────────────────────────┐",
+      "│ Certifications                        │",
+      "└───────────────────────────────────────┘",
+      "Palo Alto Networks:",
+      "- Cloud Security Fundamentals",
+      "- Cybersecurity Fundamentals",
+      "- Endpoint Security",
+      "- Network Security Fundamentals",
+      "- Security Operations Fundamentals",
+      "- Decryption - Features",
+      "- PAN-OS",
+      "- Panorama - Features",
+      "- Strata Logging Service - Features",
+      "",
+      "Cisco Networking:",
+      "- Introduction to Cybersecurity",
+      "- Networking Basics",
+      "- Networking Devices and Initial Configuration",
+      "",
+      "Google Cloud & AI:",
+      "- Cloud Computing Fundamentals",
+      "- Infrastructure in Google Cloud",
+      "- Networking",
+      "- Data, ML, and AI in Google Cloud",
+      "- Generative AI Fundamentals",
+      "- Prompt Engineering",
+      "- Introduction to Large Language Models",
+      "",
+      "CISA ICS Security:",
+      "- Differences in Deployments of Industrial Control Systems",
+      "- Influence of IT Components on Industrial Control Systems",
+      "- Common ICS Components",
+      "- ICS 300",
+      "",
+      "Udemy Courses:",
+      "- Learn Ethical Hacking By Hacking Real Websites Legally",
+      "- Start Kali Linux, Ethical Hacking and Penetration Testing",
+      "- Python Programming",
+      "- Introduction to Blender"
+    ]
   },
   date: {
     description: "Show current date and time",
-    execute: () => [new Date().toString()],
+    execute: () => new Date().toString()
   },
-  matrix: {
-    description: "Toggle Matrix rain background effect",
-    execute: () => ["[Matrix toggled]"],
-  },
+  banner: {
+    description: "Display the welcome banner",
+    execute: () => [
+      "┌─────────────────────────────────────────────────────────────────────┐",
+      "│                                                                     │",
+      "│   ███████╗██████╗  █████╗  ██████╗██╗  ██╗███████╗████████╗        │",
+      "│   ██╔════╝██╔══██╗██╔══██╗██╔════╝██║  ██║██╔════╝╚══██╔══╝        │",
+      "│   ███████╗██████╔╝███████║██║     ███████║█████╗     ██║           │",
+      "│   ╚════██║██╔══██╗██╔══██║██║     ██╔══██║██╔══╝     ██║           │",
+      "│   ███████║██║  ██║██║  ██║╚██████╗██║  ██║███████╗   ██║           │",
+      "│   ╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝╚══════╝   ╚═╝           │",
+      "│                                                                     │",
+      "│   ██████╗  █████╗ ██╗                                              │",
+      "│   ██╔══██╗██╔══██╗██║                                              │",
+      "│   ██████╔╝███████║██║                                              │",
+      "│   ██╔══██╗██╔══██║██║                                              │",
+      "│   ██║  ██║██║  ██║██║                                              │",
+      "│   ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝                                              │",
+      "│                                                                     │",
+      "│               CYBERSECURITY PROFESSIONAL                            │",
+      "│                                                                     │",
+      "│               Type 'help' to get started                            │",
+      "│         (this page is still under development)                      │",
+      "└─────────────────────────────────────────────────────────────────────┘"
+    ]
+  }
 };
 
-// --- TerminalLine Model ---
 interface TerminalLine {
   id: number;
   content: string;
-  type: "input" | "output" | "system" | "warning" | "success" | "typing";
+  type: 'input' | 'output' | 'system' | 'warning' | 'success';
 }
 
-// --- Matrix Rain Visual ---
-function MatrixRain({ show }: { show: boolean }) {
-  if (!show) return null;
-  return (
-    <div className="absolute inset-0 pointer-events-none z-0 opacity-20">
-      {/* same column/rain code */}
-    </div>
-  );
-}
-
-// --- Main Terminal Component ---
 export default function Terminal() {
-  // Safe banner
   const bannerLines = COMMANDS.banner.execute();
   const initialBanner = Array.isArray(bannerLines) ? bannerLines : [bannerLines];
 
   const [lines, setLines] = useState<TerminalLine[]>([
-    ...initialBanner.map((content, idx) => ({ id: idx, content, type: "output" })),
-    { id: initialBanner.length, content: "Type 'help' to see available commands", type: "system" },
+    ...initialBanner.map((content, index) => ({
+      id: index,
+      content,
+      type: 'output' as const
+    })),
+    { 
+      id: initialBanner.length, 
+      content: "Type 'help' to see available commands", 
+      type: 'system' 
+    },
   ]);
   const [input, setInput] = useState("");
-  const [history, setHistory] = useState<string[]>([]);
-  const [idx, setIdx] = useState(-1);
-  const [matrixOn, setMatrixOn] = useState(false);
+  const [commandHistory, setCommandHistory] = useState<string[]>([]);
+  const [historyIndex, setHistoryIndex] = useState(-1);
+  const [lineCounter, setLineCounter] = useState(1);
 
   const inputRef = useRef<HTMLInputElement>(null);
-  const termRef = useRef<HTMLDivElement>(null);
+  const terminalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     inputRef.current?.focus();
-    if (termRef.current) termRef.current.scrollTop = termRef.current.scrollHeight;
+    if (terminalRef.current) {
+      terminalRef.current.scrollTop = terminalRef.current.scrollHeight;
+    }
   }, [lines]);
 
-  const addLines = useCallback((newLines: string[], type: TerminalLine["type"] = "output") => {
-    setLines((p) => [
-      ...p,
-      ...newLines.map((c, i) => ({ id: p.length + i, content: c, type })),
-    ]);
-  }, []);
-
-  const typeOut = useCallback(async (texts: string[]) => {
-    for (const t of texts) {
-      setLines((p) => [...p, { id: p.length, content: t, type: "typing" }]);
-      // await small delay
-      // then convert to output...
-      setLines((p) => p.map((ln) => (ln.content === t && ln.type === "typing" ? { ...ln, type: "output" } : ln)));
-    }
-  }, []);
-
-  const handleCmd = useCallback(async (cmd: string) => {
-    addLines([`$ ${cmd}`], "input");
-    setHistory((h) => (h[0] === cmd ? h : [cmd, ...h.slice(0, 19)]));
-    setIdx(-1);
-
-    // inline rot13
-    const rot13 = (s: string) =>
-      s.replace(/[A-Za-z]/g, (c) => String.fromCharCode(((c.charCodeAt(0) & 31) + 12) % 26 + (c < "a" ? 65 : 97)));
-
-    const [c, ...a] = cmd.trim().split(" ");
-    const lc = c.toLowerCase();
-
-    if (lc === "clear") return setLines([]);
-    if (lc === "matrix") {
-      setMatrixOn((m) => !m);
-      return typeOut(COMMANDS.matrix.execute());
-    }
-    if (lc === "encrypt" || lc === "decrypt") {
-      if (!a.length) return typeOut([`Usage: ${lc} [text]`]);
-      return typeOut([rot13(a.join(" "))]);
-    }
-    if (lc === "help" && a.length) {
-      const k = a[0].toLowerCase();
-      if (COMMANDS[k]) return typeOut([
-        `Command: ${k}`,
-        `Description: ${COMMANDS[k].description}`,
-        `Usage: ${COMMANDS[k].usage || k}`,
-      ]);
-    }
-    if (COMMANDS[lc]) return typeOut(COMMANDS[lc].execute(a));
-
-    return typeOut([`Command not found: ${c}. Type 'help' for available commands.`]);
-  }, [addLines, typeOut]);
-
-  const onSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (input) handleCmd(input);
-    setInput("");
+  const rot13 = (text: string): string => {
+    return text.replace(/[a-zA-Z]/g, (char) => {
+      const base = char.toLowerCase() === char ? 'a'.charCodeAt(0) : 'A'.charCodeAt(0);
+      return String.fromCharCode((char.charCodeAt(0) - base + 13) % 26 + base);
+    });
   };
 
-  const onKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "ArrowUp") {
-      e.preventDefault();
-      if (idx < history.length - 1) {
-        const ni = idx + 1;
-        setIdx(ni);
-        setInput(history[ni]);
-      }
-    } else if (e.key === "ArrowDown") {
-      e.preventDefault();
-      if (idx > 0) {
-        const ni = idx - 1;
-        setIdx(ni);
-        setInput(history[ni]);
+  const addLines = (newLines: string[], type: 'input' | 'output' | 'system' | 'warning' | 'success' = 'output') => {
+    const linesToAdd = Array.isArray(newLines) ? newLines : [newLines];
+    setLines(prev => [
+      ...prev, 
+      ...linesToAdd.map(line => ({ 
+        id: lineCounter + prev.length, 
+        content: line, 
+        type 
+      }))
+    ]);
+    setLineCounter(lineCounter + linesToAdd.length);
+  };
+
+  const handleCommand = (cmd: string) => {
+    // Add to command history if not empty and different from last command
+    if (cmd.trim() && (commandHistory.length === 0 || commandHistory[0] !== cmd)) {
+      setCommandHistory(prev => [cmd, ...prev.slice(0, 19)]); // Keep last 20 commands
+    }
+    setHistoryIndex(-1);
+
+    // Handle empty command
+    if (!cmd.trim()) {
+      addLines([""], 'input');
+      return;
+    }
+
+    // Add the command to terminal output
+    addLines([`${cmd}`], 'input');
+
+    // Parse command and arguments
+    const [command, ...args] = cmd.trim().split(' ');
+    const lowerCommand = command.toLowerCase();
+
+    // Special command handlers
+    if (lowerCommand === 'clear') {
+      setLines([]);
+      return;
+    }
+
+    if (lowerCommand === 'encrypt') {
+      const text = args.join(' ');
+      if (text) {
+        addLines([rot13(text)]);
       } else {
-        setIdx(-1);
+        addLines(["Usage: encrypt [text to encrypt]"], 'warning');
+      }
+      return;
+    }
+
+    if (lowerCommand === 'decrypt') {
+      const text = args.join(' ');
+      if (text) {
+        addLines([rot13(text)]);
+      } else {
+        addLines(["Usage: decrypt [text to decrypt]"], 'warning');
+      }
+      return;
+    }
+
+    if (lowerCommand === 'help' && args.length > 0) {
+      const helpTopic = args[0].toLowerCase();
+      if (COMMANDS[helpTopic]) {
+        addLines([
+          `Command: ${helpTopic}`,
+          `Description: ${COMMANDS[helpTopic].description}`,
+          `Usage: ${helpTopic}`
+        ]);
+        return;
+      }
+    }
+
+    // Execute standard commands
+    if (COMMANDS[lowerCommand]) {
+        const result = COMMANDS[lowerCommand].execute();
+        if (Array.isArray(result)) {
+            addLines(result);
+        } else {
+            addLines([result]);
+        }
+    } else {
+        addLines([`Command not found: ${command}. Type 'help' for available commands.`], 'warning');
+    }
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (input !== null) {
+      handleCommand(input);
+      setInput("");
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    // Handle up arrow for command history navigation
+    if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      if (commandHistory.length > 0 && historyIndex < commandHistory.length - 1) {
+        const newIndex = historyIndex + 1;
+        setHistoryIndex(newIndex);
+        setInput(commandHistory[newIndex]);
+      }
+    }
+    
+    // Handle down arrow for command history navigation
+    else if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      if (historyIndex > 0) {
+        const newIndex = historyIndex - 1;
+        setHistoryIndex(newIndex);
+        setInput(commandHistory[newIndex]);
+      } else if (historyIndex === 0) {
+        setHistoryIndex(-1);
         setInput("");
       }
-    } else if (e.key === "Tab") {
+    }
+    
+    // Handle tab for command completion
+    else if (e.key === 'Tab') {
       e.preventDefault();
-      const m = Object.keys(COMMANDS).filter((k) => k.startsWith(input.trim()));
-      if (m.length === 1) setInput(m[0]);
-      else if (m.length > 1) addLines([`Available: ${m.join(", ")}`], "system");
+      if (input.trim()) {
+        const matches = Object.keys(COMMANDS).filter(cmd => 
+          cmd.startsWith(input.trim().toLowerCase())
+        );
+        if (matches.length === 1) {
+          setInput(matches[0]);
+        } else if (matches.length > 1) {
+          addLines([`> ${input}`, 'Available completions:']);
+          addLines(matches);
+        }
+      }
+    }
+  };
+
+  const getLineColor = (type: string) => {
+    switch(type) {
+      case 'input': return 'text-cyan-400';
+      case 'system': return 'text-purple-400';
+      case 'warning': return 'text-yellow-500';
+      case 'success': return 'text-green-500';
+      default: return 'text-green-400';
     }
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-gray-900">
-      <MatrixRain show={matrixOn} />
-      <div className="w-full max-w-3xl bg-gray-800 rounded overflow-hidden shadow">
-        {/* header */}
-        <div className="p-2 bg-gray-700 text-gray-300 font-mono flex justify-between">
-          <div className="flex space-x-1"><span className="w-3 h-3 bg-red-500 rounded-full"/><span className="w-3 h-3 bg-yellow-500 rounded-full"/><span className="w-3 h-3 bg-green-500 rounded-full"/></div>
-          <div>srachet-rai@cybersec-terminal ~ $</div>
-          <div className="opacity-50 text-xs">ENCRYPTED</div>
+    <div className="flex flex-col items-center justify-start min-h-screen bg-gray-100 py-8">
+      {/* Page Header + Breadcrumbs */}
+      <header className="w-full max-w-4xl px-4 mb-4">
+        <nav className="text-sm text-gray-500">
+          <ol className="inline-flex items-center space-x-1">
+            <li><a href="/" className="hover:text-gray-700">Home</a></li>
+            <li>›</li>
+            <li><span className="text-gray-700 font-medium">Terminal</span></li>
+          </ol>
+        </nav>
+        <h1 className="mt-2 text-2xl font-semibold text-gray-800">Cybersec Terminal</h1>
+      </header>
+
+      {/* Terminal Window */}
+      <div className="w-full max-w-4xl bg-white rounded-xl shadow-md overflow-hidden border border-gray-200">
+        {/* Title Bar */}
+        <div className="flex items-center px-4 py-2 bg-gray-50 border-b border-gray-200">
+          <div className="flex space-x-2 mr-4">
+            <span className="w-3 h-3 bg-red-400 rounded-full"></span>
+            <span className="w-3 h-3 bg-yellow-400 rounded-full"></span>
+            <span className="w-3 h-3 bg-green-400 rounded-full"></span>
+          </div>
+          <span className="flex-1 text-center font-mono text-sm text-gray-600">
+            srachet-rai@cybersec-terminal ~ $
+          </span>
+          <span className="text-xs text-gray-400">ENCRYPTED CONNECTION</span>
         </div>
-        {/* body */}
-        <div ref={termRef} className="p-4 bg-black text-green-400 font-mono h-[60vh] overflow-y-auto">
+
+        {/* Terminal Content */}
+        <div
+          ref={terminalRef}
+          className="relative p-6 bg-black font-mono text-sm text-green-400 h-[60vh] overflow-y-auto"
+          onClick={() => inputRef.current?.focus()}
+          style={{
+            backgroundImage: "linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px)",
+            backgroundSize: "100% 24px",
+          }}
+        >
           <AnimatePresence>
-            {lines.map((ln) => (
-              <motion.div key={ln.id} className={`${ln.type === "input" ? "text-cyan-400" : ""} mb-1`}
-                initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.2 }}>
-                {ln.type === "typing" ? <TypingAnimation text={ln.content} /> : ln.content}
+            {lines.map((line) => (
+              <motion.div
+                key={line.id}
+                className={`mb-1 ${getLineColor(line.type)}`}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.18 }}
+              >
+                {line.type === "input" && (
+                  <span className="text-yellow-300 font-semibold">$ </span>
+                )}
+                {line.content}
               </motion.div>
             ))}
           </AnimatePresence>
-          <form onSubmit={onSubmit} className="flex mt-2">
-            <span className="text-yellow-400">$</span>
+
+          {/* Input */}
+          <form onSubmit={handleSubmit} className="flex items-center mt-4 sticky bottom-0 bg-black py-2">
+            <span className="text-yellow-300 mr-2 font-semibold">$</span>
             <input
               ref={inputRef}
-              className="flex-1 bg-transparent ml-2 focus:outline-none"
+              className="flex-grow bg-transparent text-green-300 focus:outline-none text-sm"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              onKeyDown={onKeyDown}
+              onKeyDown={handleKeyDown}
               autoComplete="off"
               spellCheck="false"
-              autoFocus
             />
           </form>
         </div>
-        {/* footer */}
-        <div className="p-2 text-gray-400 text-xs text-center">
-          Type 'help' • 'scan' • 'matrix' • Arrow keys for history
+
+        {/* Footer / Status Bar */}
+        <div className="px-4 py-2 bg-gray-50 border-t border-gray-200 text-xs text-gray-500">
+          Type <kbd className="px-1 bg-gray-200 rounded">help</kbd>, <kbd className="px-1 bg-gray-200 rounded">scan</kbd>, <kbd className="px-1 bg-gray-200 rounded">matrix</kbd> or use ↑/↓ for history.
         </div>
       </div>
     </div>
