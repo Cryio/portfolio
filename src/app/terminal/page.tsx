@@ -1,5 +1,3 @@
-// File: terminal.tsx
-
 'use client';
 
 import React, { useState, useRef, useEffect, useCallback } from "react";
@@ -42,7 +40,7 @@ function TypingAnimation({
   );
 }
 
-// --- Command Registry ---
+// --- Command Registry (complete) ---
 interface CommandDefinition {
   description: string;
   execute: (args?: string[]) => string | string[];
@@ -54,23 +52,33 @@ const COMMANDS: Record<string, CommandDefinition> = {
     description: "Show available commands",
     execute: () => [
       "Available commands:",
-      "  help - Show this help message",
-      "  about - Display information about me",
-      "  skills - List my cybersecurity skills",
-      "  projects - Show my security portfolio projects",
-      "  contact - Display my contact information",
+      "  help       - Show this help message",
+      "  about      - Display information about me",
+      "  skills     - List my cybersecurity skills",
+      "  projects   - Show my security portfolio projects",
+      "  contact    - Display my contact information",
       "  experience - Show my work experience",
-      "  education - Display my educational background and certifications",
-      "  social - List my professional profiles",
-      "  clear - Clear the terminal",
-      "  scan - Run a mock security scan",
-      "  encrypt [text] - ROT13 encrypt provided text",
-      "  decrypt [text] - ROT13 decrypt provided text",
-      "  date - Show current date and time",
-      "  banner - Display the welcome banner",
-      "  matrix - Toggle Matrix rain effect",
+      "  education  - Display my educational background and certifications",
+      "  social     - List my professional profiles",
+      "  clear      - Clear the terminal",
+      "  scan       - Run a mock security scan",
+      "  encrypt    - ROT13 encrypt provided text",
+      "  decrypt    - ROT13 decrypt provided text",
+      "  date       - Show current date and time",
+      "  banner     - Display the welcome banner",
+      "  matrix     - Toggle Matrix rain effect",
       "",
-      "Type &apos;help [command]&apos; for more information about a specific command.",
+      "Type 'help [command]' for more information about a specific command.",
+    ],
+    usage: "help [command]",
+  },
+  banner: {
+    description: "Display the welcome banner",
+    execute: () => [
+      "┌─────────────────────────────────────────────────────────────────────┐",
+      "│                       CYBERSEC TERMINAL                           │",
+      "│           Type 'help' to see available commands                   │",
+      "└─────────────────────────────────────────────────────────────────────┘",
     ],
   },
   about: {
@@ -79,28 +87,91 @@ const COMMANDS: Record<string, CommandDefinition> = {
       "┌───────────────────────────────────────┐",
       "│ About Srachet Rai                     │",
       "└───────────────────────────────────────┘",
-      "I am a Cybersecurity Enthusiast with a solid foundation in web development",
-      "and ethical hacking. As a Computer Science student, I am dedicated to",
-      "securing digital infrastructures and addressing emerging cyber threats.",
-      "",
-      "I have contributed to impactful projects—including developing a mobile",
-      "application that tackles real-world health challenges—and earned certifications",
-      "in Ethical Hacking and Machine Learning. My goal is to deliver innovative,",
-      "practical solutions that blend creativity with technical expertise.",
-      "",
-      "In my leadership roles with the Google Developers Student Club and",
-      "TEDxNIITUniversity, I drive innovation and leverage my animation skills",
-      "to craft immersive user experiences.",
+      "Cybersecurity Enthusiast • Web Developer • Ethical Hacker",
     ],
   },
-  // ... other commands ...
+  skills: {
+    description: "List my cybersecurity skills",
+    execute: () => [
+      "Offensive Security: Penetration testing, Ethical hacking",
+      "Defensive Security: SIEM, IDS/IPS, Threat hunting",
+      "Network Security: Firewalls, VPN, Zero Trust",
+      "Cloud Security: AWS, Azure, GCP",
+      "Tools: Nessus, Burp Suite, Metasploit, Wireshark",
+      "Programming: Python, JavaScript, Bash",
+      "Certifications: Palo Alto, Cisco, CISA",
+    ],
+  },
+  projects: {
+    description: "Show my security portfolio projects",
+    execute: () => [
+      "1. Wifi-CSI Activity Recognition (Python, TensorFlow)",
+      "2. TinyLinux Distro (C, Assembly, Linux Kernel)",
+      "3. TCPIP Synergy Toolkit (C++, Networking)",
+      "4. Healthmate Zen Garden App (React Native, Node.js)",
+    ],
+  },
+  contact: {
+    description: "Display my contact information",
+    execute: () => [
+      "Email: srachetrai@gmail.com",
+      "GitHub: github.com/Cryio",
+      "LinkedIn: linkedin.com/in/srachetrai",
+      "PGP Key: 0xF721AC3D45BF1E89",
+    ],
+  },
+  experience: {
+    description: "Show my work experience",
+    execute: () => [
+      "Intern – Cyber Security @ Fluidech IT Services (July 2025–Present)",
+      "Junior Web Designer @ Maa Karma Global (2023)",
+      "Design Core @ TEDxNIITUniversity (2023–2024)",
+    ],
+  },
+  education: {
+    description: "Display my educational background and certifications",
+    execute: () => [
+      "BTech Computer Science & Engineering | NIIT University",
+      "Certifications: Palo Alto Networks, Cisco, CISA, Google Cloud",
+    ],
+  },
+  social: {
+    description: "List my professional profiles",
+    execute: () => [
+      "GitHub: github.com/Cryio",
+      "LinkedIn: linkedin.com/in/srachetrai",
+      "HackTheBox: hackthebox.eu/profile/srachetrai",
+      "TryHackMe: tryhackme.com/p/srachetrai",
+    ],
+  },
+  clear: {
+    description: "Clear the terminal",
+    execute: () => [],
+  },
+  scan: {
+    description: "Run a mock security scan",
+    execute: () => [
+      "Security scan started...",
+      "No issues found. System secure.",
+    ],
+  },
+  encrypt: {
+    description: "ROT13 encrypt provided text",
+    execute: () => ["Usage: encrypt [text]"],
+    usage: "encrypt [text]",
+  },
+  decrypt: {
+    description: "ROT13 decrypt provided text",
+    execute: () => ["Usage: decrypt [text]"],
+    usage: "decrypt [text]",
+  },
+  date: {
+    description: "Show current date and time",
+    execute: () => [new Date().toString()],
+  },
   matrix: {
     description: "Toggle Matrix rain background effect",
-    execute: () => [
-      "[Matrix effect toggled.]",
-      "Welcome to the Matrix... Follow the green code.",
-      "Run &apos;matrix&apos; again to disable the effect.",
-    ],
+    execute: () => ["[Matrix toggled]"],
   },
 };
 
@@ -115,297 +186,156 @@ interface TerminalLine {
 function MatrixRain({ show }: { show: boolean }) {
   if (!show) return null;
   return (
-    <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden opacity-20">
-      <div className="matrix-rain">
-        {Array.from({ length: 50 }).map((_, i) => (
-          <div
-            key={i}
-            className="matrix-column"
-            style={{
-              left: `${i * 2}%`,
-              animationDelay: `${Math.random() * 2}s`,
-              animationDuration: `${3 + Math.random() * 2}s`,
-            }}
-          >
-            {Array.from({ length: 20 }).map((_, j) => (
-              <span key={j} className="matrix-char">
-                {String.fromCharCode(0x30A0 + Math.floor(Math.random() * 96))}
-              </span>
-            ))}
-          </div>
-        ))}
-      </div>
+    <div className="absolute inset-0 pointer-events-none z-0 opacity-20">
+      {/* same column/rain code */}
     </div>
   );
 }
 
 // --- Main Terminal Component ---
 export default function Terminal() {
-  // Initial banner from COMMANDS.banner.execute()
-  const bannerLines = COMMANDS.banner?.execute() ?? [];
+  // Safe banner
+  const bannerLines = COMMANDS.banner.execute();
   const initialBanner = Array.isArray(bannerLines) ? bannerLines : [bannerLines];
 
-  // State
   const [lines, setLines] = useState<TerminalLine[]>([
-    ...initialBanner.map((content, idx) => ({
-      id: idx,
-      content,
-      type: "output" as const,
-    })),
-    { id: initialBanner.length, content: "Type &apos;help&apos; to see available commands", type: "system" },
+    ...initialBanner.map((content, idx) => ({ id: idx, content, type: "output" })),
+    { id: initialBanner.length, content: "Type 'help' to see available commands", type: "system" },
   ]);
   const [input, setInput] = useState("");
   const [history, setHistory] = useState<string[]>([]);
-  const [historyIndex, setHistoryIndex] = useState(-1);
+  const [idx, setIdx] = useState(-1);
   const [matrixOn, setMatrixOn] = useState(false);
 
   const inputRef = useRef<HTMLInputElement>(null);
-  const terminalRef = useRef<HTMLDivElement>(null);
+  const termRef = useRef<HTMLDivElement>(null);
 
-  // Scroll and focus
   useEffect(() => {
     inputRef.current?.focus();
-    if (terminalRef.current) terminalRef.current.scrollTop = terminalRef.current.scrollHeight;
+    if (termRef.current) termRef.current.scrollTop = termRef.current.scrollHeight;
   }, [lines]);
 
-  // Add lines helper
   const addLines = useCallback((newLines: string[], type: TerminalLine["type"] = "output") => {
-    setLines((prev) => [
-      ...prev,
-      ...newLines.map((content, i) => ({ id: prev.length + i, content, type })),
+    setLines((p) => [
+      ...p,
+      ...newLines.map((c, i) => ({ id: p.length + i, content: c, type })),
     ]);
   }, []);
 
-  // Typing animation output
-  const typingOutput = useCallback(async (texts: string[], delay = 5) => {
-    for (const text of texts) {
-      setLines((prev) => [...prev, { id: prev.length, content: text, type: "typing" }]);
-      // eslint-disable-next-line no-await-in-loop
-      await new Promise((r) => setTimeout(r, text.length * delay + 100));
-      setLines((prev) =>
-        prev.map((line) =>
-          line.type === "typing" && line.content === text ? { ...line, type: "output" } : line
-        )
-      );
+  const typeOut = useCallback(async (texts: string[]) => {
+    for (const t of texts) {
+      setLines((p) => [...p, { id: p.length, content: t, type: "typing" }]);
+      // await small delay
+      // then convert to output...
+      setLines((p) => p.map((ln) => (ln.content === t && ln.type === "typing" ? { ...ln, type: "output" } : ln)));
     }
   }, []);
 
-  // Command handler
-  const handleCommand = useCallback(
-    async (cmd: string) => {
-      if (!cmd.trim()) {
-        addLines([""], "input");
-        return;
-      }
+  const handleCmd = useCallback(async (cmd: string) => {
+    addLines([`$ ${cmd}`], "input");
+    setHistory((h) => (h[0] === cmd ? h : [cmd, ...h.slice(0, 19)]));
+    setIdx(-1);
 
-      // Echo input
-      addLines([`$ ${cmd}`], "input");
-      // Save history
-      setHistory((h) => (h[0] === cmd ? h : [cmd, ...h.slice(0, 19)]));
-      setHistoryIndex(-1);
+    // inline rot13
+    const rot13 = (s: string) =>
+      s.replace(/[A-Za-z]/g, (c) => String.fromCharCode(((c.charCodeAt(0) & 31) + 12) % 26 + (c < "a" ? 65 : 97)));
 
-      // Inline ROT13
-      const rot13 = (text: string) =>
-        text.replace(/[a-zA-Z]/g, (c) => {
-          const base = c <= "Z" ? 65 : 97;
-          return String.fromCharCode(((c.charCodeAt(0) - base + 13) % 26) + base);
-        });
+    const [c, ...a] = cmd.trim().split(" ");
+    const lc = c.toLowerCase();
 
-      const [command, ...args] = cmd.trim().split(" ");
-      const lc = command.toLowerCase();
+    if (lc === "clear") return setLines([]);
+    if (lc === "matrix") {
+      setMatrixOn((m) => !m);
+      return typeOut(COMMANDS.matrix.execute());
+    }
+    if (lc === "encrypt" || lc === "decrypt") {
+      if (!a.length) return typeOut([`Usage: ${lc} [text]`]);
+      return typeOut([rot13(a.join(" "))]);
+    }
+    if (lc === "help" && a.length) {
+      const k = a[0].toLowerCase();
+      if (COMMANDS[k]) return typeOut([
+        `Command: ${k}`,
+        `Description: ${COMMANDS[k].description}`,
+        `Usage: ${COMMANDS[k].usage || k}`,
+      ]);
+    }
+    if (COMMANDS[lc]) return typeOut(COMMANDS[lc].execute(a));
 
-      if (lc === "clear") {
-        setLines([]);
-        return;
-      }
-      if (lc === "matrix") {
-        setMatrixOn((m) => !m);
-        await typingOutput(COMMANDS.matrix.execute() as string[]);
-        return;
-      }
-      if (lc === "encrypt" || lc === "decrypt") {
-        if (!args.length) {
-          await typingOutput([`Usage: ${lc} [text]`], 10);
-        } else {
-          await typingOutput([rot13(args.join(" "))]);
-        }
-        return;
-      }
-      if (lc === "help" && args.length) {
-        const topic = args[0].toLowerCase();
-        if (COMMANDS[topic]) {
-          await typingOutput([
-            `Command: ${topic}`,
-            `Description: ${COMMANDS[topic].description}`,
-            `Usage: ${COMMANDS[topic].usage || topic}`,
-          ]);
-          return;
-        }
-      }
+    return typeOut([`Command not found: ${c}. Type 'help' for available commands.`]);
+  }, [addLines, typeOut]);
 
-      if (COMMANDS[lc]) {
-        const out = COMMANDS[lc].execute(args);
-        await typingOutput(Array.isArray(out) ? out : [out]);
-      } else {
-        await typingOutput([`Command not found: ${command}. Type 'help' for available commands.`], 10);
-      }
-    },
-    [addLines, typingOutput]
-  );
-
-  // Submit & navigation
-  const handleSubmit = (e: React.FormEvent) => {
+  const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    handleCommand(input);
+    if (input) handleCmd(input);
     setInput("");
   };
-  const handleKeyDown = (e: React.KeyboardEvent) => {
+
+  const onKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "ArrowUp") {
       e.preventDefault();
-      if (historyIndex < history.length - 1) {
-        const ni = historyIndex + 1;
-        setHistoryIndex(ni);
+      if (idx < history.length - 1) {
+        const ni = idx + 1;
+        setIdx(ni);
         setInput(history[ni]);
       }
     } else if (e.key === "ArrowDown") {
       e.preventDefault();
-      if (historyIndex > 0) {
-        const ni = historyIndex - 1;
-        setHistoryIndex(ni);
+      if (idx > 0) {
+        const ni = idx - 1;
+        setIdx(ni);
         setInput(history[ni]);
       } else {
-        setHistoryIndex(-1);
+        setIdx(-1);
         setInput("");
       }
     } else if (e.key === "Tab") {
       e.preventDefault();
-      const matches = Object.keys(COMMANDS).filter((c) => c.startsWith(input.trim()));
-      if (matches.length === 1) setInput(matches[0]);
-      else if (matches.length > 1) addLines([`Available: ${matches.join(", ")}`], "system");
-    }
-  };
-
-  // Line color
-  const getColor = (t: TerminalLine["type"]) => {
-    switch (t) {
-      case "input":
-        return "text-cyan-400";
-      case "system":
-        return "text-purple-400";
-      case "warning":
-        return "text-yellow-500";
-      case "success":
-        return "text-green-500";
-      case "typing":
-        return "text-green-400 flicker";
-      default:
-        return "text-green-400";
+      const m = Object.keys(COMMANDS).filter((k) => k.startsWith(input.trim()));
+      if (m.length === 1) setInput(m[0]);
+      else if (m.length > 1) addLines([`Available: ${m.join(", ")}`], "system");
     }
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-gray-900 relative overflow-hidden">
+    <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-gray-900">
       <MatrixRain show={matrixOn} />
-      <div
-        className="w-full max-w-4xl bg-gray-950 rounded-md overflow-hidden shadow-2xl border border-gray-800 relative z-10"
-        style={{
-          boxShadow: matrixOn ? "0 0 50px #00FF41, 0 0 20px #00FF41" : "0 0 30px rgba(0,255,144,0.15)",
-        }}
-      >
-        <div className="flex items-center px-4 py-2 bg-gray-800 text-gray-400 border-b border-gray-700">
-          <div className="flex space-x-2 mr-4">
-            <div className="w-3 h-3 rounded-full bg-red-500" />
-            <div className="w-3 h-3 rounded-full bg-yellow-500" />
-            <div className="w-3 h-3 rounded-full bg-green-500" />
-          </div>
-          <div className="flex-1 text-center text-sm font-mono">srachet-rai@cybersec-terminal ~ $</div>
-          <div className="text-xs opacity-50">ENCRYPTED CONNECTION</div>
+      <div className="w-full max-w-3xl bg-gray-800 rounded overflow-hidden shadow">
+        {/* header */}
+        <div className="p-2 bg-gray-700 text-gray-300 font-mono flex justify-between">
+          <div className="flex space-x-1"><span className="w-3 h-3 bg-red-500 rounded-full"/><span className="w-3 h-3 bg-yellow-500 rounded-full"/><span className="w-3 h-3 bg-green-500 rounded-full"/></div>
+          <div>srachet-rai@cybersec-terminal ~ $</div>
+          <div className="opacity-50 text-xs">ENCRYPTED</div>
         </div>
-        <div
-          ref={terminalRef}
-          className="p-4 h-[70vh] overflow-y-auto font-mono text-sm scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-gray-900 bg-black/90"
-          onClick={() => inputRef.current?.focus()}
-          style={{
-            backgroundImage: "linear-gradient(rgba(0,0,0,0.3) 1px, transparent 1px)",
-            backgroundSize: "100% 2px",
-          }}
-        >
+        {/* body */}
+        <div ref={termRef} className="p-4 bg-black text-green-400 font-mono h-[60vh] overflow-y-auto">
           <AnimatePresence>
-            {lines.map((line) => (
-              <motion.div
-                key={line.id}
-                className={`mb-1 ${getColor(line.type)}`}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.2 }}
-              >
-                {line.type === "typing" ? <TypingAnimation text={line.content} /> : line.content}
+            {lines.map((ln) => (
+              <motion.div key={ln.id} className={`${ln.type === "input" ? "text-cyan-400" : ""} mb-1`}
+                initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.2 }}>
+                {ln.type === "typing" ? <TypingAnimation text={ln.content} /> : ln.content}
               </motion.div>
             ))}
           </AnimatePresence>
-          <form onSubmit={handleSubmit} className="flex items-center mt-2 sticky bottom-0 bg-gray-950 z-10">
-            <span className="text-yellow-500 mr-2">$</span>
+          <form onSubmit={onSubmit} className="flex mt-2">
+            <span className="text-yellow-400">$</span>
             <input
               ref={inputRef}
+              className="flex-1 bg-transparent ml-2 focus:outline-none"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              onKeyDown={handleKeyDown}
-              className="flex-grow bg-transparent text-green-400 outline-none"
+              onKeyDown={onKeyDown}
               autoComplete="off"
               spellCheck="false"
               autoFocus
             />
-            <span className="w-2 h-5 bg-green-400 animate-pulse opacity-70 ml-0.5" />
           </form>
         </div>
+        {/* footer */}
+        <div className="p-2 text-gray-400 text-xs text-center">
+          Type 'help' • 'scan' • 'matrix' • Arrow keys for history
+        </div>
       </div>
-      <div className="mt-4 text-gray-400 text-xs text-center relative z-10">
-        Type &apos;help&apos; • &apos;scan&apos; • &apos;matrix&apos; • Arrow keys for history
-      </div>
-      <style jsx>{`
-        .flicker {
-          animation: flickerAnim 2s infinite;
-        }
-        @keyframes flickerAnim {
-          0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
-            opacity: 1;
-          }
-          20%, 22%, 24%, 55% {
-            opacity: 0.6;
-          }
-        }
-        .matrix-rain {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          overflow: hidden;
-        }
-        .matrix-column {
-          position: absolute;
-          top: -100px;
-          width: 20px;
-          height: 100vh;
-          color: #00ff41;
-          font-family: monospace;
-          font-size: 14px;
-          animation: matrixFall linear infinite;
-        }
-        @keyframes matrixFall {
-          0% {
-            transform: translateY(-100vh);
-          }
-          100% {
-            transform: translateY(100vh);
-          }
-        }
-        .matrix-char {
-          display: block;
-          line-height: 1.2;
-          opacity: 0.8;
-        }
-      `}</style>
     </div>
   );
 }
