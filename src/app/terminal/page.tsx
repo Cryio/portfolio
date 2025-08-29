@@ -24,13 +24,9 @@ const COMMANDS: Record<string, CommandDefinition> = {
       "  education - Display my educational background and certifications",
       "  social - List my professional profiles",
       "  clear - Clear the terminal",
-      "  scan - Run a mock security scan",
       "  encrypt [text] - ROT13 encrypt provided text",
       "  decrypt [text] - ROT13 decrypt provided text",
       "  date - Show current date and time",
-      "  banner - Display the welcome banner",
-      "  cd [directory] - Change directory (simulation)",
-      "  pwd - Print working directory",
       "",
       "Type 'help [command]' for more information about a specific command."
     ]
@@ -88,7 +84,7 @@ const COMMANDS: Record<string, CommandDefinition> = {
       "   - Implemented custom kernel configurations and security hardening",
       "   - Technologies: C, Assembly, Linux, Shell",
       "",
-      "3. TCPIP Synergy",
+      "3. TCPIP",
       "   - Comprehensive networking toolkit implementing TCP/IP protocols",
       "   - Features packet analysis and network diagnostics",
       "   - Technologies: C++, Networking, TCP/IP, Embedded Systems",
@@ -177,7 +173,6 @@ const COMMANDS: Record<string, CommandDefinition> = {
       "└───────────────────────────────────────┘",
       "GitHub: github.com/Cryio",
       "LinkedIn: linkedin.com/in/srachetrai",
-      "HackTheBox: hackthebox.eu/profile/srachetrai",
       "TryHackMe: tryhackme.com/p/srachetrai",
       "Google Cloud: cloudskillsboost.google/public_profiles/b93a9482-9eb5-4db0-8cc4-3aaf176705c2"
     ]
@@ -200,16 +195,11 @@ const COMMANDS: Record<string, CommandDefinition> = {
       "Initializing security scan...",
       "Scanning network interfaces...",
       "Analyzing open ports...",
-      "Checking for outdated software...",
-      "Examining firewall rules...",
-      "Searching for known vulnerabilities...",
-      "Reviewing security configurations...",
       "",
       "Security scan complete.",
       "",
       "Issues found: 0",
       "Port scan: Clean",
-      "Vulnerability assessment: No critical findings",
       "Software status: All up to date",
       "System integrity: Verified",
       ""    ]
@@ -263,31 +253,24 @@ const COMMANDS: Record<string, CommandDefinition> = {
     execute: () => new Date().toString()
   },
   banner: {
-    description: "Display the welcome banner",
-    execute: () => [
-      "┌─────────────────────────────────────────────────────────────────────┐",
-      "│                                                                     │",
-      "│   ███████╗██████╗  █████╗  ██████╗██╗  ██╗███████╗████████╗        │",
-      "│   ██╔════╝██╔══██╗██╔══██╗██╔════╝██║  ██║██╔════╝╚══██╔══╝        │",
-      "│   ███████╗██████╔╝███████║██║     ███████║█████╗     ██║           │",
-      "│   ╚════██║██╔══██╗██╔══██║██║     ██╔══██║██╔══╝     ██║           │",
-      "│   ███████║██║  ██║██║  ██║╚██████╗██║  ██║███████╗   ██║           │",
-      "│   ╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝╚══════╝   ╚═╝           │",
-      "│                                                                     │",
-      "│   ██████╗  █████╗ ██╗                                              │",
-      "│   ██╔══██╗██╔══██╗██║                                              │",
-      "│   ██████╔╝███████║██║                                              │",
-      "│   ██╔══██╗██╔══██║██║                                              │",
-      "│   ██║  ██║██║  ██║██║                                              │",
-      "│   ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝                                              │",
-      "│                                                                     │",
-      "│               CYBERSECURITY PROFESSIONAL                            │",
-      "│                                                                     │",
-      "│               Type 'help' to get started                            │",
-      "│                                                                     │",
-      "└─────────────────────────────────────────────────────────────────────┘"
-    ]
-  }
+  description: "Display the welcome banner",
+  execute: () => [
+    "+=============================================================+",
+    "|                                                             |",
+    "|   _____ _____                  _____ _    _ ______ _______  |",
+    "|  / ____|  __ \\      /\\     / ____ | |  | |  ____|__   __| |",
+    "| | (___ | |__) |     /  \\   | |     | |__| | |__     | |    |",
+    "|  \\___ \\|  _ /    / /\ \\  | |     |  __  |  __|    | |    |",
+    "|  ____) | | \\ \\  / ____ \\ | |____ | |  | |______   | |    |",
+    "| |_____/|_|  \\_\\/_/    \_\\ \______|_|  |_|______|  |_|    |",
+    "|                                                             |",
+    "|                 CYBERSECURITY PROFESSIONAL                  |",
+    "|                                                             |",
+    "|                 Type 'help' to get started                  |",
+    "|                                                             |",
+    "+=============================================================+"
+  ]
+}
 };
 
 interface TerminalLine {
