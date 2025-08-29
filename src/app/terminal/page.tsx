@@ -29,6 +29,8 @@ const COMMANDS: Record<string, CommandDefinition> = {
       "  decrypt [text] - ROT13 decrypt provided text",
       "  date - Show current date and time",
       "  banner - Display the welcome banner",
+      "  cd [directory] - Change directory (simulation)",
+      "  pwd - Print working directory",
       "",
       "Type 'help [command]' for more information about a specific command."
     ]
@@ -284,7 +286,7 @@ const COMMANDS: Record<string, CommandDefinition> = {
       "│               CYBERSECURITY PROFESSIONAL                            │",
       "│                                                                     │",
       "│               Type 'help' to get started                            │",
-      "│         (this page is still under development)                      │",
+      "│                                                                     │",
       "└─────────────────────────────────────────────────────────────────────┘"
     ]
   }
@@ -297,9 +299,11 @@ interface TerminalLine {
 }
 
 export default function Terminal() {
+  // Get banner for initial display
   const bannerLines = COMMANDS.banner.execute();
   const initialBanner = Array.isArray(bannerLines) ? bannerLines : [bannerLines];
 
+  // Terminal state
   const [lines, setLines] = useState<TerminalLine[]>([
     ...initialBanner.map((content, index) => ({
       id: index,
@@ -315,9 +319,9 @@ export default function Terminal() {
   const [input, setInput] = useState("");
   const [commandHistory, setCommandHistory] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
-  const [lineCounter, setLineCounter] = useState(1);
+  const [lineCounter, setLineCounter] = useState(initialBanner.length + 1);
   
-  // Added state for breadcrumb path
+  // Path simulation state
   const [currentPath, setCurrentPath] = useState<string[]>(["~"]);
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -330,6 +334,7 @@ export default function Terminal() {
     }
   }, [lines]);
 
+  // ROT13 implementation for encrypt/decrypt
   const rot13 = (text: string): string => {
     return text.replace(/[a-zA-Z]/g, (char) => {
       const base = char.toLowerCase() === char ? 'a'.charCodeAt(0) : 'A'.charCodeAt(0);
@@ -337,6 +342,7 @@ export default function Terminal() {
     });
   };
 
+  // Add lines to terminal output
   const addLines = (newLines: string[], type: 'input' | 'output' | 'system' | 'warning' | 'success' = 'output') => {
     const linesToAdd = Array.isArray(newLines) ? newLines : [newLines];
     setLines(prev => [
@@ -350,6 +356,7 @@ export default function Terminal() {
     setLineCounter(lineCounter + linesToAdd.length);
   };
 
+  // Handle command execution
   const handleCommand = (cmd: string) => {
     // Add to command history if not empty and different from last command
     if (cmd.trim() && (commandHistory.length === 0 || commandHistory[0] !== cmd)) {
@@ -376,7 +383,7 @@ export default function Terminal() {
       return;
     }
     
-    // Added cd command for navigation
+    // Directory navigation commands
     if (lowerCommand === 'cd') {
       if (args.length === 0 || args[0] === '~') {
         setCurrentPath(["~"]);
@@ -396,12 +403,13 @@ export default function Terminal() {
       return;
     }
     
-    // Added pwd command to show current path
+    // Show current directory
     if (lowerCommand === 'pwd') {
       addLines([`Current directory: ${currentPath.join('/')}`], 'system');
       return;
     }
 
+    // Encrypt/decrypt handlers
     if (lowerCommand === 'encrypt') {
       const text = args.join(' ');
       if (text) {
@@ -422,6 +430,7 @@ export default function Terminal() {
       return;
     }
 
+    // Help command with topic
     if (lowerCommand === 'help' && args.length > 0) {
       const helpTopic = args[0].toLowerCase();
       if (COMMANDS[helpTopic]) {
@@ -447,6 +456,7 @@ export default function Terminal() {
     }
   };
 
+  // Form submission handler
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (input !== null) {
@@ -455,6 +465,7 @@ export default function Terminal() {
     }
   };
 
+  // Keyboard navigation handler
   const handleKeyDown = (e: React.KeyboardEvent) => {
     // Handle up arrow for command history navigation
     if (e.key === 'ArrowUp') {
@@ -496,43 +507,44 @@ export default function Terminal() {
     }
   };
 
+  // Color functions for terminal lines with theme-aware colors
   const getLineColor = (type: string) => {
     switch(type) {
-      case 'input': return 'text-cyan-400';
-      case 'system': return 'text-purple-400';
-      case 'warning': return 'text-yellow-500';
-      case 'success': return 'text-green-500';
-      default: return 'text-green-400';
+      case 'input': return 'text-cyan-400 dark:text-cyan-300';
+      case 'system': return 'text-purple-400 dark:text-purple-300';
+      case 'warning': return 'text-yellow-500 dark:text-yellow-300';
+      case 'success': return 'text-green-500 dark:text-green-300';
+      default: return 'text-green-400 dark:text-green-300';
     }
   };
 
   return (
-    <div className="flex flex-col items-center justify-start min-h-screen bg-gray-100 py-8 pt-24">
-      {/* Enhanced Breadcrumbs with proper Next.js Links */}
+    <div className="flex flex-col items-center justify-start min-h-screen bg-gray-100 dark:bg-gray-900 py-8 pt-24 transition-colors duration-200">
+      {/* Theme-aware breadcrumbs and header */}
       <header className="w-full max-w-4xl px-4 mb-6">
         <nav aria-label="Breadcrumb" className="mb-4">
-          <ol className="flex items-center space-x-2 text-sm text-gray-500">
+          <ol className="flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400">
             <li className="flex items-center">
               <Link 
                 href="/" 
-                className="flex items-center hover:text-primary transition-colors"
+                className="flex items-center hover:text-primary dark:hover:text-primary transition-colors"
               >
                 <Home className="h-4 w-4 mr-1" />
                 <span>Home</span>
               </Link>
             </li>
             <li className="flex items-center">
-              <ChevronRight className="h-4 w-4 mx-1 text-gray-400" aria-hidden="true" />
+              <ChevronRight className="h-4 w-4 mx-1 text-gray-400 dark:text-gray-600" aria-hidden="true" />
               <Link 
                 href="/projects" 
-                className="hover:text-primary transition-colors"
+                className="hover:text-primary dark:hover:text-primary transition-colors"
               >
                 Projects
               </Link>
             </li>
             <li className="flex items-center">
-              <ChevronRight className="h-4 w-4 mx-1 text-gray-400" aria-hidden="true" />
-              <span className="font-medium text-gray-800 flex items-center">
+              <ChevronRight className="h-4 w-4 mx-1 text-gray-400 dark:text-gray-600" aria-hidden="true" />
+              <span className="font-medium text-gray-800 dark:text-gray-300 flex items-center">
                 <TerminalIcon className="h-4 w-4 mr-1 text-primary" />
                 Terminal
               </span>
@@ -541,21 +553,20 @@ export default function Terminal() {
         </nav>
         
         <div className="flex justify-between items-center">
-          <h1 className="text-3xl font-bold text-gray-800">Security Terminal</h1>
-          <div className="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full flex items-center">
+          <div className="px-2 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-300 text-xs rounded-full flex items-center">
             <span className="h-2 w-2 bg-green-500 rounded-full mr-1"></span>
             Connected
           </div>
         </div>
-        <p className="text-gray-600 mt-1">
+        <p className="text-gray-600 dark:text-gray-400 mt-1">
           Explore my background through an interactive command-line interface
         </p>
       </header>
 
-      {/* Terminal Window */}
-      <div className="w-full max-w-4xl bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200">
+      {/* Theme-aware terminal window */}
+      <div className="w-full max-w-4xl bg-white dark:bg-gray-800 rounded-xl shadow-lg dark:shadow-gray-900/30 overflow-hidden border border-gray-200 dark:border-gray-700 transition-colors duration-200">
         {/* Title Bar */}
-        <div className="flex items-center px-4 py-2 bg-gray-800 text-white">
+        <div className="flex items-center px-4 py-2 bg-gray-800 dark:bg-gray-900 text-white">
           <div className="flex space-x-2 mr-4">
             <span className="w-3 h-3 bg-red-500 rounded-full"></span>
             <span className="w-3 h-3 bg-yellow-400 rounded-full"></span>
@@ -567,7 +578,7 @@ export default function Terminal() {
           <span className="text-xs bg-green-900 text-green-300 px-2 py-0.5 rounded">SECURE</span>
         </div>
 
-        {/* Terminal Content */}
+        {/* Terminal Content - Always keep black background for authentic terminal look */}
         <div
           ref={terminalRef}
           className="relative p-6 bg-black font-mono text-sm text-green-400 h-[60vh] overflow-y-auto"
@@ -577,6 +588,7 @@ export default function Terminal() {
             backgroundSize: "100% 24px",
           }}
         >
+          {/* Terminal lines with animation */}
           <AnimatePresence>
             {lines.map((line) => (
               <motion.div
@@ -587,7 +599,7 @@ export default function Terminal() {
                 transition={{ duration: 0.18 }}
               >
                 {line.type === "input" && (
-                  <span className="text-yellow-300 font-semibold">$ </span>
+                  <span className="text-yellow-300 dark:text-yellow-200 font-semibold">$ </span>
                 )}
                 {line.content}
               </motion.div>
@@ -596,7 +608,7 @@ export default function Terminal() {
 
           {/* Input */}
           <form onSubmit={handleSubmit} className="flex items-center mt-4 sticky bottom-0 bg-black py-2">
-            <span className="text-yellow-300 mr-2 font-semibold">$</span>
+            <span className="text-yellow-300 dark:text-yellow-200 mr-2 font-semibold">$</span>
             <input
               ref={inputRef}
               className="flex-grow bg-transparent text-green-300 focus:outline-none text-sm"
@@ -610,13 +622,13 @@ export default function Terminal() {
         </div>
 
         {/* Footer / Status Bar */}
-        <div className="px-4 py-2 bg-gray-900 border-t border-gray-700 text-xs text-gray-400 flex justify-between items-center">
+        <div className="px-4 py-2 bg-gray-900 dark:bg-black border-t border-gray-700 text-xs text-gray-400 flex justify-between items-center">
           <div>
-            Type <kbd className="px-1 bg-gray-700 text-gray-300 rounded">help</kbd> for available commands
+            Type <kbd className="px-1 bg-gray-700 dark:bg-gray-800 text-gray-300 dark:text-gray-200 rounded">help</kbd> for available commands
           </div>
           <div className="flex items-center space-x-3">
-            <span>Use <kbd className="px-1 bg-gray-700 text-gray-300 rounded">↑/↓</kbd> for history</span>
-            <span>Press <kbd className="px-1 bg-gray-700 text-gray-300 rounded">Tab</kbd> for autocompletion</span>
+            <span>Use <kbd className="px-1 bg-gray-700 dark:bg-gray-800 text-gray-300 dark:text-gray-200 rounded">↑/↓</kbd> for history</span>
+            <span>Press <kbd className="px-1 bg-gray-700 dark:bg-gray-800 text-gray-300 dark:text-gray-200 rounded">Tab</kbd> for autocompletion</span>
           </div>
         </div>
       </div>
