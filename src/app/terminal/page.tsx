@@ -250,8 +250,20 @@ interface TerminalLine {
 }
 
 export default function Terminal() {
+  const bannerLines = COMMANDS.banner.execute();
+  const initialBanner = Array.isArray(bannerLines) ? bannerLines : [bannerLines];
+
   const [lines, setLines] = useState<TerminalLine[]>([
-    { id: 0, content: "Type 'banner' to display welcome message or 'help' to see available commands.(this page is still under development)", type: 'system' },
+    ...initialBanner.map((content, index) => ({
+      id: index,
+      content,
+      type: 'output' as const
+    })),
+    { 
+      id: initialBanner.length, 
+      content: "Type 'help' to see available commands (this page is still under development)", 
+      type: 'system' 
+    },
   ]);
   const [input, setInput] = useState("");
   const [commandHistory, setCommandHistory] = useState<string[]>([]);
