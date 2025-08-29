@@ -237,7 +237,7 @@ const COMMANDS: Record<string, CommandDefinition> = {
       "│               CYBERSECURITY PROFESSIONAL                            │",
       "│                                                                     │",
       "│               Type 'help' to get started                            │",
-      "│                                                                     │",
+      "│         (this page is still under development)                      │",
       "└─────────────────────────────────────────────────────────────────────┘"
     ]
   }
@@ -261,7 +261,7 @@ export default function Terminal() {
     })),
     { 
       id: initialBanner.length, 
-      content: "Type 'help' to see available commands (this page is still under development)", 
+      content: "Type 'help' to see available commands", 
       type: 'system' 
     },
   ]);
@@ -275,13 +275,11 @@ export default function Terminal() {
 
   useEffect(() => {
     inputRef.current?.focus();
-    // Auto-scroll to bottom when lines change
     if (terminalRef.current) {
       terminalRef.current.scrollTop = terminalRef.current.scrollHeight;
     }
   }, [lines]);
 
-  // ROT13 encryption/decryption function
   const rot13 = (text: string): string => {
     return text.replace(/[a-zA-Z]/g, (char) => {
       const base = char.toLowerCase() === char ? 'a'.charCodeAt(0) : 'A'.charCodeAt(0);

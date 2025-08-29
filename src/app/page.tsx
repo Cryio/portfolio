@@ -1,7 +1,8 @@
 import Image from "next/image";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { TechnologyCard } from "@/components/TechnologyCard";
-import { Download, Github, Linkedin } from "lucide-react";
+import { Download, Github, Linkedin, Terminal } from "lucide-react";
 import { Role } from "@/components/Experience";
 import { Project } from "@/components/Project";
 import { Certifications } from "@/components/Certifications";
@@ -35,6 +36,12 @@ export default function Home() {
                 <Download className="h-5 w-5" />
                 Download CV
               </a>
+            </Button>
+            <Button size="lg" asChild>
+              <Link href="/terminal" className="flex items-center gap-2">
+                <Terminal className="h-5 w-5" />
+                <span>Try the Security Terminal</span>
+              </Link>
             </Button>
             <Button size="lg" variant="outline" asChild>
               <a href={`mailto:${portfolioData.contact.email}`}>
