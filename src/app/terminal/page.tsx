@@ -212,9 +212,7 @@ const COMMANDS: Record<string, CommandDefinition> = {
       "Vulnerability assessment: No critical findings",
       "Software status: All up to date",
       "System integrity: Verified",
-      "",
-      "Terminal security status: SECURE"
-    ]
+      ""    ]
   },
   certifications: {
     description: "List my certification details",
@@ -552,12 +550,6 @@ export default function Terminal() {
           </ol>
         </nav>
         
-        <div className="flex justify-between items-center">
-          <div className="px-2 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-300 text-xs rounded-full flex items-center">
-            <span className="h-2 w-2 bg-green-500 rounded-full mr-1"></span>
-            Connected
-          </div>
-        </div>
         <p className="text-gray-600 dark:text-gray-400 mt-1">
           Explore my background through an interactive command-line interface
         </p>
@@ -575,7 +567,10 @@ export default function Terminal() {
           <span className="flex-1 text-center font-mono text-sm opacity-90">
             srachet-rai@cybersec:{currentPath.join('/')} $
           </span>
-          <span className="text-xs bg-green-900 text-green-300 px-2 py-0.5 rounded">SECURE</span>
+            <div className="px-2 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-300 text-xs rounded-full flex items-center">
+            <span className="h-2 w-2 bg-green-500 rounded-full mr-1"></span>
+            Connected
+          </div>
         </div>
 
         {/* Terminal Content - Always keep black background for authentic terminal look */}
