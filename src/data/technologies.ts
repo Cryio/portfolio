@@ -50,13 +50,13 @@ export const technologyLogos = {
   x64dbgWhite: "assets/tech/x64dbgWhite.png",
 
   azure: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/azure/azure-original.svg",
-  cato: "assets/tech/cato.svg",
-  dfirIris: "assets/tech/dfir-iris.svg",
-  misp: "assets/tech/misp.svg",
-  nxlog: "assets/tech/nxlog.svg",
+  cato: "assets/tech/cato_logo.png",
+  dfirIris: "assets/tech/iris_black.png",
+  dfirIrisDark: "assets/tech/iris_white.png",
+  misp: "assets/tech/Misp.png",
+  nxlog: "assets/tech/nxlog.png",
   okta: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/okta/okta-original.svg",
-  syslog: "assets/tech/syslog.svg",
   thehive: "assets/tech/thehive.png",
-  wazuh: "assets/tech/wazuh.svg",
+  wazuh: "assets/tech/wazuh.png",
 };
 
