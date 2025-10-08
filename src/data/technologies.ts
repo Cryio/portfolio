@@ -47,6 +47,16 @@ export const technologyLogos = {
   cuckooDark: "assets/tech/cuckoo-sandboxDark.png",
   quickscope: "assets/tech/quickscope.png",
   x64dbg: "assets/tech/x64dbg.png",
-  x64dbgWhite: "assets/tech/x64dbgWhite.png"
+  x64dbgWhite: "assets/tech/x64dbgWhite.png",
+
+  azure: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/azure/azure-original.svg",
+  cato: "assets/tech/cato.svg",
+  dfirIris: "assets/tech/dfir-iris.svg",
+  misp: "assets/tech/misp.svg",
+  nxlog: "assets/tech/nxlog.svg",
+  okta: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/okta/okta-original.svg",
+  syslog: "assets/tech/syslog.svg",
+  thehive: "assets/tech/thehive.png",
+  wazuh: "assets/tech/wazuh.svg",
 };
 

@@ -21,276 +21,66 @@ export const portfolioData = {
     innovation and leverage my animation skills to craft immersive user experiences.
   `,
 
-  // Technology Categories
+// src/data/portfolio.ts
+
+// Technology Categories
 technologies: [
   {
-    title: "Security & Penetration Testing Tools",
+    title: "Cybersecurity & Pentesting",
     items: [
-      {
-        name: "Nessus",
-        logo: technologyLogos.nessus,
-        alt: "Nessus",
-        description: "Vulnerability scanning and assessment"
-      },
-      {
-        name: "OpenVAS",
-        logo: technologyLogos.openvas,
-        alt: "OpenVAS",
-        description: "Open-source vulnerability scanner and management tool"
-      },
-      {
-        name: "Nikto",
-        logo: technologyLogos.nikto,
-        alt: "Nikto",
-        description: "Web server vulnerability scanner"
-      },
-      {
-        name: "Burp Suite",
-        logo: technologyLogos.burpsuite,
-        alt: "Burp Suite",
-        description: "Web application security testing platform"
-      },
-      {
-        name: "Responder",
-        logo: technologyLogos.responder,
-        alt: "Responder",
-        description: "LLMNR/NBT-NS poisoning and SMB relay tool"
-      },
-      {
-        name: "Ghidra",
-        logo: technologyLogos.ghidra,
-        alt: "Ghidra",
-        description: "Software reverse engineering framework"
-      },
-      {
-        name: "Metasploit",
-        logo: technologyLogos.metasploit,
-        alt: "Metasploit",
-        description: "Penetration testing and vulnerability exploitation framework"
-      },
-      {
-        name: "SQLmap",
-        logo: technologyLogos.sqlmap,
-        alt: "SQLmap",
-        description: "Automated SQL injection testing tool"
-      },
-      {
-        name: "Recon-ng",
-        logo: technologyLogos.reconng,
-        alt: "Recon-ng",
-        description: "Web-based OSINT reconnaissance framework"
-      },
-      {
-        name: "ExifTool",
-        logo: technologyLogos.exiftool,
-        alt: "ExifTool",
-        darkLogo: technologyLogos.exiftoolDark,
-        description: "Metadata extraction and manipulation tool"
-      },
-      {
-        name: "Frida",
-        logo: technologyLogos.frida,
-        alt: "Frida",
-        description: "Dynamic instrumentation and reverse engineering toolkit"
-      },
-      {
-        name: "Wireshark",
-        logo: technologyLogos.wireshark,
-        alt: "Wireshark",
-        description: "Network protocol analyzer and packet capture"
-      },
-      {
-        name: "Cuckoo Sandbox",
-        logo: technologyLogos.cuckoo,
-        alt: "Cuckoo Sandbox",
-        darkLogo: technologyLogos.cuckooDark,
-        description: "Automated malware analysis system"
-      },
-      {
-        name: "QuickScope",
-        logo: technologyLogos.quickscope,
-        alt: "QuickScope",
-        description: "Nmap NSE script for reconnaissance scanning"
-      },
-      {
-        name: "x64dbg",
-        logo: technologyLogos.x64dbg,
-        alt: "x64dbg",
-        darkLogo: technologyLogos.x64dbgWhite,
-        description: "An open-source x64/x32 debugger for windows."
-      }
-    ]
+      { name: "Nessus", logo: technologyLogos.nessus, description: "A comprehensive vulnerability scanner used to identify security weaknesses, misconfigurations, and malware across network devices, servers, and applications." },
+      { name: "Burp Suite", logo: technologyLogos.burpsuite, description: "An integrated platform for web application security testing, combining automated scanning with powerful manual tools for in-depth analysis and exploitation." },
+      { name: "Metasploit", logo: technologyLogos.metasploit, description: "A powerful penetration testing framework for developing, testing, and executing exploit code against remote targets to validate vulnerabilities." },
+      { name: "Wireshark", logo: technologyLogos.wireshark, description: "The world's foremost network protocol analyzer, allowing for deep inspection of network traffic to troubleshoot issues and investigate security incidents." },
+      { name: "Wazuh", logo: technologyLogos.wazuh, description: "An open-source security platform that unifies XDR and SIEM capabilities for threat detection, integrity monitoring, incident response, and compliance." },
+      { name: "TheHive", logo: technologyLogos.thehive, description: "A scalable, open-source Security Incident Response Platform (SIRP) designed for security analysts to collaborate on investigations and streamline case management." },
+      { name: "DFIR-IRIS", logo: technologyLogos.dfirIris, description: "An open-source platform for collaborative digital forensics and incident response, helping teams manage and investigate security cases efficiently." },
+      { name: "MISP", logo: technologyLogos.misp, description: "A Threat Intelligence Platform (TIP) for sharing, storing, and correlating Indicators of Compromise (IOCs) from cybersecurity threats." },
+      { name: "Ghidra", logo: technologyLogos.ghidra, description: "A suite of software reverse engineering tools developed by the NSA, used for analyzing malicious code and discovering software vulnerabilities." },
+      { name: "Cuckoo Sandbox", logo: technologyLogos.cuckoo, darkLogo: technologyLogos.cuckooDark, description: "An open-source automated malware analysis system that detonates suspicious files in a controlled environment to observe their behavior." },
+      { name: "SQLmap", logo: technologyLogos.sqlmap, description: "An open-source tool that automates the process of detecting and exploiting SQL injection flaws and taking over database servers." },
+      { name: "x64dbg", logo: technologyLogos.x64dbg, darkLogo: technologyLogos.x64dbgWhite, description: "An open-source x64/x32 debugger for Windows, essential for reverse engineering and malware analysis on the Windows platform." },
+    ],
   },
-    {
-      title: "Programming Languages & Tools",
-      items: [
-        {
-          name: "Python",
-          logo: technologyLogos.python,
-          alt: "Python",
-          description: "Security tools, automation, and data analysis"
-        },
-        {
-          name: "JavaScript",
-          logo: technologyLogos.javascript,
-          alt: "JavaScript",
-          description: "Web development and client-side security"
-        },
-        {
-          name: "Java",
-          logo: technologyLogos.java,
-          alt: "Java",
-          description: "Enterprise applications and Android security"
-        },
-        {
-          name: "Docker",
-          logo: technologyLogos.docker,
-          alt: "Docker",
-          description: "Containerization and secure deployment"
-        },
-        {
-          name: "Podman",
-          logo: technologyLogos.podman,
-          alt: "Podman",
-          description: "Rootless container management"
-        },
-        {
-          name: "QEMU",
-          logo: technologyLogos.qemu,
-          alt: "QEMU",
-          description: "System emulation and virtualization"
-        },
-        {
-          name: "Flutter",
-          logo: technologyLogos.flutter,
-          alt: "Flutter",
-          description: "Cross-platform mobile development"
-        },
-        {
-          name: "HTML5",
-          logo: technologyLogos.html5,
-          alt: "HTML5",
-          description: "Semantic web structure and accessibility"
-        },
-        {
-          name: "CSS3",
-          logo: technologyLogos.css3,
-          alt: "CSS3",
-          description: "Responsive design and animations"
-        },
-        {
-          name: "React",
-          logo: technologyLogos.react,
-          alt: "React",
-          description: "Component-based UI development"
-        },
-        {
-          name: "Git",
-          logo: technologyLogos.git,
-          alt: "Git",
-          description: "Version control and collaboration"
-        },
-        {
-          name: "Node.js",
-          logo: technologyLogos.nodejs,
-          alt: "Node.js",
-          description: "Server-side JavaScript runtime"
-        },
-        {
-          name: "MongoDB",
-          logo: technologyLogos.mongodb,
-          alt: "MongoDB",
-          description: "NoSQL database management"
-        },
-        {
-          name: "Express",
-          logo: technologyLogos.express,
-          alt: "Express.js",
-          darkLogo: technologyLogos.expressDark,
-          description: "Web application framework"
-        },
-        {
-          name: "MySQL",
-          logo: technologyLogos.mysql,
-          alt: "MySQL",
-          description: "Relational database management"
-        }
-      ]
-    },
-    {
-      title: "Creative Tools",
-      items: [
-        {
-          name: "Blender",
-          logo: technologyLogos.blender,
-          alt: "Blender",
-          description: "3D modeling and animation"
-        },
-        {
-          name: "Adobe Photoshop",
-          logo: technologyLogos.photoshop,
-          alt: "Adobe Photoshop",
-          description: "Digital image editing and manipulation",
-          darkLogo: technologyLogos.photoshopDark
-        },
-        {
-          name: "Adobe Illustrator",
-          logo: technologyLogos.illustrator,
-          alt: "Adobe Illustrator",
-          description: "Vector graphics and illustrations"
-        },
-        {
-          name: "Figma",
-          logo: technologyLogos.figma,
-          alt: "Figma",
-          description: "UI/UX design and prototyping"
-        },
-        {
-          name: "Unreal Engine",
-          logo: technologyLogos.unreal,
-          alt: "Unreal Engine",
-          description: "Game development and visualization",
-          darkLogo: technologyLogos.unrealDark
-        }
-      ]
-    },
-    {
-      title: "Other Familiar Technologies",
-      items: [
-        {
-          name: "Lua",
-          logo: technologyLogos.lua,
-          alt: "Lua",
-          description: "Scripting and game development"
-        },
-        {
-          name: "Apache",
-          logo: technologyLogos.apache,
-          alt: "Apache",
-          description: "Web server and security"
-        },
-        {
-          name: "GitHub",
-          logo: technologyLogos.github,
-          alt: "GitHub",
-          darkLogo: technologyLogos.githubDark,
-          description: "Code hosting and collaboration"
-        },
-        {
-          name: "VirtualBox",
-          logo: technologyLogos.virtualbox,
-          alt: "VirtualBox",
-          description: "Virtual machine management"
-        },
-        {
-          name: "Jenkins",
-          logo: technologyLogos.jenkins,
-          alt: "Jenkins",
-          description: "CI/CD pipeline automation"
-        }
-      ]
-    }
-  ],
+  {
+    title: "Cloud & DevOps",
+    items: [
+      { name: "Microsoft Azure", logo: technologyLogos.azure, description: "A comprehensive cloud platform offering a wide range of services for computing, networking, storage, and application deployment." },
+      { name: "Docker", logo: technologyLogos.docker, description: "A containerization platform used to build, ship, and run applications in isolated environments, ensuring consistency across development and production." },
+      { name: "Jenkins", logo: technologyLogos.jenkins, description: "An open-source automation server that enables developers to reliably build, test, and deploy their software through CI/CD pipelines." },
+      { name: "Okta (SSO)", logo: technologyLogos.okta, description: "An enterprise-grade Identity and Access Management (IAM) service used to secure user access to applications with Single Sign-On." },
+      { name: "CATO Networks", logo: technologyLogos.cato, description: "A cloud-native Secure Access Service Edge (SASE) platform that converges networking and security into a single, unified service." },
+      { name: "Podman", logo: technologyLogos.podman, description: "A daemonless container engine for developing, managing, and running OCI Containers on Linux systems, often used as a secure alternative to Docker." },
+      { name: "QEMU", logo: technologyLogos.qemu, description: "A generic and open-source machine emulator and virtualizer used for running operating systems for any machine on any supported architecture." },
+      { name: "VirtualBox", logo: technologyLogos.virtualbox, description: "A powerful, cross-platform virtualization product for enterprise and home use, allowing users to run multiple operating systems simultaneously." },
+    ],
+  },
+  {
+    title: "Languages & Development",
+    items: [
+      { name: "Python", logo: technologyLogos.python, description: "A high-level, versatile language widely used for security scripting, task automation, data analysis, and backend web development." },
+      { name: "JavaScript", logo: technologyLogos.javascript, description: "The core language of the web, enabling interactive and dynamic user experiences on the frontend." },
+      { name: "TypeScript", logo: technologyLogos.typescript, description: "A statically typed superset of JavaScript that enhances code quality and maintainability in large-scale applications." },
+      { name: "React", logo: technologyLogos.react, description: "A popular JavaScript library for building component-based, interactive user interfaces for single-page applications." },
+      { name: "Node.js", logo: technologyLogos.nodejs, description: "A JavaScript runtime built on Chrome's V8 engine, used for building fast and scalable backend services and APIs." },
+      { name: "Express", logo: technologyLogos.express, darkLogo: technologyLogos.expressDark, description: "A minimal and flexible Node.js web application framework that provides a robust set of features for web and mobile applications." },
+      { name: "Git", logo: technologyLogos.git, description: "A distributed version control system for tracking changes in source code during software development, enabling collaboration and history management." },
+      { name: "GitHub", logo: technologyLogos.github, darkLogo: technologyLogos.githubDark, description: "A web-based platform for version control and collaboration, allowing developers to host and review code, manage projects, and build software." },
+      { name: "MySQL", logo: technologyLogos.mysql, description: "A widely-used open-source relational database management system (RDBMS) known for its reliability, performance, and ease of use." },
+      { name: "MongoDB", logo: technologyLogos.mongodb, description: "A source-available, document-oriented NoSQL database program used for high-volume data storage and applications requiring flexible data models." },
+    ],
+  },
+  {
+    title: "Platforms & Software",
+    items: [
+      { name: "Figma", logo: technologyLogos.figma, description: "A collaborative, web-based interface design tool used for creating, prototyping, and sharing UI/UX designs in real-time." },
+      { name: "Blender", logo: technologyLogos.blender, description: "A free and open-source 3D computer graphics software toolset used for creating animated films, visual effects, art, and 3D models." },
+      { name: "Unreal Engine", logo: technologyLogos.unreal, darkLogo: technologyLogos.unrealDark, description: "An advanced real-time 3D creation tool used for developing high-fidelity games, simulations, and immersive virtual experiences." },
+      { name: "Adobe Photoshop", logo: technologyLogos.photoshop, darkLogo: technologyLogos.photoshopDark, description: "The industry-standard raster graphics editor for digital art, photo editing, and image manipulation." },
+      { name: "Adobe Illustrator", logo: technologyLogos.illustrator, description: "A leading vector graphics editor and design program used to create logos, icons, illustrations, and typography." },
+    ],
+  },
+],
 
 // Professional Experience
 experiences: [
