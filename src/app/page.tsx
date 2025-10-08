@@ -1,14 +1,39 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { TechnologyCard } from "@/components/TechnologyCard";
-import { Download, Github, Linkedin, Terminal } from "lucide-react";
+import {
+  Download,
+  Github,
+  Linkedin,
+  Terminal,
+  Mail,
+  Copy,
+} from "lucide-react";
 import { Role } from "@/components/Experience";
 import { Project } from "@/components/Project";
 import { Certifications } from "@/components/Certifications";
 import { portfolioData } from "@/data/portfolio";
 
 export default function Home() {
+  const [copiedItem, setCopiedItem] = useState(null);
+
+  const handleCopy = (text, itemName) => {
+    navigator.clipboard.writeText(text);
+    setCopiedItem(itemName);
+    setTimeout(() => {
+      setCopiedItem(null);
+    }, 2000); // Reset after 2 seconds
+  };
+
   return (
     <main className="min-h-screen pt-24">
       <div className="container mx-auto px-4">
@@ -26,13 +51,19 @@ export default function Home() {
           <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-primary to-primary/80 text-transparent bg-clip-text">
             {portfolioData.name}
           </h1>
-          <h2 className="text-3xl font-medium text-foreground/80 mb-6">{portfolioData.title}</h2>
+          <h2 className="text-3xl font-medium text-foreground/80 mb-6">
+            {portfolioData.title}
+          </h2>
           <p className="max-w-2xl font-medium text-xl mb-8">
             {portfolioData.description}
           </p>
           <div className="flex justify-center gap-4">
             <Button size="lg" asChild>
-              <a href="/assets/Srachet Rai CV - Cyber Sec.pdf" download className="flex items-center gap-2">
+              <a
+                href="/assets/Srachet Rai CV - Cyber Sec.pdf"
+                download
+                className="flex items-center gap-2"
+              >
                 <Download className="h-5 w-5" />
                 Download CV
               </a>
@@ -43,11 +74,108 @@ export default function Home() {
                 <span>Try the Security Terminal</span>
               </Link>
             </Button>
-            <Button size="lg" variant="outline" asChild>
-              <a href={`mailto:${portfolioData.contact.email}`}>
-                Contact Me
-              </a>
-            </Button>
+
+            {/* Rewritten Contact Me Button with Popover */}
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button size="lg" variant="outline">
+                  Contact Me
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-80">
+                <div className="grid gap-4">
+                  <div className="space-y-2">
+                    <h4 className="font-medium leading-none">
+                      Contact Information
+                    </h4>
+                    <p className="text-sm text-muted-foreground">
+                      Click the icon to copy.
+                    </p>
+                  </div>
+                  <div className="grid gap-3">
+                    <div className="grid grid-cols-[25px_1fr_auto] items-center gap-4">
+                      <Mail className="h-4 w-4" />
+                      <a
+                        href={`mailto:${portfolioData.contact.email}`}
+                        className="text-sm font-mono truncate hover:underline"
+                      >
+                        {portfolioData.contact.email}
+                      </a>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-7 w-7"
+                        onClick={() =>
+                          handleCopy(portfolioData.contact.email, "email")
+                        }
+                      >
+                        {copiedItem === "email" ? (
+                          <span className="text-xs text-primary">Copied!</span>
+                        ) : (
+                          <Copy className="h-4 w-4" />
+                        )}
+                      </Button>
+                    </div>
+                    <div className="grid grid-cols-[25px_1fr_auto] items-center gap-4">
+                      <Linkedin className="h-4 w-4" />
+                      <a
+                        href={portfolioData.contact.linkedin}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-sm font-mono truncate hover:underline"
+                      >
+                        {portfolioData.contact.linkedin.replace(
+                          "https://www.linkedin.com/in/",
+                          ""
+                        )}
+                      </a>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-7 w-7"
+                        onClick={() =>
+                          handleCopy(portfolioData.contact.linkedin, "linkedin")
+                        }
+                      >
+                        {copiedItem === "linkedin" ? (
+                          <span className="text-xs text-primary">Copied!</span>
+                        ) : (
+                          <Copy className="h-4 w-4" />
+                        )}
+                      </Button>
+                    </div>
+                    <div className="grid grid-cols-[25px_1fr_auto] items-center gap-4">
+                      <Github className="h-4 w-4" />
+                      <a
+                        href={portfolioData.contact.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-sm font-mono truncate hover:underline"
+                      >
+                        {portfolioData.contact.github.replace(
+                          "https://github.com/",
+                          ""
+                        )}
+                      </a>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-7 w-7"
+                        onClick={() =>
+                          handleCopy(portfolioData.contact.github, "github")
+                        }
+                      >
+                        {copiedItem === "github" ? (
+                          <span className="text-xs text-primary">Copied!</span>
+                        ) : (
+                          <Copy className="h-4 w-4" />
+                        )}
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </PopoverContent>
+            </Popover>
           </div>
         </div>
 
@@ -108,9 +236,12 @@ export default function Home() {
           <h2 className="text-3xl font-semibold mb-8 text-center text-foreground">
             Certifications
           </h2>
-          <Certifications 
+          <Certifications
             certificationPaths={portfolioData.certificationPaths.slice(0, 2)}
-            individualCertifications={portfolioData.individualCertifications.slice(0, 3)}
+            individualCertifications={portfolioData.individualCertifications.slice(
+              0,
+              3
+            )}
             achievements={portfolioData.achievements.slice(0, 3)}
           />
           <div className="mt-8 text-center">
@@ -121,7 +252,7 @@ export default function Home() {
             </Button>
           </div>
         </section>
-        
+
         {/* Contact Section */}
         <section className="text-center space-y-4 mb-16">
           <h2 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/80">
@@ -132,19 +263,32 @@ export default function Home() {
           </p>
           <div className="flex justify-center gap-4">
             <Button variant="outline" asChild>
-              <a href={portfolioData.contact.github} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
+              <a
+                href={portfolioData.contact.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2"
+              >
                 <Github className="h-5 w-5" />
                 GitHub
               </a>
             </Button>
             <Button variant="outline" asChild>
-              <a href={portfolioData.contact.linkedin} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
+              <a
+                href={portfolioData.contact.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2"
+              >
                 <Linkedin className="h-5 w-5" />
                 LinkedIn
               </a>
             </Button>
             <Button variant="outline" asChild>
-              <a href={`mailto:${portfolioData.contact.email}`} className="flex items-center gap-2">
+              <a
+                href={`mailto:${portfolioData.contact.email}`}
+                className="flex items-center gap-2"
+              >
                 Email
               </a>
             </Button>
