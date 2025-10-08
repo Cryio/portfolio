@@ -24,9 +24,9 @@ import { Certifications } from "@/components/Certifications";
 import { portfolioData } from "@/data/portfolio";
 
 export default function Home() {
-  const [copiedItem, setCopiedItem] = useState(null);
+  const [copiedItem, setCopiedItem] = useState<string | null>(null);
 
-  const handleCopy = (text, itemName) => {
+  const handleCopy = (text: string, itemName: string) => {
     navigator.clipboard.writeText(text);
     setCopiedItem(itemName);
     setTimeout(() => {
