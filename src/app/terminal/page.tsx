@@ -107,9 +107,6 @@ const COMMANDS: Record<string, CommandDefinition> = {
       "GitHub: github.com/Cryio",
       "LinkedIn: linkedin.com/in/srachetrai",
       "",
-      "PGP Key: 0xF721AC3D45BF1E89",
-      "Signal: Available upon request",
-      "",
       "Preferred contact method: Email"
     ]
   },
