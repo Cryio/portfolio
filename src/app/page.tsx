@@ -82,8 +82,8 @@ export default function Home() {
                   Contact Me
                 </Button>
               </PopoverTrigger>
-              <PopoverContent className="w-80">
-                <div className="grid gap-4 focus-visible:ring-0 focus-visible:ring-offset-0">
+              <PopoverContent className="w-80 border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50">
+                <div className="grid gap-4">
                   <div className="grid gap-3">
                     <div className="grid grid-cols-[25px_1fr_auto] items-center gap-4">
                       <Mail className="h-4 w-4" />
