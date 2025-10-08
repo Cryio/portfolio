@@ -31,7 +31,7 @@ export default function Home() {
     setCopiedItem(itemName);
     setTimeout(() => {
       setCopiedItem(null);
-    }, 2000); // Reset after 2 seconds
+    }, 2000);
   };
 
   return (
@@ -82,16 +82,8 @@ export default function Home() {
                   Contact Me
                 </Button>
               </PopoverTrigger>
-              <PopoverContent className="w-80">
+              <PopoverContent className="w-80 outline-none">
                 <div className="grid gap-4">
-                  <div className="space-y-2">
-                    <h4 className="font-medium leading-none">
-                      Contact Information
-                    </h4>
-                    <p className="text-sm text-muted-foreground">
-                      Click the icon to copy.
-                    </p>
-                  </div>
                   <div className="grid gap-3">
                     <div className="grid grid-cols-[25px_1fr_auto] items-center gap-4">
                       <Mail className="h-4 w-4" />
