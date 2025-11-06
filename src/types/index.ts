@@ -119,3 +119,14 @@ export interface PortfolioData {
   certifications?: Certification[]; // Optional combined array
   contact: ContactInfo;
 }
+
+export interface BlogPostMeta {
+  title: string;
+  date: string;
+  description?: string;
+  tags?: string[];
+}
+
+export interface BlogSummary extends BlogPostMeta {
+  slug: string;
+}

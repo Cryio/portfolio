@@ -22,6 +22,7 @@ import { Role } from "@/components/Experience";
 import { Project } from "@/components/Project";
 import { Certifications } from "@/components/Certifications";
 import { portfolioData } from "@/data/portfolio";
+import { SkillRadar } from "@/components/SkillRadar";
 
 export default function Home() {
   const [copiedItem, setCopiedItem] = useState<string | null>(null);
@@ -37,137 +38,149 @@ export default function Home() {
   return (
     <main className="min-h-screen pt-24">
       <div className="container mx-auto px-4">
-        {/* Hero Section */}
-        <div className="flex flex-col items-center text-center mb-16">
-          <div className="relative w-40 h-40 mb-8 ring-4 ring-primary/20 rounded-full overflow-hidden">
-            <Image
-              src="/assets/profile.png"
-              alt={portfolioData.name}
-              fill
-              className="object-cover"
-              priority
-            />
-          </div>
-          <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-primary to-primary/80 text-transparent bg-clip-text">
-            {portfolioData.name}
-          </h1>
-          <h2 className="text-3xl font-medium text-foreground/80 mb-6">
-            {portfolioData.title}
-          </h2>
-          <p className="max-w-2xl font-medium text-xl mb-8">
-            {portfolioData.description}
-          </p>
-          <div className="flex justify-center gap-4">
-            <Button size="lg" asChild>
-              <a
-                href="/assets/Srachet Rai CV - Cyber Sec.pdf"
-                download
-                className="flex items-center gap-2"
-              >
-                <Download className="h-5 w-5" />
-                Download CV
-              </a>
-            </Button>
-            <Button size="lg" asChild>
-              <Link href="/terminal" className="flex items-center gap-2">
-                <Terminal className="h-5 w-5" />
-                <span>Try the Security Terminal</span>
-              </Link>
-            </Button>
+        {/* Hero Section with three-part layout */}
+        <div className="mb-16 grid grid-cols-1 md:grid-cols-3 gap-10 items-center">
+          {/* Left column intentionally empty for visual balance */}
+          <div className="hidden md:block" />
 
-            {/* Rewritten Contact Me Button with Popover */}
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button size="lg" variant="outline">
-                  Contact Me
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-80 border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:border-input">
-                <div className="grid gap-4">
-                  <div className="grid gap-3">
-                    <div className="grid grid-cols-[25px_1fr_auto] items-center gap-4">
-                      <Mail className="h-4 w-4" />
-                      <a
-                        href={`mailto:${portfolioData.contact.email}`}
-                        className="text-sm font-mono truncate hover:underline"
-                      >
-                        {portfolioData.contact.email}
-                      </a>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="h-7 w-7"
-                        onClick={() =>
-                          handleCopy(portfolioData.contact.email, "email")
-                        }
-                      >
-                        {copiedItem === "email" ? (
-                          <span className="text-xs text-primary">Copied!</span>
-                        ) : (
-                          <Copy className="h-4 w-4" />
-                        )}
-                      </Button>
-                    </div>
-                    <div className="grid grid-cols-[25px_1fr_auto] items-center gap-4">
-                      <Linkedin className="h-4 w-4" />
-                      <a
-                        href={portfolioData.contact.linkedin}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-sm font-mono truncate hover:underline"
-                      >
-                        {portfolioData.contact.linkedin.replace(
-                          "https://www.linkedin.com/in/",
-                          ""
-                        )}
-                      </a>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="h-7 w-7"
-                        onClick={() =>
-                          handleCopy(portfolioData.contact.linkedin, "linkedin")
-                        }
-                      >
-                        {copiedItem === "linkedin" ? (
-                          <span className="text-xs text-primary">Copied!</span>
-                        ) : (
-                          <Copy className="h-4 w-4" />
-                        )}
-                      </Button>
-                    </div>
-                    <div className="grid grid-cols-[25px_1fr_auto] items-center gap-4">
-                      <Github className="h-4 w-4" />
-                      <a
-                        href={portfolioData.contact.github}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-sm font-mono truncate hover:underline"
-                      >
-                        {portfolioData.contact.github.replace(
-                          "https://github.com/",
-                          ""
-                        )}
-                      </a>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="h-7 w-7"
-                        onClick={() =>
-                          handleCopy(portfolioData.contact.github, "github")
-                        }
-                      >
-                        {copiedItem === "github" ? (
-                          <span className="text-xs text-primary">Copied!</span>
-                        ) : (
-                          <Copy className="h-4 w-4" />
-                        )}
-                      </Button>
+          {/* Center column: profile photo, name, bio, actions */}
+          <div className="flex flex-col items-center text-center">
+            <div className="relative w-40 h-40 mb-8 ring-4 ring-primary/20 rounded-full overflow-hidden">
+              <Image
+                src="/assets/profile.png"
+                alt={portfolioData.name}
+                fill
+                className="object-cover"
+                priority
+              />
+            </div>
+            <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-primary to-primary/80 text-transparent bg-clip-text">
+              {portfolioData.name}
+            </h1>
+            <h2 className="text-3xl font-medium text-foreground/80 mb-6">
+              {portfolioData.title}
+            </h2>
+            <p className="max-w-2xl font-medium text-xl mb-8">
+              {portfolioData.description}
+            </p>
+            <div className="flex justify-center gap-4 flex-wrap">
+              <Button size="lg" asChild>
+                <a
+                  href="/assets/Srachet Rai CV - Cyber Sec.pdf"
+                  download
+                  className="flex items-center gap-2"
+                >
+                  <Download className="h-5 w-5" />
+                  Download CV
+                </a>
+              </Button>
+              <Button size="lg" asChild>
+                <Link href="/terminal" className="flex items-center gap-2">
+                  <Terminal className="h-5 w-5" />
+                  <span>Try the Security Terminal</span>
+                </Link>
+              </Button>
+
+              {/* Rewritten Contact Me Button with Popover */}
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button size="lg" variant="outline">
+                    Contact Me
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-80 border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:border-input">
+                  <div className="grid gap-4">
+                    <div className="grid gap-3">
+                      <div className="grid grid-cols-[25px_1fr_auto] items-center gap-4">
+                        <Mail className="h-4 w-4" />
+                        <a
+                          href={`mailto:${portfolioData.contact.email}`}
+                          className="text-sm font-mono truncate hover:underline"
+                        >
+                          {portfolioData.contact.email}
+                        </a>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="h-7 w-7"
+                          onClick={() =>
+                            handleCopy(portfolioData.contact.email, "email")
+                          }
+                        >
+                          {copiedItem === "email" ? (
+                            <span className="text-xs text-primary">Copied!</span>
+                          ) : (
+                            <Copy className="h-4 w-4" />
+                          )}
+                        </Button>
+                      </div>
+                      <div className="grid grid-cols-[25px_1fr_auto] items-center gap-4">
+                        <Linkedin className="h-4 w-4" />
+                        <a
+                          href={portfolioData.contact.linkedin}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-sm font-mono truncate hover:underline"
+                        >
+                          {portfolioData.contact.linkedin.replace(
+                            "https://www.linkedin.com/in/",
+                            ""
+                          )}
+                        </a>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="h-7 w-7"
+                          onClick={() =>
+                            handleCopy(portfolioData.contact.linkedin, "linkedin")
+                          }
+                        >
+                          {copiedItem === "linkedin" ? (
+                            <span className="text-xs text-primary">Copied!</span>
+                          ) : (
+                            <Copy className="h-4 w-4" />
+                          )}
+                        </Button>
+                      </div>
+                      <div className="grid grid-cols-[25px_1fr_auto] items-center gap-4">
+                        <Github className="h-4 w-4" />
+                        <a
+                          href={portfolioData.contact.github}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-sm font-mono truncate hover:underline"
+                        >
+                          {portfolioData.contact.github.replace(
+                            "https://github.com/",
+                            ""
+                          )}
+                        </a>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="h-7 w-7"
+                          onClick={() =>
+                            handleCopy(portfolioData.contact.github, "github")
+                          }
+                        >
+                          {copiedItem === "github" ? (
+                            <span className="text-xs text-primary">Copied!</span>
+                          ) : (
+                            <Copy className="h-4 w-4" />
+                          )}
+                        </Button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </PopoverContent>
-            </Popover>
+                </PopoverContent>
+              </Popover>
+            </div>
+          </div>
+          {/* Right column: skill radar */}
+          <div className="flex justify-center md:justify-end min-w-0">
+            <div className="w-full max-w-md min-w-0">
+              <SkillRadar title="" />
+            </div>
           </div>
         </div>
 
@@ -184,6 +197,8 @@ export default function Home() {
             </div>
           </div>
         ))}
+
+        {/* Removed live GitHub activity widget as requested */}
 
         {/* Featured Projects Section */}
         <section className="mb-16">

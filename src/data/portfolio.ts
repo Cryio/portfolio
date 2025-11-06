@@ -176,7 +176,7 @@ experiences: [
           date: "2024",
           description: "Foundational knowledge of cloud security principles and best practices.",
           skills: ["Cloud security principles", "Cloud architecture", "Security controls", "Risk management"],
-          credentialUrl: "certificates/Palo Alto Networks Certified Cybersecurity Practitioner/Cloud Security Fundamentals.png"
+          credentialUrl: "/certificates/Palo Alto Networks Certified Cybersecurity Practitioner/Cloud Security Fundamentals.png"
         },
         {
           title: "Cybersecurity Fundamentals",
@@ -211,7 +211,7 @@ experiences: [
           date: "2024",
           description: "Foundational understanding of security operations and best practices.",
           skills: ["Security operations", "Best practices", "Process management", "Team coordination"],
-          credentialUrl: "/certificate/Palo Alto Networks Certified Cybersecurity Practitioner//Understanding Security Operations - Foundational.png"
+          credentialUrl: "/certificates/Palo Alto Networks Certified Cybersecurity Practitioner/Understanding Security Operations - Foundational.png"
         }
       ]
     },

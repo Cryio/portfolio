@@ -29,6 +29,9 @@ export function Navigation() {
             <Link href="/projects">Projects</Link>
           </Button>
           <Button variant="ghost" asChild>
+            <Link href="/blogs">Blogs</Link>
+          </Button>
+          <Button variant="ghost" asChild>
             <Link href="/certifications">Certifications</Link>
           </Button>
           <Button variant="ghost" asChild>
@@ -62,6 +65,9 @@ export function Navigation() {
                 </Button>
                 <Button variant="ghost" asChild>
                   <Link href="/projects">Projects</Link>
+                </Button>
+                <Button variant="ghost" asChild>
+                  <Link href="/blogs">Blogs</Link>
                 </Button>
                 <Button variant="ghost" asChild>
                   <Link href="/certifications">Certifications</Link>
