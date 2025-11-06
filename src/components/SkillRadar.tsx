@@ -13,8 +13,8 @@ export function SkillRadar({
   { label: "Cloud", value: 75, note: "Google Cloud Platform, AWS, Azure — GenAI app deployment" },
   { label: "Red Team", value: 80, note: "Nessus, Burp Suite, Metasploit, SQLmap, exploit PoCs (C/Python)" },
   { label: "Blue Team", value: 78, note: "Wazuh, MISP, DFIR-IRIS, Log Management, Threat Intelligence" },
-  { label: "Machine Learning", value: 70, note: "IIT Bombay ML course, GANs, CSI-based Activity Recognition" },
-  { label: "Development", value: 72, note: "Python, Java, Node.js, React, Flutter, Flask APIs, OAuth" },
+  { label: "AI/ML", value: 70, note: "IIT Bombay ML course, GANs, CSI-based Activity Recognition" },
+  { label: "Dev", value: 72, note: "Python, Java, Node.js, React, Flutter, Flask APIs, OAuth" },
   { label: "3D & Design", value: 65, note: "Blender 3D, Figma, Adobe Suite, React Three Fiber visuals" }
 ],
 }: {
