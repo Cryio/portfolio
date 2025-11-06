@@ -7,13 +7,13 @@ type Skill = { label: string; value: number; note?: string };
 export function SkillRadar({
   title = "",
   skills = [
-    { label: "Forensics", value: 80, note: "DFIR-IRIS, Ghidra, x64dbg" },
-    { label: "Containers", value: 70, note: "Docker, Podman" },
-    { label: "Networking", value: 85, note: "Wireshark, TCP/IP" },
-    { label: "ML/AI", value: 65, note: "ML coursework & projects" },
-    { label: "Web Sec", value: 75, note: "Burp Suite, SQLmap" },
-    { label: "Cloud/SecOps", value: 60, note: "Wazuh, Azure" },
-    { label: "Reverse Eng", value: 70, note: "Ghidra, x64dbg" },
+    { label: "Forensics", value: 60, note: "Ghidra, x64dbg" },
+    { label: "Containers", value: 80, note: "Docker, Podman" },
+    { label: "Networking", value: 80, note: "Wireshark, TCP/IP" },
+    { label: "ML/AI", value: 70, note: "ML coursework & projects" },
+    { label: "Red Team", value: 75, note: "Nessus, Burp Suite, Metasploit, SQLmap" },
+    { label: "Blue Team", value: 75, note: "Wazuh, MISP, DFIR-IRIS" },
+    { label: "Cloud", value: 70, note: "Azure, AWS" },
   ],
 }: {
   title?: string;
