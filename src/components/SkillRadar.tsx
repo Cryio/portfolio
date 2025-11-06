@@ -7,14 +7,16 @@ type Skill = { label: string; value: number; note?: string };
 export function SkillRadar({
   title = "",
   skills = [
-    { label: "Forensics", value: 60, note: "Ghidra, x64dbg" },
-    { label: "Containers", value: 80, note: "Docker, Podman" },
-    { label: "Networking", value: 80, note: "Wireshark, TCP/IP" },
-    { label: "ML/AI", value: 70, note: "ML coursework & projects" },
-    { label: "Red Team", value: 75, note: "Nessus, Burp Suite, Metasploit, SQLmap" },
-    { label: "Blue Team", value: 75, note: "Wazuh, MISP, DFIR-IRIS" },
-    { label: "Cloud", value: 70, note: "Azure, AWS" },
-  ],
+  { label: "Forensics", value: 80, note: "Docker/Podman CVEs, DFIR, Autopsy, CAPEv2, Ghidra, x64dbg" },
+  { label: "Containers", value: 90, note: "Docker, Podman, QEMU, VirtualBox — research on container vulnerabilities" },
+  { label: "Networking", value: 85, note: "Wireshark, TCP/IP, Cisco Packet Tracer, network config & VAPT" },
+  { label: "Cloud", value: 75, note: "Google Cloud Platform, AWS, Azure — GenAI app deployment" },
+  { label: "Red Team", value: 80, note: "Nessus, Burp Suite, Metasploit, SQLmap, exploit PoCs (C/Python)" },
+  { label: "Blue Team", value: 78, note: "Wazuh, MISP, DFIR-IRIS, Log Management, Threat Intelligence" },
+  { label: "Machine Learning", value: 70, note: "IIT Bombay ML course, GANs, CSI-based Activity Recognition" },
+  { label: "Development", value: 72, note: "Python, Java, Node.js, React, Flutter, Flask APIs, OAuth" },
+  { label: "3D & Design", value: 65, note: "Blender 3D, Figma, Adobe Suite, React Three Fiber visuals" }
+],
 }: {
   title?: string;
   skills?: Skill[];
