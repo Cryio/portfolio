@@ -38,12 +38,9 @@ export default function Home() {
   return (
     <main className="min-h-screen pt-24">
       <div className="container mx-auto px-4">
-        {/* Hero Section with three-part layout */}
+        {/* Hero Section reordered: 1) Profile+Contact 2) Skills 3) Bio+Designation */}
         <div className="mb-16 grid grid-cols-1 md:grid-cols-3 gap-10 items-center">
-          {/* Left column intentionally empty for visual balance */}
-          <div className="hidden md:block" />
-
-          {/* Center column: profile photo, name, bio, actions */}
+          {/* Column 1: profile photo, name, contact info */}
           <div className="flex flex-col items-center text-center">
             <div className="relative w-40 h-40 mb-8 ring-4 ring-primary/20 rounded-full overflow-hidden">
               <Image
@@ -57,13 +54,119 @@ export default function Home() {
             <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-primary to-primary/80 text-transparent bg-clip-text">
               {portfolioData.name}
             </h1>
-            <h2 className="text-3xl font-medium text-foreground/80 mb-6">
+            {/* Contact info */}
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button size="lg">
+                  Contact Me
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent
+                className={`
+                  w-80 border-none rounded-xl p-4 shadow-2xl transition-all duration-300
+                  bg-gradient-to-br from-gray-900/80 via-gray-800/70 to-gray-900/80 text-white
+                  dark:from-white/80 dark:via-white/70 dark:to-gray-100/70 dark:text-gray-900
+                  backdrop-blur-lg backdrop-saturate-150
+                `}
+              >
+                <div className="grid gap-4">
+                  <div className="grid gap-3">
+
+                    {/* EMAIL */}
+                    <div className="grid grid-cols-[25px_1fr_auto] items-center gap-4">
+                      <Mail className="h-4 w-4 text-inherit" />
+                      <a
+                        href={`mailto:${portfolioData.contact.email}`}
+                        className="text-sm font-mono truncate hover:underline"
+                      >
+                        {portfolioData.contact.email}
+                      </a>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-7 w-7 hover:bg-primary/20 text-inherit"
+                        onClick={() => handleCopy(portfolioData.contact.email, "email")}
+                      >
+                        {copiedItem === "email" ? (
+                          <span className="text-xs text-primary font-semibold">Copied!</span>
+                        ) : (
+                          <Copy className="h-4 w-4 text-inherit opacity-80 hover:opacity-100 transition" />
+                        )}
+                      </Button>
+                    </div>
+
+                    {/* LINKEDIN */}
+                    <div className="grid grid-cols-[25px_1fr_auto] items-center gap-4">
+                      <Linkedin className="h-4 w-4 text-inherit" />
+                      <a
+                        href={portfolioData.contact.linkedin}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-sm font-mono truncate hover:underline"
+                      >
+                        {portfolioData.contact.linkedin.replace("https://www.linkedin.com/in/", "")}
+                      </a>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-7 w-7 hover:bg-primary/20 text-inherit"
+                        onClick={() => handleCopy(portfolioData.contact.linkedin, "linkedin")}
+                      >
+                        {copiedItem === "linkedin" ? (
+                          <span className="text-xs text-primary font-semibold">Copied!</span>
+                        ) : (
+                          <Copy className="h-4 w-4 text-inherit opacity-80 hover:opacity-100 transition" />
+                        )}
+                      </Button>
+                    </div>
+
+                    {/* GITHUB */}
+                    <div className="grid grid-cols-[25px_1fr_auto] items-center gap-4">
+                      <Github className="h-4 w-4 text-inherit" />
+                      <a
+                        href={portfolioData.contact.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-sm font-mono truncate hover:underline"
+                      >
+                        {portfolioData.contact.github.replace("https://github.com/", "")}
+                      </a>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-7 w-7 hover:bg-primary/20 text-inherit"
+                        onClick={() => handleCopy(portfolioData.contact.github, "github")}
+                      >
+                        {copiedItem === "github" ? (
+                          <span className="text-xs text-primary font-semibold">Copied!</span>
+                        ) : (
+                          <Copy className="h-4 w-4 text-inherit opacity-80 hover:opacity-100 transition" />
+                        )}
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </PopoverContent>
+
+            </Popover>
+          </div>
+
+          {/* Column 2: skill radar */}
+          <div className="flex justify-center md:justify-end min-w-0">
+            <div className="w-full max-w-md min-w-0">
+              <SkillRadar title="" />
+            </div>
+          </div>
+
+          {/* Column 3: bio and designation (title and description) with actions */}
+          <div className="flex flex-col items-start text-left md:items-start md:text-left">
+            <h2 className="text-3xl font-semibold text-foreground mb-4">
               {portfolioData.title}
             </h2>
-            <p className="max-w-2xl font-medium text-xl mb-8">
+            <p className="max-w-2xl text-base md:text-lg leading-relaxed text-foreground/90 mb-6">
               {portfolioData.description}
             </p>
-            <div className="flex justify-center gap-4 flex-wrap">
+            <div className="flex gap-4 flex-wrap">
               <Button size="lg" asChild>
                 <a
                   href="/assets/Srachet Rai CV - Cyber Sec.pdf"
@@ -80,106 +183,6 @@ export default function Home() {
                   <span>Try the Security Terminal</span>
                 </Link>
               </Button>
-
-              {/* Rewritten Contact Me Button with Popover */}
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button size="lg" variant="outline">
-                    Contact Me
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-80 border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:border-input">
-                  <div className="grid gap-4">
-                    <div className="grid gap-3">
-                      <div className="grid grid-cols-[25px_1fr_auto] items-center gap-4">
-                        <Mail className="h-4 w-4" />
-                        <a
-                          href={`mailto:${portfolioData.contact.email}`}
-                          className="text-sm font-mono truncate hover:underline"
-                        >
-                          {portfolioData.contact.email}
-                        </a>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-7 w-7"
-                          onClick={() =>
-                            handleCopy(portfolioData.contact.email, "email")
-                          }
-                        >
-                          {copiedItem === "email" ? (
-                            <span className="text-xs text-primary">Copied!</span>
-                          ) : (
-                            <Copy className="h-4 w-4" />
-                          )}
-                        </Button>
-                      </div>
-                      <div className="grid grid-cols-[25px_1fr_auto] items-center gap-4">
-                        <Linkedin className="h-4 w-4" />
-                        <a
-                          href={portfolioData.contact.linkedin}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-sm font-mono truncate hover:underline"
-                        >
-                          {portfolioData.contact.linkedin.replace(
-                            "https://www.linkedin.com/in/",
-                            ""
-                          )}
-                        </a>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-7 w-7"
-                          onClick={() =>
-                            handleCopy(portfolioData.contact.linkedin, "linkedin")
-                          }
-                        >
-                          {copiedItem === "linkedin" ? (
-                            <span className="text-xs text-primary">Copied!</span>
-                          ) : (
-                            <Copy className="h-4 w-4" />
-                          )}
-                        </Button>
-                      </div>
-                      <div className="grid grid-cols-[25px_1fr_auto] items-center gap-4">
-                        <Github className="h-4 w-4" />
-                        <a
-                          href={portfolioData.contact.github}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-sm font-mono truncate hover:underline"
-                        >
-                          {portfolioData.contact.github.replace(
-                            "https://github.com/",
-                            ""
-                          )}
-                        </a>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-7 w-7"
-                          onClick={() =>
-                            handleCopy(portfolioData.contact.github, "github")
-                          }
-                        >
-                          {copiedItem === "github" ? (
-                            <span className="text-xs text-primary">Copied!</span>
-                          ) : (
-                            <Copy className="h-4 w-4" />
-                          )}
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                </PopoverContent>
-              </Popover>
-            </div>
-          </div>
-          {/* Right column: skill radar */}
-          <div className="flex justify-center md:justify-end min-w-0">
-            <div className="w-full max-w-md min-w-0">
-              <SkillRadar title="" />
             </div>
           </div>
         </div>
