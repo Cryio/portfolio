@@ -137,6 +137,9 @@ export function Certification({ certification }: CertificationProps) {
 // Certification Path Component (Expandable Group)
 export function CertificationPath({ certificationPath }: CertificationPathProps) {
   const [isExpanded, setIsExpanded] = useState(false);
+  const isPathMediaFile = certificationPath.pathCredentialUrl
+    ? /\.(png|jpe?g|gif|webp|pdf)$/i.test(certificationPath.pathCredentialUrl)
+    : false;
 
   return (
     <Card className="backdrop-blur-sm bg-background/80 hover:bg-background/90 transition-all duration-300 hover:shadow-lg">
@@ -144,7 +147,7 @@ export function CertificationPath({ certificationPath }: CertificationPathProps)
         className="cursor-pointer"
         onClick={() => setIsExpanded(!isExpanded)}
       >
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between gap-4 flex-wrap">
           <div className="flex items-center gap-4">
             <div className="p-3 bg-primary/10 rounded-lg">
               <BookOpen className="w-8 h-8 text-primary" />
@@ -162,13 +165,38 @@ export function CertificationPath({ certificationPath }: CertificationPathProps)
               </div>
             </div>
           </div>
-          <Button
-            variant="ghost"
-            size="icon"
-            className={`h-10 w-10 transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`}
-          >
-            <ChevronDown className="h-5 w-5" />
-          </Button>
+          <div className="flex items-center gap-2">
+            {certificationPath.pathCredentialUrl && (
+              <Button
+                variant="outline"
+                size="sm"
+                asChild
+                className="gap-1 text-xs sm:text-sm"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <a
+                  href={certificationPath.pathCredentialUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1"
+                >
+                  {isPathMediaFile ? (
+                    <ImageIcon className="h-4 w-4" />
+                  ) : (
+                    <ExternalLink className="h-4 w-4" />
+                  )}
+                  View Certification
+                </a>
+              </Button>
+            )}
+            <Button
+              variant="ghost"
+              size="icon"
+              className={`h-10 w-10 transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`}
+            >
+              <ChevronDown className="h-5 w-5" />
+            </Button>
+          </div>
         </div>
         
         {/* Path description and skills when collapsed */}

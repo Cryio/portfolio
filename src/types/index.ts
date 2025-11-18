@@ -101,6 +101,7 @@ export interface CertificationPath {
   completionDate: string;
   totalCertificates: number;
   skills: string[];
+  pathCredentialUrl?: string;
   certificates: PathCertificate[]; // Use PathCertificate instead of Certification
 }
 

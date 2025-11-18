@@ -170,6 +170,7 @@ experiences: [
       completionDate: "2024",
       totalCertificates: 6,
       skills: ["Network security", "Cloud security", "Endpoint security", "Security operations", "Incident response", "Threat detection"],
+      pathCredentialUrl: "/certificates/Palo Alto Networks Certified Cybersecurity Practitioner/(Main) Palo Alto Networks Certified Cybersecurity Practitioner.png",
       certificates: [
         {
           title: "Cloud Security Fundamentals",
