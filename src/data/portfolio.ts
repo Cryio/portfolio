@@ -532,8 +532,8 @@ experiences: [
 
   // Contact Information
   contact: {
-    email1: "contact@srachetrai.tech",
-    email: "srachetrai@gmail.com",
+    email: "contact@srachetrai.tech",
+    altEmail: "srachetrai@gmail.com",
     github: "https://github.com/Cryio",
     linkedin: "https://linkedin.com/in/srachetrai"
   }
