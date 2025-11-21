@@ -73,7 +73,7 @@ export default function About() {
                     className="flex items-center gap-2"
                   >
                     <Mail className="h-5 w-5" />
-                    Email
+                    Primary Email
                   </a>
                 </Button>
                 <Button variant="outline" asChild>
@@ -82,7 +82,7 @@ export default function About() {
                     className="flex items-center gap-2"
                   >
                     <Mail className="h-5 w-5" />
-                    Email
+                    Alt Email
                   </a>
                 </Button>
               </div>

@@ -38,7 +38,7 @@ export default function Home() {
   return (
     <main className="min-h-screen pt-24">
       <div className="container mx-auto px-4">
-        {/* Hero Section reordered: 1) Profile+Contact 2) Skills 3) Bio+Designation */}
+        {/* Hero Section reordered: 1) Profile+Contact 2) Bio+Designation 3) Skills */}
         <div className="mb-16 grid grid-cols-1 md:grid-cols-3 gap-10 items-center">
           {/* Column 1: profile photo, name, contact info */}
           <div className="flex flex-col items-center text-center">
@@ -72,7 +72,7 @@ export default function Home() {
                 <div className="grid gap-4">
                   <div className="grid gap-3">
 
-                    {/* EMAIL */}
+                    {/* PRIMARY EMAIL */}
                     <div className="grid grid-cols-[25px_1fr_auto] items-center gap-4">
                       <Mail className="h-4 w-4 text-inherit" />
                       <a
@@ -85,16 +85,16 @@ export default function Home() {
                         variant="ghost"
                         size="icon"
                         className="h-7 w-7 hover:bg-primary/20 text-inherit"
-                        onClick={() => handleCopy(portfolioData.contact.email, "email")}
+                        onClick={() => handleCopy(portfolioData.contact.email, "primary-email")}
                       >
-                        {copiedItem === "email" ? (
+                        {copiedItem === "primary-email" ? (
                           <span className="text-xs text-primary font-semibold">Copied!</span>
                         ) : (
                           <Copy className="h-4 w-4 text-inherit opacity-80 hover:opacity-100 transition" />
                         )}
                       </Button>
                     </div>
-                    {/* EMAIL */}
+                    {/* ALT EMAIL */}
                     <div className="grid grid-cols-[25px_1fr_auto] items-center gap-4">
                       <Mail className="h-4 w-4 text-inherit" />
                       <a
@@ -107,9 +107,9 @@ export default function Home() {
                         variant="ghost"
                         size="icon"
                         className="h-7 w-7 hover:bg-primary/20 text-inherit"
-                        onClick={() => handleCopy(portfolioData.contact.altEmail, "email")}
+                        onClick={() => handleCopy(portfolioData.contact.altEmail, "alt-email")}
                       >
-                        {copiedItem === "email" ? (
+                        {copiedItem === "alt-email" ? (
                           <span className="text-xs text-primary font-semibold">Copied!</span>
                         ) : (
                           <Copy className="h-4 w-4 text-inherit opacity-80 hover:opacity-100 transition" />
@@ -172,14 +172,7 @@ export default function Home() {
             </Popover>
           </div>
 
-          {/* Column 2: skill radar */}
-          <div className="flex justify-center md:justify-end min-w-0">
-            <div className="w-full max-w-md min-w-0">
-              <SkillRadar title="" />
-            </div>
-          </div>
-
-          {/* Column 3: bio and designation (title and description) with actions */}
+          {/* Column 2: bio and designation (title and description) with actions */}
           <div className="flex flex-col items-start text-left md:items-start md:text-left">
             <h2 className="text-3xl font-semibold text-foreground mb-4">
               {portfolioData.title}
@@ -204,6 +197,13 @@ export default function Home() {
                   <span>Try the Security Terminal</span>
                 </Link>
               </Button>
+            </div>
+          </div>
+
+          {/* Column 3: skill radar */}
+          <div className="flex justify-center md:justify-end min-w-0 order-3 md:order-none">
+            <div className="w-full max-w-md min-w-0">
+              <SkillRadar title="" />
             </div>
           </div>
         </div>
@@ -320,7 +320,15 @@ export default function Home() {
                 href={`mailto:${portfolioData.contact.email}`}
                 className="flex items-center gap-2"
               >
-                Email
+                Primary Email
+              </a>
+            </Button>
+            <Button variant="outline" asChild>
+              <a
+                href={`mailto:${portfolioData.contact.altEmail}`}
+                className="flex items-center gap-2"
+              >
+                Alt Email
               </a>
             </Button>
           </div>
