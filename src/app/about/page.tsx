@@ -69,7 +69,7 @@ export default function About() {
                 </Button>
                 <Button variant="outline" asChild>
                   <a
-                    href={`mailto:${portfolioData.contact.email1}`}
+                    href={`mailto:${portfolioData.contact.email}`}
                     className="flex items-center gap-2"
                   >
                     <Mail className="h-5 w-5" />
@@ -78,7 +78,7 @@ export default function About() {
                 </Button>
                 <Button variant="outline" asChild>
                   <a
-                    href={`mailto:${portfolioData.contact.email}`}
+                    href={`mailto:${portfolioData.contact.altEmail}`}
                     className="flex items-center gap-2"
                   >
                     <Mail className="h-5 w-5" />
