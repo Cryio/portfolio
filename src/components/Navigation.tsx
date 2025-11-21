@@ -5,6 +5,7 @@ import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 import { Button } from "./ui/button";
 import { Menu, Terminal } from "lucide-react";
 import { ThemeToggle } from "./ThemeToggle";
+import { features } from "@/config/features";
 
 export function Navigation() {
   return (
@@ -28,9 +29,11 @@ export function Navigation() {
           <Button variant="ghost" asChild>
             <Link href="/projects">Projects</Link>
           </Button>
-          <Button variant="ghost" asChild>
-            <Link href="/blogs">Blogs</Link>
-          </Button>
+          {features.blogsEnabled && (
+            <Button variant="ghost" asChild>
+              <Link href="/blogs">Blogs</Link>
+            </Button>
+          )}
           <Button variant="ghost" asChild>
             <Link href="/certifications">Certifications</Link>
           </Button>
@@ -66,9 +69,11 @@ export function Navigation() {
                 <Button variant="ghost" asChild>
                   <Link href="/projects">Projects</Link>
                 </Button>
-                <Button variant="ghost" asChild>
-                  <Link href="/blogs">Blogs</Link>
-                </Button>
+                {features.blogsEnabled && (
+                  <Button variant="ghost" asChild>
+                    <Link href="/blogs">Blogs</Link>
+                  </Button>
+                )}
                 <Button variant="ghost" asChild>
                   <Link href="/certifications">Certifications</Link>
                 </Button>

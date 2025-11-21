@@ -1,11 +1,17 @@
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import { getAllBlogs } from "@/lib/blogs";
+import { features } from "@/config/features";
 
 export const metadata = {
   title: "Blogs",
 };
 
 export default function BlogsPage() {
+  if (!features.blogsEnabled) {
+    notFound();
+  }
+
   const posts = getAllBlogs();
 
   return (
