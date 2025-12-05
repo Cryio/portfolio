@@ -3,27 +3,27 @@
 import { RadarChart, PolarGrid, PolarAngleAxis, Radar, Tooltip, ResponsiveContainer } from "recharts";
 import { useTheme } from "./ThemeProvider";
 
-type Skill = { label: string; strength: number; note?: string };
+type Skill = { label: string; Strength: number; note?: string };
 
 export function SkillRadar({
   title = "",
   skills = [
-    { label: "Forensics", strength: 80, note: "Docker/Podman CVEs, DFIR, Autopsy, CAPEv2, Ghidra, x64dbg" },
-    { label: "Containers", strength: 90, note: "Docker, Podman, QEMU, VirtualBox — research on container vulnerabilities" },
-    { label: "Networking", strength: 85, note: "Wireshark, TCP/IP, Cisco Packet Tracer, network config & VAPT" },
-    { label: "Cloud", strength: 75, note: "Google Cloud Platform, AWS, Azure — GenAI app deployment" },
-    { label: "Red Team", strength: 80, note: "Nessus, Burp Suite, Metasploit, SQLmap, exploit PoCs (C/Python)" },
-    { label: "Blue Team", strength: 78, note: "Wazuh, MISP, DFIR-IRIS, Log Management, Threat Intelligence" },
-    { label: "AI/ML", strength: 70, note: "IIT Bombay ML course, GANs, CSI-based Activity Recognition" },
-    { label: "Dev", strength: 72, note: "Python, Java, Node.js, React, Flutter, Flask APIs, OAuth" },
-    { label: "3D & Design", strength: 65, note: "Blender 3D, Figma, Adobe Suite, React Three Fiber visuals" },
+    { label: "Forensics", Strength: 80, note: "Docker/Podman CVEs, DFIR, Autopsy, CAPEv2, Ghidra, x64dbg" },
+    { label: "Containers", Strength: 90, note: "Docker, Podman, QEMU, VirtualBox — research on container vulnerabilities" },
+    { label: "Networking", Strength: 85, note: "Wireshark, TCP/IP, Cisco Packet Tracer, network config & VAPT" },
+    { label: "Cloud", Strength: 75, note: "Google Cloud Platform, AWS, Azure — GenAI app deployment" },
+    { label: "Red Team", Strength: 80, note: "Nessus, Burp Suite, Metasploit, SQLmap, exploit PoCs (C/Python)" },
+    { label: "Blue Team", Strength: 78, note: "Wazuh, MISP, DFIR-IRIS, Log Management, Threat Intelligence" },
+    { label: "AI/ML", Strength: 70, note: "IIT Bombay ML course, GANs, CSI-based Activity Recognition" },
+    { label: "Dev", Strength: 72, note: "Python, Java, Node.js, React, Flutter, Flask APIs, OAuth" },
+    { label: "3D & Design", Strength: 65, note: "Blender 3D, Figma, Adobe Suite, React Three Fiber visuals" },
   ],
 }: {
   title?: string;
   skills?: Skill[];
 }) {
   const { theme } = useTheme();
-  const data = skills.map((s) => ({ label: s.label, strength: s.strength, note: s.note }));
+  const data = skills.map((s) => ({ label: s.label, Strength: s.Strength, note: s.note }));
 
   // Enhanced color contrast for both themes
   const colors =
@@ -71,7 +71,7 @@ export function SkillRadar({
             />
             <Radar
               name={title}
-            dataKey="strength"
+            dataKey="Strength"
               stroke={colors.stroke}
               fill={colors.fill}
               fillOpacity={0.5}
