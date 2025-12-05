@@ -76,6 +76,7 @@
   --sidebar-accent-foreground: oklch(0.21 0.034 264.665);
   --sidebar-border: oklch(0.928 0.006 264.531);
   --sidebar-ring: oklch(0.707 0.022 261.325);
+  --wallpaper: url("/assets/bg-light.jpg");
 }
 
 .dark {
@@ -110,6 +111,7 @@
   --sidebar-accent-foreground: oklch(0.985 0.002 247.839);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.551 0.027 264.364);
+  --wallpaper: url("/assets/bg-dark.png");
 }
 
 @layer base {
@@ -158,6 +160,7 @@
     --ring: 240 5.9% 10%;
  
     --radius: 0.5rem;
+    --wallpaper: url("/assets/bg-light.jpg");
   }
  
   .dark {
@@ -188,6 +191,7 @@
     --border: 240 3.7% 15.9%;
     --input: 240 3.7% 15.9%;
     --ring: 240 4.9% 83.9%;
+    --wallpaper: url("/assets/bg-dark.png");
   }
 }
 
@@ -197,6 +201,11 @@
   }
   body {
     @apply bg-[hsl(var(--background))] text-[hsl(var(--foreground))] antialiased;
+    background-image: var(--wallpaper);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 }
