@@ -68,6 +68,12 @@ export function ThemeProvider({
   }, [theme, storageKey]);
 
   const startTransition = (newTheme: Theme, x: number, y: number) => {
+    // Apply theme immediately so the entire page transforms
+    const root = window.document.documentElement;
+    root.classList.remove("light", "dark");
+    root.classList.add(newTheme);
+    setTheme(newTheme);
+    
     setTransitionState({
       isTransitioning: true,
       newTheme,
@@ -75,17 +81,14 @@ export function ThemeProvider({
       y,
     });
 
-    // After animation completes, apply the theme change
+    // After animation completes, clean up transition state
     setTimeout(() => {
-      setTheme(newTheme);
-      setTimeout(() => {
-        setTransitionState({
-          isTransitioning: false,
-          newTheme: null,
-          x: 0,
-          y: 0,
-        });
-      }, 50);
+      setTransitionState({
+        isTransitioning: false,
+        newTheme: null,
+        x: 0,
+        y: 0,
+      });
     }, 800); // Match animation duration
   };
 
