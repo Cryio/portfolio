@@ -68,17 +68,21 @@ export function ThemeProvider({
   }, [theme, storageKey]);
 
   const startTransition = (newTheme: Theme, x: number, y: number) => {
-    // Apply theme immediately so the entire page transforms
-    const root = window.document.documentElement;
-    root.classList.remove("light", "dark");
-    root.classList.add(newTheme);
-    setTheme(newTheme);
-    
     setTransitionState({
       isTransitioning: true,
       newTheme,
       x,
       y,
+    });
+
+    // Apply theme after a tiny delay to ensure transition overlay is ready
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        const root = window.document.documentElement;
+        root.classList.remove("light", "dark");
+        root.classList.add(newTheme);
+        setTheme(newTheme);
+      });
     });
 
     // After animation completes, clean up transition state
@@ -89,7 +93,7 @@ export function ThemeProvider({
         x: 0,
         y: 0,
       });
-    }, 800); // Match animation duration
+    }, 850); // Slightly longer than animation duration
   };
 
   const value = {
