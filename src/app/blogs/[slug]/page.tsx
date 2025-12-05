@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { getAllBlogSlugs, getBlogBySlug } from "@/lib/blogs";
 import { features } from "@/config/features";
 
-type PageParams = { params: { slug: string } };
+type PageParams = { params: Promise<{ slug: string }> };
 
 export async function generateStaticParams() {
   if (!features.blogsEnabled) return [];
@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: PageParams): Promise<Metadata
     };
   }
 
-  const { slug } = params;
+  const { slug } = await params;
   const post = await getBlogBySlug(slug);
   return {
     title: post?.title ?? slug,
@@ -33,7 +33,7 @@ export default async function BlogPostPage({ params }: PageParams) {
     notFound();
   }
 
-  const { slug } = params;
+  const { slug } = await params;
   const post = await getBlogBySlug(slug);
   if (!post) {
     notFound();
