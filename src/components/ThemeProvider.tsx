@@ -10,14 +10,25 @@ type ThemeProviderProps = {
   storageKey?: string;
 };
 
+type TransitionState = {
+  isTransitioning: boolean;
+  newTheme: Theme | null;
+  x: number;
+  y: number;
+};
+
 type ThemeProviderState = {
   theme: Theme;
   setTheme: (theme: Theme) => void;
+  startTransition: (newTheme: Theme, x: number, y: number) => void;
+  transitionState: TransitionState;
 };
 
 const initialState: ThemeProviderState = {
   theme: "light",
   setTheme: () => null,
+  startTransition: () => null,
+  transitionState: { isTransitioning: false, newTheme: null, x: 0, y: 0 },
 };
 
 const ThemeProviderContext = createContext<ThemeProviderState>(initialState);
@@ -29,6 +40,12 @@ export function ThemeProvider({
   ...props
 }: ThemeProviderProps) {
   const [theme, setTheme] = useState<Theme>(defaultTheme);
+  const [transitionState, setTransitionState] = useState<TransitionState>({
+    isTransitioning: false,
+    newTheme: null,
+    x: 0,
+    y: 0,
+  });
 
   useEffect(() => {
     const savedTheme = localStorage.getItem(storageKey) as Theme;
@@ -50,11 +67,35 @@ export function ThemeProvider({
     localStorage.setItem(storageKey, theme);
   }, [theme, storageKey]);
 
+  const startTransition = (newTheme: Theme, x: number, y: number) => {
+    setTransitionState({
+      isTransitioning: true,
+      newTheme,
+      x,
+      y,
+    });
+
+    // After animation completes, apply the theme change
+    setTimeout(() => {
+      setTheme(newTheme);
+      setTimeout(() => {
+        setTransitionState({
+          isTransitioning: false,
+          newTheme: null,
+          x: 0,
+          y: 0,
+        });
+      }, 50);
+    }, 800); // Match animation duration
+  };
+
   const value = {
     theme,
     setTheme: (theme: Theme) => {
       setTheme(theme);
     },
+    startTransition,
+    transitionState,
   };
 
   return (

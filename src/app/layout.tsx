@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { Background } from "@/components/Background";
 import { Navigation } from "@/components/Navigation";
+import { ThemeTransition } from "@/components/ThemeTransition";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -59,6 +60,7 @@ export default function RootLayout({
     <html lang="en" className={inter.variable} suppressHydrationWarning>
       <body className={`${inter.className} antialiased text-foreground bg-background`}>
         <ThemeProvider defaultTheme="dark" storageKey="portfolio-theme">
+          <ThemeTransition />
           <Background />
           <Navigation />
           <main className="min-h-screen">
