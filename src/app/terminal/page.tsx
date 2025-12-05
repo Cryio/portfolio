@@ -103,7 +103,7 @@ const COMMANDS: Record<string, CommandDefinition> = {
       "┌───────────────────────────────────────┐",
       "│ Contact Information                   │",
       "└───────────────────────────────────────┘",
-      "Primary Email: contact@srachetrai.tech",
+      "Primary Email: contact@srachetrai.dev",
       "Alt Email: srachetrai@gmail.com",
       "GitHub: github.com/Cryio",
       "LinkedIn: linkedin.com/in/srachetrai",
