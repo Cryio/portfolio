@@ -6,7 +6,7 @@ import { Button } from "./ui/button";
 import { Award, ExternalLink, Image as ImageIcon, ChevronDown, BookOpen, GraduationCap } from "lucide-react";
 import { Badge } from "./ui/badge";
 
-// Import interfaces from types file using type-only imports to avoid conflicts
+// Import interfaces from types file using type-only imports
 import type { 
   Certification, 
   Achievement, 
@@ -35,7 +35,7 @@ export function Certification({ certification }: CertificationProps) {
 
   return (
     <Card 
-      className="backdrop-blur-sm bg-background/80 hover:bg-background/90 transition-all duration-300 hover:shadow-lg cursor-pointer overflow-hidden"
+      className="backdrop-blur-sm bg-background/80 hover:bg-background/90 transition-all duration-300 hover:shadow-lg cursor-pointer overflow-hidden border border-border"
       onClick={() => setIsExpanded(!isExpanded)}
     >
       <CardHeader className={`flex flex-row items-center gap-4 transition-colors duration-300 ${isExpanded ? 'bg-muted/30' : ''}`}>
@@ -52,7 +52,7 @@ export function Certification({ certification }: CertificationProps) {
           <Award className={`w-12 h-12 transition-colors duration-300 ${isExpanded ? 'text-primary/80' : 'text-primary'}`} />
         )}
         <div className="flex-grow">
-          <CardTitle className="text-xl text-foreground">{certification.title}</CardTitle>
+          <CardTitle className="text-xl text-foreground font-bold">{certification.title}</CardTitle>
           <div className="text-sm text-muted-foreground">
             {certification.issuer} • {certification.date}
           </div>
@@ -60,7 +60,7 @@ export function Certification({ certification }: CertificationProps) {
         <Button
           variant="ghost"
           size="icon"
-          className={`h-8 w-8 transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`}
+          className={`h-8 w-8 text-foreground transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`}
           onClick={(e) => {
             e.stopPropagation();
             setIsExpanded(!isExpanded);
@@ -85,7 +85,7 @@ export function Certification({ certification }: CertificationProps) {
               {certification.skills && certification.skills.length > 0 && (
                 <div className="flex flex-wrap gap-2">
                   {certification.skills.map((skill) => (
-                    <Badge key={skill} className="bg-primary text-white">
+                    <Badge key={skill} className="bg-primary text-primary-foreground">
                       {skill}
                     </Badge>
                   ))}
@@ -142,7 +142,7 @@ export function CertificationPath({ certificationPath }: CertificationPathProps)
     : false;
 
   return (
-    <Card className="backdrop-blur-sm bg-background/80 hover:bg-background/90 transition-all duration-300 hover:shadow-lg">
+    <Card className="backdrop-blur-sm bg-background/80 hover:bg-background/90 transition-all duration-300 hover:shadow-lg border border-border">
       <CardHeader 
         className="cursor-pointer"
         onClick={() => setIsExpanded(!isExpanded)}
@@ -153,15 +153,15 @@ export function CertificationPath({ certificationPath }: CertificationPathProps)
               <BookOpen className="w-8 h-8 text-primary" />
             </div>
             <div className="flex-grow">
-              <CardTitle className="text-2xl text-foreground mb-1">
+              <CardTitle className="text-2xl text-foreground font-bold mb-1">
                 {certificationPath.title}
               </CardTitle>
               <div className="text-sm text-muted-foreground mb-2">
                 {certificationPath.issuer} • Completed {certificationPath.completionDate}
               </div>
-              <div className="flex items-center gap-2 text-sm text-primary">
+              <div className="flex items-center gap-2 text-sm text-primary font-medium">
                 <GraduationCap className="w-4 h-4" />
-                <span className="font-medium">{certificationPath.totalCertificates} Certifications</span>
+                <span>{certificationPath.totalCertificates} Certifications</span>
               </div>
             </div>
           </div>
@@ -171,7 +171,7 @@ export function CertificationPath({ certificationPath }: CertificationPathProps)
                 variant="outline"
                 size="sm"
                 asChild
-                className="gap-1 text-xs sm:text-sm"
+                className="gap-1 text-xs sm:text-sm border-border text-foreground hover:bg-muted"
                 onClick={(e) => e.stopPropagation()}
               >
                 <a
@@ -192,14 +192,13 @@ export function CertificationPath({ certificationPath }: CertificationPathProps)
             <Button
               variant="ghost"
               size="icon"
-              className={`h-10 w-10 transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`}
+              className={`h-10 w-10 text-foreground transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`}
             >
               <ChevronDown className="h-5 w-5" />
             </Button>
           </div>
         </div>
         
-        {/* Path description and skills when collapsed */}
         {!isExpanded && (
           <div className="mt-4 space-y-3">
             <p className="text-sm text-muted-foreground">
@@ -207,12 +206,19 @@ export function CertificationPath({ certificationPath }: CertificationPathProps)
             </p>
             <div className="flex flex-wrap gap-1">
               {certificationPath.skills.slice(0, 5).map((skill) => (
-                <Badge key={skill} variant="secondary" className="text-xs">
+                <Badge 
+                  key={skill} 
+                  variant="outline" 
+                  className="text-xs border-border text-foreground"
+                >
                   {skill}
                 </Badge>
               ))}
               {certificationPath.skills.length > 5 && (
-                <Badge variant="secondary" className="text-xs">
+                <Badge 
+                  variant="outline" 
+                  className="text-xs border-border text-foreground"
+                >
                   +{certificationPath.skills.length - 5} more
                 </Badge>
               )}
@@ -230,13 +236,13 @@ export function CertificationPath({ certificationPath }: CertificationPathProps)
         <div className="overflow-hidden">
           <CardContent className="pt-0 pb-6">
             <div className="space-y-4">
-              <div className="border-t border-border/50 pt-4">
+              <div className="border-t border-border pt-4">
                 <p className="text-sm text-muted-foreground mb-4">
                   {certificationPath.description}
                 </p>
                 <div className="flex flex-wrap gap-2 mb-6">
                   {certificationPath.skills.map((skill) => (
-                    <Badge key={skill} variant="secondary">
+                    <Badge key={skill} variant="secondary" className="text-secondary-foreground">
                       {skill}
                     </Badge>
                   ))}
@@ -245,7 +251,7 @@ export function CertificationPath({ certificationPath }: CertificationPathProps)
               
               <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
                 {certificationPath.certificates.map((cert) => (
-                  <div key={cert.title} className="p-4 backdrop-blur-sm bg-background/60 rounded-lg border border-border/30">
+                  <div key={cert.title} className="p-4 bg-muted/30 rounded-lg border border-border">
                     <div className="flex items-start gap-3">
                       <Award className="w-6 h-6 text-primary mt-1 flex-shrink-0" />
                       <div className="flex-grow min-w-0">
@@ -263,12 +269,12 @@ export function CertificationPath({ certificationPath }: CertificationPathProps)
                         {cert.skills && cert.skills.length > 0 && (
                           <div className="flex flex-wrap gap-1 mb-2">
                             {cert.skills.slice(0, 3).map((skill) => (
-                              <Badge key={skill} variant="outline" className="text-xs px-1 py-0">
+                              <Badge key={skill} variant="outline" className="text-xs px-1 py-0 border-border text-muted-foreground">
                                 {skill}
                               </Badge>
                             ))}
                             {cert.skills.length > 3 && (
-                              <Badge variant="outline" className="text-xs px-1 py-0">
+                              <Badge variant="outline" className="text-xs px-1 py-0 border-border text-muted-foreground">
                                 +{cert.skills.length - 3}
                               </Badge>
                             )}
@@ -279,7 +285,7 @@ export function CertificationPath({ certificationPath }: CertificationPathProps)
                             variant="ghost" 
                             size="sm" 
                             asChild
-                            className="h-6 px-2 text-xs"
+                            className="h-6 px-2 text-xs hover:bg-muted text-primary"
                           >
                             <a
                               href={cert.credentialUrl}
@@ -309,7 +315,7 @@ export function CertificationPath({ certificationPath }: CertificationPathProps)
 export function CertificationSection({ title, certifications }: { title: string; certifications: (Certification | Achievement)[] }) {
   return (
     <div className="mb-12">
-      <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+      <h2 className="text-2xl font-bold text-foreground mb-6">
         {title}
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -332,7 +338,8 @@ export function Certifications({
       {/* Certification Paths Section */}
       {certificationPaths.length > 0 && (
         <div className="mb-12">
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-8">
+          {/* Main Title - Forced Foreground Color */}
+          <h2 className="text-3xl font-bold text-foreground mb-8">
             Certification Tracks & Learning Paths
           </h2>
           <div className="space-y-6">

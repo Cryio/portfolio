@@ -8,7 +8,7 @@ export default function About() {
   const paragraphs = portfolioData.aboutDescription.trim().split('\n\n');
 
   return (
-    <main className="min-h-screen pt-24">
+    <main className="min-h-screen pt-24 pb-16">
       <div className="container mx-auto px-4">
         <h1 className="text-4xl font-bold mb-8 bg-gradient-to-r from-primary to-primary/50 text-transparent bg-clip-text">
           About Me
@@ -20,15 +20,16 @@ export default function About() {
             <CardHeader>
               <CardTitle>Background</CardTitle>
             </CardHeader>
-            <CardContent className="prose prose-invert">
-              <div className="space-y-6 text-xl leading-relaxed">
+            {/* FIX: Change 'prose-invert' to 'dark:prose-invert' */}
+            <CardContent className="prose dark:prose-invert max-w-none">
+              <div className="space-y-6 text-xl leading-relaxed text-foreground">
                 {paragraphs.map((paragraph, index) => (
-                  <p key={index} className="text-black dark:text-white">
+                  <p key={index}>
                     {paragraph.trim()}
                   </p>
                 ))}
               </div>
-              <div className="mt-8">
+              <div className="mt-8 not-prose">
                 <Button asChild>
                   <a href="/assets/cv.pdf" download>
                     Download CV
@@ -92,4 +93,4 @@ export default function About() {
       </div>
     </main>
   );
-} 
+}

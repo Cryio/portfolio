@@ -1,34 +1,17 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 
 type Theme = "light" | "dark";
 
-type ThemeProviderProps = {
-  children: React.ReactNode;
-  defaultTheme?: Theme;
-  storageKey?: string;
-};
-
-type TransitionState = {
-  isTransitioning: boolean;
-  newTheme: Theme | null;
-  x: number;
-  y: number;
-};
-
 type ThemeProviderState = {
   theme: Theme;
-  setTheme: (theme: Theme) => void;
-  startTransition: (newTheme: Theme, x: number, y: number) => void;
-  transitionState: TransitionState;
+  toggleTheme: (e?: React.MouseEvent) => void;
 };
 
 const initialState: ThemeProviderState = {
   theme: "light",
-  setTheme: () => null,
-  startTransition: () => null,
-  transitionState: { isTransitioning: false, newTheme: null, x: 0, y: 0 },
+  toggleTheme: () => null,
 };
 
 const ThemeProviderContext = createContext<ThemeProviderState>(initialState);
@@ -37,69 +20,95 @@ export function ThemeProvider({
   children,
   defaultTheme = "light",
   storageKey = "portfolio-theme",
-  ...props
-}: ThemeProviderProps) {
-  const [theme, setTheme] = useState<Theme>(defaultTheme);
-  const [transitionState, setTransitionState] = useState<TransitionState>({
-    isTransitioning: false,
-    newTheme: null,
-    x: 0,
-    y: 0,
-  });
+}: {
+  children: React.ReactNode;
+  defaultTheme?: Theme;
+  storageKey?: string;
+}) {
+  const [theme, setThemeState] = useState<Theme>(defaultTheme);
+  const [mounted, setMounted] = useState(false);
 
+  // 1. Initialize theme from local storage or system preference
   useEffect(() => {
-    const savedTheme = localStorage.getItem(storageKey) as Theme;
+    setMounted(true);
+    const savedTheme = localStorage.getItem(storageKey) as Theme | null;
     if (savedTheme) {
-      setTheme(savedTheme);
+      setThemeState(savedTheme);
+      document.documentElement.classList.remove("light", "dark");
+      document.documentElement.classList.add(savedTheme);
     } else {
-      // Check system preference
       const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches
         ? "dark"
         : "light";
-      setTheme(systemTheme);
+      setThemeState(systemTheme);
+      document.documentElement.classList.remove("light", "dark");
+      document.documentElement.classList.add(systemTheme);
     }
   }, [storageKey]);
 
-  useEffect(() => {
-    const root = window.document.documentElement;
-    root.classList.remove("light", "dark");
-    root.classList.add(theme);
-    localStorage.setItem(storageKey, theme);
-  }, [theme, storageKey]);
+  // 2. The Robust Toggle Function (View Transition API)
+  const toggleTheme = async (e?: React.MouseEvent) => {
+    const newTheme = theme === "dark" ? "light" : "dark";
 
-  const startTransition = (newTheme: Theme, x: number, y: number) => {
-    setTransitionState({
-      isTransitioning: true,
-      newTheme,
-      x,
-      y,
+    // Fallback: If browser doesn't support View Transitions or user prefers reduced motion
+    if (
+      !document.startViewTransition ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+      updateDOM(newTheme);
+      return;
+    }
+
+    // Capture click coordinates (or center of screen if triggered via keyboard)
+    const x = e?.clientX ?? window.innerWidth / 2;
+    const y = e?.clientY ?? window.innerHeight / 2;
+
+    // Calculate distance to the furthest corner
+    const endRadius = Math.hypot(
+      Math.max(x, window.innerWidth - x),
+      Math.max(y, window.innerHeight - y)
+    );
+
+    // Start the native transition
+    const transition = document.startViewTransition(() => {
+      updateDOM(newTheme);
     });
 
-    // After animation completes, apply the theme change
-    setTimeout(() => {
-      setTheme(newTheme);
-      setTimeout(() => {
-        setTransitionState({
-          isTransitioning: false,
-          newTheme: null,
-          x: 0,
-          y: 0,
-        });
-      }, 50);
-    }, 800); // Match animation duration
+    // Wait for the pseudo-elements to be created
+    await transition.ready;
+
+    // Animate the circle clip
+    document.documentElement.animate(
+      {
+        clipPath: [
+          `circle(0px at ${x}px ${y}px)`,
+          `circle(${endRadius}px at ${x}px ${y}px)`,
+        ],
+      },
+      {
+        duration: 700, // Matches your CSS duration
+        easing: "ease-in-out",
+        pseudoElement: "::view-transition-new(root)",
+      }
+    );
   };
 
-  const value = {
-    theme,
-    setTheme: (theme: Theme) => {
-      setTheme(theme);
-    },
-    startTransition,
-    transitionState,
+  // Helper to actually swap classes and state
+  const updateDOM = (newTheme: Theme) => {
+    const root = window.document.documentElement;
+    root.classList.remove("light", "dark");
+    root.classList.add(newTheme);
+    localStorage.setItem(storageKey, newTheme);
+    setThemeState(newTheme);
   };
+
+  // Prevent hydration mismatch by not rendering until mounted
+  if (!mounted) {
+    return null;
+  }
 
   return (
-    <ThemeProviderContext.Provider {...props} value={value}>
+    <ThemeProviderContext.Provider value={{ theme, toggleTheme }}>
       {children}
     </ThemeProviderContext.Provider>
   );
@@ -107,9 +116,17 @@ export function ThemeProvider({
 
 export const useTheme = () => {
   const context = useContext(ThemeProviderContext);
-
   if (context === undefined)
     throw new Error("useTheme must be used within a ThemeProvider");
-
   return context;
-}; 
+};
+
+declare global {
+  interface Document {
+    startViewTransition(callback: () => Promise<void> | void): {
+      ready: Promise<void>;
+      finished: Promise<void>;
+      updateCallbackDone: Promise<void>;
+    };
+  }
+}
