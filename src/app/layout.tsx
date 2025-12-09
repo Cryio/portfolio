@@ -4,7 +4,8 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { Background } from "@/components/Background";
 import { Navigation } from "@/components/Navigation";
-// REMOVE THIS LINE: import { ThemeTransition } from "@/components/ThemeTransition"; 
+
+export const dynamic = "force-static";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -58,6 +59,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={inter.variable} suppressHydrationWarning>
+      <head>
+        <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+        <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
+      </head>
       <body className={`${inter.className} antialiased text-foreground bg-background`}>
         <ThemeProvider defaultTheme="dark" storageKey="portfolio-theme">
           <Background />
