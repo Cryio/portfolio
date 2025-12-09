@@ -26,11 +26,8 @@ export function ThemeProvider({
   storageKey?: string;
 }) {
   const [theme, setThemeState] = useState<Theme>(defaultTheme);
-  const [mounted, setMounted] = useState(false);
 
-  // 1. Initialize theme from local storage or system preference
   useEffect(() => {
-    setMounted(true);
     const savedTheme = localStorage.getItem(storageKey) as Theme | null;
     if (savedTheme) {
       setThemeState(savedTheme);
@@ -46,11 +43,9 @@ export function ThemeProvider({
     }
   }, [storageKey]);
 
-  // 2. The Robust Toggle Function (View Transition API)
   const toggleTheme = async (e?: React.MouseEvent) => {
     const newTheme = theme === "dark" ? "light" : "dark";
 
-    // Fallback: If browser doesn't support View Transitions or user prefers reduced motion
     if (
       !document.startViewTransition ||
       window.matchMedia("(prefers-reduced-motion: reduce)").matches
@@ -59,25 +54,20 @@ export function ThemeProvider({
       return;
     }
 
-    // Capture click coordinates (or center of screen if triggered via keyboard)
     const x = e?.clientX ?? window.innerWidth / 2;
     const y = e?.clientY ?? window.innerHeight / 2;
 
-    // Calculate distance to the furthest corner
     const endRadius = Math.hypot(
       Math.max(x, window.innerWidth - x),
       Math.max(y, window.innerHeight - y)
     );
 
-    // Start the native transition
     const transition = document.startViewTransition(() => {
       updateDOM(newTheme);
     });
 
-    // Wait for the pseudo-elements to be created
     await transition.ready;
 
-    // Animate the circle clip
     document.documentElement.animate(
       {
         clipPath: [
@@ -86,14 +76,13 @@ export function ThemeProvider({
         ],
       },
       {
-        duration: 700, // Matches your CSS duration
+        duration: 700,
         easing: "ease-in-out",
         pseudoElement: "::view-transition-new(root)",
       }
     );
   };
 
-  // Helper to actually swap classes and state
   const updateDOM = (newTheme: Theme) => {
     const root = window.document.documentElement;
     root.classList.remove("light", "dark");
@@ -101,11 +90,6 @@ export function ThemeProvider({
     localStorage.setItem(storageKey, newTheme);
     setThemeState(newTheme);
   };
-
-  // Prevent hydration mismatch by not rendering until mounted
-  if (!mounted) {
-    return null;
-  }
 
   return (
     <ThemeProviderContext.Provider value={{ theme, toggleTheme }}>
@@ -120,13 +104,3 @@ export const useTheme = () => {
     throw new Error("useTheme must be used within a ThemeProvider");
   return context;
 };
-
-declare global {
-  interface Document {
-    startViewTransition(callback: () => Promise<void> | void): {
-      ready: Promise<void>;
-      finished: Promise<void>;
-      updateCallbackDone: Promise<void>;
-    };
-  }
-}

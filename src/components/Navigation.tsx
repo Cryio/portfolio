@@ -1,11 +1,19 @@
 "use client";
 
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 import { Button } from "./ui/button";
 import { Menu, Terminal } from "lucide-react";
-import { ThemeToggle } from "./ThemeToggle";
 import { features } from "@/config/features";
+
+const ThemeToggle = dynamic(
+  () => import("./ThemeToggle").then((mod) => mod.ThemeToggle),
+  {
+    ssr: false,
+    loading: () => <div className="w-9 h-9" />,
+  }
+);
 
 export function Navigation() {
   return (
@@ -43,12 +51,16 @@ export function Navigation() {
               Terminal
             </Link>
           </Button>
+          
+          {/* Lazy loaded toggle */}
           <ThemeToggle />
         </div>
 
         {/* Mobile Navigation */}
         <div className="flex items-center gap-4 md:hidden">
+          {/* Lazy loaded toggle */}
           <ThemeToggle />
+          
           <Sheet>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon">
@@ -90,4 +102,4 @@ export function Navigation() {
       </div>
     </div>
   );
-} 
+}
