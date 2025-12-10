@@ -1,11 +1,58 @@
+"use client";
+
+import { useState } from "react";
 import { portfolioData } from "../../data/portfolio";
 import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
 import { Button } from "../../components/ui/button";
-import { Github, Linkedin, Mail } from "lucide-react";
+import { Github, Linkedin, Mail, Loader2 } from "lucide-react";
 
 export default function About() {
   // Split the description into paragraphs
   const paragraphs = portfolioData.aboutDescription.trim().split('\n\n');
+
+  // --- NEW: Form State ---
+  const [isLoading, setIsLoading] = useState(false);
+  const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: ""
+  });
+
+  // --- NEW: Handle Input Change ---
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  // --- NEW: Handle Form Submission ---
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    try {
+      const response = await fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({
+          "form-name": "about-contact", // MUST match the hidden input below and your static HTML file
+          ...formData,
+        }).toString(),
+      });
+
+      if (response.ok) {
+        setStatus("success");
+        setFormData({ name: "", email: "", subject: "", message: "" }); // Clear form
+      } else {
+        setStatus("error");
+      }
+    } catch (error) {
+      console.error(error);
+      setStatus("error");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <main className="min-h-screen pt-24 pb-16">
@@ -20,7 +67,6 @@ export default function About() {
             <CardHeader>
               <CardTitle>Background</CardTitle>
             </CardHeader>
-            {/* FIX: Change 'prose-invert' to 'dark:prose-invert' */}
             <CardContent className="prose dark:prose-invert max-w-none">
               <div className="space-y-6 text-xl leading-relaxed text-foreground">
                 {paragraphs.map((paragraph, index) => (
@@ -39,27 +85,19 @@ export default function About() {
             </CardContent>
           </Card>
 
-          {/* Contact Section */}
+          {/* Contact Section - UPDATED FORM */}
           <Card className="backdrop-blur-sm bg-background/80">
             <CardHeader>
               <CardTitle>Get in Touch</CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
               <form
-                name="about-contact"
-                method="POST"
-                data-netlify="true"
-                data-netlify-honeypot="bot-field"
+                onSubmit={handleSubmit}
                 className="grid gap-4"
               >
+                {/* Essential for Netlify Detection */}
                 <input type="hidden" name="form-name" value="about-contact" />
-                <p className="hidden">
-                  <label className="text-sm text-foreground/80">
-                    Don’t fill this out if you’re human:
-                    <input name="bot-field" />
-                  </label>
-                </p>
-
+                
                 <div className="grid md:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <label htmlFor="about-name" className="text-sm font-medium text-foreground">
@@ -70,6 +108,8 @@ export default function About() {
                       name="name"
                       type="text"
                       required
+                      value={formData.name}
+                      onChange={handleChange}
                       className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
                       placeholder="Your name"
                     />
@@ -83,11 +123,14 @@ export default function About() {
                       name="email"
                       type="email"
                       required
+                      value={formData.email}
+                      onChange={handleChange}
                       className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
                       placeholder="you@example.com"
                     />
                   </div>
                 </div>
+
                 <div className="space-y-2">
                   <label htmlFor="about-subject" className="text-sm font-medium text-foreground">
                     Subject
@@ -96,10 +139,13 @@ export default function About() {
                     id="about-subject"
                     name="subject"
                     type="text"
+                    value={formData.subject}
+                    onChange={handleChange}
                     className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
                     placeholder="What would you like to discuss?"
                   />
                 </div>
+
                 <div className="space-y-2">
                   <label htmlFor="about-message" className="text-sm font-medium text-foreground">
                     Message
@@ -109,16 +155,24 @@ export default function About() {
                     name="message"
                     rows={5}
                     required
+                    value={formData.message}
+                    onChange={handleChange}
                     className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
                     placeholder="How can I help?"
                   />
                 </div>
 
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-                  <p className="text-sm text-foreground/70">
-                  </p>
-                  <Button type="submit" className="w-full sm:w-auto">
-                    Send Message
+                  <div className="text-sm text-foreground/70">
+                    {status === "success" && <span className="text-green-500 font-bold">Message sent successfully!</span>}
+                    {status === "error" && <span className="text-red-500 font-bold">Something went wrong. Please try again.</span>}
+                  </div>
+                  <Button type="submit" className="w-full sm:w-auto" disabled={isLoading}>
+                    {isLoading ? (
+                      <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Sending...</>
+                    ) : (
+                      "Send Message"
+                    )}
                   </Button>
                 </div>
               </form>

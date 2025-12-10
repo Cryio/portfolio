@@ -17,6 +17,7 @@ import {
   Terminal,
   Mail,
   Copy,
+  Loader2, // Added for the loading spinner
 } from "lucide-react";
 import { Role } from "@/components/Experience";
 import { Project } from "@/components/Project";
@@ -25,6 +26,7 @@ import { portfolioData } from "@/data/portfolio";
 import { SkillRadar } from "@/components/SkillRadar";
 
 export default function Home() {
+  // --- Existing State for Copy Functionality ---
   const [copiedItem, setCopiedItem] = useState<string | null>(null);
 
   const handleCopy = (text: string, itemName: string) => {
@@ -35,12 +37,56 @@ export default function Home() {
     }, 2000);
   };
 
+  // --- NEW: Form State ---
+  const [isLoading, setIsLoading] = useState(false);
+  const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: ""
+  });
+
+  // --- NEW: Handle Input Change ---
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  // --- NEW: Handle Form Submission ---
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    try {
+      const response = await fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({
+          "form-name": "home-contact", // MUST match the hidden input below and your static HTML file
+          ...formData,
+        }).toString(),
+      });
+
+      if (response.ok) {
+        setStatus("success");
+        setFormData({ name: "", email: "", subject: "", message: "" }); // Clear form
+      } else {
+        setStatus("error");
+      }
+    } catch (error) {
+      console.error(error);
+      setStatus("error");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <main className="min-h-screen pt-24">
       <div className="container mx-auto px-4">
-        {/* Hero Section reordered: 1) Profile+Contact 2) Bio+Designation 3) Skills */}
+        {/* Hero Section */}
         <div className="mb-16 grid grid-cols-1 md:grid-cols-3 gap-10 items-center">
-          {/* Column 1: profile photo, name, contact info */}
+          {/* Column 1: Profile & Contact */}
           <div className="flex flex-col items-center text-center">
             <div className="relative w-40 h-40 mb-8 ring-4 ring-primary/20 rounded-full overflow-hidden">
               <Image
@@ -54,7 +100,8 @@ export default function Home() {
             <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-primary to-primary/80 text-transparent bg-clip-text">
               {portfolioData.name}
             </h1>
-            {/* Contact info */}
+            
+            {/* Contact Popover */}
             <Popover>
               <PopoverTrigger asChild>
                 <Button size="lg">
@@ -71,108 +118,53 @@ export default function Home() {
               >
                 <div className="grid gap-4">
                   <div className="grid gap-3">
-
                     {/* PRIMARY EMAIL */}
                     <div className="grid grid-cols-[25px_1fr_auto] items-center gap-4">
                       <Mail className="h-4 w-4 text-inherit" />
-                      <a
-                        href={`mailto:${portfolioData.contact.email}`}
-                        className="text-sm font-mono truncate hover:underline"
-                      >
+                      <a href={`mailto:${portfolioData.contact.email}`} className="text-sm font-mono truncate hover:underline">
                         {portfolioData.contact.email}
                       </a>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="h-7 w-7 hover:bg-primary/20 text-inherit"
-                        onClick={() => handleCopy(portfolioData.contact.email, "primary-email")}
-                      >
-                        {copiedItem === "primary-email" ? (
-                          <span className="text-xs text-primary font-semibold">Copied!</span>
-                        ) : (
-                          <Copy className="h-4 w-4 text-inherit opacity-80 hover:opacity-100 transition" />
-                        )}
+                      <Button variant="ghost" size="icon" className="h-7 w-7 hover:bg-primary/20 text-inherit" onClick={() => handleCopy(portfolioData.contact.email, "primary-email")}>
+                        {copiedItem === "primary-email" ? <span className="text-xs text-primary font-semibold">Copied!</span> : <Copy className="h-4 w-4 text-inherit opacity-80 hover:opacity-100 transition" />}
                       </Button>
                     </div>
                     {/* ALT EMAIL */}
                     <div className="grid grid-cols-[25px_1fr_auto] items-center gap-4">
                       <Mail className="h-4 w-4 text-inherit" />
-                      <a
-                        href={`mailto:${portfolioData.contact.altEmail}`}
-                        className="text-sm font-mono truncate hover:underline"
-                      >
+                      <a href={`mailto:${portfolioData.contact.altEmail}`} className="text-sm font-mono truncate hover:underline">
                         {portfolioData.contact.altEmail}
                       </a>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="h-7 w-7 hover:bg-primary/20 text-inherit"
-                        onClick={() => handleCopy(portfolioData.contact.altEmail, "alt-email")}
-                      >
-                        {copiedItem === "alt-email" ? (
-                          <span className="text-xs text-primary font-semibold">Copied!</span>
-                        ) : (
-                          <Copy className="h-4 w-4 text-inherit opacity-80 hover:opacity-100 transition" />
-                        )}
+                      <Button variant="ghost" size="icon" className="h-7 w-7 hover:bg-primary/20 text-inherit" onClick={() => handleCopy(portfolioData.contact.altEmail, "alt-email")}>
+                        {copiedItem === "alt-email" ? <span className="text-xs text-primary font-semibold">Copied!</span> : <Copy className="h-4 w-4 text-inherit opacity-80 hover:opacity-100 transition" />}
                       </Button>
                     </div>
                     {/* LINKEDIN */}
                     <div className="grid grid-cols-[25px_1fr_auto] items-center gap-4">
                       <Linkedin className="h-4 w-4 text-inherit" />
-                      <a
-                        href={portfolioData.contact.linkedin}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-sm font-mono truncate hover:underline"
-                      >
+                      <a href={portfolioData.contact.linkedin} target="_blank" rel="noopener noreferrer" className="text-sm font-mono truncate hover:underline">
                         {portfolioData.contact.linkedin.replace("https://www.linkedin.com/in/", "")}
                       </a>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="h-7 w-7 hover:bg-primary/20 text-inherit"
-                        onClick={() => handleCopy(portfolioData.contact.linkedin, "linkedin")}
-                      >
-                        {copiedItem === "linkedin" ? (
-                          <span className="text-xs text-primary font-semibold">Copied!</span>
-                        ) : (
-                          <Copy className="h-4 w-4 text-inherit opacity-80 hover:opacity-100 transition" />
-                        )}
+                      <Button variant="ghost" size="icon" className="h-7 w-7 hover:bg-primary/20 text-inherit" onClick={() => handleCopy(portfolioData.contact.linkedin, "linkedin")}>
+                        {copiedItem === "linkedin" ? <span className="text-xs text-primary font-semibold">Copied!</span> : <Copy className="h-4 w-4 text-inherit opacity-80 hover:opacity-100 transition" />}
                       </Button>
                     </div>
-
                     {/* GITHUB */}
                     <div className="grid grid-cols-[25px_1fr_auto] items-center gap-4">
                       <Github className="h-4 w-4 text-inherit" />
-                      <a
-                        href={portfolioData.contact.github}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-sm font-mono truncate hover:underline"
-                      >
+                      <a href={portfolioData.contact.github} target="_blank" rel="noopener noreferrer" className="text-sm font-mono truncate hover:underline">
                         {portfolioData.contact.github.replace("https://github.com/", "")}
                       </a>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="h-7 w-7 hover:bg-primary/20 text-inherit"
-                        onClick={() => handleCopy(portfolioData.contact.github, "github")}
-                      >
-                        {copiedItem === "github" ? (
-                          <span className="text-xs text-primary font-semibold">Copied!</span>
-                        ) : (
-                          <Copy className="h-4 w-4 text-inherit opacity-80 hover:opacity-100 transition" />
-                        )}
+                      <Button variant="ghost" size="icon" className="h-7 w-7 hover:bg-primary/20 text-inherit" onClick={() => handleCopy(portfolioData.contact.github, "github")}>
+                        {copiedItem === "github" ? <span className="text-xs text-primary font-semibold">Copied!</span> : <Copy className="h-4 w-4 text-inherit opacity-80 hover:opacity-100 transition" />}
                       </Button>
                     </div>
                   </div>
                 </div>
               </PopoverContent>
-
             </Popover>
           </div>
 
-          {/* Column 2: bio and designation (title and description) with actions */}
+          {/* Column 2: Bio & Downloads */}
           <div className="flex flex-col items-start text-left md:items-start md:text-left">
             <h2 className="text-3xl font-semibold text-foreground mb-4">
               {portfolioData.title}
@@ -182,11 +174,7 @@ export default function Home() {
             </p>
             <div className="flex gap-4 flex-wrap">
               <Button size="lg" asChild>
-                <a
-                  href="/assets/Srachet Rai CV - Cyber Sec.pdf"
-                  download
-                  className="flex items-center gap-2"
-                >
+                <a href="/assets/Srachet Rai CV - Cyber Sec.pdf" download className="flex items-center gap-2">
                   <Download className="h-5 w-5" />
                   Download CV
                 </a>
@@ -200,7 +188,7 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Column 3: skill radar */}
+          {/* Column 3: Skill Radar */}
           <div className="flex justify-center md:justify-end min-w-0 order-3 md:order-none">
             <div className="w-full max-w-md min-w-0">
               <SkillRadar title="" />
@@ -221,8 +209,6 @@ export default function Home() {
             </div>
           </div>
         ))}
-
-        {/* Removed live GitHub activity widget as requested */}
 
         {/* Featured Projects Section */}
         <section className="mb-16">
@@ -269,10 +255,7 @@ export default function Home() {
           </h2>
           <Certifications
             certificationPaths={portfolioData.certificationPaths.slice(0, 2)}
-            individualCertifications={portfolioData.individualCertifications.slice(
-              0,
-              3
-            )}
+            individualCertifications={portfolioData.individualCertifications.slice(0, 3)}
             achievements={portfolioData.achievements.slice(0, 3)}
           />
           <div className="mt-8 text-center">
@@ -284,7 +267,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Contact Section */}
+        {/* Contact Section - UPDATED FORM */}
         <section className="text-center space-y-6 mb-16">
           <h2 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/80">
             Get in Touch
@@ -294,19 +277,11 @@ export default function Home() {
           </p>
 
           <form
-            name="home-contact"
-            method="POST"
-            data-netlify="true"
-            data-netlify-honeypot="bot-field"
+            onSubmit={handleSubmit}
             className="max-w-3xl mx-auto grid gap-4 text-left bg-background/70 border border-border/60 rounded-2xl p-6 shadow-lg backdrop-blur"
           >
+            {/* Essential for Netlify: Must match the name in your static HTML file */}
             <input type="hidden" name="form-name" value="home-contact" />
-            <p className="hidden">
-              <label className="text-sm text-foreground/80">
-                Don’t fill this out if you’re human:
-                <input name="bot-field" />
-              </label>
-            </p>
 
             <div className="grid md:grid-cols-2 gap-4">
               <div className="space-y-2">
@@ -318,6 +293,8 @@ export default function Home() {
                   name="name"
                   type="text"
                   required
+                  value={formData.name}
+                  onChange={handleChange}
                   className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
                   placeholder="Your name"
                 />
@@ -331,6 +308,8 @@ export default function Home() {
                   name="email"
                   type="email"
                   required
+                  value={formData.email}
+                  onChange={handleChange}
                   className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
                   placeholder="you@example.com"
                 />
@@ -345,6 +324,8 @@ export default function Home() {
                 id="home-subject"
                 name="subject"
                 type="text"
+                value={formData.subject}
+                onChange={handleChange}
                 className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
                 placeholder="What would you like to discuss?"
               />
@@ -359,56 +340,47 @@ export default function Home() {
                 name="message"
                 rows={5}
                 required
+                value={formData.message}
+                onChange={handleChange}
                 className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
                 placeholder="Tell me more about your project or question"
               />
             </div>
 
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-              <p className="text-sm text-foreground/70">
-              </p>
-              <Button type="submit" size="lg" className="w-full sm:w-auto">
-                Send Message
+              <div className="text-sm text-foreground/70">
+                {status === "success" && <span className="text-green-500 font-bold">Message sent successfully!</span>}
+                {status === "error" && <span className="text-red-500 font-bold">Something went wrong. Please try again.</span>}
+              </div>
+              <Button type="submit" size="lg" disabled={isLoading} className="w-full sm:w-auto">
+                {isLoading ? (
+                  <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Sending...</>
+                ) : (
+                  "Send Message"
+                )}
               </Button>
             </div>
           </form>
 
+          {/* Social Links */}
           <div className="flex justify-center gap-4 flex-wrap">
             <Button variant="outline" asChild>
-              <a
-                href={portfolioData.contact.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2"
-              >
-                <Github className="h-5 w-5" />
-                GitHub
+              <a href={portfolioData.contact.github} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
+                <Github className="h-5 w-5" /> GitHub
               </a>
             </Button>
             <Button variant="outline" asChild>
-              <a
-                href={portfolioData.contact.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2"
-              >
-                <Linkedin className="h-5 w-5" />
-                LinkedIn
+              <a href={portfolioData.contact.linkedin} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
+                <Linkedin className="h-5 w-5" /> LinkedIn
               </a>
             </Button>
             <Button variant="outline" asChild>
-              <a
-                href={`mailto:${portfolioData.contact.email}`}
-                className="flex items-center gap-2"
-              >
+              <a href={`mailto:${portfolioData.contact.email}`} className="flex items-center gap-2">
                 Primary Email
               </a>
             </Button>
             <Button variant="outline" asChild>
-              <a
-                href={`mailto:${portfolioData.contact.altEmail}`}
-                className="flex items-center gap-2"
-              >
+              <a href={`mailto:${portfolioData.contact.altEmail}`} className="flex items-center gap-2">
                 Alt Email
               </a>
             </Button>
