@@ -285,14 +285,96 @@ export default function Home() {
         </section>
 
         {/* Contact Section */}
-        <section className="text-center space-y-4 mb-16">
+        <section className="text-center space-y-6 mb-16">
           <h2 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/80">
             Get in Touch
           </h2>
           <p className="text-xl text-foreground/80">
             Feel free to reach out.
           </p>
-          <div className="flex justify-center gap-4">
+
+          <form
+            name="home-contact"
+            method="POST"
+            data-netlify="true"
+            data-netlify-honeypot="bot-field"
+            className="max-w-3xl mx-auto grid gap-4 text-left bg-background/70 border border-border/60 rounded-2xl p-6 shadow-lg backdrop-blur"
+          >
+            <input type="hidden" name="form-name" value="home-contact" />
+            <p className="hidden">
+              <label className="text-sm text-foreground/80">
+                Don’t fill this out if you’re human:
+                <input name="bot-field" />
+              </label>
+            </p>
+
+            <div className="grid md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <label htmlFor="home-name" className="text-sm font-medium text-foreground">
+                  Name
+                </label>
+                <input
+                  id="home-name"
+                  name="name"
+                  type="text"
+                  required
+                  className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                  placeholder="Your name"
+                />
+              </div>
+              <div className="space-y-2">
+                <label htmlFor="home-email" className="text-sm font-medium text-foreground">
+                  Email
+                </label>
+                <input
+                  id="home-email"
+                  name="email"
+                  type="email"
+                  required
+                  className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                  placeholder="you@example.com"
+                />
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <label htmlFor="home-subject" className="text-sm font-medium text-foreground">
+                Subject
+              </label>
+              <input
+                id="home-subject"
+                name="subject"
+                type="text"
+                className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                placeholder="What would you like to discuss?"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label htmlFor="home-message" className="text-sm font-medium text-foreground">
+                Message
+              </label>
+              <textarea
+                id="home-message"
+                name="message"
+                rows={5}
+                required
+                className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                placeholder="Tell me more about your project or question"
+              />
+            </div>
+
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+              <p className="text-sm text-foreground/70">
+                This form is handled by Netlify — no client-side JavaScript required.
+              </p>
+              <Button type="submit" size="lg" className="w-full sm:w-auto">
+                Send Message
+              </Button>
+            </div>
+          </form>
+
+          <div className="flex justify-center gap-4 flex-wrap">
             <Button variant="outline" asChild>
               <a
                 href={portfolioData.contact.github}

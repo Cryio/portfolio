@@ -44,7 +44,85 @@ export default function About() {
             <CardHeader>
               <CardTitle>Get in Touch</CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="space-y-6">
+              <form
+                name="about-contact"
+                method="POST"
+                data-netlify="true"
+                data-netlify-honeypot="bot-field"
+                className="grid gap-4"
+              >
+                <input type="hidden" name="form-name" value="about-contact" />
+                <p className="hidden">
+                  <label className="text-sm text-foreground/80">
+                    Don’t fill this out if you’re human:
+                    <input name="bot-field" />
+                  </label>
+                </p>
+
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <label htmlFor="about-name" className="text-sm font-medium text-foreground">
+                      Name
+                    </label>
+                    <input
+                      id="about-name"
+                      name="name"
+                      type="text"
+                      required
+                      className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                      placeholder="Your name"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label htmlFor="about-email" className="text-sm font-medium text-foreground">
+                      Email
+                    </label>
+                    <input
+                      id="about-email"
+                      name="email"
+                      type="email"
+                      required
+                      className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                      placeholder="you@example.com"
+                    />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <label htmlFor="home-subject" className="text-sm font-medium text-foreground">
+                    Subject
+                  </label>
+                  <input
+                    id="home-subject"
+                    name="subject"
+                    type="text"
+                    className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                    placeholder="What would you like to discuss?"
+                  />
+              </div>
+                <div className="space-y-2">
+                  <label htmlFor="about-message" className="text-sm font-medium text-foreground">
+                    Message
+                  </label>
+                  <textarea
+                    id="about-message"
+                    name="message"
+                    rows={5}
+                    required
+                    className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                    placeholder="How can I help?"
+                  />
+                </div>
+
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                  <p className="text-sm text-foreground/70">
+                  </p>
+                  <Button type="submit" className="w-full sm:w-auto">
+                    Send Message
+                  </Button>
+                </div>
+              </form>
+
               <div className="flex flex-wrap gap-4">
                 <Button variant="outline" asChild>
                   <a

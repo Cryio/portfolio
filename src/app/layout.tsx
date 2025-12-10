@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { Background } from "@/components/Background";
 import { Navigation } from "@/components/Navigation";
+import { portfolioData } from "@/data/portfolio";
 export const dynamic = "force-static";
 
 const inter = Inter({
@@ -69,6 +70,46 @@ export default function RootLayout({
           <main className="min-h-screen">
             {children}
           </main>
+          <footer className="border-t border-border/60 bg-background/80 backdrop-blur">
+            <div className="container mx-auto px-4 py-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+              <div>
+                <p className="text-lg font-semibold text-foreground">{portfolioData.name}</p>
+                <p className="text-sm text-foreground/70">{portfolioData.title}</p>
+              </div>
+              <div className="flex flex-wrap gap-4 text-sm text-foreground/80">
+                <a href="/" className="hover:text-primary transition-colors">Home</a>
+                <a href="/about" className="hover:text-primary transition-colors">About</a>
+                <a href="/projects" className="hover:text-primary transition-colors">Projects</a>
+                <a href="/blogs" className="hover:text-primary transition-colors">Blogs</a>
+                <a href="/certifications" className="hover:text-primary transition-colors">Certifications</a>
+                <a href="/roles" className="hover:text-primary transition-colors">Roles</a>
+              </div>
+              <div className="flex flex-wrap gap-4 text-sm text-foreground/80">
+                <a
+                  href={`mailto:${portfolioData.contact.email}`}
+                  className="hover:text-primary transition-colors"
+                >
+                  Email
+                </a>
+                <a
+                  href={portfolioData.contact.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-primary transition-colors"
+                >
+                  LinkedIn
+                </a>
+                <a
+                  href={portfolioData.contact.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-primary transition-colors"
+                >
+                  GitHub
+                </a>
+              </div>
+            </div>
+          </footer>
         </ThemeProvider>
       </body>
     </html>
