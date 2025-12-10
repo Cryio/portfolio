@@ -31,11 +31,11 @@ export default function About() {
     setIsLoading(true);
 
     try {
-      const response = await fetch("/", {
+        const response = await fetch("/__forms.html", {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: new URLSearchParams({
-          "form-name": "about-contact", // MUST match the hidden input below and your static HTML file
+          "form-name": "home-contact",
           ...formData,
         }).toString(),
       });
