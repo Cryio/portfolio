@@ -167,7 +167,7 @@ export default function About() {
                     {status === "success" && (
                       <span className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 font-medium">
                         <CheckCircle2 className="h-4 w-4" />
-                        Thank you! I'll get back to you shortly.
+                        Thank you! I&apos;ll get back to you shortly.
                       </span>
                     )}
                     {status === "error" && (
