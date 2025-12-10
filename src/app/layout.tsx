@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 import { Background } from "@/components/Background";
 import { Navigation } from "@/components/Navigation";
 import { portfolioData } from "@/data/portfolio";
+import Link from "next/link";
 export const dynamic = "force-static";
 
 const inter = Inter({
@@ -77,12 +78,12 @@ export default function RootLayout({
                 <p className="text-sm text-foreground/70">{portfolioData.title}</p>
               </div>
               <div className="flex flex-wrap gap-4 text-sm text-foreground/80">
-                <a href="/" className="hover:text-primary transition-colors">Home</a>
-                <a href="/about" className="hover:text-primary transition-colors">About</a>
-                <a href="/projects" className="hover:text-primary transition-colors">Projects</a>
-                <a href="/blogs" className="hover:text-primary transition-colors">Blogs</a>
-                <a href="/certifications" className="hover:text-primary transition-colors">Certifications</a>
-                <a href="/roles" className="hover:text-primary transition-colors">Roles</a>
+                <Link href="/" className="hover:text-primary transition-colors">Home</Link>
+                <Link href="/about" className="hover:text-primary transition-colors">About</Link>
+                <Link href="/projects" className="hover:text-primary transition-colors">Projects</Link>
+                <Link href="/blogs" className="hover:text-primary transition-colors">Blogs</Link>
+                <Link href="/certifications" className="hover:text-primary transition-colors">Certifications</Link>
+                <Link href="/roles" className="hover:text-primary transition-colors">Roles</Link>
               </div>
               <div className="flex flex-wrap gap-4 text-sm text-foreground/80">
                 <a

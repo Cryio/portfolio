@@ -89,17 +89,17 @@ export default function About() {
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <label htmlFor="home-subject" className="text-sm font-medium text-foreground">
+                  <label htmlFor="about-subject" className="text-sm font-medium text-foreground">
                     Subject
                   </label>
                   <input
-                    id="home-subject"
+                    id="about-subject"
                     name="subject"
                     type="text"
                     className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
                     placeholder="What would you like to discuss?"
                   />
-              </div>
+                </div>
                 <div className="space-y-2">
                   <label htmlFor="about-message" className="text-sm font-medium text-foreground">
                     Message
@@ -116,6 +116,7 @@ export default function About() {
 
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                   <p className="text-sm text-foreground/70">
+                    Powered by Netlify Forms — submissions are emailed and saved.
                   </p>
                   <Button type="submit" className="w-full sm:w-auto">
                     Send Message
