@@ -4,13 +4,13 @@ import { useState } from "react";
 import { portfolioData } from "../../data/portfolio";
 import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
 import { Button } from "../../components/ui/button";
-import { Github, Linkedin, Mail, Loader2 } from "lucide-react";
+import { Github, Linkedin, Mail, Loader2, CheckCircle2, XCircle } from "lucide-react";
 
 export default function About() {
   // Split the description into paragraphs
   const paragraphs = portfolioData.aboutDescription.trim().split('\n\n');
 
-  // --- NEW: Form State ---
+  // --- Form State ---
   const [isLoading, setIsLoading] = useState(false);
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
   const [formData, setFormData] = useState({
@@ -20,12 +20,12 @@ export default function About() {
     message: ""
   });
 
-  // --- NEW: Handle Input Change ---
+  // --- Handle Input Change ---
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // --- NEW: Handle Form Submission ---
+  // --- Handle Form Submission ---
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -35,7 +35,7 @@ export default function About() {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: new URLSearchParams({
-          "form-name": "home-contact",
+          "form-name": "about-contact",
           ...formData,
         }).toString(),
       });
@@ -163,9 +163,19 @@ export default function About() {
                 </div>
 
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-                  <div className="text-sm text-foreground/70">
-                    {status === "success" && <span className="text-green-500 font-bold">Message sent successfully!</span>}
-                    {status === "error" && <span className="text-red-500 font-bold">Something went wrong. Please try again.</span>}
+                  <div className="text-sm">
+                    {status === "success" && (
+                      <span className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 font-medium">
+                        <CheckCircle2 className="h-4 w-4" />
+                        Thank you! I'll get back to you shortly.
+                      </span>
+                    )}
+                    {status === "error" && (
+                      <span className="flex items-center gap-2 text-red-600 dark:text-red-400 font-medium">
+                         <XCircle className="h-4 w-4" />
+                        Something went wrong. Please try again.
+                      </span>
+                    )}
                   </div>
                   <Button type="submit" className="w-full sm:w-auto" disabled={isLoading}>
                     {isLoading ? (

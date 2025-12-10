@@ -17,7 +17,9 @@ import {
   Terminal,
   Mail,
   Copy,
-  Loader2, // Added for the loading spinner
+  Loader2,
+  CheckCircle2, // NEW: Success Icon
+  XCircle       // NEW: Error Icon
 } from "lucide-react";
 import { Role } from "@/components/Experience";
 import { Project } from "@/components/Project";
@@ -37,7 +39,7 @@ export default function Home() {
     }, 2000);
   };
 
-  // --- NEW: Form State ---
+  // --- Form State ---
   const [isLoading, setIsLoading] = useState(false);
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
   const [formData, setFormData] = useState({
@@ -47,12 +49,12 @@ export default function Home() {
     message: ""
   });
 
-  // --- NEW: Handle Input Change ---
+  // --- Handle Input Change ---
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // --- NEW: Handle Form Submission ---
+  // --- Handle Form Submission ---
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -62,7 +64,7 @@ export default function Home() {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: new URLSearchParams({
-          "form-name": "home-contact", // MUST match the hidden input below and your static HTML file
+          "form-name": "home-contact",
           ...formData,
         }).toString(),
       });
@@ -118,7 +120,7 @@ export default function Home() {
               >
                 <div className="grid gap-4">
                   <div className="grid gap-3">
-                    {/* PRIMARY EMAIL */}
+                    {/* Emails & Socials (Same as before) */}
                     <div className="grid grid-cols-[25px_1fr_auto] items-center gap-4">
                       <Mail className="h-4 w-4 text-inherit" />
                       <a href={`mailto:${portfolioData.contact.email}`} className="text-sm font-mono truncate hover:underline">
@@ -128,7 +130,6 @@ export default function Home() {
                         {copiedItem === "primary-email" ? <span className="text-xs text-primary font-semibold">Copied!</span> : <Copy className="h-4 w-4 text-inherit opacity-80 hover:opacity-100 transition" />}
                       </Button>
                     </div>
-                    {/* ALT EMAIL */}
                     <div className="grid grid-cols-[25px_1fr_auto] items-center gap-4">
                       <Mail className="h-4 w-4 text-inherit" />
                       <a href={`mailto:${portfolioData.contact.altEmail}`} className="text-sm font-mono truncate hover:underline">
@@ -138,7 +139,6 @@ export default function Home() {
                         {copiedItem === "alt-email" ? <span className="text-xs text-primary font-semibold">Copied!</span> : <Copy className="h-4 w-4 text-inherit opacity-80 hover:opacity-100 transition" />}
                       </Button>
                     </div>
-                    {/* LINKEDIN */}
                     <div className="grid grid-cols-[25px_1fr_auto] items-center gap-4">
                       <Linkedin className="h-4 w-4 text-inherit" />
                       <a href={portfolioData.contact.linkedin} target="_blank" rel="noopener noreferrer" className="text-sm font-mono truncate hover:underline">
@@ -148,7 +148,6 @@ export default function Home() {
                         {copiedItem === "linkedin" ? <span className="text-xs text-primary font-semibold">Copied!</span> : <Copy className="h-4 w-4 text-inherit opacity-80 hover:opacity-100 transition" />}
                       </Button>
                     </div>
-                    {/* GITHUB */}
                     <div className="grid grid-cols-[25px_1fr_auto] items-center gap-4">
                       <Github className="h-4 w-4 text-inherit" />
                       <a href={portfolioData.contact.github} target="_blank" rel="noopener noreferrer" className="text-sm font-mono truncate hover:underline">
@@ -280,7 +279,7 @@ export default function Home() {
             onSubmit={handleSubmit}
             className="max-w-3xl mx-auto grid gap-4 text-left bg-background/70 border border-border/60 rounded-2xl p-6 shadow-lg backdrop-blur"
           >
-            {/* Essential for Netlify: Must match the name in your static HTML file */}
+            {/* Essential for Netlify Detection */}
             <input type="hidden" name="form-name" value="home-contact" />
 
             <div className="grid md:grid-cols-2 gap-4">
@@ -348,10 +347,21 @@ export default function Home() {
             </div>
 
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-              <div className="text-sm text-foreground/70">
-                {status === "success" && <span className="text-green-500 font-bold">Message sent successfully!</span>}
-                {status === "error" && <span className="text-red-500 font-bold">Something went wrong. Please try again.</span>}
+              <div className="text-sm">
+                {status === "success" && (
+                  <span className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 font-medium">
+                    <CheckCircle2 className="h-4 w-4" />
+                    Thank you! I'll get back to you shortly.
+                  </span>
+                )}
+                {status === "error" && (
+                  <span className="flex items-center gap-2 text-red-600 dark:text-red-400 font-medium">
+                    <XCircle className="h-4 w-4" />
+                    Something went wrong. Please try again.
+                  </span>
+                )}
               </div>
+              
               <Button type="submit" size="lg" disabled={isLoading} className="w-full sm:w-auto">
                 {isLoading ? (
                   <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Sending...</>
@@ -362,7 +372,7 @@ export default function Home() {
             </div>
           </form>
 
-          {/* Social Links */}
+          {/* Social Links (Same as before) */}
           <div className="flex justify-center gap-4 flex-wrap">
             <Button variant="outline" asChild>
               <a href={portfolioData.contact.github} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
