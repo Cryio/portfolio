@@ -116,7 +116,6 @@ export default function About() {
 
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                   <p className="text-sm text-foreground/70">
-                    Powered by Netlify Forms — submissions are emailed and saved.
                   </p>
                   <Button type="submit" className="w-full sm:w-auto">
                     Send Message

@@ -366,7 +366,6 @@ export default function Home() {
 
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
               <p className="text-sm text-foreground/70">
-                This form is handled by Netlify — no client-side JavaScript required.
               </p>
               <Button type="submit" size="lg" className="w-full sm:w-auto">
                 Send Message
