@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Popover,
@@ -19,7 +19,8 @@ import {
   Copy,
   Loader2,
   CheckCircle2, // NEW: Success Icon
-  XCircle       // NEW: Error Icon
+  XCircle,       // NEW: Error Icon
+  Quote
 } from "lucide-react";
 import { Role } from "@/components/Experience";
 import { Project } from "@/components/Project";
@@ -48,6 +49,77 @@ export default function Home() {
     subject: "",
     message: ""
   });
+
+  const quotes = [
+    {
+      text: "With great power comes great electricity bill.",
+      author: "Dr. Who",
+    },
+    {
+      text: "Passwords are like underwear—change them often and don’t share.",
+      author: "Every Security Checklist Ever",
+    },
+    {
+      text: "My threat model includes coffee outages and expired certs.",
+      author: "A Tired Security Engineer",
+    },
+    {
+      text: "In God we trust; all others must bring logs.",
+      author: "A Friendly SOC",
+    },
+    {
+      text: "If it’s not in version control, it’s already on fire.",
+      author: "Build Pipeline Philosopher",
+    },
+    {
+      text: "Never trust, always verify, frequently caffeinate.",
+      author: "Zero Trust Barista",
+    },
+    {
+      text: "My firewall rules are just my boundaries in YAML.",
+      author: "Therapist for DevSecOps",
+    },
+    {
+      text: "There is no cloud, only other people’s misconfigured servers.",
+      author: "SRE on Call",
+    },
+    {
+      text: "The most secure system is unplugged, encased in concrete, and asleep.",
+      author: "Paranoid Architect",
+    },
+    {
+      text: "Red team finds the door; blue team installs a hinge; purple team writes the doc.",
+      author: "Team Player",
+    },
+    {
+      text: "My favorite zero-day is a day with zero pages of new runbooks.",
+      author: "Sleepy On-Call",
+    },
+    {
+      text: "Never underestimate a well-placed log line or a poorly-placed semicolon.",
+      author: "Incident Historian",
+    },
+    {
+      text: "Security is just performance art for adversaries with more caffeine.",
+      author: "Caffeine-Driven Defender",
+    },
+  ];
+
+  const [quoteIndex, setQuoteIndex] = useState(0);
+  const [isFading, setIsFading] = useState(false);
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setIsFading(true);
+      setTimeout(() => {
+        setQuoteIndex((prev) => (prev + 1) % quotes.length);
+        setIsFading(false);
+      }, 420);
+    }, 9200);
+    return () => clearInterval(id);
+  }, [quotes.length]);
+
+  const activeQuote = quotes[quoteIndex];
 
   // --- Handle Input Change ---
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -194,6 +266,28 @@ export default function Home() {
             </div>
           </div>
         </div>
+
+        {/* Lighthearted Quotes Section */}
+        <section className="mb-4">
+            <div className="absolute inset-0 pointer-events-none bg-gradient-to-br from-primary/10 via-transparent to-primary/5" />
+            <div className="relative space-y-6 px-6 text-center">
+
+              <div className="max-w-3xl mx-auto">
+                <div
+                  key={activeQuote.text}
+                  className={`relative rounded-lg px-4 py-6 transition-all duration-900 ease-in-out ${isFading ? "opacity-0 scale-95 blur-[2px]" : "opacity-100 scale-100 blur-0"}`}
+                  aria-live="polite"
+                >
+                  <p className="text-base md:text-xl font-mono leading-relaxed text-foreground">
+                    {activeQuote.text}
+                  </p>
+                  <div className="mt-4 text-sm md:text-base text-primary font-medium text-center">
+                    — {activeQuote.author}
+                  </div>
+                </div>
+              </div>
+            </div>
+        </section>
 
         {/* Technologies Section */}
         {portfolioData.technologies.map((section) => (
