@@ -19,8 +19,7 @@ import {
   Copy,
   Loader2,
   CheckCircle2, // NEW: Success Icon
-  XCircle,       // NEW: Error Icon
-  Quote
+  XCircle
 } from "lucide-react";
 import { Role } from "@/components/Experience";
 import { Project } from "@/components/Project";
