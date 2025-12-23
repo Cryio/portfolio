@@ -11,7 +11,7 @@ In my leadership roles with the Google Developers Student Club and TEDxNIITUnive
   altEmail: "srachetrai@gmail.com",
   github: "https://github.com/Cryio",
   linkedin: "https://linkedin.com/in/srachetrai",
-  cvUrl: "/assets/Srachet_Rai_CV.pdf",
+  cvUrl: "/assets/documents/resume.pdf",
 };
 
 export const skillCategories = [
