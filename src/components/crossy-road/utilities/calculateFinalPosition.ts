@@ -1,0 +1,32 @@
+import { Direction } from '../stores/player';
+
+interface Position {
+  rowIndex: number;
+  tileIndex: number;
+}
+
+export function calculateFinalPosition(currentPosition: Position, moves: Direction[]): Position {
+  return moves.reduce((position, direction) => {
+    if (direction === 'forward')
+      return {
+        rowIndex: position.rowIndex + 1,
+        tileIndex: position.tileIndex,
+      };
+    if (direction === 'backward')
+      return {
+        rowIndex: position.rowIndex - 1,
+        tileIndex: position.tileIndex,
+      };
+    if (direction === 'left')
+      return {
+        rowIndex: position.rowIndex,
+        tileIndex: position.tileIndex - 1,
+      };
+    if (direction === 'right')
+      return {
+        rowIndex: position.rowIndex,
+        tileIndex: position.tileIndex + 1,
+      };
+    return position;
+  }, currentPosition);
+}

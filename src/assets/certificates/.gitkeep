@@ -1,0 +1,17 @@
+# Certificates Directory
+
+Place certification badge images here.
+
+## Naming Convention
+`[issuer]-[certification-name].png`
+
+## Examples
+- `paloalto-cybersecurity.png`
+- `cisco-networking.png`
+- `google-cloud-ai.png`
+- `cato-cca.png`
+
+## Recommended Specs
+- Format: PNG with transparency
+- Size: 200x200px or similar square ratio
+- File size: Under 100KB

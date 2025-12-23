@@ -1,0 +1,30 @@
+# Robots.txt for Srachet Rai Portfolio
+# https://srachetrai.dev
+
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+User-agent: *
+Allow: /
+Crawl-delay: 2
+
+# Sitemap location
+Sitemap: https://srachetrai.dev/sitemap.xml
+
+# Disallow admin/private paths (if any in future)
+Disallow: /api/
+Disallow: /_/

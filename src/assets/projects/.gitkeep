@@ -1,0 +1,29 @@
+# Project Images Directory
+
+Place project screenshots and images here.
+
+## Structure
+Each project should have its own folder:
+```
+projects/
+├── wifi-csi/
+│   ├── hero.jpg
+│   ├── screenshot-1.jpg
+│   └── screenshot-2.jpg
+├── tinylinux/
+│   └── hero.jpg
+└── thumbnails/
+    ├── wifi-csi-thumb.jpg
+    └── tinylinux-thumb.jpg
+```
+
+## Naming Convention
+- Hero images: `hero.jpg`
+- Screenshots: `screenshot-[number].jpg`
+- Thumbnails: `[project-slug]-thumb.jpg`
+
+## Recommended Specs
+- Hero: 1200x630px (16:9 ratio)
+- Screenshots: 1920x1080px
+- Thumbnails: 400x300px
+- Format: JPEG or WebP

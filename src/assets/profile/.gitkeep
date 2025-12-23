@@ -1,0 +1,14 @@
+# Profile Photos Directory
+
+Place profile photos and headshots here.
+
+## Naming Convention
+- `profile-main.jpg` - Primary profile photo
+- `profile-about.jpg` - About page photo  
+- `profile-thumb.jpg` - Thumbnail version
+
+## Recommended Specs
+- Format: JPEG or WebP
+- Main photo: 800x800px minimum
+- Thumbnail: 200x200px
+- File size: Under 200KB for main, under 50KB for thumb
