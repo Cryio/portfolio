@@ -7,8 +7,22 @@ import { getProjectImage } from "@/lib/assetLoader";
 import { Link } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
 
-// Helper to generate project image key from title
-const getProjectId = (title: string) => title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
+// Mapping of project titles to their asset file names
+const projectImageMap: Record<string, string> = {
+  "Wifi-CSI Based Activity Recognition": "wifi-csi",
+  "TinyLinux": "tinylinux",
+};
+
+// Helper to get project image by title
+const getProjectImageByTitle = (title: string): string | undefined => {
+  const mappedId = projectImageMap[title];
+  if (mappedId) {
+    return getProjectImage(mappedId);
+  }
+  // Fallback to generating ID from title
+  const generatedId = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
+  return getProjectImage(generatedId);
+};
 
 // Animated floating shape with more dynamic movement
 function FloatingShape({ className, color, delay = 0 }: { className?: string; color: string; delay?: number }) {
@@ -499,8 +513,8 @@ export function ProjectsPreview() {
 
         <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto mb-8">
           {projects.slice(0, 2).map((project, i) => {
-            const projectId = getProjectId(project.title);
-            const imageUrl = getProjectImage(projectId);
+            const imageUrl = getProjectImageByTitle(project.title);
+            
             
             return (
               <ScrollReveal key={project.title} delay={i + 1}>
