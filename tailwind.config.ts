@@ -101,6 +101,10 @@ export default {
         'wiggle': {
           '0%, 100%': { transform: 'rotate(-3deg)' },
           '50%': { transform: 'rotate(3deg)' }
+        },
+        'slide-down': {
+          '0%': { transform: 'translateY(-100%)', opacity: '0' },
+          '100%': { transform: 'translateY(0)', opacity: '1' }
         }
       },
       animation: {
@@ -108,7 +112,8 @@ export default {
         'accordion-up': 'accordion-up 0.2s ease-out',
         'marquee': 'marquee 20s linear infinite',
         'float': 'float 6s ease-in-out infinite',
-        'wiggle': 'wiggle 1s ease-in-out infinite'
+        'wiggle': 'wiggle 1s ease-in-out infinite',
+        'slide-down': 'slide-down 0.3s ease-out'
       },
       boxShadow: {
         '2xs': 'var(--shadow-2xs)',
