@@ -92,24 +92,24 @@ export function CrossyRoadGame({ onBack }: CrossyRoadGameProps) {
 
   return (
     <div className="relative w-full h-full" style={{ background: 'linear-gradient(180deg, hsl(199 92% 72%) 0%, hsl(200 94% 86%) 50%, hsl(201 96% 94%) 100%)' }}>
-      {/* Score display - Brutalist style */}
-      <div className="absolute top-20 left-1/2 -translate-x-1/2 z-10">
-        <div className="border-4 border-foreground bg-background px-8 py-4 shadow-md">
-          <div className="text-5xl font-display text-foreground text-center">
+      {/* Score display - Brutalist style - Responsive */}
+      <div className="absolute top-16 md:top-20 left-1/2 -translate-x-1/2 z-10">
+        <div className="border-4 border-foreground bg-background px-4 md:px-8 py-2 md:py-4 shadow-md">
+          <div className="text-3xl md:text-5xl font-display text-foreground text-center">
             {score}
           </div>
           {coins > 0 && (
-            <div className="flex items-center justify-center gap-2 mt-1 border-t-2 border-foreground/20 pt-2">
-              <span className="text-xl">🪙</span>
-              <span className="text-lg font-bold font-mono text-highlight-3">{coins}</span>
+            <div className="flex items-center justify-center gap-1.5 md:gap-2 mt-1 border-t-2 border-foreground/20 pt-1.5 md:pt-2">
+              <span className="text-base md:text-xl">🪙</span>
+              <span className="text-sm md:text-lg font-bold font-mono text-highlight-3">{coins}</span>
             </div>
           )}
         </div>
       </div>
 
-      {/* Hint text */}
-      <div className="absolute top-36 left-1/2 -translate-x-1/2 z-10 mt-6">
-        <div className="text-foreground/60 text-sm font-mono uppercase tracking-wide">
+      {/* Hint text - Hidden on very small screens */}
+      <div className="absolute top-28 md:top-36 left-1/2 -translate-x-1/2 z-10 mt-4 md:mt-6 hidden sm:block">
+        <div className="text-foreground/60 text-xs md:text-sm font-mono uppercase tracking-wide">
           Collect coins for +5 points!
         </div>
       </div>
@@ -130,37 +130,37 @@ export function CrossyRoadGame({ onBack }: CrossyRoadGameProps) {
         </div>
       </div>
 
-      {/* Game Over overlay - Brutalist style */}
+      {/* Game Over overlay - Brutalist style - Responsive */}
       {gameOver && (
-        <div className="absolute inset-0 z-20 flex items-center justify-center bg-foreground/80">
-          <div className="border-4 border-foreground bg-background p-10 shadow-xl text-center max-w-sm mx-4">
-            <div className="text-6xl mb-4">💀</div>
-            <h2 className="text-4xl font-display text-foreground mb-2 uppercase">Game Over!</h2>
+        <div className="absolute inset-0 z-20 flex items-center justify-center bg-foreground/80 p-4">
+          <div className="border-4 border-foreground bg-background p-6 md:p-10 shadow-xl text-center max-w-sm w-full mx-4">
+            <div className="text-4xl md:text-6xl mb-3 md:mb-4">💀</div>
+            <h2 className="text-2xl md:text-4xl font-display text-foreground mb-2 uppercase">Game Over!</h2>
             
             {hasNewHighScore && (
-              <div className="border-4 border-highlight-3 bg-highlight-3/10 px-4 py-2 mb-4">
-                <span className="text-highlight-3 font-bold uppercase text-sm">🏆 New High Score!</span>
+              <div className="border-4 border-highlight-3 bg-highlight-3/10 px-3 md:px-4 py-1.5 md:py-2 mb-3 md:mb-4">
+                <span className="text-highlight-3 font-bold uppercase text-xs md:text-sm">🏆 New High Score!</span>
               </div>
             )}
             
-            <p className="text-muted-foreground mb-2 font-mono uppercase text-sm">Your Score</p>
-            <p className="text-6xl font-display text-highlight-3 mb-4">{score}</p>
+            <p className="text-muted-foreground mb-1 md:mb-2 font-mono uppercase text-xs md:text-sm">Your Score</p>
+            <p className="text-4xl md:text-6xl font-display text-highlight-3 mb-3 md:mb-4">{score}</p>
             {coins > 0 && (
-              <p className="text-muted-foreground mb-6 flex items-center justify-center gap-2">
-                <span className="text-2xl">🪙</span>
-                <span className="text-xl font-bold font-mono">{coins} coins collected</span>
+              <p className="text-muted-foreground mb-4 md:mb-6 flex items-center justify-center gap-2">
+                <span className="text-xl md:text-2xl">🪙</span>
+                <span className="text-base md:text-xl font-bold font-mono">{coins} coins collected</span>
               </p>
             )}
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-2 md:gap-3">
               <button
                 onClick={handleRestart}
-                className="w-full border-4 border-foreground bg-highlight-2 text-foreground px-8 py-4 font-bold text-xl uppercase tracking-wide shadow-sm hover:shadow-md hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-150"
+                className="w-full border-4 border-foreground bg-highlight-2 text-foreground px-6 md:px-8 py-3 md:py-4 font-bold text-base md:text-xl uppercase tracking-wide shadow-sm hover:shadow-md hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-150"
               >
                 Play Again
               </button>
               <button
                 onClick={handleBackToMenu}
-                className="w-full border-4 border-foreground bg-secondary text-foreground px-8 py-3 font-bold uppercase tracking-wide shadow-sm hover:shadow-md hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-150"
+                className="w-full border-4 border-foreground bg-secondary text-foreground px-6 md:px-8 py-2.5 md:py-3 font-bold text-sm md:text-base uppercase tracking-wide shadow-sm hover:shadow-md hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-150"
               >
                 Back to Menu
               </button>
@@ -169,32 +169,32 @@ export function CrossyRoadGame({ onBack }: CrossyRoadGameProps) {
         </div>
       )}
 
-      {/* Touch controls for mobile - Brutalist style */}
-      <div className="absolute bottom-8 left-8 z-10 md:hidden">
-        <div className="grid grid-cols-3 gap-2">
+      {/* Touch controls for mobile - Larger and better positioned */}
+      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 md:hidden">
+        <div className="grid grid-cols-3 gap-1.5">
           <div></div>
           <button
             onTouchStart={() => handleTouchMove('forward')}
-            className="w-14 h-14 border-4 border-foreground bg-background flex items-center justify-center text-2xl font-bold text-foreground shadow-sm active:shadow-none active:translate-x-0.5 active:translate-y-0.5 transition-all duration-100"
+            className="w-16 h-16 border-4 border-foreground bg-background/90 flex items-center justify-center text-3xl font-bold text-foreground shadow-md active:shadow-none active:translate-y-0.5 transition-all duration-100"
           >
             ↑
           </button>
           <div></div>
           <button
             onTouchStart={() => handleTouchMove('left')}
-            className="w-14 h-14 border-4 border-foreground bg-background flex items-center justify-center text-2xl font-bold text-foreground shadow-sm active:shadow-none active:translate-x-0.5 active:translate-y-0.5 transition-all duration-100"
+            className="w-16 h-16 border-4 border-foreground bg-background/90 flex items-center justify-center text-3xl font-bold text-foreground shadow-md active:shadow-none active:translate-x-0.5 transition-all duration-100"
           >
             ←
           </button>
           <button
             onTouchStart={() => handleTouchMove('backward')}
-            className="w-14 h-14 border-4 border-foreground bg-background flex items-center justify-center text-2xl font-bold text-foreground shadow-sm active:shadow-none active:translate-x-0.5 active:translate-y-0.5 transition-all duration-100"
+            className="w-16 h-16 border-4 border-foreground bg-background/90 flex items-center justify-center text-3xl font-bold text-foreground shadow-md active:shadow-none active:translate-y-0.5 transition-all duration-100"
           >
             ↓
           </button>
           <button
             onTouchStart={() => handleTouchMove('right')}
-            className="w-14 h-14 border-4 border-foreground bg-background flex items-center justify-center text-2xl font-bold text-foreground shadow-sm active:shadow-none active:translate-x-0.5 active:translate-y-0.5 transition-all duration-100"
+            className="w-16 h-16 border-4 border-foreground bg-background/90 flex items-center justify-center text-3xl font-bold text-foreground shadow-md active:shadow-none active:-translate-x-0.5 transition-all duration-100"
           >
             →
           </button>

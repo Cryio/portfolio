@@ -9,8 +9,22 @@ import { getProjectImage } from "@/lib/assetLoader";
 import { AnimatedPage, FadeInOnScroll, StaggerContainer, StaggerItem } from "@/components/AnimatedPage";
 import { motion } from "framer-motion";
 
-// Helper to generate project image key from title
-const getProjectId = (title: string) => title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
+// Mapping of project titles to their asset file names
+const projectImageMap: Record<string, string> = {
+  "Wifi-CSI Based Activity Recognition": "wifi-csi",
+  "TinyLinux": "tinylinux",
+};
+
+// Helper to get project image by title
+const getProjectImageByTitle = (title: string): string | undefined => {
+  const mappedId = projectImageMap[title];
+  if (mappedId) {
+    return getProjectImage(mappedId);
+  }
+  // Fallback to generating ID from title
+  const generatedId = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
+  return getProjectImage(generatedId);
+};
 export default function Projects() {
   return (
     <AnimatedPage>
@@ -49,8 +63,7 @@ export default function Projects() {
                     <div className="grid md:grid-cols-2 gap-0">
                       {/* Project Image - auto-loaded from assets */}
                       {(() => {
-                        const projectId = getProjectId(project.title);
-                        const imageUrl = getProjectImage(projectId);
+                        const imageUrl = getProjectImageByTitle(project.title);
                         return (
                           <div 
                             className="h-64 md:h-auto relative flex items-center justify-center border-b-4 md:border-b-0 md:border-r-4 border-foreground overflow-hidden"
