@@ -13,7 +13,7 @@ import { motion } from "framer-motion";
 import { z } from "zod";
 
 // Web3Forms access key - this is a public key, safe to include in frontend
-const WEB3FORMS_ACCESS_KEY = "YOUR_ACCESS_KEY_HERE";
+const WEB3FORMS_ACCESS_KEY = "4f5453cd-b7dd-447d-82bd-4b20f5032dc9";
 
 // Input validation schema
 const contactSchema = z.object({
