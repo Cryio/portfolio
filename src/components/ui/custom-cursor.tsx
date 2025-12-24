@@ -132,7 +132,7 @@ export function CustomCursor() {
     <>
       {/* Main cursor dot */}
       <motion.div
-        className="fixed top-0 left-0 pointer-events-none z-[9999] mix-blend-difference"
+        className="fixed top-0 left-0 pointer-events-none z-[9999]"
         style={{
           x: cursorXSpring,
           y: cursorYSpring,
@@ -146,9 +146,9 @@ export function CustomCursor() {
           }}
           transition={{ duration: 0.15 }}
         >
-          {/* Inner dot */}
+          {/* Inner dot - uses primary color for visibility in both themes */}
           <motion.div
-            className="absolute rounded-full bg-foreground"
+            className="absolute rounded-full bg-primary dark:bg-primary"
             animate={{
               width: isHovering ? 40 : 8,
               height: isHovering ? 40 : 8,
@@ -164,7 +164,7 @@ export function CustomCursor() {
               initial={{ opacity: 0, scale: 0 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0 }}
-              className="absolute text-background font-bold text-sm"
+              className="absolute text-primary-foreground font-bold text-sm"
               style={{ 
                 transform: 'translate(-50%, -50%)',
                 left: 0,
@@ -186,14 +186,14 @@ export function CustomCursor() {
         }}
       >
         <motion.div
-          className="border-2 border-foreground/30 rounded-full"
+          className="border-2 rounded-full"
           animate={{
             width: isHovering ? 60 : 32,
             height: isHovering ? 60 : 32,
             x: isHovering ? -30 : -16,
             y: isHovering ? -30 : -16,
-            opacity: isVisible ? 0.5 : 0,
-            borderColor: isHovering ? 'hsl(var(--primary))' : 'hsl(var(--foreground) / 0.3)',
+            opacity: isVisible ? 0.6 : 0,
+            borderColor: isHovering ? 'hsl(var(--primary))' : 'hsl(var(--primary) / 0.5)',
           }}
           transition={{ duration: 0.3, ease: "easeOut" }}
         />
