@@ -68,6 +68,7 @@ export function CrossyRoadGame({ onBack }: CrossyRoadGameProps) {
     setCoins(0);
     setGameOver(false);
     setCurrentRow(0);
+    setGameStarted(true);
     setHasNewHighScore(false);
     scoreSavedRef.current = false;
   }, []);
