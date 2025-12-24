@@ -43,9 +43,6 @@ export function Footer() {
             <p className="text-sm text-muted-foreground mt-3 font-mono leading-relaxed">
               {personalInfo.title}
             </p>
-            <p className="text-xs text-muted-foreground/70 mt-2 font-mono">
-              Building secure digital experiences
-            </p>
           </div>
 
           {/* Quick Links */}
@@ -133,9 +130,6 @@ export function Footer() {
               <ExternalLink className="w-3 h-3" />
               Get in touch
             </Link>
-            <p className="text-xs text-muted-foreground flex items-center gap-1 font-mono">
-              Made with <Heart className="w-3 h-3 text-highlight-1 fill-current" /> Brutalist design
-            </p>
           </div>
         </div>
       </div>
