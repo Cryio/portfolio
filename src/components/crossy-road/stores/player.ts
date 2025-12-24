@@ -65,7 +65,7 @@ export function resetGame() {
   state.currentRow = 0;
   state.currentTile = 0;
   state.movesQueue = [];
-  state.ref = null;
+  // Don't reset ref - player component is still mounted
   state.score = 0;
   state.maxRow = 0;
   state.gameOver = false;
