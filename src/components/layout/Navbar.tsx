@@ -130,46 +130,56 @@ export function Navbar() {
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu Overlay */}
       {isOpen && (
-        <div className="md:hidden glass-dark mt-2 mx-4 rounded-xl overflow-hidden animate-scale-in">
-          <div className="flex flex-col p-4 gap-2">
-            {navItems.map((item) => (
-              item.href.startsWith("/#") && location.pathname === "/" ? (
-                <button
-                  key={item.href}
-                  onClick={() => scrollToSection(item.href.replace("/", ""))}
-                  className="py-2 px-4 rounded-lg hover:bg-secondary transition-colors text-left"
-                >
-                  {item.label}
-                </button>
-              ) : (
-                <Link
-                  key={item.href}
-                  to={item.href}
-                  onClick={() => setIsOpen(false)}
-                  className="py-2 px-4 rounded-lg hover:bg-secondary transition-colors"
-                >
-                  {item.label}
-                </Link>
-              )
-            ))}
-            <Button
-              variant="outline"
-              className="mt-2 gap-2 border-primary/50"
-              onClick={() => {
-                if (location.pathname === "/") {
-                  scrollToSection("#terminal");
-                } else {
-                  window.location.href = "/#terminal";
-                }
-              }}
-            >
-              <Terminal className="w-4 h-4" />
-              Terminal
-            </Button>
+        <>
+          {/* Backdrop */}
+          <div 
+            className="md:hidden fixed inset-0 top-[72px] bg-background/95 backdrop-blur-sm z-40"
+            onClick={() => setIsOpen(false)}
+          />
+          {/* Menu */}
+          <div className="md:hidden fixed inset-x-0 top-[72px] bottom-0 bg-background z-50 overflow-y-auto animate-slide-down">
+            <div className="flex flex-col p-4 gap-2">
+              {navItems.map((item) => (
+                item.href.startsWith("/#") && location.pathname === "/" ? (
+                  <button
+                    key={item.href}
+                    onClick={() => scrollToSection(item.href.replace("/", ""))}
+                    className="py-3 px-4 border-b border-foreground/10 hover:bg-secondary transition-colors text-left font-medium"
+                  >
+                    {item.label}
+                  </button>
+                ) : (
+                  <Link
+                    key={item.href}
+                    to={item.href}
+                    onClick={() => setIsOpen(false)}
+                    className="py-3 px-4 border-b border-foreground/10 hover:bg-secondary transition-colors font-medium"
+                  >
+                    {item.label}
+                  </Link>
+                )
+              ))}
+              <Link
+                to="/game"
+                onClick={() => setIsOpen(false)}
+                className="mt-4 border-4 border-foreground bg-primary text-primary-foreground px-4 py-3 font-bold uppercase text-sm tracking-wide text-center flex items-center justify-center gap-2"
+              >
+                <Gamepad2 className="w-4 h-4" />
+                Play Game
+              </Link>
+              <Link
+                to="/terminal"
+                onClick={() => setIsOpen(false)}
+                className="border-4 border-foreground bg-accent text-accent-foreground px-4 py-3 font-bold uppercase text-sm tracking-wide text-center flex items-center justify-center gap-2"
+              >
+                <Terminal className="w-4 h-4" />
+                Terminal
+              </Link>
+            </div>
           </div>
-        </div>
+        </>
       )}
     </nav>
   );
