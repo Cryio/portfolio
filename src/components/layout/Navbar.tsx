@@ -139,7 +139,7 @@ export function Navbar() {
             onClick={() => setIsOpen(false)}
           />
           {/* Menu */}
-          <div className="md:hidden fixed inset-x-0 top-[72px] bottom-0 bg-background z-50 overflow-y-auto animate-scale-in">
+          <div className="md:hidden fixed inset-x-0 top-[72px] bottom-0 bg-background z-50 overflow-y-auto animate-slide-down">
             <div className="flex flex-col p-4 gap-2">
               {navItems.map((item) => (
                 item.href.startsWith("/#") && location.pathname === "/" ? (
@@ -164,9 +164,10 @@ export function Navbar() {
               <Link
                 to="/game"
                 onClick={() => setIsOpen(false)}
-                className="mt-4 border-4 border-foreground bg-primary text-primary-foreground px-4 py-3 font-bold uppercase text-sm tracking-wide text-center"
+                className="mt-4 border-4 border-foreground bg-primary text-primary-foreground px-4 py-3 font-bold uppercase text-sm tracking-wide text-center flex items-center justify-center gap-2"
               >
-                🎮 Play Game
+                <Gamepad2 className="w-4 h-4" />
+                Play Game
               </Link>
               <Link
                 to="/terminal"
