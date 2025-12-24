@@ -10,24 +10,93 @@ import { useToast } from "@/hooks/use-toast";
 import { personalInfo } from "@/data/portfolio";
 import { AnimatedPage, FadeInOnScroll, SlideInFromLeft, SlideInFromRight } from "@/components/AnimatedPage";
 import { motion } from "framer-motion";
+import { z } from "zod";
+
+// Web3Forms access key - this is a public key, safe to include in frontend
+const WEB3FORMS_ACCESS_KEY = "4f5453cd-b7dd-447d-82bd-4b20f5032dc9";
+
+// Input validation schema
+const contactSchema = z.object({
+  name: z.string().trim().min(1, "Name is required").max(100, "Name must be less than 100 characters"),
+  email: z.string().trim().email("Invalid email address").max(255, "Email must be less than 255 characters"),
+  subject: z.string().trim().min(1, "Subject is required").max(200, "Subject must be less than 200 characters"),
+  message: z.string().trim().min(1, "Message is required").max(5000, "Message must be less than 5000 characters"),
+});
 
 export default function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setErrors({});
 
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    const formData = new FormData(e.currentTarget);
+    const data = {
+      name: formData.get("name") as string,
+      email: formData.get("email") as string,
+      subject: formData.get("subject") as string,
+      message: formData.get("message") as string,
+    };
 
-    toast({
-      title: "Message sent!",
-      description: "Thanks for reaching out. I'll get back to you soon.",
-    });
+    // Validate input
+    const result = contactSchema.safeParse(data);
+    if (!result.success) {
+      const fieldErrors: Record<string, string> = {};
+      result.error.errors.forEach((err) => {
+        if (err.path[0]) {
+          fieldErrors[err.path[0] as string] = err.message;
+        }
+      });
+      setErrors(fieldErrors);
+      setIsSubmitting(false);
+      toast({
+        title: "Validation Error",
+        description: "Please check the form fields and try again.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_ACCESS_KEY,
+          name: result.data.name,
+          email: result.data.email,
+          subject: result.data.subject,
+          message: result.data.message,
+          to: "srachetrai@gmail.com",
+        }),
+      });
+
+      const responseData = await response.json();
+
+      if (responseData.success) {
+        toast({
+          title: "Message sent!",
+          description: "Thanks for reaching out. I'll get back to you soon.",
+        });
+        (e.target as HTMLFormElement).reset();
+      } else {
+        throw new Error(responseData.message || "Failed to send message");
+      }
+    } catch (error) {
+      console.error("Contact form error:", error);
+      toast({
+        title: "Error",
+        description: "Failed to send message. Please try again later.",
+        variant: "destructive",
+      });
+    }
 
     setIsSubmitting(false);
-    (e.target as HTMLFormElement).reset();
   };
 
   return (
@@ -68,10 +137,12 @@ export default function Contact() {
                         </label>
                         <Input
                           id="name"
+                          name="name"
                           placeholder="Your name"
                           required
-                          className="brutalist-input"
+                          className={`brutalist-input ${errors.name ? 'border-destructive' : ''}`}
                         />
+                        {errors.name && <p className="text-xs text-destructive">{errors.name}</p>}
                       </div>
                       <div className="space-y-2">
                         <label htmlFor="email" className="text-sm font-bold uppercase">
@@ -79,11 +150,13 @@ export default function Contact() {
                         </label>
                         <Input
                           id="email"
+                          name="email"
                           type="email"
                           placeholder="your@email.com"
                           required
-                          className="brutalist-input"
+                          className={`brutalist-input ${errors.email ? 'border-destructive' : ''}`}
                         />
+                        {errors.email && <p className="text-xs text-destructive">{errors.email}</p>}
                       </div>
                     </div>
 
@@ -93,10 +166,12 @@ export default function Contact() {
                       </label>
                       <Input
                         id="subject"
+                        name="subject"
                         placeholder="What's this about?"
                         required
-                        className="brutalist-input"
+                        className={`brutalist-input ${errors.subject ? 'border-destructive' : ''}`}
                       />
+                      {errors.subject && <p className="text-xs text-destructive">{errors.subject}</p>}
                     </div>
 
                     <div className="space-y-2">
@@ -105,11 +180,13 @@ export default function Contact() {
                       </label>
                       <Textarea
                         id="message"
+                        name="message"
                         placeholder="Your message..."
                         rows={5}
                         required
-                        className="brutalist-input resize-none"
+                        className={`brutalist-input resize-none ${errors.message ? 'border-destructive' : ''}`}
                       />
+                      {errors.message && <p className="text-xs text-destructive">{errors.message}</p>}
                     </div>
 
                     <Button

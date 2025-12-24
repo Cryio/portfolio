@@ -23,9 +23,9 @@
 // Use Vite's import.meta.glob to auto-discover all assets
 // The `eager: true` option loads all assets immediately
 
-// Certificate images
+// Certificate images - include nested directories
 const certificateModules = import.meta.glob<{ default: string }>(
-  '/src/assets/certificates/*.{png,jpg,jpeg,webp,svg,gif}',
+  '/src/assets/certificates/**/*.{png,jpg,jpeg,webp,svg,gif}',
   { eager: true }
 );
 
