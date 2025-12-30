@@ -91,7 +91,7 @@ const GamePage = () => {
           }`}
         >
           <Sparkles className="w-4 h-4" />
-          Pixel Chess
+          Chess
         </motion.button>
       </div>
       

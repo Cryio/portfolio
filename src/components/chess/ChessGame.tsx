@@ -393,31 +393,23 @@ export function ChessGame({ onBack }: ChessGameProps) {
 
   return (
     <div className="w-full h-full flex flex-col items-center justify-center gap-4 px-3 py-6 bg-background">
-      <div className="flex flex-col gap-3 w-full max-w-4xl">
-        <div className="flex flex-wrap items-center justify-between gap-2">
+      <div className="w-full max-w-6xl flex flex-col md:flex-row gap-4 items-start justify-center">
+        <div className="flex flex-col gap-3 w-full md:w-52">
           <div className="text-xs sm:text-sm uppercase tracking-wide text-muted-foreground">{status}</div>
-          <div className="flex items-center gap-2">
-            <motion.button
-              whileTap={{ scale: 0.97 }}
-              onClick={() => resetGame(mode)}
-              className="border-4 border-foreground bg-accent text-accent-foreground px-3 py-2 font-bold uppercase text-xs tracking-wide"
-            >
-              Reset
-            </motion.button>
-            <motion.button
-              whileTap={{ scale: 0.97 }}
-              onClick={onBack}
-              className="border-4 border-foreground bg-background px-3 py-2 font-bold uppercase text-xs tracking-wide"
-            >
-              Exit
-            </motion.button>
+          <div className="flex items-center gap-2 text-xs sm:text-sm bg-background/70 border border-foreground/30 rounded-md px-3 py-2 shadow-sm">
+            <span className="text-muted-foreground">Turn</span>
+            <span className="px-2 py-1 rounded-full border border-foreground/40 bg-background/80 font-semibold">
+              {gameRef.current.turn() === "w" ? "White" : "Black"}
+            </span>
+            {mode === "cpu" && (
+              <span className="px-2 py-1 rounded-full border border-foreground/30 bg-background/60 text-muted-foreground">
+                You play {playerColor === "w" ? "White" : "Black"}
+              </span>
+            )}
           </div>
-        </div>
-
-        <div className="flex flex-wrap justify-between gap-2 text-xs sm:text-sm font-semibold">
-          <div className="flex items-center gap-2">
-            <span className="text-muted-foreground">White captured:</span>
-            <motion.div layout className="flex gap-1">
+          <div className="flex flex-col gap-2 text-xs sm:text-sm font-semibold border border-foreground/30 bg-background/70 rounded-md p-3 shadow-sm">
+            <span className="text-muted-foreground">White captured</span>
+            <motion.div layout className="flex flex-wrap gap-1">
               {capturedWhite.map((p, i) => (
                 <motion.span
                   key={`${p}-w-${i}`}
@@ -430,59 +422,15 @@ export function ChessGame({ onBack }: ChessGameProps) {
               ))}
             </motion.div>
           </div>
-          <div className="flex items-center gap-2">
-            <span className="text-muted-foreground">Black captured:</span>
-            <motion.div layout className="flex gap-1">
-              {capturedBlack.map((p, i) => (
-                <motion.span
-                  key={`${p}-b-${i}`}
-                  initial={{ scale: 0.5, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  className="px-1 rounded bg-background/70 border border-foreground/40"
-                >
-                  {p}
-                </motion.span>
-              ))}
-            </motion.div>
-          </div>
         </div>
 
-        <div className="flex items-center justify-between text-xs sm:text-sm bg-background/70 border border-foreground/30 rounded-md px-3 py-2 shadow-sm">
-          <div className="flex items-center gap-2">
-            <span className="text-muted-foreground">Turn</span>
-            <span className="px-2 py-1 rounded-full border border-foreground/40 bg-background/80 font-semibold">
-              {gameRef.current.turn() === "w" ? "White" : "Black"}
-            </span>
-            {mode === "cpu" && (
-              <span className="px-2 py-1 rounded-full border border-foreground/30 bg-background/60 text-muted-foreground">
-                You play {playerColor === "w" ? "White" : "Black"}
-              </span>
-            )}
-          </div>
-          <div className="flex items-center gap-2 overflow-x-auto max-w-[60%] scrollbar-hide" style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
-            <span className="text-muted-foreground">Moves:</span>
-            <div className="flex gap-2 whitespace-nowrap">
-              {moveHistory.slice(-8).map((mv, idx) => (
-                <motion.span
-                  key={`${mv}-${idx}`}
-                  initial={{ opacity: 0, y: 6 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="px-2 py-1 rounded bg-background border border-foreground/30"
-                >
-                  {moveHistory.length - 8 + idx + 1}. {mv}
-                </motion.span>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-      <motion.div
-        initial={{ opacity: 0, scale: 0.98 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.25 }}
-        className="relative border-4 border-foreground shadow-lg bg-neutral-900/80 backdrop-blur-sm"
-        style={{ width: "min(94vw, 820px)", aspectRatio: "1 / 1", maxHeight: "80vh" }}
-      >
+        <motion.div
+          initial={{ opacity: 0, scale: 0.98 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.25 }}
+          className="relative border-4 border-foreground shadow-lg bg-neutral-900/80 backdrop-blur-sm"
+          style={{ width: "min(88vw, 760px)", aspectRatio: "1 / 1", maxHeight: "78vh" }}
+        >
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,#0f172a,transparent_40%),radial-gradient(circle_at_80%_0%,#1f2937,transparent_35%),linear-gradient(180deg,#0b1021,#0b1324)]" />
         <div className="absolute inset-0 pointer-events-none grid grid-cols-8 grid-rows-8 text-[10px] sm:text-xs font-mono text-muted-foreground/70">
           {squares.map((sq) => (
@@ -591,7 +539,44 @@ export function ChessGame({ onBack }: ChessGameProps) {
             </div>
           </div>
         )}
-      </motion.div>
+        </motion.div>
+
+        <div className="flex flex-col gap-3 w-full md:w-52">
+          <div className="flex flex-col gap-2 text-xs sm:text-sm font-semibold border border-foreground/30 bg-background/70 rounded-md p-3 shadow-sm">
+            <span className="text-muted-foreground">Black captured</span>
+            <motion.div layout className="flex flex-wrap gap-1">
+              {capturedBlack.map((p, i) => (
+                <motion.span
+                  key={`${p}-b-${i}`}
+                  initial={{ scale: 0.5, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  className="px-1 rounded bg-background/70 border border-foreground/40"
+                >
+                  {p}
+                </motion.span>
+              ))}
+            </motion.div>
+          </div>
+          <div className="flex flex-col gap-2 text-xs sm:text-sm font-semibold border border-foreground/30 bg-background/70 rounded-md p-3 shadow-sm max-h-[220px] overflow-auto scrollbar-hide" style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
+            <div className="flex items-center justify-between">
+              <span className="text-muted-foreground">Moves</span>
+              <span className="text-muted-foreground text-[10px]">recent</span>
+            </div>
+            <div className="flex flex-col gap-1">
+              {moveHistory.slice(-14).map((mv, idx) => (
+                <motion.span
+                  key={`${mv}-${idx}`}
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="px-2 py-1 rounded bg-background border border-foreground/30 whitespace-nowrap"
+                >
+                  {moveHistory.length - Math.min(14, moveHistory.length) + idx + 1}. {mv}
+                </motion.span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
