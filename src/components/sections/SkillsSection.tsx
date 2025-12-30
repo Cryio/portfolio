@@ -17,12 +17,55 @@ const iconMap = {
   Palette,
 };
 
+// Skill aliases for better matching
+const skillAliases: Record<string, string[]> = {
+  "Nessus": ["Vulnerability Assessment", "Security", "Penetration Testing"],
+  "Burp Suite": ["Web Security", "Penetration Testing", "Security"],
+  "Metasploit": ["Penetration Testing", "Security", "Ethical Hacking"],
+  "Wireshark": ["Networking", "TCP/IP", "Network Security"],
+  "Wazuh": ["Security", "SIEM", "Incident Response"],
+  "TheHive": ["Incident Response", "Security", "Digital Forensics"],
+  "DFIR-IRIS": ["Digital Forensics", "Incident Response", "Security"],
+  "MISP": ["Threat Intelligence", "Security"],
+  "Ghidra": ["Malware Analysis", "Reverse Engineering", "Security"],
+  "Cuckoo Sandbox": ["Malware Analysis", "Security"],
+  "SQLmap": ["Web Security", "Penetration Testing", "Security"],
+  "x64dbg": ["Reverse Engineering", "Malware Analysis"],
+  "Microsoft Azure": ["Cloud", "DevOps"],
+  "Docker": ["Containers", "DevOps", "Cloud"],
+  "Jenkins": ["CI/CD", "DevOps", "Automation"],
+  "Okta": ["Security", "Authentication"],
+  "CATO Networks": ["Network Security", "Cloud Security"],
+  "Podman": ["Containers", "DevOps", "Docker"],
+  "QEMU": ["Virtualization", "Linux"],
+  "VirtualBox": ["Virtualization"],
+  "Python": ["Programming", "Security", "Machine Learning", "Flask"],
+  "JavaScript": ["Web Development", "Node.js", "React"],
+  "TypeScript": ["Web Development", "React"],
+  "React": ["Web Development", "JavaScript", "TypeScript"],
+  "Node.js": ["Web Development", "JavaScript", "Backend"],
+  "Express": ["Node.js", "Backend", "Web Development"],
+  "Git": ["Version Control", "DevOps"],
+  "MySQL": ["Database", "SQL"],
+  "MongoDB": ["Database", "NoSQL"],
+  "Figma": ["UI/UX", "Design", "Web Development"],
+  "Blender": ["3D", "Design", "Animation"],
+  "Unreal Engine": ["3D", "Game Development"],
+  "Adobe Photoshop": ["Design", "Graphics"],
+  "Adobe Illustrator": ["Design", "Graphics", "UI/UX"],
+};
+
 // Map skills to related projects
 function getRelatedProjects(skillName: string) {
+  const aliases = skillAliases[skillName] || [];
+  const searchTerms = [skillName.toLowerCase(), ...aliases.map(a => a.toLowerCase())];
+  
   return projects.filter((project) =>
     project.tech.some((tech) =>
-      tech.toLowerCase().includes(skillName.toLowerCase()) ||
-      skillName.toLowerCase().includes(tech.toLowerCase())
+      searchTerms.some(term => 
+        tech.toLowerCase().includes(term) ||
+        term.includes(tech.toLowerCase())
+      )
     )
   );
 }
