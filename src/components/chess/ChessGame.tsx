@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Chess, Move } from "chess.js";
-import { motion } from "framer-motion";
+import { Chess, Move, Square } from "chess.js";
+import { AnimatePresence, motion } from "framer-motion";
 
 interface ChessGameProps {
   onBack: () => void;
@@ -41,18 +41,19 @@ export function ChessGame({ onBack }: ChessGameProps) {
   const [fen, setFen] = useState(gameRef.current.fen());
   const [mode, setMode] = useState<Mode | null>(null);
   const [showMenu, setShowMenu] = useState(true);
-  const [selected, setSelected] = useState<string | null>(null);
-  const [legalTargets, setLegalTargets] = useState<string[]>([]);
-  const [lastMove, setLastMove] = useState<{ from: string; to: string } | null>(null);
+  const [selected, setSelected] = useState<Square | null>(null);
+  const [legalTargets, setLegalTargets] = useState<Square[]>([]);
+  const [lastMove, setLastMove] = useState<{ from: Square; to: Square } | null>(null);
   const [status, setStatus] = useState(statusLabel(gameRef.current));
   const [message, setMessage] = useState("Pick a mode to start");
   const [capturedWhite, setCapturedWhite] = useState<string[]>([]);
   const [capturedBlack, setCapturedBlack] = useState<string[]>([]);
+  const [moveHistory, setMoveHistory] = useState<string[]>([]);
 
   const squares = useMemo(() => {
     const files = ["a", "b", "c", "d", "e", "f", "g", "h"];
     const ranks = [8, 7, 6, 5, 4, 3, 2, 1];
-    return ranks.flatMap((rank) => files.map((file) => `${file}${rank}`));
+    return ranks.flatMap((rank) => files.map((file) => `${file}${rank}` as Square));
   }, []);
 
   const resetGame = (nextMode: Mode | null) => {
@@ -67,6 +68,7 @@ export function ChessGame({ onBack }: ChessGameProps) {
     setMessage(nextMode ? "Game on" : "Pick a mode to start");
     setCapturedWhite([]);
     setCapturedBlack([]);
+    setMoveHistory([]);
   };
 
   const startGame = (nextMode: Mode) => {
@@ -74,9 +76,11 @@ export function ChessGame({ onBack }: ChessGameProps) {
     setShowMenu(false);
   };
 
-  const makeMove = (move: Move | string) => {
+  type MoveInput = Move | { from: Square; to: Square; promotion?: string } | string;
+
+  const makeMove = (move: MoveInput) => {
     const chess = gameRef.current;
-    const result = chess.move(move as Move, { sloppy: true });
+    const result = chess.move(move);
     if (!result) return false;
 
     if (result.captured) {
@@ -93,6 +97,7 @@ export function ChessGame({ onBack }: ChessGameProps) {
     setLastMove({ from: result.from, to: result.to });
     setSelected(null);
     setLegalTargets([]);
+    setMoveHistory((prev) => [...prev, result.san]);
 
     if (chess.isGameOver()) {
       if (chess.isCheckmate()) {
@@ -109,7 +114,7 @@ export function ChessGame({ onBack }: ChessGameProps) {
     return true;
   };
 
-  const handleSquareClick = (square: string) => {
+  const handleSquareClick = (square: Square) => {
     if (showMenu) return;
     const chess = gameRef.current;
     if (chess.isGameOver()) return;
@@ -129,7 +134,7 @@ export function ChessGame({ onBack }: ChessGameProps) {
       }
     }
 
-    const moves = chess.moves({ square, verbose: true });
+    const moves = chess.moves({ square, verbose: true }) as Move[];
     if (moves.length) {
       setSelected(square);
       setLegalTargets(moves.map((m) => m.to));
@@ -154,7 +159,20 @@ export function ChessGame({ onBack }: ChessGameProps) {
     }
   }, [fen, mode, showMenu]);
 
-  const renderSquare = (square: string) => {
+  const pieceIds = useMemo(() => {
+    const counts: Record<string, Record<string, number>> = { w: {}, b: {} };
+    const ids: Record<string, string> = {};
+    squares.forEach((sq) => {
+      const piece = gameRef.current.get(sq);
+      if (!piece) return;
+      const c = counts[piece.color][piece.type] ?? 0;
+      counts[piece.color][piece.type] = c + 1;
+      ids[sq] = `${piece.color}-${piece.type}-${c + 1}`;
+    });
+    return ids;
+  }, [fen, squares]);
+
+  const renderSquare = (square: Square) => {
     const chess = gameRef.current;
     const piece = chess.get(square);
     const isLight = (square.charCodeAt(0) + parseInt(square[1], 10)) % 2 === 0;
@@ -174,7 +192,7 @@ export function ChessGame({ onBack }: ChessGameProps) {
 
     const isInCheck = chess.isCheck() && piece?.type === "k" && piece.color === chess.turn();
 
-    const pieceKey = piece ? `${piece.color}-${piece.type}-${square}-${fen}` : `empty-${square}`;
+    const pieceKey = piece ? pieceIds[square] ?? `${piece.color}-${piece.type}-${square}` : `empty-${square}`;
 
     return (
       <motion.button
@@ -194,17 +212,21 @@ export function ChessGame({ onBack }: ChessGameProps) {
           fontFamily: '"Press Start 2P", "Courier New", monospace',
         }}
       >
-        {piece ? (
-          <motion.span
-            key={pieceKey}
-            initial={{ scale: 0.75, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ type: "spring", stiffness: 240, damping: 18 }}
-            className="inline-block"
-          >
-            {pieceGlyph[piece.color === "w" ? piece.type.toUpperCase() : piece.type]}
-          </motion.span>
-        ) : null}
+        <AnimatePresence initial={false} mode="wait">
+          {piece ? (
+            <motion.span
+              key={pieceKey}
+              layoutId={pieceKey}
+              initial={{ scale: 0.4, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.4, opacity: 0 }}
+              transition={{ type: "spring", stiffness: 280, damping: 18 }}
+              className="inline-block"
+            >
+              {pieceGlyph[piece.color === "w" ? piece.type.toUpperCase() : piece.type]}
+            </motion.span>
+          ) : null}
+        </AnimatePresence>
       </motion.button>
     );
   };
@@ -262,15 +284,51 @@ export function ChessGame({ onBack }: ChessGameProps) {
             </motion.div>
           </div>
         </div>
+
+        <div className="flex items-center justify-between text-xs sm:text-sm bg-background/70 border border-foreground/30 rounded-md px-3 py-2 shadow-sm">
+          <div className="flex items-center gap-2">
+            <span className="text-muted-foreground">Turn</span>
+            <span className="px-2 py-1 rounded-full border border-foreground/40 bg-background/80 font-semibold">
+              {gameRef.current.turn() === "w" ? "White" : "Black"}
+            </span>
+          </div>
+          <div className="flex items-center gap-2 overflow-x-auto max-w-[60%]">
+            <span className="text-muted-foreground">Moves:</span>
+            <div className="flex gap-2 whitespace-nowrap">
+              {moveHistory.slice(-8).map((mv, idx) => (
+                <motion.span
+                  key={`${mv}-${idx}`}
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="px-2 py-1 rounded bg-background border border-foreground/30"
+                >
+                  {moveHistory.length - 8 + idx + 1}. {mv}
+                </motion.span>
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
       <motion.div
         initial={{ opacity: 0, scale: 0.98 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.25 }}
         className="relative border-4 border-foreground shadow-lg bg-neutral-900/80 backdrop-blur-sm"
-        style={{ width: "clamp(320px, 92vw, 720px)", aspectRatio: "1 / 1" }}
+        style={{ width: "clamp(340px, 92vw, 760px)", aspectRatio: "1 / 1" }}
       >
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,#0f172a,transparent_40%),radial-gradient(circle_at_80%_0%,#1f2937,transparent_35%),linear-gradient(180deg,#0b1021,#0b1324)]" />
+        <div className="absolute inset-0 pointer-events-none grid grid-cols-8 grid-rows-8 text-[10px] sm:text-xs font-mono text-muted-foreground/70">
+          {squares.map((sq) => (
+            <div key={`coord-${sq}`} className="relative">
+              {sq.endsWith("1") && (
+                <span className="absolute bottom-1 right-1">{sq[0]}</span>
+              )}
+              {sq.startsWith("a") && (
+                <span className="absolute top-1 left-1">{sq[1]}</span>
+              )}
+            </div>
+          ))}
+        </div>
         <div className="relative grid grid-cols-8 grid-rows-8 w-full h-full" style={{ imageRendering: "pixelated" }}>
           {squares.map(renderSquare)}
         </div>
