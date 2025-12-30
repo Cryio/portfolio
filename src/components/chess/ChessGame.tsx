@@ -119,29 +119,39 @@ export function ChessGame({ onBack }: ChessGameProps) {
     const chess = gameRef.current;
     if (chess.isGameOver()) return;
 
+    // In CPU mode, ignore clicks when it's the CPU's turn (black)
+    if (mode === "cpu" && chess.turn() === "b") return;
+
+    const piece = chess.get(square);
+
     if (selected === square) {
       setSelected(null);
       setLegalTargets([]);
       return;
     }
 
-    if (selected) {
+    // If a piece is selected and we click a legal target, attempt the move
+    if (selected && legalTargets.includes(square)) {
       const moveAttempt = chess.move({ from: selected, to: square, promotion: "q" });
       if (moveAttempt) {
         chess.undo();
         makeMove({ from: selected, to: square, promotion: "q" });
+      }
+      return;
+    }
+
+    // Only allow selecting pieces of the side to move
+    if (piece && piece.color === chess.turn()) {
+      const moves = chess.moves({ square, verbose: true }) as Move[];
+      if (moves.length) {
+        setSelected(square);
+        setLegalTargets(moves.map((m) => m.to as Square));
         return;
       }
     }
 
-    const moves = chess.moves({ square, verbose: true }) as Move[];
-    if (moves.length) {
-      setSelected(square);
-      setLegalTargets(moves.map((m) => m.to));
-    } else {
-      setSelected(null);
-      setLegalTargets([]);
-    }
+    setSelected(null);
+    setLegalTargets([]);
   };
 
   useEffect(() => {
@@ -292,7 +302,7 @@ export function ChessGame({ onBack }: ChessGameProps) {
               {gameRef.current.turn() === "w" ? "White" : "Black"}
             </span>
           </div>
-          <div className="flex items-center gap-2 overflow-x-auto max-w-[60%]">
+          <div className="flex items-center gap-2 overflow-x-auto max-w-[60%] scrollbar-hide" style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
             <span className="text-muted-foreground">Moves:</span>
             <div className="flex gap-2 whitespace-nowrap">
               {moveHistory.slice(-8).map((mv, idx) => (
