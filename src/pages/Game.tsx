@@ -95,16 +95,23 @@ const GamePage = () => {
         </motion.button>
       </div>
       
-      {/* Game canvas */}
-      {activeGame === 'crossy' ? (
-        <CrossyRoadGame onBack={() => navigate('/')} />
-      ) : (
-        activeGame === 'flappy' ? (
-          <FlappyBirdGame onBack={() => navigate('/')} />
-        ) : (
-          <ChessGame onBack={() => navigate('/')} />
-        )
-      )}
+      <div className="absolute inset-0 pt-16 pb-6 px-3 sm:px-4 overflow-auto flex items-center justify-center">
+        <div className="relative w-full max-w-6xl min-h-[70vh] flex items-center justify-center">
+          {activeGame === 'crossy' ? (
+            <div className="w-full h-full max-h-[calc(100vh-140px)]">
+              <CrossyRoadGame onBack={() => navigate('/')} />
+            </div>
+          ) : activeGame === 'flappy' ? (
+            <div className="w-full flex items-center justify-center">
+              <FlappyBirdGame onBack={() => navigate('/')} />
+            </div>
+          ) : (
+            <div className="w-full flex items-center justify-center">
+              <ChessGame onBack={() => navigate('/')} />
+            </div>
+          )}
+        </div>
+      </div>
     </motion.div>
   );
 };

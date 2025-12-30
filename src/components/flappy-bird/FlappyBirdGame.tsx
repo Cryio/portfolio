@@ -64,9 +64,9 @@ export function FlappyBirdGame({ onBack }: FlappyBirdGameProps) {
 
   const containerStyle = useMemo(
     () => ({
-      width: "clamp(320px, 92vw, 760px)",
+      width: "min(95vw, 560px)",
       aspectRatio: `${GAME_WIDTH}/${GAME_HEIGHT}`,
-      maxHeight: "88vh",
+      maxHeight: "82vh",
     }),
     [],
   );
