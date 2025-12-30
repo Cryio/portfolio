@@ -164,12 +164,6 @@ export function FlappyBirdGame({ onBack }: FlappyBirdGameProps) {
         ctx.strokeRect(pipe.x + 1, pipe.gapY + PIPE_GAP / 2 + 1, 68, pipeHeightBottom - 2);
       }
 
-      // Particles
-      for (const p of particles.current) {
-        ctx.fillStyle = `rgba(251, 191, 36, ${p.alpha.toFixed(2)})`;
-        ctx.fillRect(p.x, p.y, p.size * 1.5, p.size * 1.5);
-      }
-
       // Bird (blocky)
       const birdX = 120;
       const birdYPos = birdY.current;
@@ -222,16 +216,6 @@ export function FlappyBirdGame({ onBack }: FlappyBirdGameProps) {
             setScore(scoreRef.current);
           }
         }
-
-        particles.current = particles.current
-          .map((p) => ({ ...p, x: p.x - pipeSpeed * 0.45, alpha: p.alpha - PARTICLE_FADE }))
-          .filter((p) => p.alpha > 0);
-        particles.current.push({
-          x: 120 - 4,
-          y: birdY.current,
-          alpha: 0.8,
-          size: 3 + Math.random() * 2,
-        });
 
         if (birdY.current + 18 >= GAME_HEIGHT - GROUND_HEIGHT || birdY.current - 18 <= 0) {
           runningRef.current = false;

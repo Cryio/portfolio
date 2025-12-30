@@ -46,6 +46,8 @@ export function ChessGame({ onBack }: ChessGameProps) {
   const [lastMove, setLastMove] = useState<{ from: string; to: string } | null>(null);
   const [status, setStatus] = useState(statusLabel(gameRef.current));
   const [message, setMessage] = useState("Pick a mode to start");
+  const [capturedWhite, setCapturedWhite] = useState<string[]>([]);
+  const [capturedBlack, setCapturedBlack] = useState<string[]>([]);
 
   const squares = useMemo(() => {
     const files = ["a", "b", "c", "d", "e", "f", "g", "h"];
@@ -63,6 +65,8 @@ export function ChessGame({ onBack }: ChessGameProps) {
     setFen(gameRef.current.fen());
     setStatus(statusLabel(gameRef.current));
     setMessage(nextMode ? "Game on" : "Pick a mode to start");
+    setCapturedWhite([]);
+    setCapturedBlack([]);
   };
 
   const startGame = (nextMode: Mode) => {
@@ -74,6 +78,16 @@ export function ChessGame({ onBack }: ChessGameProps) {
     const chess = gameRef.current;
     const result = chess.move(move as Move, { sloppy: true });
     if (!result) return false;
+
+    if (result.captured) {
+      const glyph = pieceGlyph[result.captured.toUpperCase()];
+      if (result.color === "w") {
+        setCapturedWhite((prev) => [...prev, glyph]);
+      } else {
+        setCapturedBlack((prev) => [...prev, glyph]);
+      }
+    }
+
     setFen(chess.fen());
     setStatus(statusLabel(chess));
     setLastMove({ from: result.from, to: result.to });
@@ -161,14 +175,16 @@ export function ChessGame({ onBack }: ChessGameProps) {
     const isInCheck = chess.isCheck() && piece?.type === "k" && piece.color === chess.turn();
 
     return (
-      <button
+      <motion.button
         key={square}
         onClick={() => handleSquareClick(square)}
         className="w-full h-full flex items-center justify-center"
+        whileTap={{ scale: 0.95 }}
+        whileHover={{ scale: isSelected ? 1.02 : 1.01 }}
         style={{
           background: isInCheck ? dangerSquare : bg,
           border: "1px solid #1f2937",
-          fontSize: "clamp(18px, 2.6vw, 28px)",
+          fontSize: "clamp(22px, 3.4vw, 40px)",
           lineHeight: 1,
           color: piece?.color === "w" ? "#111827" : "#0f172a",
           textShadow: piece ? "1px 1px rgba(0,0,0,0.2)" : "none",
@@ -177,31 +193,71 @@ export function ChessGame({ onBack }: ChessGameProps) {
         }}
       >
         {piece ? pieceGlyph[piece.color === "w" ? piece.type.toUpperCase() : piece.type] : ""}
-      </button>
+      </motion.button>
     );
   };
 
   return (
     <div className="w-full h-full flex flex-col items-center justify-center gap-4 px-3 py-6 bg-background">
-      <div className="flex items-center justify-between w-full max-w-4xl">
-        <motion.button
-          whileTap={{ scale: 0.97 }}
-          onClick={onBack}
-          className="border-4 border-foreground bg-background px-3 py-2 font-bold uppercase text-xs tracking-wide"
-        >
-          Exit
-        </motion.button>
-        <div className="text-xs sm:text-sm uppercase tracking-wide text-muted-foreground">{status}</div>
-        <motion.button
-          whileTap={{ scale: 0.97 }}
-          onClick={() => resetGame(mode)}
-          className="border-4 border-foreground bg-accent text-accent-foreground px-3 py-2 font-bold uppercase text-xs tracking-wide"
-        >
-          Reset
-        </motion.button>
-      </div>
+      <div className="flex flex-col gap-3 w-full max-w-4xl">
+        <div className="flex items-center justify-between">
+          <motion.button
+            whileTap={{ scale: 0.97 }}
+            onClick={onBack}
+            className="border-4 border-foreground bg-background px-3 py-2 font-bold uppercase text-xs tracking-wide"
+          >
+            Exit
+          </motion.button>
+          <div className="text-xs sm:text-sm uppercase tracking-wide text-muted-foreground">{status}</div>
+          <motion.button
+            whileTap={{ scale: 0.97 }}
+            onClick={() => resetGame(mode)}
+            className="border-4 border-foreground bg-accent text-accent-foreground px-3 py-2 font-bold uppercase text-xs tracking-wide"
+          >
+            Reset
+          </motion.button>
+        </div>
 
-      <div className="relative border-4 border-foreground shadow-lg bg-neutral-900/80 backdrop-blur-sm" style={{ width: "clamp(320px, 92vw, 720px)", aspectRatio: "1 / 1" }}>
+        <div className="flex flex-wrap justify-between gap-2 text-xs sm:text-sm font-semibold">
+          <div className="flex items-center gap-2">
+            <span className="text-muted-foreground">White captured:</span>
+            <motion.div layout className="flex gap-1">
+              {capturedWhite.map((p, i) => (
+                <motion.span
+                  key={`${p}-w-${i}`}
+                  initial={{ scale: 0.5, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  className="px-1 rounded bg-background/70 border border-foreground/40"
+                >
+                  {p}
+                </motion.span>
+              ))}
+            </motion.div>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="text-muted-foreground">Black captured:</span>
+            <motion.div layout className="flex gap-1">
+              {capturedBlack.map((p, i) => (
+                <motion.span
+                  key={`${p}-b-${i}`}
+                  initial={{ scale: 0.5, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  className="px-1 rounded bg-background/70 border border-foreground/40"
+                >
+                  {p}
+                </motion.span>
+              ))}
+            </motion.div>
+          </div>
+        </div>
+      </div>
+      <motion.div
+        initial={{ opacity: 0, scale: 0.98 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.25 }}
+        className="relative border-4 border-foreground shadow-lg bg-neutral-900/80 backdrop-blur-sm"
+        style={{ width: "clamp(320px, 92vw, 720px)", aspectRatio: "1 / 1" }}
+      >
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,#0f172a,transparent_40%),radial-gradient(circle_at_80%_0%,#1f2937,transparent_35%),linear-gradient(180deg,#0b1021,#0b1324)]" />
         <div className="relative grid grid-cols-8 grid-rows-8 w-full h-full" style={{ imageRendering: "pixelated" }}>
           {squares.map(renderSquare)}
@@ -242,7 +298,7 @@ export function ChessGame({ onBack }: ChessGameProps) {
             </div>
           </div>
         )}
-      </div>
+      </motion.div>
     </div>
   );
 }
