@@ -103,7 +103,7 @@ export default {
           '50%': { transform: 'rotate(3deg)' }
         },
         'slide-down': {
-          '0%': { transform: 'translateY(-100%)', opacity: '0' },
+          '0%': { transform: 'translateY(-20px)', opacity: '0' },
           '100%': { transform: 'translateY(0)', opacity: '1' }
         }
       },

@@ -139,14 +139,18 @@ export function Navbar() {
             onClick={() => setIsOpen(false)}
           />
           {/* Menu */}
-          <div className="md:hidden fixed inset-x-0 top-[72px] bottom-0 bg-background z-50 overflow-y-auto animate-slide-down">
+          <div className="md:hidden fixed inset-x-0 top-[72px] bottom-0 bg-background z-50 overflow-y-auto">
             <div className="flex flex-col p-4 gap-2">
-              {navItems.map((item) => (
+              {navItems.map((item, index) => (
                 item.href.startsWith("/#") && location.pathname === "/" ? (
                   <button
                     key={item.href}
                     onClick={() => scrollToSection(item.href.replace("/", ""))}
-                    className="py-3 px-4 border-b border-foreground/10 hover:bg-secondary transition-colors text-left font-medium"
+                    className="py-3 px-4 border-b border-foreground/10 hover:bg-secondary transition-colors text-left font-medium animate-slide-down opacity-0"
+                    style={{ 
+                      animationDelay: `${index * 50}ms`,
+                      animationFillMode: 'forwards'
+                    }}
                   >
                     {item.label}
                   </button>
@@ -155,7 +159,11 @@ export function Navbar() {
                     key={item.href}
                     to={item.href}
                     onClick={() => setIsOpen(false)}
-                    className="py-3 px-4 border-b border-foreground/10 hover:bg-secondary transition-colors font-medium"
+                    className="py-3 px-4 border-b border-foreground/10 hover:bg-secondary transition-colors font-medium animate-slide-down opacity-0"
+                    style={{ 
+                      animationDelay: `${index * 50}ms`,
+                      animationFillMode: 'forwards'
+                    }}
                   >
                     {item.label}
                   </Link>
@@ -164,7 +172,11 @@ export function Navbar() {
               <Link
                 to="/game"
                 onClick={() => setIsOpen(false)}
-                className="mt-4 border-4 border-foreground bg-primary text-primary-foreground px-4 py-3 font-bold uppercase text-sm tracking-wide text-center flex items-center justify-center gap-2"
+                className="mt-4 border-4 border-foreground bg-primary text-primary-foreground px-4 py-3 font-bold uppercase text-sm tracking-wide text-center flex items-center justify-center gap-2 animate-slide-down opacity-0"
+                style={{ 
+                  animationDelay: `${navItems.length * 50}ms`,
+                  animationFillMode: 'forwards'
+                }}
               >
                 <Gamepad2 className="w-4 h-4" />
                 Play Game
@@ -172,7 +184,11 @@ export function Navbar() {
               <Link
                 to="/terminal"
                 onClick={() => setIsOpen(false)}
-                className="border-4 border-foreground bg-accent text-accent-foreground px-4 py-3 font-bold uppercase text-sm tracking-wide text-center flex items-center justify-center gap-2"
+                className="border-4 border-foreground bg-accent text-accent-foreground px-4 py-3 font-bold uppercase text-sm tracking-wide text-center flex items-center justify-center gap-2 animate-slide-down opacity-0"
+                style={{ 
+                  animationDelay: `${(navItems.length + 1) * 50}ms`,
+                  animationFillMode: 'forwards'
+                }}
               >
                 <Terminal className="w-4 h-4" />
                 Terminal
