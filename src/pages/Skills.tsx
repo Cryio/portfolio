@@ -1,12 +1,19 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft, Shield, Cloud, Code, Palette } from "lucide-react";
+import { ArrowLeft, Shield, Cloud, Code, Palette, ExternalLink } from "lucide-react";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Badge } from "@/components/ui/badge";
-import { skillCategories } from "@/data/portfolio";
+import { skillCategories, projects } from "@/data/portfolio";
 import { AnimatedPage, FadeInOnScroll, StaggerContainer, StaggerItem } from "@/components/AnimatedPage";
 import { motion } from "framer-motion";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
 
 const iconMap = {
   Shield,
@@ -15,9 +22,27 @@ const iconMap = {
   Palette,
 };
 
+// Map skills to related projects
+function getRelatedProjects(skillName: string) {
+  return projects.filter((project) =>
+    project.tech.some((tech) =>
+      tech.toLowerCase().includes(skillName.toLowerCase()) ||
+      skillName.toLowerCase().includes(tech.toLowerCase())
+    )
+  );
+}
+
 export default function Skills() {
   const [activeCategory, setActiveCategory] = useState(0);
+  const [selectedSkill, setSelectedSkill] = useState<{ name: string; description: string } | null>(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
+  const handleSkillClick = (skill: { name: string; description: string }) => {
+    setSelectedSkill(skill);
+    setIsDialogOpen(true);
+  };
+
+  const relatedProjects = selectedSkill ? getRelatedProjects(selectedSkill.name) : [];
   return (
     <AnimatedPage>
       <div className="min-h-screen bg-background">
@@ -72,8 +97,9 @@ export default function Skills() {
               <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4" key={activeCategory}>
                 {skillCategories[activeCategory].skills.map((skill) => (
                   <StaggerItem key={skill.name}>
-                    <motion.div
-                      className="border-4 border-foreground p-4 md:p-5 shadow-sm"
+                    <motion.button
+                      onClick={() => handleSkillClick(skill)}
+                      className="border-4 border-foreground p-4 md:p-5 shadow-sm w-full text-left cursor-pointer hover:border-primary/50 transition-colors"
                       whileHover={{ y: -4, boxShadow: "var(--shadow-md)" }}
                       transition={{ duration: 0.2 }}
                     >
@@ -92,7 +118,7 @@ export default function Skills() {
                           </p>
                         </div>
                       </div>
-                    </motion.div>
+                    </motion.button>
                   </StaggerItem>
                 ))}
               </StaggerContainer>
@@ -141,6 +167,75 @@ export default function Skills() {
         </main>
 
         <Footer />
+
+        {/* Skill Detail Dialog */}
+        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+          <DialogContent className="sm:max-w-md">
+            <DialogHeader>
+              <DialogTitle className="flex items-center gap-3">
+                <div className="w-10 h-10 border-4 border-foreground bg-accent flex items-center justify-center">
+                  <span className="text-lg font-bold">
+                    {selectedSkill?.name.charAt(0)}
+                  </span>
+                </div>
+                {selectedSkill?.name}
+              </DialogTitle>
+              <DialogDescription>
+                {selectedSkill?.description}
+              </DialogDescription>
+            </DialogHeader>
+
+            <div className="mt-4">
+              {relatedProjects.length > 0 ? (
+                <>
+                  <h4 className="text-sm font-bold text-muted-foreground uppercase tracking-wide mb-3">
+                    Related Projects
+                  </h4>
+                  <div className="space-y-3">
+                    {relatedProjects.slice(0, 3).map((project) => (
+                      <div
+                        key={project.title}
+                        className="p-3 border-2 border-foreground hover:border-primary/50 transition-colors"
+                      >
+                        <div className="flex items-start justify-between gap-2">
+                          <h5 className="font-bold text-sm">{project.title}</h5>
+                          {project.github && (
+                            <a
+                              href={project.github}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-muted-foreground hover:text-primary transition-colors"
+                            >
+                              <ExternalLink className="w-4 h-4" />
+                            </a>
+                          )}
+                        </div>
+                        <p className="text-xs text-muted-foreground mt-1 line-clamp-2">
+                          {project.description}
+                        </p>
+                        <div className="flex flex-wrap gap-1 mt-2">
+                          {project.tech.slice(0, 4).map((tech) => (
+                            <Badge
+                              key={tech}
+                              variant="outline"
+                              className="text-[10px] px-1.5 py-0 border-foreground"
+                            >
+                              {tech}
+                            </Badge>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </>
+              ) : (
+                <div className="text-center py-4 text-muted-foreground text-sm">
+                  No related projects found for this skill yet.
+                </div>
+              )}
+            </div>
+          </DialogContent>
+        </Dialog>
       </div>
     </AnimatedPage>
   );
