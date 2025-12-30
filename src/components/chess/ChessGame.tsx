@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Chess, Move, Square } from "chess.js";
 import { motion } from "framer-motion";
 
@@ -6,7 +6,8 @@ interface ChessGameProps {
   onBack: () => void;
 }
 
-type Mode = "cpu" | "pvp";
+type Mode = "cpu" | "pvp" | "cpu-cpu";
+type Difficulty = "easy" | "medium" | "hard";
 
 const lightSquare = "#f2d7b6";
 const darkSquare = "#b58863";
@@ -43,6 +44,7 @@ export function ChessGame({ onBack }: ChessGameProps) {
   const [fen, setFen] = useState(gameRef.current.fen());
   const [mode, setMode] = useState<Mode | null>(null);
   const [showMenu, setShowMenu] = useState(true);
+  const [difficulty, setDifficulty] = useState<Difficulty>("medium");
   const [selected, setSelected] = useState<Square | null>(null);
   const [legalTargets, setLegalTargets] = useState<Square[]>([]);
   const [lastMove, setLastMove] = useState<{ from: Square; to: Square } | null>(null);
@@ -52,6 +54,13 @@ export function ChessGame({ onBack }: ChessGameProps) {
   const [capturedBlack, setCapturedBlack] = useState<string[]>([]);
   const [moveHistory, setMoveHistory] = useState<string[]>([]);
   const [gameOver, setGameOver] = useState(false);
+
+  const modeLabel = useMemo(() => {
+    if (!mode) return "--";
+    if (mode === "cpu") return `CPU (${difficulty})`;
+    if (mode === "cpu-cpu") return `CPU vs CPU (${difficulty})`;
+    return "PvP";
+  }, [mode, difficulty]);
 
   const squares = useMemo(() => {
     const files = ["a", "b", "c", "d", "e", "f", "g", "h"];
@@ -87,7 +96,8 @@ export function ChessGame({ onBack }: ChessGameProps) {
     rebuildPieceIds();
   };
 
-  const startGame = (nextMode: Mode) => {
+  const startGame = (nextMode: Mode, nextDifficulty?: Difficulty) => {
+    if (nextDifficulty) setDifficulty(nextDifficulty);
     resetGame(nextMode);
     setShowMenu(false);
   };
@@ -99,7 +109,86 @@ export function ChessGame({ onBack }: ChessGameProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const makeMove = (move: MoveInput) => {
+  const chooseCpuMove = useCallback(
+    (chess: Chess): Move | null => {
+      const moves = chess.moves({ verbose: true }) as Move[];
+      if (moves.length === 0) return null;
+
+      const values: Record<string, number> = { p: 100, n: 320, b: 330, r: 500, q: 900, k: 10000 };
+
+      const evaluate = (c: Chess) => {
+        let score = 0;
+        c.board().forEach((row) => {
+          row.forEach((piece) => {
+            if (!piece) return;
+            const val = values[piece.type];
+            score += piece.color === "w" ? val : -val;
+          });
+        });
+        return score;
+      };
+
+      const negamax = (c: Chess, depth: number, alpha: number, beta: number): number => {
+        if (depth === 0 || c.isGameOver()) return evaluate(c);
+        let max = -Infinity;
+        const legal = c.moves({ verbose: true }) as Move[];
+        for (const mv of legal) {
+          const next = new Chess(c.fen());
+          next.move(mv);
+          const score = -negamax(next, depth - 1, -beta, -alpha);
+          max = Math.max(max, score);
+          alpha = Math.max(alpha, score);
+          if (alpha >= beta) break;
+        }
+        return max;
+      };
+
+      if (difficulty === "easy") {
+        return moves[Math.floor(Math.random() * moves.length)];
+      }
+
+      if (difficulty === "medium") {
+        let best: Move | null = null;
+        let bestScore = -Infinity;
+        moves.forEach((mv) => {
+          const sim = new Chess(chess.fen());
+          const res = sim.move(mv);
+          if (!res) return;
+          let score = 0;
+          if (res.captured) score += values[res.captured] ?? 0;
+          if (sim.isCheck()) score += 80;
+          if (mv.promotion) score += 120;
+          const centerBonus = ["d4", "e4", "d5", "e5"].includes(res.to) ? 15 : 0;
+          score += centerBonus;
+          if (score > bestScore) {
+            bestScore = score;
+            best = mv;
+          }
+        });
+        if (best) return best;
+        return moves[Math.floor(Math.random() * moves.length)];
+      }
+
+      // hard: shallow search
+      let bestMove: Move | null = null;
+      let bestEval = -Infinity;
+      const depth = 2;
+      moves.forEach((mv) => {
+        const sim = new Chess(chess.fen());
+        sim.move(mv);
+        const score = -negamax(sim, depth - 1, -Infinity, Infinity);
+        if (score > bestEval) {
+          bestEval = score;
+          bestMove = mv;
+        }
+      });
+      return bestMove ?? moves[0];
+    },
+    [difficulty]
+  );
+
+  const makeMove = useCallback(
+    (move: MoveInput) => {
     const chess = gameRef.current;
     const result = chess.move(move);
     if (!result) return false;
@@ -174,15 +263,18 @@ export function ChessGame({ onBack }: ChessGameProps) {
       setMessage(statusLabel(chess));
     }
     return true;
-  };
+  },
+    []
+  );
 
   const handleSquareClick = (square: Square) => {
     if (showMenu || gameOver) return;
     const chess = gameRef.current;
     if (chess.isGameOver()) return;
 
-    // In CPU mode, ignore clicks when it's the CPU's turn (black)
+    // In CPU modes, ignore clicks when it's a CPU turn
     if (mode === "cpu" && chess.turn() === "b") return;
+    if (mode === "cpu-cpu") return;
 
     const piece = chess.get(square);
 
@@ -219,17 +311,22 @@ export function ChessGame({ onBack }: ChessGameProps) {
   useEffect(() => {
     if (!mode || showMenu || gameOver) return;
     const chess = gameRef.current;
-    if (mode !== "cpu") return;
-    if (chess.turn() === "b" && !chess.isGameOver()) {
-      const legal = chess.moves({ verbose: true });
-      if (legal.length === 0) return;
-      const move = legal[Math.floor(Math.random() * legal.length)];
-      const timer = window.setTimeout(() => {
-        makeMove(move);
-      }, 600 + Math.random() * 500);
-      return () => window.clearTimeout(timer);
-    }
-  }, [fen, mode, showMenu, gameOver, makeMove]);
+
+    const cpuPlaysWhite = mode === "cpu-cpu";
+    const cpuPlaysBlack = mode === "cpu" || mode === "cpu-cpu";
+
+    const isCpuTurn = (chess.turn() === "w" && cpuPlaysWhite) || (chess.turn() === "b" && cpuPlaysBlack);
+    if (!isCpuTurn || chess.isGameOver()) return;
+
+    const move = chooseCpuMove(chess);
+    if (!move) return;
+
+    const timer = window.setTimeout(() => {
+      makeMove(move);
+    }, 600 + Math.random() * 500 + (mode === "cpu-cpu" ? 200 : 0));
+
+    return () => window.clearTimeout(timer);
+  }, [fen, mode, showMenu, gameOver, makeMove, chooseCpuMove]);
 
   const renderSquare = (square: Square) => {
     const chess = gameRef.current;
@@ -393,7 +490,7 @@ export function ChessGame({ onBack }: ChessGameProps) {
           {squares.map(renderSquare)}
         </div>
         <div className="absolute inset-x-0 bottom-0 flex items-center justify-between px-3 py-2 text-xs sm:text-sm bg-background/80 backdrop-blur border-t border-foreground">
-          <span className="font-semibold">Mode: {mode ?? "--"}</span>
+          <span className="font-semibold">Mode: {modeLabel}</span>
           <span className="text-muted-foreground">{message}</span>
         </div>
 
@@ -418,20 +515,40 @@ export function ChessGame({ onBack }: ChessGameProps) {
         )}
 
         {showMenu && (
-          <div className="absolute inset-0 bg-background/85 backdrop-blur flex flex-col items-center justify-center gap-4 text-center px-4">
+          <div className="absolute inset-0 bg-background/85 backdrop-blur flex flex-col items-center justify-center gap-5 text-center px-4">
             <div className="space-y-1">
               <p className="text-xs sm:text-sm uppercase tracking-widest">Pixel Chess</p>
               <p className="text-2xl sm:text-3xl font-display">Choose a mode</p>
               <p className="text-xs sm:text-sm text-muted-foreground max-w-md mx-auto">
-                Play against a friend locally or a quick CPU that makes random legal moves. Tap or click squares to move.
+                Play locally, challenge the CPU, or watch CPU vs CPU. Difficulty adjusts CPU strength.
               </p>
+            </div>
+            <div className="flex items-center gap-2 text-xs sm:text-sm">
+              <span className="text-muted-foreground">Difficulty:</span>
+              {(["easy", "medium", "hard"] as Difficulty[]).map((d) => (
+                <button
+                  key={d}
+                  onClick={() => setDifficulty(d)}
+                  className={`px-3 py-1 border-2 border-foreground font-bold uppercase tracking-wide ${
+                    difficulty === d ? "bg-accent text-accent-foreground" : "bg-background"
+                  }`}
+                >
+                  {d}
+                </button>
+              ))}
             </div>
             <div className="flex flex-col sm:flex-row gap-3">
               <button
-                onClick={() => startGame("cpu")}
+                onClick={() => startGame("cpu", difficulty)}
                 className="px-5 py-2 border-4 border-foreground bg-accent text-accent-foreground font-bold uppercase text-xs sm:text-sm tracking-wide hover:-translate-y-0.5 hover:-translate-x-0.5 transition-transform"
               >
                 Vs CPU
+              </button>
+              <button
+                onClick={() => startGame("cpu-cpu", difficulty)}
+                className="px-5 py-2 border-4 border-foreground bg-background font-bold uppercase text-xs sm:text-sm tracking-wide hover:-translate-y-0.5 hover:-translate-x-0.5 transition-transform"
+              >
+                CPU vs CPU
               </button>
               <button
                 onClick={() => startGame("pvp")}
