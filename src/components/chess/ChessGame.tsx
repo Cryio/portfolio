@@ -174,6 +174,8 @@ export function ChessGame({ onBack }: ChessGameProps) {
 
     const isInCheck = chess.isCheck() && piece?.type === "k" && piece.color === chess.turn();
 
+    const pieceKey = piece ? `${piece.color}-${piece.type}-${square}-${fen}` : `empty-${square}`;
+
     return (
       <motion.button
         key={square}
@@ -192,7 +194,17 @@ export function ChessGame({ onBack }: ChessGameProps) {
           fontFamily: '"Press Start 2P", "Courier New", monospace',
         }}
       >
-        {piece ? pieceGlyph[piece.color === "w" ? piece.type.toUpperCase() : piece.type] : ""}
+        {piece ? (
+          <motion.span
+            key={pieceKey}
+            initial={{ scale: 0.75, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ type: "spring", stiffness: 240, damping: 18 }}
+            className="inline-block"
+          >
+            {pieceGlyph[piece.color === "w" ? piece.type.toUpperCase() : piece.type]}
+          </motion.span>
+        ) : null}
       </motion.button>
     );
   };
