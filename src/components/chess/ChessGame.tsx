@@ -8,6 +8,7 @@ interface ChessGameProps {
 
 type Mode = "cpu" | "pvp" | "cpu-cpu";
 type Difficulty = "easy" | "medium" | "hard";
+type PlayerColor = "w" | "b";
 
 const lightSquare = "#f2d7b6";
 const darkSquare = "#b58863";
@@ -45,6 +46,7 @@ export function ChessGame({ onBack }: ChessGameProps) {
   const [mode, setMode] = useState<Mode | null>(null);
   const [showMenu, setShowMenu] = useState(true);
   const [difficulty, setDifficulty] = useState<Difficulty>("medium");
+  const [playerColor, setPlayerColor] = useState<PlayerColor>("w");
   const [selected, setSelected] = useState<Square | null>(null);
   const [legalTargets, setLegalTargets] = useState<Square[]>([]);
   const [lastMove, setLastMove] = useState<{ from: Square; to: Square } | null>(null);
@@ -57,10 +59,10 @@ export function ChessGame({ onBack }: ChessGameProps) {
 
   const modeLabel = useMemo(() => {
     if (!mode) return "--";
-    if (mode === "cpu") return `CPU (${difficulty})`;
+    if (mode === "cpu") return `CPU (${difficulty}) · You: ${playerColor === "w" ? "White" : "Black"}`;
     if (mode === "cpu-cpu") return `CPU vs CPU (${difficulty})`;
     return "PvP";
-  }, [mode, difficulty]);
+  }, [mode, difficulty, playerColor]);
 
   const squares = useMemo(() => {
     const files = ["a", "b", "c", "d", "e", "f", "g", "h"];
@@ -96,8 +98,9 @@ export function ChessGame({ onBack }: ChessGameProps) {
     rebuildPieceIds();
   };
 
-  const startGame = (nextMode: Mode, nextDifficulty?: Difficulty) => {
+  const startGame = (nextMode: Mode, nextDifficulty?: Difficulty, nextColor?: PlayerColor) => {
     if (nextDifficulty) setDifficulty(nextDifficulty);
+    if (nextColor) setPlayerColor(nextColor);
     resetGame(nextMode);
     setShowMenu(false);
   };
@@ -273,7 +276,7 @@ export function ChessGame({ onBack }: ChessGameProps) {
     if (chess.isGameOver()) return;
 
     // In CPU modes, ignore clicks when it's a CPU turn
-    if (mode === "cpu" && chess.turn() === "b") return;
+    if (mode === "cpu" && chess.turn() !== playerColor) return;
     if (mode === "cpu-cpu") return;
 
     const piece = chess.get(square);
@@ -312,8 +315,8 @@ export function ChessGame({ onBack }: ChessGameProps) {
     if (!mode || showMenu || gameOver) return;
     const chess = gameRef.current;
 
-    const cpuPlaysWhite = mode === "cpu-cpu";
-    const cpuPlaysBlack = mode === "cpu" || mode === "cpu-cpu";
+    const cpuPlaysWhite = mode === "cpu-cpu" || (mode === "cpu" && playerColor === "b");
+    const cpuPlaysBlack = mode === "cpu-cpu" || (mode === "cpu" && playerColor === "w");
 
     const isCpuTurn = (chess.turn() === "w" && cpuPlaysWhite) || (chess.turn() === "b" && cpuPlaysBlack);
     if (!isCpuTurn || chess.isGameOver()) return;
@@ -323,7 +326,7 @@ export function ChessGame({ onBack }: ChessGameProps) {
 
     const timer = window.setTimeout(() => {
       makeMove(move);
-    }, 600 + Math.random() * 500 + (mode === "cpu-cpu" ? 200 : 0));
+    }, 650 + Math.random() * 550 + (mode === "cpu-cpu" ? 200 : 0));
 
     return () => window.clearTimeout(timer);
   }, [fen, mode, showMenu, gameOver, makeMove, chooseCpuMove]);
@@ -448,6 +451,11 @@ export function ChessGame({ onBack }: ChessGameProps) {
             <span className="px-2 py-1 rounded-full border border-foreground/40 bg-background/80 font-semibold">
               {gameRef.current.turn() === "w" ? "White" : "Black"}
             </span>
+            {mode === "cpu" && (
+              <span className="px-2 py-1 rounded-full border border-foreground/30 bg-background/60 text-muted-foreground">
+                You play {playerColor === "w" ? "White" : "Black"}
+              </span>
+            )}
           </div>
           <div className="flex items-center gap-2 overflow-x-auto max-w-[60%] scrollbar-hide" style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
             <span className="text-muted-foreground">Moves:</span>
@@ -515,31 +523,47 @@ export function ChessGame({ onBack }: ChessGameProps) {
         )}
 
         {showMenu && (
-          <div className="absolute inset-0 bg-background/85 backdrop-blur flex flex-col items-center justify-center gap-5 text-center px-4">
+          <div className="absolute inset-0 bg-background/90 backdrop-blur flex flex-col items-center justify-center gap-6 text-center px-4">
             <div className="space-y-1">
               <p className="text-xs sm:text-sm uppercase tracking-widest">Pixel Chess</p>
               <p className="text-2xl sm:text-3xl font-display">Choose a mode</p>
               <p className="text-xs sm:text-sm text-muted-foreground max-w-md mx-auto">
-                Play locally, challenge the CPU, or watch CPU vs CPU. Difficulty adjusts CPU strength.
+                Play locally, challenge the CPU, or watch CPU vs CPU. Pick your color and difficulty, then tap a square to move.
               </p>
             </div>
-            <div className="flex items-center gap-2 text-xs sm:text-sm">
-              <span className="text-muted-foreground">Difficulty:</span>
-              {(["easy", "medium", "hard"] as Difficulty[]).map((d) => (
-                <button
-                  key={d}
-                  onClick={() => setDifficulty(d)}
-                  className={`px-3 py-1 border-2 border-foreground font-bold uppercase tracking-wide ${
-                    difficulty === d ? "bg-accent text-accent-foreground" : "bg-background"
-                  }`}
-                >
-                  {d}
-                </button>
-              ))}
+            <div className="flex flex-wrap items-center justify-center gap-3 text-xs sm:text-sm">
+              <div className="flex items-center gap-2">
+                <span className="text-muted-foreground">Difficulty:</span>
+                {(["easy", "medium", "hard"] as Difficulty[]).map((d) => (
+                  <button
+                    key={d}
+                    onClick={() => setDifficulty(d)}
+                    className={`px-3 py-1 border-2 border-foreground font-bold uppercase tracking-wide ${
+                      difficulty === d ? "bg-accent text-accent-foreground" : "bg-background"
+                    }`}
+                  >
+                    {d}
+                  </button>
+                ))}
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-muted-foreground">Your color:</span>
+                {(["w", "b"] as PlayerColor[]).map((c) => (
+                  <button
+                    key={c}
+                    onClick={() => setPlayerColor(c)}
+                    className={`px-3 py-1 border-2 border-foreground font-bold uppercase tracking-wide ${
+                      playerColor === c ? "bg-foreground text-background" : "bg-background"
+                    }`}
+                  >
+                    {c === "w" ? "White" : "Black"}
+                  </button>
+                ))}
+              </div>
             </div>
             <div className="flex flex-col sm:flex-row gap-3">
               <button
-                onClick={() => startGame("cpu", difficulty)}
+                onClick={() => startGame("cpu", difficulty, playerColor)}
                 className="px-5 py-2 border-4 border-foreground bg-accent text-accent-foreground font-bold uppercase text-xs sm:text-sm tracking-wide hover:-translate-y-0.5 hover:-translate-x-0.5 transition-transform"
               >
                 Vs CPU
