@@ -21,6 +21,21 @@ export function usePlayerAnimation(ref: RefObject<THREE.Group>) {
       addCoinScore();
     }
 
+    // Check if player went off map boundaries (left/right)
+    const boundaryLeft = (minTileIndex - 1) * tileSize;
+    const boundaryRight = (maxTileIndex + 1) * tileSize;
+    
+    if (player.position.x < boundaryLeft || player.position.x > boundaryRight) {
+      setGameOver();
+      return;
+    }
+
+    // Check if player went backwards too far (fell off starting area)
+    if (state.currentRow < -1) {
+      setGameOver();
+      return;
+    }
+
     // Handle log riding when not moving
     if (state.movesQueue.length === 0) {
       const isOnLog = checkLogPosition(player.position.x, state.currentRow);
@@ -40,9 +55,8 @@ export function usePlayerAnimation(ref: RefObject<THREE.Group>) {
         // Update current tile to match actual position
         state.currentTile = Math.round(player.position.x / tileSize);
         
-        // Check if player went off screen
-        if (player.position.x < (minTileIndex - 2) * tileSize || 
-            player.position.x > (maxTileIndex + 2) * tileSize) {
+        // Check if player went off screen while on log
+        if (player.position.x < boundaryLeft || player.position.x > boundaryRight) {
           setGameOver();
           return;
         }
