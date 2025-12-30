@@ -38,6 +38,8 @@ function statusLabel(chess: Chess) {
 
 export function ChessGame({ onBack }: ChessGameProps) {
   const gameRef = useRef(new Chess());
+  const pieceIdRef = useRef<Record<string, string>>({} as Record<string, string>);
+  const nextIdRef = useRef(1);
   const [fen, setFen] = useState(gameRef.current.fen());
   const [mode, setMode] = useState<Mode | null>(null);
   const [showMenu, setShowMenu] = useState(true);
@@ -57,6 +59,17 @@ export function ChessGame({ onBack }: ChessGameProps) {
     return ranks.flatMap((rank) => files.map((file) => `${file}${rank}` as Square));
   }, []);
 
+  const rebuildPieceIds = () => {
+    const ids: Record<string, string> = {} as Record<string, string>;
+    nextIdRef.current = 1;
+    squares.forEach((sq) => {
+      const piece = gameRef.current.get(sq);
+      if (!piece) return;
+      ids[sq] = `${piece.color}-${piece.type}-${nextIdRef.current++}`;
+    });
+    pieceIdRef.current = ids;
+  };
+
   const resetGame = (nextMode: Mode | null) => {
     gameRef.current = new Chess();
     setMode(nextMode);
@@ -71,6 +84,7 @@ export function ChessGame({ onBack }: ChessGameProps) {
     setCapturedBlack([]);
     setMoveHistory([]);
     setGameOver(false);
+    rebuildPieceIds();
   };
 
   const startGame = (nextMode: Mode) => {
@@ -80,10 +94,51 @@ export function ChessGame({ onBack }: ChessGameProps) {
 
   type MoveInput = Move | { from: Square; to: Square; promotion?: string } | string;
 
+  useEffect(() => {
+    rebuildPieceIds();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const makeMove = (move: MoveInput) => {
     const chess = gameRef.current;
     const result = chess.move(move);
     if (!result) return false;
+
+    // update piece ids for stable identity per piece
+    const ids = { ...pieceIdRef.current };
+    const fromSq = result.from as Square;
+    const toSq = result.to as Square;
+    const movingId = ids[fromSq];
+
+    // handle en passant capture square removal
+    if (result.flags.includes("e")) {
+      const toRank = parseInt(toSq[1], 10);
+      const file = toSq[0];
+      const capturedRank = result.color === "w" ? toRank - 1 : toRank + 1;
+      const epSquare = `${file}${capturedRank}` as Square;
+      delete ids[epSquare];
+    }
+
+    // handle castling rook move
+    if (result.flags.includes("k")) {
+      const rookFrom = result.color === "w" ? ("h1" as Square) : ("h8" as Square);
+      const rookTo = result.color === "w" ? ("f1" as Square) : ("f8" as Square);
+      const rookId = ids[rookFrom];
+      delete ids[rookFrom];
+      ids[rookTo] = rookId ?? ids[rookTo];
+    }
+    if (result.flags.includes("q")) {
+      const rookFrom = result.color === "w" ? ("a1" as Square) : ("a8" as Square);
+      const rookTo = result.color === "w" ? ("d1" as Square) : ("d8" as Square);
+      const rookId = ids[rookFrom];
+      delete ids[rookFrom];
+      ids[rookTo] = rookId ?? ids[rookTo];
+    }
+
+    delete ids[fromSq];
+    delete ids[toSq];
+    ids[toSq] = movingId ?? `${result.color}-${result.piece}-${nextIdRef.current++}`;
+    pieceIdRef.current = ids;
 
     if (result.captured) {
       const glyph = pieceGlyph[result.captured.toUpperCase()];
@@ -174,20 +229,7 @@ export function ChessGame({ onBack }: ChessGameProps) {
       }, 600 + Math.random() * 500);
       return () => window.clearTimeout(timer);
     }
-  }, [fen, mode, showMenu, gameOver]);
-
-  const pieceIds = useMemo(() => {
-    const counts: Record<string, Record<string, number>> = { w: {}, b: {} };
-    const ids: Record<string, string> = {};
-    squares.forEach((sq) => {
-      const piece = gameRef.current.get(sq);
-      if (!piece) return;
-      const c = counts[piece.color][piece.type] ?? 0;
-      counts[piece.color][piece.type] = c + 1;
-      ids[sq] = `${piece.color}-${piece.type}-${c + 1}`;
-    });
-    return ids;
-  }, [fen, squares]);
+  }, [fen, mode, showMenu, gameOver, makeMove]);
 
   const renderSquare = (square: Square) => {
     const chess = gameRef.current;
@@ -209,7 +251,7 @@ export function ChessGame({ onBack }: ChessGameProps) {
 
     const isInCheck = chess.isCheck() && piece?.type === "k" && piece.color === chess.turn();
 
-    const pieceKey = piece ? pieceIds[square] ?? `${piece.color}-${piece.type}-${square}` : `empty-${square}`;
+    const pieceKey = piece ? pieceIdRef.current[square] ?? `${piece.color}-${piece.type}-${square}` : `empty-${square}`;
     const isMovedTarget = Boolean(piece && lastMove && lastMove.to === square);
 
     return (
