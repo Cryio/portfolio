@@ -49,6 +49,7 @@ export function ChessGame({ onBack }: ChessGameProps) {
   const [capturedWhite, setCapturedWhite] = useState<string[]>([]);
   const [capturedBlack, setCapturedBlack] = useState<string[]>([]);
   const [moveHistory, setMoveHistory] = useState<string[]>([]);
+  const [gameOver, setGameOver] = useState(false);
 
   const squares = useMemo(() => {
     const files = ["a", "b", "c", "d", "e", "f", "g", "h"];
@@ -69,6 +70,7 @@ export function ChessGame({ onBack }: ChessGameProps) {
     setCapturedWhite([]);
     setCapturedBlack([]);
     setMoveHistory([]);
+    setGameOver(false);
   };
 
   const startGame = (nextMode: Mode) => {
@@ -100,13 +102,18 @@ export function ChessGame({ onBack }: ChessGameProps) {
     setMoveHistory((prev) => [...prev, result.san]);
 
     if (chess.isGameOver()) {
+      setGameOver(true);
       if (chess.isCheckmate()) {
         const winner = chess.turn() === "w" ? "Black" : "White";
-        setMessage(`${winner} wins by checkmate`);
+        const label = `${winner} wins by checkmate`;
+        setMessage(label);
+        setStatus(label);
       } else if (chess.isStalemate()) {
         setMessage("Draw by stalemate");
+        setStatus("Draw by stalemate");
       } else {
         setMessage("Draw");
+        setStatus("Draw");
       }
     } else {
       setMessage(statusLabel(chess));
@@ -115,7 +122,7 @@ export function ChessGame({ onBack }: ChessGameProps) {
   };
 
   const handleSquareClick = (square: Square) => {
-    if (showMenu) return;
+    if (showMenu || gameOver) return;
     const chess = gameRef.current;
     if (chess.isGameOver()) return;
 
@@ -155,7 +162,7 @@ export function ChessGame({ onBack }: ChessGameProps) {
   };
 
   useEffect(() => {
-    if (!mode || showMenu) return;
+    if (!mode || showMenu || gameOver) return;
     const chess = gameRef.current;
     if (mode !== "cpu") return;
     if (chess.turn() === "b" && !chess.isGameOver()) {
@@ -164,10 +171,10 @@ export function ChessGame({ onBack }: ChessGameProps) {
       const move = legal[Math.floor(Math.random() * legal.length)];
       const timer = window.setTimeout(() => {
         makeMove(move);
-      }, 300 + Math.random() * 400);
+      }, 600 + Math.random() * 500);
       return () => window.clearTimeout(timer);
     }
-  }, [fen, mode, showMenu]);
+  }, [fen, mode, showMenu, gameOver]);
 
   const pieceIds = useMemo(() => {
     const counts: Record<string, Record<string, number>> = { w: {}, b: {} };
@@ -203,6 +210,7 @@ export function ChessGame({ onBack }: ChessGameProps) {
     const isInCheck = chess.isCheck() && piece?.type === "k" && piece.color === chess.turn();
 
     const pieceKey = piece ? pieceIds[square] ?? `${piece.color}-${piece.type}-${square}` : `empty-${square}`;
+    const shouldAnimate = Boolean(piece && lastMove && lastMove.to === square);
 
     return (
       <motion.button
@@ -227,10 +235,10 @@ export function ChessGame({ onBack }: ChessGameProps) {
             <motion.span
               key={pieceKey}
               layoutId={pieceKey}
-              initial={{ scale: 0.4, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.4, opacity: 0 }}
-              transition={{ type: "spring", stiffness: 280, damping: 18 }}
+              initial={shouldAnimate ? { scale: 0.85, opacity: 0 } : false}
+              animate={shouldAnimate ? { scale: 1, opacity: 1 } : { opacity: 1 }}
+              exit={{ scale: 0.85, opacity: 0 }}
+              transition={{ type: "spring", stiffness: 160, damping: 20 }}
               className="inline-block"
             >
               {pieceGlyph[piece.color === "w" ? piece.type.toUpperCase() : piece.type]}
@@ -346,6 +354,26 @@ export function ChessGame({ onBack }: ChessGameProps) {
           <span className="font-semibold">Mode: {mode ?? "--"}</span>
           <span className="text-muted-foreground">{message}</span>
         </div>
+
+        {gameOver && (
+          <div className="absolute inset-0 bg-background/90 backdrop-blur flex flex-col items-center justify-center gap-3 text-center px-4">
+            <p className="text-xl sm:text-2xl font-display">{message}</p>
+            <div className="flex gap-2">
+              <button
+                onClick={() => resetGame(mode)}
+                className="px-4 py-2 border-4 border-foreground bg-accent text-accent-foreground font-bold uppercase text-xs sm:text-sm tracking-wide hover:-translate-y-0.5 hover:-translate-x-0.5 transition-transform"
+              >
+                Play Again
+              </button>
+              <button
+                onClick={onBack}
+                className="px-4 py-2 border-4 border-foreground bg-background font-bold uppercase text-xs sm:text-sm tracking-wide hover:-translate-y-0.5 hover:-translate-x-0.5 transition-transform"
+              >
+                Exit
+              </button>
+            </div>
+          </div>
+        )}
 
         {showMenu && (
           <div className="absolute inset-0 bg-background/85 backdrop-blur flex flex-col items-center justify-center gap-4 text-center px-4">
