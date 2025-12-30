@@ -95,10 +95,13 @@ const GamePage = () => {
         </motion.button>
       </div>
       
-      <div className="absolute inset-0 pt-16 pb-6 px-3 sm:px-4 overflow-auto flex items-center justify-center">
+      <div className="absolute inset-0 pt-16 pb-6 px-3 sm:px-4 overflow-hidden flex items-center justify-center">
         <div className="relative w-full max-w-6xl min-h-[70vh] flex items-center justify-center">
           {activeGame === 'crossy' ? (
-            <div className="w-full h-full max-h-[calc(100vh-140px)]">
+            <div
+              className="w-full"
+              style={{ width: 'min(96vw, 1180px)', height: 'min(82vh, 880px)' }}
+            >
               <CrossyRoadGame onBack={() => navigate('/')} />
             </div>
           ) : activeGame === 'flappy' ? (
