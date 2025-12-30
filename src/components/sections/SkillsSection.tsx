@@ -17,56 +17,62 @@ const iconMap = {
   Palette,
 };
 
-// Skill aliases for better matching
-const skillAliases: Record<string, string[]> = {
-  "Nessus": ["Vulnerability Assessment", "Security", "Penetration Testing"],
-  "Burp Suite": ["Web Security", "Penetration Testing", "Security"],
-  "Metasploit": ["Penetration Testing", "Security", "Ethical Hacking"],
-  "Wireshark": ["Networking", "TCP/IP", "Network Security"],
-  "Wazuh": ["Security", "SIEM", "Incident Response"],
-  "TheHive": ["Incident Response", "Security", "Digital Forensics"],
-  "DFIR-IRIS": ["Digital Forensics", "Incident Response", "Security"],
-  "MISP": ["Threat Intelligence", "Security"],
-  "Ghidra": ["Malware Analysis", "Reverse Engineering", "Security"],
-  "Cuckoo Sandbox": ["Malware Analysis", "Security"],
-  "SQLmap": ["Web Security", "Penetration Testing", "Security"],
-  "x64dbg": ["Reverse Engineering", "Malware Analysis"],
-  "Microsoft Azure": ["Cloud", "DevOps"],
-  "Docker": ["Containers", "DevOps", "Cloud"],
-  "Jenkins": ["CI/CD", "DevOps", "Automation"],
-  "Okta": ["Security", "Authentication"],
-  "CATO Networks": ["Network Security", "Cloud Security"],
-  "Podman": ["Containers", "DevOps", "Docker"],
-  "QEMU": ["Virtualization", "Linux"],
-  "VirtualBox": ["Virtualization"],
-  "Python": ["Programming", "Security", "Machine Learning", "Flask"],
-  "JavaScript": ["Web Development", "Node.js", "React"],
-  "TypeScript": ["Web Development", "React"],
-  "React": ["Web Development", "JavaScript", "TypeScript"],
-  "Node.js": ["Web Development", "JavaScript", "Backend"],
-  "Express": ["Node.js", "Backend", "Web Development"],
-  "Git": ["Version Control", "DevOps"],
-  "MySQL": ["Database", "SQL"],
-  "MongoDB": ["Database", "NoSQL"],
-  "Figma": ["UI/UX", "Design", "Web Development"],
-  "Blender": ["3D", "Design", "Animation"],
-  "Unreal Engine": ["3D", "Game Development"],
-  "Adobe Photoshop": ["Design", "Graphics"],
-  "Adobe Illustrator": ["Design", "Graphics", "UI/UX"],
+// Direct skill-to-project mapping for precise matching
+const skillProjectMapping: Record<string, string[]> = {
+  // Cybersecurity & Pentesting
+  "Nessus": ["Vulnerability Assessment Report"],
+  "Burp Suite": ["siNUsoid CTF", "CTF Q2023"],
+  "Metasploit": ["Vulnerability Assessment in Docker & Podman", "siNUsoid CTF"],
+  "Wireshark": ["TCP/IP Stack Implementation", "Vulnerability Assessment in Docker & Podman"],
+  "Wazuh": [],
+  "TheHive": [],
+  "DFIR-IRIS": ["Qu1cksc0pe Reports"],
+  "MISP": [],
+  "Ghidra": ["Qu1cksc0pe Reports"],
+  "Cuckoo Sandbox": ["Qu1cksc0pe Reports"],
+  "SQLmap": ["siNUsoid CTF", "CTF Q2023"],
+  "x64dbg": ["Qu1cksc0pe Reports"],
+  
+  // Cloud & DevOps
+  "Microsoft Azure": [],
+  "Docker": ["Vulnerability Assessment in Docker & Podman", "HealthMate AI", "siNUsoid CTF", "n8n Render Deployment"],
+  "Jenkins": [],
+  "Okta": [],
+  "CATO Networks": [],
+  "Podman": ["Vulnerability Assessment in Docker & Podman"],
+  "QEMU": ["TinyLinux"],
+  "VirtualBox": ["TinyLinux"],
+  
+  // Languages & Development
+  "Python": ["Wifi-CSI Based Activity Recognition", "Vulnerability Assessment in Docker & Podman", "siNUsoid CTF", "HealthMate AI", "Practical Concepts", "CTF Q2023", "Qu1cksc0pe Reports"],
+  "JavaScript": ["Zen Garden", "Karma Tech Website", "Maa Karmaa Website"],
+  "TypeScript": [],
+  "React": ["Zen Garden"],
+  "Node.js": ["Zen Garden", "n8n Render Deployment"],
+  "Express": [],
+  "Git": [],
+  "MySQL": [],
+  "MongoDB": ["Zen Garden"],
+  
+  // Platforms & Design
+  "Figma": ["Karma Tech Website", "Maa Karmaa Website"],
+  "Blender": [],
+  "Unreal Engine": [],
+  "Adobe Photoshop": [],
+  "Adobe Illustrator": [],
 };
 
-// Map skills to related projects
+// Map skills to related projects - uses direct mapping with fallback to tech matching
 function getRelatedProjects(skillName: string) {
-  const aliases = skillAliases[skillName] || [];
-  const searchTerms = [skillName.toLowerCase(), ...aliases.map(a => a.toLowerCase())];
+  // First check direct mapping
+  const directMatches = skillProjectMapping[skillName];
+  if (directMatches && directMatches.length > 0) {
+    return projects.filter(p => directMatches.includes(p.title));
+  }
   
+  // Fallback: exact match on tech array only
   return projects.filter((project) =>
-    project.tech.some((tech) =>
-      searchTerms.some(term => 
-        tech.toLowerCase().includes(term) ||
-        term.includes(tech.toLowerCase())
-      )
-    )
+    project.tech.some((tech) => tech.toLowerCase() === skillName.toLowerCase())
   );
 }
 
