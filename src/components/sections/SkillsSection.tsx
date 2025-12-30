@@ -1,6 +1,14 @@
-import { Shield, Cloud, Code, Palette } from "lucide-react";
-import { skillCategories } from "@/data/portfolio";
+import { Shield, Cloud, Code, Palette, ExternalLink } from "lucide-react";
+import { skillCategories, projects } from "@/data/portfolio";
 import { useState } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
+import { Badge } from "@/components/ui/badge";
 
 const iconMap = {
   Shield,
@@ -9,8 +17,27 @@ const iconMap = {
   Palette,
 };
 
+// Map skills to related projects
+function getRelatedProjects(skillName: string) {
+  return projects.filter((project) =>
+    project.tech.some((tech) =>
+      tech.toLowerCase().includes(skillName.toLowerCase()) ||
+      skillName.toLowerCase().includes(tech.toLowerCase())
+    )
+  );
+}
+
 export function SkillsSection() {
   const [activeCategory, setActiveCategory] = useState(0);
+  const [selectedSkill, setSelectedSkill] = useState<{ name: string; description: string } | null>(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const handleSkillClick = (skill: { name: string; description: string }) => {
+    setSelectedSkill(skill);
+    setIsDialogOpen(true);
+  };
+
+  const relatedProjects = selectedSkill ? getRelatedProjects(selectedSkill.name) : [];
 
   return (
     <section id="skills" className="py-24 relative">
@@ -55,9 +82,10 @@ export function SkillsSection() {
         {/* Skills Grid */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {skillCategories[activeCategory].skills.map((skill, index) => (
-            <div
+            <button
               key={skill.name}
-              className="skill-card animate-scale-in"
+              onClick={() => handleSkillClick(skill)}
+              className="skill-card animate-scale-in text-left hover:border-primary/50 transition-all cursor-pointer"
               style={{ animationDelay: `${index * 0.05}s` }}
             >
               <div className="flex items-center gap-3">
@@ -73,10 +101,79 @@ export function SkillsSection() {
                   </p>
                 </div>
               </div>
-            </div>
+            </button>
           ))}
         </div>
       </div>
+
+      {/* Skill Detail Dialog */}
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                <span className="text-lg font-bold text-primary">
+                  {selectedSkill?.name.charAt(0)}
+                </span>
+              </div>
+              {selectedSkill?.name}
+            </DialogTitle>
+            <DialogDescription>
+              {selectedSkill?.description}
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="mt-4">
+            {relatedProjects.length > 0 ? (
+              <>
+                <h4 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide mb-3">
+                  Related Projects
+                </h4>
+                <div className="space-y-3">
+                  {relatedProjects.slice(0, 3).map((project) => (
+                    <div
+                      key={project.title}
+                      className="p-3 border border-border rounded-lg hover:border-primary/50 transition-colors"
+                    >
+                      <div className="flex items-start justify-between gap-2">
+                        <h5 className="font-medium text-sm">{project.title}</h5>
+                        {project.github && (
+                          <a
+                            href={project.github}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-muted-foreground hover:text-primary transition-colors"
+                          >
+                            <ExternalLink className="w-4 h-4" />
+                          </a>
+                        )}
+                      </div>
+                      <p className="text-xs text-muted-foreground mt-1 line-clamp-2">
+                        {project.description}
+                      </p>
+                      <div className="flex flex-wrap gap-1 mt-2">
+                        {project.tech.slice(0, 4).map((tech) => (
+                          <Badge
+                            key={tech}
+                            variant="secondary"
+                            className="text-[10px] px-1.5 py-0"
+                          >
+                            {tech}
+                          </Badge>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </>
+            ) : (
+              <div className="text-center py-4 text-muted-foreground text-sm">
+                No related projects found for this skill yet.
+              </div>
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
     </section>
   );
 }
