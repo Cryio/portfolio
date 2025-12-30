@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Chess, Move, Square } from "chess.js";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 
 interface ChessGameProps {
   onBack: () => void;
@@ -210,7 +210,7 @@ export function ChessGame({ onBack }: ChessGameProps) {
     const isInCheck = chess.isCheck() && piece?.type === "k" && piece.color === chess.turn();
 
     const pieceKey = piece ? pieceIds[square] ?? `${piece.color}-${piece.type}-${square}` : `empty-${square}`;
-    const shouldAnimate = Boolean(piece && lastMove && lastMove.to === square);
+    const isMovedTarget = Boolean(piece && lastMove && lastMove.to === square);
 
     return (
       <motion.button
@@ -230,21 +230,21 @@ export function ChessGame({ onBack }: ChessGameProps) {
           fontFamily: '"Press Start 2P", "Courier New", monospace',
         }}
       >
-        <AnimatePresence initial={false} mode="wait">
-          {piece ? (
-            <motion.span
-              key={pieceKey}
-              layoutId={pieceKey}
-              initial={shouldAnimate ? { scale: 0.85, opacity: 0 } : false}
-              animate={shouldAnimate ? { scale: 1, opacity: 1 } : { opacity: 1 }}
-              exit={{ scale: 0.85, opacity: 0 }}
-              transition={{ type: "spring", stiffness: 160, damping: 20 }}
-              className="inline-block"
-            >
-              {pieceGlyph[piece.color === "w" ? piece.type.toUpperCase() : piece.type]}
-            </motion.span>
-          ) : null}
-        </AnimatePresence>
+        {piece ? (
+          <motion.span
+            key={pieceKey}
+            initial={false}
+            animate={
+              isMovedTarget
+                ? { scale: [1, 1.08, 1], opacity: 1 }
+                : { opacity: 1 }
+            }
+            transition={isMovedTarget ? { duration: 0.35, ease: "easeOut" } : undefined}
+            className="inline-block"
+          >
+            {pieceGlyph[piece.color === "w" ? piece.type.toUpperCase() : piece.type]}
+          </motion.span>
+        ) : null}
       </motion.button>
     );
   };
