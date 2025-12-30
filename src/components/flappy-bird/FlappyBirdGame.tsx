@@ -1,7 +1,5 @@
-import { Suspense, useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { Canvas } from "@react-three/fiber";
-import { Environment, Float } from "@react-three/drei";
 
 interface Pipe {
   x: number;
@@ -14,6 +12,13 @@ interface Particle {
   y: number;
   alpha: number;
   size: number;
+}
+
+interface Star {
+  x: number;
+  y: number;
+  size: number;
+  alpha: number;
 }
 
 interface FlappyBirdGameProps {
@@ -31,6 +36,14 @@ const PIPE_GAP = 155;
 const MIN_PIPE_GAP = 115;
 const MAX_SPEED_BONUS = 3.5;
 const PARTICLE_FADE = 0.02;
+const SKY_TOP = "#1d1b33";
+const SKY_BOTTOM = "#100f1f";
+const GROUND_COLOR = "#2b2340";
+const PIPE_FILL = "#64d977";
+const PIPE_SHADOW = "#2c8f42";
+const PIPE_STROKE = "#0f1a12";
+const BIRD_PRIMARY = "#fbbf24";
+const BIRD_SHADOW = "#c0841a";
 
 export function FlappyBirdGame({ onBack }: FlappyBirdGameProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -42,6 +55,7 @@ export function FlappyBirdGame({ onBack }: FlappyBirdGameProps) {
   const scoreRef = useRef(0);
   const bestRef = useRef(0);
   const particles = useRef<Particle[]>([]);
+  const stars = useRef<Star[]>([]);
   const menuRef = useRef(true);
   const [score, setScore] = useState(0);
   const [best, setBest] = useState(0);
@@ -65,6 +79,12 @@ export function FlappyBirdGame({ onBack }: FlappyBirdGameProps) {
       { x: GAME_WIDTH + 60 + PIPE_SPACING, gapY: GAME_HEIGHT / 2 - 40, passed: false },
     ];
     particles.current = [];
+    stars.current = Array.from({ length: 35 }, () => ({
+      x: Math.random() * GAME_WIDTH,
+      y: Math.random() * (GAME_HEIGHT - GROUND_HEIGHT - 40),
+      size: 1 + Math.random() * 1.5,
+      alpha: 0.5 + Math.random() * 0.5,
+    }));
     scoreRef.current = 0;
     setScore(0);
     runningRef.current = shouldRun;
@@ -91,6 +111,8 @@ export function FlappyBirdGame({ onBack }: FlappyBirdGameProps) {
     const ctx = canvas?.getContext("2d");
     if (!canvas || !ctx) return;
 
+    ctx.imageSmoothingEnabled = false;
+
     let lastTime = performance.now();
 
     const addPipe = () => {
@@ -103,43 +125,62 @@ export function FlappyBirdGame({ onBack }: FlappyBirdGameProps) {
     const draw = () => {
       ctx.clearRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
 
-      const gradient = ctx.createLinearGradient(0, 0, 0, GAME_HEIGHT);
-      const hue = (performance.now() / 40) % 360;
-      gradient.addColorStop(0, `hsl(${hue}, 60%, 16%)`);
-      gradient.addColorStop(1, `hsl(${(hue + 40) % 360}, 70%, 9%)`);
-      ctx.fillStyle = gradient;
-      ctx.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+      // Sky bands
+      ctx.fillStyle = SKY_TOP;
+      ctx.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT * 0.65);
+      ctx.fillStyle = SKY_BOTTOM;
+      ctx.fillRect(0, GAME_HEIGHT * 0.65, GAME_WIDTH, GAME_HEIGHT * 0.35);
 
-      ctx.fillStyle = "#111827";
+      // Stars
+      for (const s of stars.current) {
+        ctx.fillStyle = `rgba(255, 255, 255, ${s.alpha.toFixed(2)})`;
+        ctx.fillRect(s.x, s.y, s.size, s.size);
+      }
+
+      // Horizon stripe
+      ctx.fillStyle = "#282140";
+      ctx.fillRect(0, GAME_HEIGHT * 0.62, GAME_WIDTH, 6);
+
+      // Ground
+      ctx.fillStyle = GROUND_COLOR;
       ctx.fillRect(0, GAME_HEIGHT - GROUND_HEIGHT, GAME_WIDTH, GROUND_HEIGHT);
 
+      // Pipes (pixel blocks)
+      ctx.strokeStyle = PIPE_STROKE;
+      ctx.lineWidth = 2;
       for (const pipe of pipes.current) {
         const pipeHeightTop = pipe.gapY - PIPE_GAP / 2;
         const pipeHeightBottom = GAME_HEIGHT - pipe.gapY - PIPE_GAP / 2 - GROUND_HEIGHT;
-        const pipeGradient = ctx.createLinearGradient(pipe.x, 0, pipe.x + 70, 0);
-        pipeGradient.addColorStop(0, "#16a34a");
-        pipeGradient.addColorStop(1, "#22c55e");
-        ctx.fillStyle = pipeGradient;
+
+        ctx.fillStyle = PIPE_FILL;
         ctx.fillRect(pipe.x, 0, 70, pipeHeightTop);
         ctx.fillRect(pipe.x, pipe.gapY + PIPE_GAP / 2, 70, pipeHeightBottom);
+
+        ctx.fillStyle = PIPE_SHADOW;
+        ctx.fillRect(pipe.x, pipeHeightTop - 8, 70, 8);
+        ctx.fillRect(pipe.x, pipe.gapY + PIPE_GAP / 2, 70, 8);
+
+        ctx.strokeRect(pipe.x + 1, 1, 68, pipeHeightTop - 2);
+        ctx.strokeRect(pipe.x + 1, pipe.gapY + PIPE_GAP / 2 + 1, 68, pipeHeightBottom - 2);
       }
 
+      // Particles
       for (const p of particles.current) {
         ctx.fillStyle = `rgba(251, 191, 36, ${p.alpha.toFixed(2)})`;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fill();
+        ctx.fillRect(p.x, p.y, p.size * 1.5, p.size * 1.5);
       }
 
-      ctx.fillStyle = "#fbbf24";
-      ctx.beginPath();
-      ctx.arc(120, birdY.current, 18, 0, Math.PI * 2);
-      ctx.fill();
-
+      // Bird (blocky)
+      const birdX = 120;
+      const birdYPos = birdY.current;
+      ctx.fillStyle = BIRD_SHADOW;
+      ctx.fillRect(birdX - 10, birdYPos - 10, 24, 24);
+      ctx.fillStyle = BIRD_PRIMARY;
+      ctx.fillRect(birdX - 12, birdYPos - 12, 22, 22);
       ctx.fillStyle = "#0f172a";
-      ctx.beginPath();
-      ctx.arc(126, birdY.current - 5, 4, 0, Math.PI * 2);
-      ctx.fill();
+      ctx.fillRect(birdX + 6, birdYPos - 8, 4, 4);
+      ctx.fillStyle = "#f97316";
+      ctx.fillRect(birdX + 10, birdYPos - 2, 6, 4);
     };
 
     const update = () => {
@@ -245,41 +286,13 @@ export function FlappyBirdGame({ onBack }: FlappyBirdGameProps) {
   return (
     <div className="w-full h-full flex items-center justify-center bg-background px-3 py-6">
       <div className="relative" style={containerStyle}>
-        <div className="absolute inset-0 pointer-events-none">
-          <Suspense fallback={null}>
-            <Canvas dpr={[1, 1.5]} camera={{ position: [0, 0, 14], fov: 40 }}>
-              <ambientLight intensity={0.6} />
-              <directionalLight position={[5, 5, 5]} intensity={1.1} />
-              <Environment preset="sunset" />
-              <Float speed={1.5} rotationIntensity={0.6} floatIntensity={1.1}>
-                <mesh position={[0, 0, -6]} rotation={[0.2, 0.6, 0.1]}>
-                  <torusKnotGeometry args={[2.2, 0.5, 80, 12]} />
-                  <meshStandardMaterial color="#22c55e" metalness={0.35} roughness={0.4} />
-                </mesh>
-              </Float>
-              <Float speed={2} rotationIntensity={0.8} floatIntensity={1.4}>
-                <mesh position={[-3.6, -2.4, -4]}>
-                  <boxGeometry args={[2, 2.6, 2]} />
-                  <meshStandardMaterial color="#facc15" metalness={0.25} roughness={0.35} />
-                </mesh>
-              </Float>
-              <Float speed={1.2} rotationIntensity={0.4} floatIntensity={0.9}>
-                <mesh position={[3.4, 2.8, -5]}>
-                  <icosahedronGeometry args={[1.6, 0]} />
-                  <meshStandardMaterial color="#38bdf8" metalness={0.3} roughness={0.5} />
-                </mesh>
-              </Float>
-            </Canvas>
-          </Suspense>
-        </div>
-
-        <div className="relative border-4 border-foreground bg-background/90 shadow-lg backdrop-blur-sm rounded-xl overflow-hidden">
+        <div className="relative border-4 border-foreground bg-background shadow-lg rounded-xl overflow-hidden">
           <canvas
             ref={canvasRef}
             width={GAME_WIDTH}
             height={GAME_HEIGHT}
             className="w-full h-full"
-            style={{ objectFit: "cover" }}
+            style={{ objectFit: "cover", imageRendering: "pixelated" }}
           />
 
           <div className="absolute top-3 left-3 sm:top-4 sm:left-4 flex flex-col gap-2 text-xs sm:text-sm">

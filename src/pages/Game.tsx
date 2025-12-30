@@ -1,14 +1,15 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Bird, Gamepad2 } from 'lucide-react';
+import { ArrowLeft, Bird, Gamepad2, Sparkles } from 'lucide-react';
 import { CrossyRoadGame } from '@/components/crossy-road/CrossyRoadGame';
 import { FlappyBirdGame } from '@/components/flappy-bird/FlappyBirdGame';
+import { ChessGame } from '@/components/chess/ChessGame';
 import { resetGame } from '@/components/crossy-road/stores/player';
 
 const GamePage = () => {
   const navigate = useNavigate();
-  const [activeGame, setActiveGame] = useState<'crossy' | 'flappy'>('crossy');
+  const [activeGame, setActiveGame] = useState<'crossy' | 'flappy' | 'chess'>('crossy');
 
   useEffect(() => {
     // Prevent scrolling while in game
@@ -22,8 +23,6 @@ const GamePage = () => {
 
   useEffect(() => {
     if (activeGame === 'crossy') {
-      resetGame();
-    } else {
       resetGame();
     }
   }, [activeGame]);
@@ -79,13 +78,32 @@ const GamePage = () => {
           <Bird className="w-4 h-4" />
           Flappy Bird
         </motion.button>
+        <motion.button
+          type="button"
+          initial={{ y: -20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.2, duration: 0.25 }}
+          onClick={() => setActiveGame('chess')}
+          className={`inline-flex items-center gap-2 border-4 px-4 py-2 font-bold uppercase text-sm tracking-wide shadow-sm hover:-translate-y-0.5 hover:-translate-x-0.5 transition-transform ${
+            activeGame === 'chess'
+              ? 'border-foreground bg-accent text-accent-foreground'
+              : 'border-foreground bg-background text-foreground'
+          }`}
+        >
+          <Sparkles className="w-4 h-4" />
+          Pixel Chess
+        </motion.button>
       </div>
       
       {/* Game canvas */}
       {activeGame === 'crossy' ? (
         <CrossyRoadGame onBack={() => navigate('/')} />
       ) : (
-        <FlappyBirdGame onBack={() => navigate('/')} />
+        activeGame === 'flappy' ? (
+          <FlappyBirdGame onBack={() => navigate('/')} />
+        ) : (
+          <ChessGame onBack={() => navigate('/')} />
+        )
       )}
     </motion.div>
   );
