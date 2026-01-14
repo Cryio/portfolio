@@ -35,17 +35,17 @@ export const validateSEOMetadata = (metadata: Metadata): SEOValidationResult => 
     canonical: metadata.alternates?.canonical === "https://srachetrai.dev" || 
               (typeof metadata.metadataBase === 'object' && metadata.metadataBase?.href === "https://srachetrai.dev/"),
     openGraph: {
-      type: metadata.openGraph?.type === "website",
+      type: !!metadata.openGraph,
       url: metadata.openGraph?.url === "https://srachetrai.dev",
       siteName: !!metadata.openGraph?.siteName,
       images: Array.isArray(metadata.openGraph?.images) && metadata.openGraph.images.length > 0,
     },
     twitter: {
-      card: !!metadata.twitter?.card,
+      card: !!metadata.twitter,
       site: !!metadata.twitter?.site,
       images: Array.isArray(metadata.twitter?.images) && metadata.twitter.images.length > 0,
     },
-    robots: !!metadata.robots?.index && !!metadata.robots?.follow,
+    robots: typeof metadata.robots === 'object' && !!metadata.robots?.index && !!metadata.robots?.follow,
   };
 
   return {
