@@ -4,11 +4,6 @@ import path from "path";
 import { getAllBlogs } from "@/lib/blogs";
 import { features } from "@/config/features";
 
-const normalizeUrl = (url: string) => {
-  const trimmed = url.replace(/\/$/, "");
-  return trimmed.startsWith("http") ? trimmed : `https://${trimmed}`;
-};
-
 const getFileLastModified = (relativePath: string): Date | null => {
   try {
     const fullPath = path.join(process.cwd(), relativePath);
@@ -19,18 +14,8 @@ const getFileLastModified = (relativePath: string): Date | null => {
   }
 };
 
-// Resolve the canonical site URL from environment (preferring explicit public var)
-const envUrl =
-  process.env.NEXT_PUBLIC_SITE_URL ?? // user-defined canonical URL
-  "https://srachetrai.dev" ?? // Default to canonical domain
-  process.env.URL ?? // Netlify production URL
-  process.env.DEPLOY_PRIME_URL ?? // Netlify preview/branch deploy URL
-  process.env.DEPLOY_URL ?? // Netlify deploy-specific URL
-  process.env.SITE_URL ?? // fallback if user sets SITE_URL
-  process.env.VERCEL_PROJECT_PRODUCTION_URL ?? // Vercel production URL
-  process.env.VERCEL_URL; // Vercel preview URL
-
-const siteUrl = envUrl ? normalizeUrl(envUrl) : "https://srachetrai.dev";
+// Use the canonical site URL directly
+const siteUrl = "https://srachetrai.dev";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
