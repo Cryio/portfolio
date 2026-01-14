@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /_next/
+Disallow: /assets/
+Crawl-delay: 1
+
+Sitemap: https://srachetrai.dev/sitemap.xml

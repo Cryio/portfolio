@@ -22,6 +22,7 @@ const getFileLastModified = (relativePath: string): Date | null => {
 // Resolve the canonical site URL from environment (preferring explicit public var)
 const envUrl =
   process.env.NEXT_PUBLIC_SITE_URL ?? // user-defined canonical URL
+  "https://srachetrai.dev" ?? // Default to canonical domain
   process.env.URL ?? // Netlify production URL
   process.env.DEPLOY_PRIME_URL ?? // Netlify preview/branch deploy URL
   process.env.DEPLOY_URL ?? // Netlify deploy-specific URL
@@ -29,7 +30,7 @@ const envUrl =
   process.env.VERCEL_PROJECT_PRODUCTION_URL ?? // Vercel production URL
   process.env.VERCEL_URL; // Vercel preview URL
 
-const siteUrl = envUrl ? normalizeUrl(envUrl) : "http://localhost:3000";
+const siteUrl = envUrl ? normalizeUrl(envUrl) : "https://srachetrai.dev";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
