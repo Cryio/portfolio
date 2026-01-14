@@ -1,13 +1,39 @@
+import type { Metadata } from "next";
+
 // Helper function to validate SEO metadata structure
 // Use this to test metadata in your pages
 
-export const validateSEOMetadata = (metadata: any) => {
-  const checks = {
-    title: !!metadata.title && metadata.title.length > 0,
+interface SEOValidationChecks {
+  title: boolean;
+  description: boolean;
+  keywords: boolean;
+  canonical: boolean;
+  openGraph: {
+    type: boolean;
+    url: boolean;
+    siteName: boolean;
+    images: boolean;
+  };
+  twitter: {
+    card: boolean;
+    site: boolean;
+    images: boolean;
+  };
+  robots: boolean;
+}
+
+interface SEOValidationResult {
+  isValid: boolean;
+  checks: SEOValidationChecks;
+}
+
+export const validateSEOMetadata = (metadata: Metadata): SEOValidationResult => {
+  const checks: SEOValidationChecks = {
+    title: !!metadata.title && (typeof metadata.title === 'string' ? metadata.title.length > 0 : true),
     description: !!metadata.description && metadata.description.length > 0,
     keywords: Array.isArray(metadata.keywords) && metadata.keywords.length > 0,
     canonical: metadata.alternates?.canonical === "https://srachetrai.dev" || 
-              metadata.metadataBase?.href === "https://srachetrai.dev/",
+              (typeof metadata.metadataBase === 'object' && metadata.metadataBase?.href === "https://srachetrai.dev/"),
     openGraph: {
       type: metadata.openGraph?.type === "website",
       url: metadata.openGraph?.url === "https://srachetrai.dev",
