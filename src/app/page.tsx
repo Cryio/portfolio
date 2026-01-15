@@ -197,17 +197,8 @@ export default function Home() {
                       <a href={`mailto:${portfolioData.contact.email}`} className="text-sm font-mono truncate hover:underline">
                         {portfolioData.contact.email}
                       </a>
-                      <Button variant="ghost" size="icon" className="h-7 w-7 hover:bg-primary/20 text-inherit" onClick={() => handleCopy(portfolioData.contact.email, "primary-email")}>
-                        {copiedItem === "primary-email" ? <span className="text-xs text-primary font-semibold">Copied!</span> : <Copy className="h-4 w-4 text-inherit opacity-80 hover:opacity-100 transition" />}
-                      </Button>
-                    </div>
-                    <div className="grid grid-cols-[25px_1fr_auto] items-center gap-4">
-                      <Mail className="h-4 w-4 text-inherit" />
-                      <a href={`mailto:${portfolioData.contact.altEmail}`} className="text-sm font-mono truncate hover:underline">
-                        {portfolioData.contact.altEmail}
-                      </a>
-                      <Button variant="ghost" size="icon" className="h-7 w-7 hover:bg-primary/20 text-inherit" onClick={() => handleCopy(portfolioData.contact.altEmail, "alt-email")}>
-                        {copiedItem === "alt-email" ? <span className="text-xs text-primary font-semibold">Copied!</span> : <Copy className="h-4 w-4 text-inherit opacity-80 hover:opacity-100 transition" />}
+                      <Button variant="ghost" size="icon" className="h-7 w-7 hover:bg-primary/20 text-inherit" onClick={() => handleCopy(portfolioData.contact.email, "email")}>
+                        {copiedItem === "email" ? <span className="text-xs text-primary font-semibold">Copied!</span> : <Copy className="h-4 w-4 text-inherit opacity-80 hover:opacity-100 transition" />}
                       </Button>
                     </div>
                     <div className="grid grid-cols-[25px_1fr_auto] items-center gap-4">
