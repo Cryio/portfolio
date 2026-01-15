@@ -216,16 +216,7 @@ export default function About() {
                     className="flex items-center gap-2"
                   >
                     <Mail className="h-5 w-5" />
-                    Primary Email
-                  </a>
-                </Button>
-                <Button variant="outline" asChild>
-                  <a
-                    href={`mailto:${portfolioData.contact.altEmail}`}
-                    className="flex items-center gap-2"
-                  >
-                    <Mail className="h-5 w-5" />
-                    Alt Email
+                    Email
                   </a>
                 </Button>
               </div>

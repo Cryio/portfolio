@@ -10,7 +10,7 @@ export const seoConfig = {
   // Personal Information
   author: {
     name: "Srachet Rai",
-    email: "contact@srachetrai.dev",
+    email: "srachetrai@gmail.com",
     bio: "Cybersecurity Specialist & Web Developer",
   },
 
@@ -41,7 +41,7 @@ export const seoConfig = {
     "DevSecOps",
     "Cloud Security",
     "Incident Response",
-    "Portfolio",
+    "Portfolio", 
     "Srachet Rai",
   ],
 
@@ -108,7 +108,7 @@ export const seoConfig = {
       image: "https://srachetrai.dev/og-image-square.png",
       description: "Cybersecurity Specialist & Web Developer",
       jobTitle: "Cybersecurity Enthusiast & BTech CSE",
-      email: "contact@srachetrai.dev",
+      email: "srachetrai@gmail.com",
       sameAs: [
         "https://www.linkedin.com/in/srachetrai",
         "https://github.com/srachetrai",

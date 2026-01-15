@@ -479,12 +479,7 @@ export default function Home() {
             </Button>
             <Button variant="outline" asChild>
               <a href={`mailto:${portfolioData.contact.email}`} className="flex items-center gap-2">
-                Primary Email
-              </a>
-            </Button>
-            <Button variant="outline" asChild>
-              <a href={`mailto:${portfolioData.contact.altEmail}`} className="flex items-center gap-2">
-                Alt Email
+                <Mail className="h-5 w-5" /> Email
               </a>
             </Button>
           </div>
