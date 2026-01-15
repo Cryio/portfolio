@@ -443,6 +443,22 @@ experiences: [
   // Individual/Standalone Certifications
   individualCertifications: [
     {
+      title: "Multi-Cloud Red Team Analyst (MCRTA)",
+      issuer: "Cyber Warfare Labs",
+      date: "2025",
+      description: "Advanced multi-cloud red team certification demonstrating expertise in offensive security operations across AWS, Azure, and GCP environments using MITRE Cloud ATT&CK framework.",
+      skills: [
+        "Cloud Red Team Methodologies",
+        "MITRE Cloud ATT&CK Red Team TTPs",
+        "Extensive Recon to red teaming internal organization cloud assets",
+        "Open-Source & Commercial tools in cloud security",
+        "Securing Core Services IAM, RBAC, Compute & Storage",
+        "Identifying exposed assets and mapping using authentication CLI",
+        "Cloud Attack Cycle in AWS, Azure & GCP Cloud"
+      ],
+      credentialUrl: "https://labs.cyberwarfare.live/credential/achievement/6937fad84ae64839616f1202"
+    },
+    {
       title: "ICS 300 (CISA)",
       issuer: "CISA (Cybersecurity and Infrastructure Security Agency)",
       date: "2024",
