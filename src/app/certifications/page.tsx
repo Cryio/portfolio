@@ -1,5 +1,27 @@
+import type { Metadata } from "next";
+import { seoConfig } from "@/config/seo";
 import { Certifications } from "@/components/Certifications";
 import { portfolioData } from "@/data/portfolio";
+
+export const metadata: Metadata = {
+  title: seoConfig.pages.certifications.title,
+  description: seoConfig.pages.certifications.description,
+  alternates: {
+    canonical: `${seoConfig.siteUrl}${seoConfig.pages.certifications.slug}`,
+  },
+  openGraph: {
+    title: seoConfig.pages.certifications.title,
+    description: seoConfig.pages.certifications.description,
+    url: `${seoConfig.siteUrl}${seoConfig.pages.certifications.slug}`,
+    siteName: seoConfig.siteName,
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: seoConfig.pages.certifications.title,
+    description: seoConfig.pages.certifications.description,
+  },
+};
 
 export default function CertificationsPage() {
   return (

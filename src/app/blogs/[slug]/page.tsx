@@ -25,6 +25,21 @@ export async function generateMetadata({ params }: PageParams): Promise<Metadata
   return {
     title: post?.title ?? slug,
     description: post?.description,
+    alternates: {
+      canonical: `https://srachetrai.dev/blogs/${slug}`,
+    },
+    openGraph: {
+      title: post?.title ?? slug,
+      description: post?.description,
+      url: `https://srachetrai.dev/blogs/${slug}`,
+      siteName: "Srachet Rai - Portfolio",
+      type: "article",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post?.title ?? slug,
+      description: post?.description,
+    },
   };
 }
 
