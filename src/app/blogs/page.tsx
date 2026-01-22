@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getAllBlogs } from "@/lib/blogs";
 import { features } from "@/config/features";

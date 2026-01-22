@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { Background } from "@/components/Background";
 import { Navigation } from "@/components/Navigation";
+import { GooeyCursor } from "@/components/GooeyCursor";
 import { portfolioData } from "@/data/portfolio";
 import Link from "next/link";
 export const dynamic = "force-static";
@@ -181,6 +182,7 @@ export default function RootLayout({
       </head>
       <body className={`${inter.className} antialiased text-foreground bg-background`}>
         <ThemeProvider defaultTheme="dark" storageKey="portfolio-theme">
+          <GooeyCursor />
           <Background />
           <Navigation />
           <main className="min-h-screen">
