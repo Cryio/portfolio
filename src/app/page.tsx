@@ -26,6 +26,7 @@ import { Project } from "@/components/Project";
 import { Certifications } from "@/components/Certifications";
 import { portfolioData } from "@/data/portfolio";
 import { SkillRadar } from "@/components/SkillRadar";
+import { FadeInWrapper } from "@/components/FadeInWrapper";
 
 export default function Home() {
   // --- Existing State for Copy Functionality ---
@@ -158,7 +159,8 @@ export default function Home() {
     <main className="min-h-screen pt-24">
       <div className="container mx-auto px-4">
         {/* Hero Section */}
-        <div className="mb-16 grid grid-cols-1 md:grid-cols-3 gap-10 items-center">
+        <FadeInWrapper duration={700} delay={0}>
+          <div className="mb-16 grid grid-cols-1 md:grid-cols-3 gap-10 items-center">
           {/* Column 1: Profile & Contact */}
           <div className="flex flex-col items-center text-center">
             <div className="relative w-40 h-40 mb-8 ring-4 ring-primary/20 rounded-full overflow-hidden">
@@ -256,8 +258,10 @@ export default function Home() {
             </div>
           </div>
         </div>
+        </FadeInWrapper>
 
         {/* Lighthearted Quotes Section */}
+        <FadeInWrapper duration={600} delay={100}>
         <section className="mb-4">
             <div className="absolute inset-0 pointer-events-none bg-gradient-to-br from-primary/10 via-transparent to-primary/5" />
             <div className="relative space-y-6 px-6 text-center">
@@ -278,9 +282,11 @@ export default function Home() {
               </div>
             </div>
         </section>
+        </FadeInWrapper>
 
         {/* Technologies Section */}
-        {portfolioData.technologies.map((section) => (
+        {portfolioData.technologies.map((section, sectionIndex) => (
+          <FadeInWrapper key={section.title} duration={600} delay={200 + sectionIndex * 100}>
           <div key={section.title} className="mb-16">
             <h3 className="text-3xl font-semibold mb-8 text-center text-foreground">
               {section.title}
@@ -291,9 +297,11 @@ export default function Home() {
               ))}
             </div>
           </div>
+          </FadeInWrapper>
         ))}
 
         {/* Featured Projects Section */}
+        <FadeInWrapper duration={600} delay={400}>
         <section className="mb-16">
           <h2 className="text-3xl font-semibold mb-8 text-center text-foreground">
             Featured Projects
@@ -311,8 +319,10 @@ export default function Home() {
             </Button>
           </div>
         </section>
+        </FadeInWrapper>
 
         {/* Role & Responsibilities Section */}
+        <FadeInWrapper duration={600} delay={500}>
         <section className="mb-16">
           <h2 className="text-3xl font-semibold mb-8 text-center text-foreground">
             Role & Responsibilities
@@ -330,8 +340,10 @@ export default function Home() {
             </Button>
           </div>
         </section>
+        </FadeInWrapper>
 
         {/* Certifications Section */}
+        <FadeInWrapper duration={600} delay={600}>
         <section className="mb-16">
           <h2 className="text-3xl font-semibold mb-8 text-center text-foreground">
             Certifications
@@ -349,8 +361,10 @@ export default function Home() {
             </Button>
           </div>
         </section>
+        </FadeInWrapper>
 
         {/* Contact Section - UPDATED FORM */}
+        <FadeInWrapper duration={600} delay={700}>
         <section className="text-center space-y-6 mb-16">
           <h2 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/80">
             Get in Touch
@@ -475,6 +489,7 @@ export default function Home() {
             </Button>
           </div>
         </section>
+        </FadeInWrapper>
       </div>
     </main>
   );

@@ -1,19 +1,25 @@
 'use client';
 
 import Timeline from "@/components/Timeline";
+import { FadeInWrapper } from "@/components/FadeInWrapper";
 
 export default function RoleAndResponsibilities() {
   return (
     <main className="min-h-screen pt-24">
       <div className="container mx-auto px-4">
-        <h1 className="text-4xl font-bold mb-8 bg-gradient-to-r from-primary to-primary/50 text-transparent bg-clip-text">
-          Role & Responsibilities
-        </h1>
+        <FadeInWrapper duration={600} delay={0}>
+          <h1 className="text-4xl font-bold mb-8 bg-gradient-to-r from-primary to-primary/50 text-transparent bg-clip-text">
+            Role & Responsibilities
+          </h1>
+        </FadeInWrapper>
 
-        <div className="mb-4 text-foreground/80 text-lg">
-          A timeline of my professional roles, volunteer work, and educational journey.
-        </div>
+        <FadeInWrapper duration={600} delay={100}>
+          <div className="mb-4 text-foreground/80 text-lg">
+            A timeline of my professional roles, volunteer work, and educational journey.
+          </div>
+        </FadeInWrapper>
 
+        <FadeInWrapper duration={600} delay={200}>
         <Timeline>
           <Timeline.Item
             header="Hopefully You!"
@@ -158,6 +164,7 @@ export default function RoleAndResponsibilities() {
             ]}
           />
         </Timeline>
+        </FadeInWrapper>
       </div>
     </main>
   );

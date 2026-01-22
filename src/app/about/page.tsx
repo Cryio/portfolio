@@ -5,6 +5,7 @@ import { portfolioData } from "../../data/portfolio";
 import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
 import { Button } from "../../components/ui/button";
 import { Github, Linkedin, Mail, Loader2, CheckCircle2, XCircle } from "lucide-react";
+import { FadeInWrapper } from "@/components/FadeInWrapper";
 
 export default function About() {
   // Split the description into paragraphs
@@ -57,12 +58,15 @@ export default function About() {
   return (
     <main className="min-h-screen pt-24 pb-16">
       <div className="container mx-auto px-4">
-        <h1 className="text-4xl font-bold mb-8 bg-gradient-to-r from-primary to-primary/50 text-transparent bg-clip-text">
-          About Me
-        </h1>
+        <FadeInWrapper duration={600} delay={0}>
+          <h1 className="text-4xl font-bold mb-8 bg-gradient-to-r from-primary to-primary/50 text-transparent bg-clip-text">
+            About Me
+          </h1>
+        </FadeInWrapper>
         
         <div className="grid gap-8">
           {/* About Section */}
+          <FadeInWrapper duration={600} delay={100}>
           <Card className="backdrop-blur-sm bg-background/80">
             <CardHeader>
               <CardTitle>Background</CardTitle>
@@ -84,8 +88,10 @@ export default function About() {
               </div>
             </CardContent>
           </Card>
+          </FadeInWrapper>
 
           {/* Contact Section - UPDATED FORM */}
+          <FadeInWrapper duration={600} delay={200}>
           <Card className="backdrop-blur-sm bg-background/80">
             <CardHeader>
               <CardTitle>Get in Touch</CardTitle>
@@ -222,6 +228,7 @@ export default function About() {
               </div>
             </CardContent>
           </Card>
+          </FadeInWrapper>
         </div>
       </div>
     </main>
