@@ -133,3 +133,93 @@
 ::view-transition-new(iframe) {
     display: none;
 }
+
+/* GRADIENT ANIMATIONS */
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient 4s ease infinite;
+}
+
+.animate-shimmer {
+  background-size: 200% auto;
+  animation: shimmer 3s linear infinite;
+}
+
+/* GLOWING BORDERS */
+.glow-border {
+  position: relative;
+  background: transparent;
+  border-radius: 0.5rem;
+}
+
+.glow-border::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: 0.5rem;
+  padding: 1px;
+  background: linear-gradient(45deg, hsl(var(--primary)), hsl(var(--accent)), hsl(var(--primary)));
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+
+.glow-border:focus-within::before,
+.glow-border:hover::before {
+  opacity: 0.6;
+  animation: rotateGradient 3s linear infinite;
+}
+
+.glow-border-subtle::before {
+  opacity: 0.3;
+}
+
+.glow-border-subtle:focus-within::before,
+.glow-border-subtle:hover::before {
+  opacity: 0.4;
+  animation: rotateGradient 4s ease-in-out infinite;
+}
+
+.glow-border-intense::before {
+  background: linear-gradient(45deg, hsl(var(--primary)), hsl(var(--secondary)), hsl(var(--accent)), hsl(var(--primary)));
+  background-size: 400% 400%;
+  opacity: 0.8;
+}
+
+.glow-border-intense:focus-within::before,
+.glow-border-intense:hover::before {
+  opacity: 1;
+  animation: rotateGradient 2s linear infinite;
+}
+
+@keyframes rotateGradient {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

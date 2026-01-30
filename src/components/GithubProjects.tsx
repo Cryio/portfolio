@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import GithubProject from './GithubProject';
+import { GithubProjectsSkeleton } from './ui/github-skeleton';
 import { Repository } from '@/types';
 
 interface GithubProjectsProps {
@@ -13,6 +14,7 @@ export default function GithubProjects({ username, featuredRepos }: GithubProjec
   const [repos, setRepos] = useState<Repository[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     setMounted(true);
@@ -24,7 +26,8 @@ export default function GithubProjects({ username, featuredRepos }: GithubProjec
 
     let isMounted = true;
 
-    const fetchRepos = async () => {
+const fetchRepos = async () => {
+      setLoading(true);
       try {
         const response = await fetch(`https://api.github.com/users/${username}/repos`, {
           headers: {
@@ -52,14 +55,16 @@ export default function GithubProjects({ username, featuredRepos }: GithubProjec
         // Filter out forked repositories
         const nonForkedRepos = data.filter((repo: Repository) => !repo.fork);
 
-        if (isMounted) {
+if (isMounted) {
           setRepos(nonForkedRepos);
           setError(null);
+          setLoading(false);
         }
       } catch (err) {
         if (isMounted) {
           console.error('Error fetching repos:', err);
           setError(err instanceof Error ? err.message : 'Failed to fetch repositories');
+          setLoading(false);
         }
       }
     };
@@ -71,8 +76,12 @@ export default function GithubProjects({ username, featuredRepos }: GithubProjec
     };
   }, [username, mounted]);
 
-  if (!mounted) {
+if (!mounted) {
     return null;
+  }
+
+  if (loading) {
+    return <GithubProjectsSkeleton count={featuredRepos?.length || 6} />;
   }
 
   if (error) {
