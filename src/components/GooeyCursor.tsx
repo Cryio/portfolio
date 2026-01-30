@@ -129,8 +129,9 @@ export function GooeyCursor() {
         cancelAnimationFrame(animationFrameRef.current);
       }
       // Clean up circles
-      if (cursorRef.current) {
-        cursorRef.current.innerHTML = "";
+      const cursorElement = cursorRef.current;
+      if (cursorElement) {
+        cursorElement.innerHTML = "";
       }
       cursorCirclesRef.current = [];
     };

@@ -60,10 +60,6 @@ export function Background() {
   const smoothX = useSpring(mouseX, springConfig);
   const smoothY = useSpring(mouseY, springConfig);
 
-  // Transform calculations for different parallax modes
-  const singleLayerX = useTransform(smoothX, isMobile ? (value) => value / -60 : (value) => value / -40);
-  const singleLayerY = useTransform(smoothY, isMobile ? (value) => value / -60 : (value) => value / -40);
-
   // Pre-calculate layer transforms manually
   const currentLayers = PARALLAX_LAYERS[theme as keyof typeof PARALLAX_LAYERS] || PARALLAX_LAYERS.light;
   const layer1X = useTransform(smoothX, (value) => value / (50 / currentLayers[0].factor));
@@ -101,8 +97,6 @@ export function Background() {
   // Optimized blur and opacity calculations
   const blurAmount = Math.min(1 + scrollY / 300, 80);
   const opacityAmount = Math.max(0.85 - scrollY / 15000, 0.4);
-  
-  const backgroundImage = theme === "dark" ? "/assets/bg-dark.png" : "/assets/bg-light.jpg";
 
 
 
@@ -125,6 +119,7 @@ export function Background() {
             alt="Background"
             className="absolute inset-0 w-full h-full object-cover"
             style={{ opacity: opacityAmount }}
+            loading="lazy"
           />
         </motion.div>
         
@@ -142,6 +137,7 @@ export function Background() {
             alt="Foreground"
             className="absolute inset-0 w-full h-full object-cover"
             style={{ opacity: opacityAmount }}
+            loading="lazy"
           />
         </motion.div>
         
