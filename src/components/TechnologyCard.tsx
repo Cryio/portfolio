@@ -31,8 +31,10 @@ export function TechnologyCard({ technology }: TechnologyCardProps) {
                   alt={technology.alt}
                   width={48}
                   height={48}
+                  sizes="48px"
                   className="object-contain"
                   loading="lazy"
+                  style={{ aspectRatio: '1/1' }}
                 />
               ) : (
                 <span className="text-2xl text-foreground">{technology.icon}</span>

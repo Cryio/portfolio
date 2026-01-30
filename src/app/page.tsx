@@ -168,6 +168,7 @@ export default function Home() {
                 src="/assets/profile.png"
                 alt={portfolioData.name}
                 fill
+                sizes="160px"
                 className="object-cover"
                 priority
               />
