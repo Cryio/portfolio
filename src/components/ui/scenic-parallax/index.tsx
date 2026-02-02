@@ -3,7 +3,7 @@ import { useScroll } from "framer-motion";
 import { Stars, ShootingStars } from "./Stars";
 import { BirdFlocks } from "./Birds";
 import { Clouds } from "./Clouds";
-import { Moon } from "./Moon";
+import { Moon, MoonlightOverlay } from "./Moon";
 import { MountainLayer, mountainPaths } from "./Mountains";
 import { ForestLayer } from "./Forest";
 
@@ -31,6 +31,9 @@ export function ScenicParallax({ className = "" }: { className?: string }) {
       
       {/* Moon (night) */}
       <Moon />
+      
+      {/* Moonlight effect overlay */}
+      <MoonlightOverlay />
       
       {/* Far mountains - distant purple/blue tones */}
       <MountainLayer
