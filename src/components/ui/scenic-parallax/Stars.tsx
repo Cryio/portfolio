@@ -22,7 +22,8 @@ function ShootingStar({ delay, duration, startX, startY }: { delay: number; dura
 
   if (!isVisible) return null;
 
-  const angle = 215;
+  // Angle for down-left direction (like natural meteor shower)
+  const angle = 35;
 
   return (
     <motion.div
@@ -30,23 +31,23 @@ function ShootingStar({ delay, duration, startX, startY }: { delay: number; dura
       style={{ 
         left: `${startX}%`, 
         top: `${startY}%`,
-        transform: `rotate(${angle - 180}deg)`,
+        transform: `rotate(${angle}deg)`,
       }}
       initial={{ opacity: 0 }}
       animate={{ opacity: [0, 1, 1, 0] }}
       transition={{ duration, ease: "linear" }}
     >
       <motion.div
-        initial={{ x: 0 }}
-        animate={{ x: 400 }}
+        initial={{ x: 0, y: 0 }}
+        animate={{ x: -300, y: 200 }}
         transition={{ duration, ease: "linear" }}
         className="relative"
       >
         <div className="w-1.5 h-1.5 rounded-full bg-foreground shadow-[0_0_6px_3px_rgba(255,255,255,0.8)]" />
         <div 
-          className="absolute top-1/2 right-full w-24 h-[1.5px] -translate-y-1/2"
+          className="absolute top-1/2 left-full w-24 h-[1.5px] -translate-y-1/2"
           style={{
-            background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.3), rgba(255,255,255,0.9))",
+            background: "linear-gradient(270deg, transparent, rgba(255,255,255,0.3), rgba(255,255,255,0.9))",
           }}
         />
       </motion.div>
