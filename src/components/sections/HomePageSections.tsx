@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { Parallax, FloatingParallax, ParallaxSection } from "@/components/ui/parallax";
+import { ScenicParallax } from "@/components/ui/scenic-parallax";
 
 // Mapping of project titles to their asset file names
 const projectImageMap: Record<string, string> = {
@@ -297,28 +298,16 @@ export function HeroSection() {
 
   return (
     <section ref={heroRef} className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
-      {/* Parallax Background */}
-      <ParallaxGrid />
+      {/* Scenic Parallax Background with mountains, birds, sun/moon */}
+      <ScenicParallax />
       
       {/* Mouse follower glow */}
       <div 
         className="pointer-events-none fixed inset-0 z-0 transition-opacity duration-300"
         style={{
-          background: `radial-gradient(600px circle at ${mousePos.x}px ${mousePos.y}px, hsl(var(--primary) / 0.06), transparent 40%)`
+          background: `radial-gradient(600px circle at ${mousePos.x}px ${mousePos.y}px, hsl(var(--primary) / 0.04), transparent 40%)`
         }}
       />
-
-      {/* Animated Floating Illustrations with parallax */}
-      <FloatingShape className="absolute top-32 left-[10%]" color="highlight-1" delay={0} parallaxSpeed={0.8} />
-      <CircleShape className="absolute top-40 right-[15%]" color="highlight-2" size={50} delay={0.5} parallaxSpeed={0.6} />
-      <FloatingShape className="absolute bottom-40 left-[20%]" color="highlight-3" delay={1} parallaxSpeed={0.4} />
-      <CircleShape className="absolute bottom-32 right-[25%]" color="highlight-4" size={70} delay={1.5} parallaxSpeed={0.7} />
-      <ZigzagLine className="absolute top-60 left-[5%]" parallaxSpeed={0.3} />
-      <ZigzagLine className="absolute bottom-60 right-[5%] rotate-180" parallaxSpeed={0.5} />
-      
-      {/* Extra floating elements */}
-      <CircleShape className="absolute top-1/2 left-[8%] opacity-40" color="highlight-1" size={30} delay={2} parallaxSpeed={0.9} />
-      <CircleShape className="absolute top-1/3 right-[8%] opacity-40" color="highlight-3" size={25} delay={2.5} parallaxSpeed={0.5} />
 
       <motion.div 
         className="container mx-auto px-4 relative z-10"
