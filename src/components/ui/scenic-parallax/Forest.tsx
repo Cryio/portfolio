@@ -221,13 +221,13 @@ export function ForestLayer({ scrollYProgress }: ForestLayerProps) {
   const smoothY = useSpring(y, { stiffness: 100, damping: 30 });
 
   const { pines, deciduous, bushes } = useMemo(() => {
-    // Generate pine trees
+    // Generate pine trees - LARGER sizes
     const pines = Array.from({ length: 55 }, (_, i) => {
       const baseX = (i / 55) * 1500 - 30;
       return { 
         x: baseX + Math.sin(i * 1.7) * 10 + (Math.random() - 0.5) * 15,
-        height: 45 + Math.sin(i * 0.8) * 15 + Math.random() * 30,
-        width: 20 + Math.random() * 14,
+        height: 70 + Math.sin(i * 0.8) * 25 + Math.random() * 40,
+        width: 32 + Math.random() * 18,
         id: i, 
         swayDelay: Math.random() * 2.5, 
         swayAmount: 1 + Math.random() * 1.5,
@@ -236,13 +236,13 @@ export function ForestLayer({ scrollYProgress }: ForestLayerProps) {
       };
     });
 
-    // Generate deciduous trees (fewer, scattered)
+    // Generate deciduous trees - LARGER sizes
     const deciduous = Array.from({ length: 12 }, (_, i) => {
       const baseX = 80 + (i / 12) * 1300;
       return {
         x: baseX + (Math.random() - 0.5) * 60,
-        height: 50 + Math.random() * 25,
-        width: 35 + Math.random() * 15,
+        height: 75 + Math.random() * 35,
+        width: 50 + Math.random() * 20,
         id: i,
         swayDelay: Math.random() * 3,
         swayAmount: 0.8 + Math.random() * 1,
