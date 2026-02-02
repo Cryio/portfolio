@@ -1,25 +1,31 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Gamepad2 } from 'lucide-react';
+import { ArrowLeft, Bird, Gamepad2, Sparkles } from 'lucide-react';
 import { CrossyRoadGame } from '@/components/crossy-road/CrossyRoadGame';
+import { FlappyBirdGame } from '@/components/flappy-bird/FlappyBirdGame';
+import { ChessGame } from '@/components/chess/ChessGame';
 import { resetGame } from '@/components/crossy-road/stores/player';
 
 const GamePage = () => {
   const navigate = useNavigate();
+  const [activeGame, setActiveGame] = useState<'crossy' | 'flappy' | 'chess'>('crossy');
 
   useEffect(() => {
     // Prevent scrolling while in game
     document.body.style.overflow = 'hidden';
-    
-    // Reset game state when mounting
-    resetGame();
     
     return () => {
       document.body.style.overflow = 'auto';
       resetGame();
     };
   }, []);
+
+  useEffect(() => {
+    if (activeGame === 'crossy') {
+      resetGame();
+    }
+  }, [activeGame]);
 
   return (
     <motion.div
@@ -40,21 +46,75 @@ const GamePage = () => {
         </Link>
       </div>
       
-      {/* Game title - Brutalist style */}
-      <div className="absolute top-4 right-4 z-50">
-        <motion.div 
+      {/* Game selector */}
+      <div className="absolute top-4 right-4 z-50 flex gap-2">
+        <motion.button
+          type="button"
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.2, duration: 0.3 }}
-          className="inline-flex items-center gap-2 border-4 border-foreground bg-accent text-accent-foreground px-6 py-2 shadow-sm"
+          transition={{ delay: 0.1, duration: 0.25 }}
+          onClick={() => setActiveGame('crossy')}
+          className={`inline-flex items-center gap-2 border-4 px-4 py-2 font-bold uppercase text-sm tracking-wide shadow-sm hover:-translate-y-0.5 hover:-translate-x-0.5 transition-transform ${
+            activeGame === 'crossy'
+              ? 'border-foreground bg-accent text-accent-foreground'
+              : 'border-foreground bg-background text-foreground'
+          }`}
         >
-          <Gamepad2 className="w-5 h-5" />
-          <span className="text-xl font-display uppercase tracking-tight">Crossy Road</span>
-        </motion.div>
+          <Gamepad2 className="w-4 h-4" />
+          Crossy Road
+        </motion.button>
+        <motion.button
+          type="button"
+          initial={{ y: -20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.15, duration: 0.25 }}
+          onClick={() => setActiveGame('flappy')}
+          className={`inline-flex items-center gap-2 border-4 px-4 py-2 font-bold uppercase text-sm tracking-wide shadow-sm hover:-translate-y-0.5 hover:-translate-x-0.5 transition-transform ${
+            activeGame === 'flappy'
+              ? 'border-foreground bg-accent text-accent-foreground'
+              : 'border-foreground bg-background text-foreground'
+          }`}
+        >
+          <Bird className="w-4 h-4" />
+          Flappy Bird
+        </motion.button>
+        <motion.button
+          type="button"
+          initial={{ y: -20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.2, duration: 0.25 }}
+          onClick={() => setActiveGame('chess')}
+          className={`inline-flex items-center gap-2 border-4 px-4 py-2 font-bold uppercase text-sm tracking-wide shadow-sm hover:-translate-y-0.5 hover:-translate-x-0.5 transition-transform ${
+            activeGame === 'chess'
+              ? 'border-foreground bg-accent text-accent-foreground'
+              : 'border-foreground bg-background text-foreground'
+          }`}
+        >
+          <Sparkles className="w-4 h-4" />
+          Chess
+        </motion.button>
       </div>
       
-      {/* Game canvas */}
-      <CrossyRoadGame onBack={() => navigate('/')} />
+      <div className="absolute inset-0 pt-16 pb-6 px-3 sm:px-4 overflow-hidden flex items-center justify-center">
+        <div className="relative w-full max-w-6xl min-h-[70vh] flex items-center justify-center">
+          {activeGame === 'crossy' ? (
+            <div
+              className="w-full"
+              style={{ width: 'min(96vw, 1180px)', height: 'min(82vh, 880px)' }}
+            >
+              <CrossyRoadGame onBack={() => navigate('/')} />
+            </div>
+          ) : activeGame === 'flappy' ? (
+            <div className="w-full flex items-center justify-center">
+              <FlappyBirdGame onBack={() => navigate('/')} />
+            </div>
+          ) : (
+            <div className="w-full flex items-center justify-center">
+              <ChessGame onBack={() => navigate('/')} />
+            </div>
+          )}
+        </div>
+      </div>
     </motion.div>
   );
 };

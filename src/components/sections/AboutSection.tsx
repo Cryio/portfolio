@@ -1,6 +1,29 @@
-import { personalInfo } from "@/data/portfolio";
+import {
+  personalInfo,
+  certifications,
+  projects,
+  experiences,
+  achievements,
+} from "@/data/portfolio";
+
+const initialsFromName = (name: string) =>
+  name
+    .split(" ")
+    .filter(Boolean)
+    .map((part) => part[0]?.toUpperCase())
+    .join("");
+
+const totalCertifications = certifications.reduce(
+  (sum, cert) => sum + ((cert as { totalCertificates?: number }).totalCertificates ?? 1),
+  0,
+);
 
 export function AboutSection() {
+  const paragraphs = personalInfo.aboutDescription
+    ?.trim()
+    .split(/\n\n+/)
+    .filter(Boolean) ?? [];
+
   return (
     <section id="about" className="py-24 relative">
       <div className="container mx-auto px-4">
@@ -19,17 +42,17 @@ export function AboutSection() {
                   
                   {/* Initials */}
                   <div className="text-8xl font-bold text-gradient relative z-10">
-                    SR
+                    {initialsFromName(personalInfo.name)}
                   </div>
                 </div>
               </div>
               
               {/* Floating badges */}
               <div className="absolute -top-4 -right-4 glass px-4 py-2 rounded-full text-sm font-medium animate-float">
-                🔐 Security First
+                🔐 {personalInfo.title}
               </div>
               <div className="absolute -bottom-4 -left-4 glass px-4 py-2 rounded-full text-sm font-medium animate-float" style={{ animationDelay: "1s" }}>
-                💻 Full Stack
+                💡 {personalInfo.name}
               </div>
             </div>
 
@@ -39,32 +62,31 @@ export function AboutSection() {
                 <h2 className="section-heading">
                   About <span className="text-gradient">Me</span>
                 </h2>
+                <p className="text-muted-foreground mt-2">{personalInfo.tagline}</p>
               </div>
 
-              <p className="text-muted-foreground leading-relaxed">
-                I'm a passionate cybersecurity enthusiast and creative designer with a strong foundation in computer science. Currently pursuing my B.Tech in CSE, I combine technical expertise with creative problem-solving.
-              </p>
-
-              <p className="text-muted-foreground leading-relaxed">
-                My journey in cybersecurity began with a fascination for understanding how systems work — and how they can be made more secure. From penetration testing to building secure applications, I thrive on the challenge of staying one step ahead.
-              </p>
+              {paragraphs.map((paragraph, index) => (
+                <p key={index} className="text-muted-foreground leading-relaxed">
+                  {paragraph}
+                </p>
+              ))}
 
               <div className="grid grid-cols-2 gap-4 pt-4">
                 <div className="glass rounded-xl p-4">
-                  <div className="text-3xl font-bold text-gradient">15+</div>
-                  <div className="text-sm text-muted-foreground">Certifications</div>
+                  <div className="text-3xl font-bold text-gradient">{totalCertifications}+</div>
+                  <div className="text-sm text-muted-foreground">Certifications & badges</div>
                 </div>
                 <div className="glass rounded-xl p-4">
-                  <div className="text-3xl font-bold text-gradient">5+</div>
-                  <div className="text-sm text-muted-foreground">Projects</div>
+                  <div className="text-3xl font-bold text-gradient">{projects.length}</div>
+                  <div className="text-sm text-muted-foreground">Projects built</div>
                 </div>
                 <div className="glass rounded-xl p-4">
-                  <div className="text-3xl font-bold text-gradient">2+</div>
-                  <div className="text-sm text-muted-foreground">Years Experience</div>
+                  <div className="text-3xl font-bold text-gradient">{experiences.length}</div>
+                  <div className="text-sm text-muted-foreground">Roles & internships</div>
                 </div>
                 <div className="glass rounded-xl p-4">
-                  <div className="text-3xl font-bold text-gradient">∞</div>
-                  <div className="text-sm text-muted-foreground">Curiosity</div>
+                  <div className="text-3xl font-bold text-gradient">{achievements.length}</div>
+                  <div className="text-sm text-muted-foreground">Talks & achievements</div>
                 </div>
               </div>
             </div>

@@ -20,7 +20,7 @@ export function Truck({ rowIndex, initialTileIndex, direction, speed, color }: T
   return (
     <group
       position-x={initialTileIndex * tileSize}
-      rotation-z={direction ? 0 : Math.PI}
+      rotation-z={direction ? Math.PI : 0}
       ref={truck}
     >
       {/* Cargo container */}

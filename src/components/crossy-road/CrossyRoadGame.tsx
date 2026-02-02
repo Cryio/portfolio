@@ -62,7 +62,15 @@ export function CrossyRoadGame({ onBack }: CrossyRoadGameProps) {
   }, []);
 
   const handleRestart = useCallback(() => {
-    window.location.reload();
+    resetGame();
+    resetCoins();
+    setScore(0);
+    setCoins(0);
+    setGameOver(false);
+    setCurrentRow(0);
+    setGameStarted(true);
+    setHasNewHighScore(false);
+    scoreSavedRef.current = false;
   }, []);
 
   const handleBackToMenu = useCallback(() => {
