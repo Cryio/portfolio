@@ -22,32 +22,46 @@ function ShootingStar({ delay, duration, startX, startY }: { delay: number; dura
 
   if (!isVisible) return null;
 
-  // Angle for down-left direction (like natural meteor shower)
-  const angle = 35;
-
   return (
     <motion.div
       className="absolute pointer-events-none"
       style={{ 
         left: `${startX}%`, 
         top: `${startY}%`,
-        transform: `rotate(${angle}deg)`,
       }}
       initial={{ opacity: 0 }}
       animate={{ opacity: [0, 1, 1, 0] }}
       transition={{ duration, ease: "linear" }}
     >
+      {/* Shooting star moving down-left */}
       <motion.div
-        initial={{ x: 0, y: 0 }}
-        animate={{ x: -300, y: 200 }}
-        transition={{ duration, ease: "linear" }}
         className="relative"
+        initial={{ x: 0, y: 0 }}
+        animate={{ x: -250, y: 180 }}
+        transition={{ duration, ease: "linear" }}
       >
-        <div className="w-1.5 h-1.5 rounded-full bg-foreground shadow-[0_0_6px_3px_rgba(255,255,255,0.8)]" />
+        {/* Glowing head */}
+        <div className="w-2 h-2 rounded-full bg-white shadow-[0_0_8px_4px_rgba(255,255,255,0.9),0_0_20px_8px_rgba(200,220,255,0.5)]" />
+        
+        {/* Trail - positioned behind the head, pointing back up-right */}
         <div 
-          className="absolute top-1/2 left-full w-24 h-[1.5px] -translate-y-1/2"
+          className="absolute top-1/2 left-1/2 -translate-y-1/2 origin-left"
           style={{
-            background: "linear-gradient(270deg, transparent, rgba(255,255,255,0.3), rgba(255,255,255,0.9))",
+            width: "100px",
+            height: "2px",
+            transform: "rotate(-144deg) translateY(-50%)",
+            background: "linear-gradient(90deg, rgba(255,255,255,0.9) 0%, rgba(200,220,255,0.5) 30%, transparent 100%)",
+          }}
+        />
+        {/* Secondary trail for depth */}
+        <div 
+          className="absolute top-1/2 left-1/2 -translate-y-1/2 origin-left"
+          style={{
+            width: "60px",
+            height: "4px",
+            transform: "rotate(-144deg) translateY(-50%)",
+            background: "linear-gradient(90deg, rgba(255,255,255,0.6) 0%, rgba(180,200,255,0.3) 40%, transparent 100%)",
+            filter: "blur(1px)",
           }}
         />
       </motion.div>
@@ -58,10 +72,10 @@ function ShootingStar({ delay, duration, startX, startY }: { delay: number; dura
 // ============= SHOOTING STARS =============
 export function ShootingStars() {
   const stars = useMemo(() => [
-    { id: 1, delay: 3, duration: 1.2, startX: 75, startY: 8 },
-    { id: 2, delay: 10, duration: 0.9, startX: 55, startY: 5 },
-    { id: 3, delay: 18, duration: 1.4, startX: 85, startY: 12 },
-    { id: 4, delay: 28, duration: 1.0, startX: 65, startY: 6 },
+    { id: 1, delay: 2, duration: 1.0, startX: 80, startY: 5 },
+    { id: 2, delay: 8, duration: 0.8, startX: 60, startY: 8 },
+    { id: 3, delay: 15, duration: 1.2, startX: 90, startY: 3 },
+    { id: 4, delay: 24, duration: 0.9, startX: 70, startY: 10 },
   ], []);
 
   return (
