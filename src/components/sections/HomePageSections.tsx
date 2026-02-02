@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { Parallax, FloatingParallax, ParallaxSection } from "@/components/ui/parallax";
-import { ScenicParallax } from "@/components/ui/scenic-parallax";
+import { ScenicParallax } from "@/components/ui/scenic-parallax/index";
 
 // Mapping of project titles to their asset file names
 const projectImageMap: Record<string, string> = {
