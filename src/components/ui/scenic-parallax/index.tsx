@@ -32,31 +32,30 @@ export function ScenicParallax({ className = "" }: { className?: string }) {
       {/* Moon (night) */}
       <Moon />
       
-      {/* Far mountains - with snow caps and distant birds */}
+      {/* Far mountains - distant purple/blue tones */}
       <MountainLayer
         path={mountainPaths.far}
-        colorClass="text-muted-foreground/15 dark:text-muted-foreground/8 transition-colors duration-700"
+        colorClass="text-[hsl(250,25%,70%)]/25 dark:text-[hsl(250,30%,40%)]/15 transition-colors duration-700"
         parallaxOffset={20}
         scrollYProgress={scrollYProgress}
-        showSnowCaps
         showBirds
         baseY={170}
       />
       
-      {/* Mid mountains - with texture details */}
+      {/* Mid mountains - muted blue-purple */}
       <MountainLayer
         path={mountainPaths.mid}
-        colorClass="text-muted-foreground/25 dark:text-muted-foreground/12 transition-colors duration-700"
+        colorClass="text-[hsl(230,20%,55%)]/35 dark:text-[hsl(230,25%,30%)]/20 transition-colors duration-700"
         parallaxOffset={50}
         scrollYProgress={scrollYProgress}
         showTexture
         baseY={220}
       />
       
-      {/* Near hills - more prominent */}
+      {/* Near hills - deeper tones */}
       <MountainLayer
         path={mountainPaths.near}
-        colorClass="text-muted-foreground/35 dark:text-muted-foreground/18 transition-colors duration-700"
+        colorClass="text-[hsl(210,18%,45%)]/45 dark:text-[hsl(220,20%,25%)]/25 transition-colors duration-700"
         parallaxOffset={80}
         scrollYProgress={scrollYProgress}
         showTexture
