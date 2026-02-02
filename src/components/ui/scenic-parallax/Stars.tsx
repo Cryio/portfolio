@@ -22,6 +22,10 @@ function ShootingStar({ delay, duration, startX, startY }: { delay: number; dura
 
   if (!isVisible) return null;
 
+  // Calculate tail angle: meteor moves (-250, 180), so tail points opposite (+250, -180)
+  // Angle = atan2(-180, 250) ≈ -36 degrees (up and to the right)
+  const tailAngle = -36;
+
   return (
     <motion.div
       className="absolute pointer-events-none"
@@ -40,30 +44,38 @@ function ShootingStar({ delay, duration, startX, startY }: { delay: number; dura
         animate={{ x: -250, y: 180 }}
         transition={{ duration, ease: "linear" }}
       >
+        {/* Trail - extends behind the head (up-right direction) */}
+        <div 
+          className="absolute"
+          style={{
+            left: "4px",
+            top: "4px",
+            width: "120px",
+            height: "3px",
+            transformOrigin: "left center",
+            transform: `rotate(${tailAngle}deg)`,
+            background: "linear-gradient(90deg, rgba(255,255,255,0.95), rgba(200,220,255,0.6) 40%, transparent 100%)",
+            borderRadius: "2px",
+          }}
+        />
+        {/* Secondary glow trail */}
+        <div 
+          className="absolute"
+          style={{
+            left: "4px",
+            top: "4px",
+            width: "80px",
+            height: "6px",
+            transformOrigin: "left center",
+            transform: `rotate(${tailAngle}deg)`,
+            background: "linear-gradient(90deg, rgba(255,255,255,0.7), rgba(180,200,255,0.4) 50%, transparent 100%)",
+            filter: "blur(2px)",
+            borderRadius: "3px",
+          }}
+        />
+        
         {/* Glowing head */}
         <div className="w-2 h-2 rounded-full bg-white shadow-[0_0_8px_4px_rgba(255,255,255,0.9),0_0_20px_8px_rgba(200,220,255,0.5)]" />
-        
-        {/* Trail - positioned behind the head, pointing back up-right */}
-        <div 
-          className="absolute top-1/2 left-1/2 -translate-y-1/2 origin-left"
-          style={{
-            width: "100px",
-            height: "2px",
-            transform: "rotate(-144deg) translateY(-50%)",
-            background: "linear-gradient(90deg, rgba(255,255,255,0.9) 0%, rgba(200,220,255,0.5) 30%, transparent 100%)",
-          }}
-        />
-        {/* Secondary trail for depth */}
-        <div 
-          className="absolute top-1/2 left-1/2 -translate-y-1/2 origin-left"
-          style={{
-            width: "60px",
-            height: "4px",
-            transform: "rotate(-144deg) translateY(-50%)",
-            background: "linear-gradient(90deg, rgba(255,255,255,0.6) 0%, rgba(180,200,255,0.3) 40%, transparent 100%)",
-            filter: "blur(1px)",
-          }}
-        />
       </motion.div>
     </motion.div>
   );
