@@ -6,6 +6,8 @@ import { certifications, getYear, getCertificationWithBadge } from "@/data/certi
 import { getProjectImage } from "@/lib/assetLoader";
 import { Link } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import { Parallax, FloatingParallax, ParallaxSection } from "@/components/ui/parallax";
 
 // Mapping of project titles to their asset file names
 const projectImageMap: Record<string, string> = {
@@ -24,53 +26,59 @@ const getProjectImageByTitle = (title: string): string | undefined => {
   return getProjectImage(generatedId);
 };
 
-// Animated floating shape with more dynamic movement
-function FloatingShape({ className, color, delay = 0 }: { className?: string; color: string; delay?: number }) {
+// Animated floating shape with more dynamic movement + parallax
+function FloatingShape({ className, color, delay = 0, parallaxSpeed = 0.5 }: { className?: string; color: string; delay?: number; parallaxSpeed?: number }) {
   return (
-    <div 
-      className={`absolute pointer-events-none ${className}`}
-      style={{ 
-        width: "80px", 
-        height: "80px", 
-        backgroundColor: `hsl(var(--${color}))`,
-        transform: "rotate(12deg)",
-        animation: `float 6s ease-in-out infinite, wiggle 4s ease-in-out infinite`,
-        animationDelay: `${delay}s`
-      }}
-    />
-  );
-}
-
-function CircleShape({ className, color, size = 60, delay = 0 }: { className?: string; color: string; size?: number; delay?: number }) {
-  return (
-    <div 
-      className={`absolute pointer-events-none rounded-full ${className}`}
-      style={{ 
-        width: size, 
-        height: size, 
-        backgroundColor: `hsl(var(--${color}))`,
-        animation: `float 5s ease-in-out infinite, pulse 3s ease-in-out infinite`,
-        animationDelay: `${delay}s`
-      }}
-    />
-  );
-}
-
-function ZigzagLine({ className }: { className?: string }) {
-  return (
-    <svg className={`absolute pointer-events-none ${className}`} width="120" height="40" viewBox="0 0 120 40">
-      <path 
-        d="M0 20 L20 5 L40 20 L60 5 L80 20 L100 5 L120 20" 
-        stroke="currentColor" 
-        strokeWidth="4" 
-        fill="none"
-        className="text-foreground"
-        style={{
-          strokeDasharray: 200,
-          animation: 'dash 3s ease-in-out infinite alternate'
+    <FloatingParallax floatRange={30 * parallaxSpeed} rotateRange={8} scaleRange={[0.9, 1.1]} className={className}>
+      <div 
+        className="pointer-events-none"
+        style={{ 
+          width: "80px", 
+          height: "80px", 
+          backgroundColor: `hsl(var(--${color}))`,
+          transform: "rotate(12deg)",
+          animation: `float 6s ease-in-out infinite, wiggle 4s ease-in-out infinite`,
+          animationDelay: `${delay}s`
         }}
       />
-    </svg>
+    </FloatingParallax>
+  );
+}
+
+function CircleShape({ className, color, size = 60, delay = 0, parallaxSpeed = 0.3 }: { className?: string; color: string; size?: number; delay?: number; parallaxSpeed?: number }) {
+  return (
+    <FloatingParallax floatRange={40 * parallaxSpeed} rotateRange={0} scaleRange={[0.95, 1.05]} className={className}>
+      <div 
+        className="pointer-events-none rounded-full"
+        style={{ 
+          width: size, 
+          height: size, 
+          backgroundColor: `hsl(var(--${color}))`,
+          animation: `float 5s ease-in-out infinite, pulse 3s ease-in-out infinite`,
+          animationDelay: `${delay}s`
+        }}
+      />
+    </FloatingParallax>
+  );
+}
+
+function ZigzagLine({ className, parallaxSpeed = 0.2 }: { className?: string; parallaxSpeed?: number }) {
+  return (
+    <Parallax speed={parallaxSpeed} className={className}>
+      <svg className="pointer-events-none" width="120" height="40" viewBox="0 0 120 40">
+        <path 
+          d="M0 20 L20 5 L40 20 L60 5 L80 20 L100 5 L120 20" 
+          stroke="currentColor" 
+          strokeWidth="4" 
+          fill="none"
+          className="text-foreground"
+          style={{
+            strokeDasharray: 200,
+            animation: 'dash 3s ease-in-out infinite alternate'
+          }}
+        />
+      </svg>
+    </Parallax>
   );
 }
 
@@ -265,6 +273,19 @@ function AnimatedCounter({ value, duration = 2000 }: { value: string; duration?:
 
 export function HeroSection() {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const heroRef = useRef<HTMLElement>(null);
+  
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"]
+  });
+  
+  const springConfig = { stiffness: 100, damping: 30, restDelta: 0.001 };
+  const y = useTransform(scrollYProgress, [0, 1], [0, 200]);
+  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 0.9]);
+  const smoothY = useSpring(y, springConfig);
+  const smoothScale = useSpring(scale, springConfig);
   
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -275,7 +296,7 @@ export function HeroSection() {
   }, []);
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+    <section ref={heroRef} className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
       {/* Parallax Background */}
       <ParallaxGrid />
       
@@ -287,19 +308,22 @@ export function HeroSection() {
         }}
       />
 
-      {/* Animated Floating Illustrations */}
-      <FloatingShape className="top-32 left-[10%]" color="highlight-1" delay={0} />
-      <CircleShape className="top-40 right-[15%]" color="highlight-2" size={50} delay={0.5} />
-      <FloatingShape className="bottom-40 left-[20%] rotate-45" color="highlight-3" delay={1} />
-      <CircleShape className="bottom-32 right-[25%]" color="highlight-4" size={70} delay={1.5} />
-      <ZigzagLine className="top-60 left-[5%]" />
-      <ZigzagLine className="bottom-60 right-[5%] rotate-180" />
+      {/* Animated Floating Illustrations with parallax */}
+      <FloatingShape className="absolute top-32 left-[10%]" color="highlight-1" delay={0} parallaxSpeed={0.8} />
+      <CircleShape className="absolute top-40 right-[15%]" color="highlight-2" size={50} delay={0.5} parallaxSpeed={0.6} />
+      <FloatingShape className="absolute bottom-40 left-[20%]" color="highlight-3" delay={1} parallaxSpeed={0.4} />
+      <CircleShape className="absolute bottom-32 right-[25%]" color="highlight-4" size={70} delay={1.5} parallaxSpeed={0.7} />
+      <ZigzagLine className="absolute top-60 left-[5%]" parallaxSpeed={0.3} />
+      <ZigzagLine className="absolute bottom-60 right-[5%] rotate-180" parallaxSpeed={0.5} />
       
       {/* Extra floating elements */}
-      <CircleShape className="top-1/2 left-[8%] opacity-40" color="highlight-1" size={30} delay={2} />
-      <CircleShape className="top-1/3 right-[8%] opacity-40" color="highlight-3" size={25} delay={2.5} />
+      <CircleShape className="absolute top-1/2 left-[8%] opacity-40" color="highlight-1" size={30} delay={2} parallaxSpeed={0.9} />
+      <CircleShape className="absolute top-1/3 right-[8%] opacity-40" color="highlight-3" size={25} delay={2.5} parallaxSpeed={0.5} />
 
-      <div className="container mx-auto px-4 relative z-10">
+      <motion.div 
+        className="container mx-auto px-4 relative z-10"
+        style={{ y: smoothY, scale: smoothScale, opacity }}
+      >
         <div className="max-w-5xl mx-auto">
           {/* Main Content */}
           <div className="text-center mb-12">
@@ -369,16 +393,34 @@ export function HeroSection() {
             </StaggeredEntrance>
           </div>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }
 
 export function AboutPreview() {
+  const sectionRef = useRef<HTMLElement>(null);
+  
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"]
+  });
+  
+  const backgroundY = useTransform(scrollYProgress, [0, 1], ["-10%", "10%"]);
+  
   return (
-    <section className="py-24 relative">
-      <CircleShape className="top-20 right-[10%] opacity-50" color="highlight-1" size={100} delay={0} />
-      <FloatingShape className="bottom-20 left-[5%] opacity-50" color="highlight-2" delay={0.5} />
+    <section ref={sectionRef} className="py-24 relative overflow-hidden">
+      {/* Parallax background elements */}
+      <motion.div 
+        className="absolute inset-0 pointer-events-none"
+        style={{ y: backgroundY }}
+      >
+        <div className="absolute top-0 left-1/4 w-[600px] h-[600px] rounded-full bg-highlight-1/5 blur-3xl" />
+        <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] rounded-full bg-highlight-2/5 blur-3xl" />
+      </motion.div>
+      
+      <CircleShape className="absolute top-20 right-[10%] opacity-50" color="highlight-1" size={100} delay={0} parallaxSpeed={0.6} />
+      <FloatingShape className="absolute bottom-20 left-[5%] opacity-50" color="highlight-2" delay={0.5} parallaxSpeed={0.4} />
       
       <div className="container mx-auto px-4">
         <div className="max-w-4xl mx-auto">
@@ -431,10 +473,29 @@ export function AboutPreview() {
 }
 
 export function SkillsPreview() {
+  const sectionRef = useRef<HTMLElement>(null);
+  
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"]
+  });
+  
+  const patternY = useTransform(scrollYProgress, [0, 1], ["-5%", "5%"]);
+  
   return (
-    <section className="py-24 relative overflow-hidden bg-secondary">
-      <ZigzagLine className="top-10 left-10" />
-      <ZigzagLine className="bottom-10 right-10 rotate-180" />
+    <section ref={sectionRef} className="py-24 relative overflow-hidden bg-secondary">
+      {/* Subtle parallax pattern */}
+      <motion.div 
+        className="absolute inset-0 opacity-[0.03]"
+        style={{ 
+          y: patternY,
+          backgroundImage: `repeating-linear-gradient(45deg, hsl(var(--foreground)) 0, hsl(var(--foreground)) 1px, transparent 0, transparent 50%)`,
+          backgroundSize: "20px 20px"
+        }}
+      />
+      
+      <ZigzagLine className="absolute top-10 left-10" parallaxSpeed={0.4} />
+      <ZigzagLine className="absolute bottom-10 right-10 rotate-180" parallaxSpeed={0.3} />
       
       <div className="container mx-auto px-4 relative z-10">
         <ScrollReveal className="text-center mb-12">
@@ -496,10 +557,30 @@ export function SkillsPreview() {
 }
 
 export function ProjectsPreview() {
+  const sectionRef = useRef<HTMLElement>(null);
+  
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"]
+  });
+  
+  const leftY = useTransform(scrollYProgress, [0, 1], ["20%", "-20%"]);
+  const rightY = useTransform(scrollYProgress, [0, 1], ["-20%", "20%"]);
+  
   return (
-    <section className="py-24 relative">
-      <FloatingShape className="top-20 left-[5%] opacity-30" color="highlight-3" delay={0} />
-      <CircleShape className="bottom-20 right-[10%] opacity-30" color="highlight-4" size={80} delay={0.5} />
+    <section ref={sectionRef} className="py-24 relative overflow-hidden">
+      {/* Parallax decorative blobs */}
+      <motion.div 
+        className="absolute -left-20 top-1/4 w-[300px] h-[300px] rounded-full bg-highlight-3/10 blur-3xl pointer-events-none"
+        style={{ y: leftY }}
+      />
+      <motion.div 
+        className="absolute -right-20 bottom-1/4 w-[400px] h-[400px] rounded-full bg-highlight-4/10 blur-3xl pointer-events-none"
+        style={{ y: rightY }}
+      />
+      
+      <FloatingShape className="absolute top-20 left-[5%] opacity-30" color="highlight-3" delay={0} parallaxSpeed={0.5} />
+      <CircleShape className="absolute bottom-20 right-[10%] opacity-30" color="highlight-4" size={80} delay={0.5} parallaxSpeed={0.7} />
       
       <div className="container mx-auto px-4">
         <ScrollReveal className="text-center mb-12">
@@ -570,8 +651,26 @@ export function ProjectsPreview() {
 }
 
 export function ExperiencePreview() {
+  const sectionRef = useRef<HTMLElement>(null);
+  
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"]
+  });
+  
+  const gridY = useTransform(scrollYProgress, [0, 1], ["-10%", "10%"]);
+  
   return (
-    <section className="py-24 relative bg-foreground text-background overflow-hidden">
+    <section ref={sectionRef} className="py-24 relative bg-foreground text-background overflow-hidden">
+      {/* Parallax grid pattern */}
+      <motion.div 
+        className="absolute inset-0 opacity-5"
+        style={{ 
+          y: gridY,
+          backgroundImage: `linear-gradient(to right, hsl(var(--background)) 1px, transparent 1px), linear-gradient(to bottom, hsl(var(--background)) 1px, transparent 1px)`,
+          backgroundSize: "50px 50px"
+        }}
+      />
       <div className="container mx-auto px-4">
         <ScrollReveal className="text-center mb-12">
           <h2 className="section-heading text-background">
@@ -611,10 +710,24 @@ export function ExperiencePreview() {
 
 export function CertificationsPreview() {
   const featured = certifications.filter(c => c.featured).slice(0, 2);
+  const sectionRef = useRef<HTMLElement>(null);
+  
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"]
+  });
+  
+  const decorY = useTransform(scrollYProgress, [0, 1], ["15%", "-15%"]);
   
   return (
-    <section className="py-24 relative">
-      <ZigzagLine className="top-20 right-20" />
+    <section ref={sectionRef} className="py-24 relative overflow-hidden">
+      {/* Parallax decoration */}
+      <motion.div 
+        className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full bg-highlight-4/5 blur-3xl pointer-events-none"
+        style={{ y: decorY }}
+      />
+      
+      <ZigzagLine className="absolute top-20 right-20" parallaxSpeed={0.4} />
       
       <div className="container mx-auto px-4">
         <ScrollReveal className="text-center mb-12">
@@ -680,10 +793,30 @@ export function CertificationsPreview() {
 }
 
 export function CTASection() {
+  const sectionRef = useRef<HTMLElement>(null);
+  
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"]
+  });
+  
+  const leftX = useTransform(scrollYProgress, [0, 1], ["-20%", "20%"]);
+  const rightX = useTransform(scrollYProgress, [0, 1], ["20%", "-20%"]);
+  
   return (
-    <section className="py-24 relative bg-accent overflow-hidden">
-      <FloatingShape className="top-10 left-10 opacity-30" color="foreground" delay={0} />
-      <CircleShape className="bottom-10 right-10 opacity-30" color="foreground" size={60} delay={0.5} />
+    <section ref={sectionRef} className="py-24 relative bg-accent overflow-hidden">
+      {/* Parallax moving elements */}
+      <motion.div 
+        className="absolute left-0 top-1/2 -translate-y-1/2 w-[200px] h-[200px] rounded-full bg-accent-foreground/10 blur-2xl"
+        style={{ x: leftX }}
+      />
+      <motion.div 
+        className="absolute right-0 top-1/3 w-[300px] h-[300px] rounded-full bg-accent-foreground/10 blur-2xl"
+        style={{ x: rightX }}
+      />
+      
+      <FloatingShape className="absolute top-10 left-10 opacity-30" color="foreground" delay={0} parallaxSpeed={0.6} />
+      <CircleShape className="absolute bottom-10 right-10 opacity-30" color="foreground" size={60} delay={0.5} parallaxSpeed={0.4} />
       
       <div className="container mx-auto px-4 relative z-10">
         <ScrollReveal>
