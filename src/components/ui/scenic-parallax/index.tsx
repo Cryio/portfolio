@@ -17,8 +17,8 @@ export function ScenicParallax({ className = "" }: { className?: string }) {
 
   return (
     <div ref={containerRef} className={`absolute inset-0 overflow-hidden ${className}`}>
-      {/* Sky gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-highlight-3/12 via-highlight-2/6 via-60% to-highlight-1/4 dark:from-[hsl(220,35%,6%)] dark:via-[hsl(220,30%,9%)] dark:to-[hsl(220,25%,13%)] transition-colors duration-700" />
+      {/* Sky gradient - warmer and more colorful in light mode */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[hsl(200,60%,85%)] via-[hsl(210,50%,88%)] via-40% to-[hsl(35,45%,90%)] dark:from-[hsl(220,35%,6%)] dark:via-[hsl(220,30%,9%)] dark:to-[hsl(220,25%,13%)] transition-colors duration-700" />
       
       {/* Stars (night) */}
       <Stars count={100} />

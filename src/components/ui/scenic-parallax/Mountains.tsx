@@ -4,17 +4,20 @@ import type { MotionValue } from "framer-motion";
 
 // ============= SNOW CAP =============
 function SnowCap({ peakX, peakY, width }: { peakX: number; peakY: number; width: number }) {
+  // Snow cap that sits on top of the peak and flows down the slopes
   return (
     <path
       d={`
-        M${peakX},${peakY}
-        Q${peakX - width * 0.15},${peakY + 15} ${peakX - width * 0.3},${peakY + 25}
-        Q${peakX - width * 0.1},${peakY + 20} ${peakX},${peakY + 18}
-        Q${peakX + width * 0.1},${peakY + 20} ${peakX + width * 0.3},${peakY + 25}
-        Q${peakX + width * 0.15},${peakY + 15} ${peakX},${peakY}
+        M${peakX - width * 0.4},${peakY + 35}
+        Q${peakX - width * 0.25},${peakY + 20} ${peakX - width * 0.1},${peakY + 8}
+        Q${peakX - width * 0.05},${peakY + 2} ${peakX},${peakY}
+        Q${peakX + width * 0.05},${peakY + 2} ${peakX + width * 0.1},${peakY + 8}
+        Q${peakX + width * 0.25},${peakY + 20} ${peakX + width * 0.4},${peakY + 35}
+        Q${peakX + width * 0.2},${peakY + 30} ${peakX},${peakY + 25}
+        Q${peakX - width * 0.2},${peakY + 30} ${peakX - width * 0.4},${peakY + 35}
         Z
       `}
-      className="text-foreground/20 dark:text-foreground/15"
+      className="text-foreground/25 dark:text-foreground/15"
       fill="currentColor"
     />
   );
@@ -101,11 +104,12 @@ export function MountainLayer({
   const y = useTransform(scrollYProgress, [0, 1], [0, parallaxOffset]);
   const smoothY = useSpring(y, { stiffness: 100, damping: 30 });
 
-  // Peak positions for snow caps
+  // Peak positions aligned with actual mountain path peaks
+  // far path: peaks at ~620(y=140), ~900(y=130), ~1180(y=120)
   const peaks = useMemo(() => [
-    { x: 480, y: 210, width: 80 },
-    { x: 760, y: 190, width: 100 },
-    { x: 1040, y: 170, width: 90 },
+    { x: 620, y: 140, width: 70 },
+    { x: 900, y: 130, width: 85 },
+    { x: 1180, y: 120, width: 75 },
   ], []);
 
   return (
