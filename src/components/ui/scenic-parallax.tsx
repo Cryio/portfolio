@@ -1,15 +1,8 @@
-import { useEffect, useState, useRef, useMemo, useCallback } from "react";
-import { motion, useScroll, useTransform, useSpring, AnimatePresence } from "framer-motion";
+import { useEffect, useState, useRef, useMemo } from "react";
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 
 // ============= SHOOTING STARS (Night only) =============
-interface ShootingStarProps {
-  delay: number;
-  duration: number;
-  startX: number;
-  startY: number;
-}
-
-function ShootingStar({ delay, duration, startX, startY }: ShootingStarProps) {
+function ShootingStar({ delay, duration, startX, startY }: { delay: number; duration: number; startX: number; startY: number }) {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -19,7 +12,7 @@ function ShootingStar({ delay, duration, startX, startY }: ShootingStarProps) {
     };
 
     const timeout = setTimeout(showStar, delay * 1000);
-    const interval = setInterval(showStar, (delay + duration + Math.random() * 10) * 1000);
+    const interval = setInterval(showStar, (delay + duration + 8 + Math.random() * 12) * 1000);
 
     return () => {
       clearTimeout(timeout);
@@ -29,63 +22,67 @@ function ShootingStar({ delay, duration, startX, startY }: ShootingStarProps) {
 
   if (!isVisible) return null;
 
+  // Angle: moving down-left (around 215 degrees)
+  const angle = 215;
+
   return (
     <motion.div
       className="absolute pointer-events-none"
-      style={{ left: `${startX}%`, top: `${startY}%` }}
-      initial={{ opacity: 0, x: 0, y: 0 }}
-      animate={{ 
-        opacity: [0, 1, 1, 0],
-        x: -300,
-        y: 150,
+      style={{ 
+        left: `${startX}%`, 
+        top: `${startY}%`,
+        transform: `rotate(${angle - 180}deg)`, // Align the whole element with trajectory
       }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: [0, 1, 1, 0] }}
       transition={{ duration, ease: "linear" }}
     >
-      {/* Star head */}
-      <div className="relative">
-        <div className="w-2 h-2 rounded-full bg-foreground/90 shadow-[0_0_10px_4px_rgba(255,255,255,0.6)]" />
-        {/* Star tail */}
+      <motion.div
+        initial={{ x: 0 }}
+        animate={{ x: 400 }}
+        transition={{ duration, ease: "linear" }}
+        className="relative"
+      >
+        {/* Star head */}
+        <div className="w-1.5 h-1.5 rounded-full bg-foreground shadow-[0_0_6px_3px_rgba(255,255,255,0.8)]" />
+        {/* Tail - now properly aligned behind the head */}
         <div 
-          className="absolute top-1/2 left-1/2 w-32 h-[2px] origin-left -translate-y-1/2"
+          className="absolute top-1/2 right-full w-24 h-[1.5px] -translate-y-1/2"
           style={{
-            background: "linear-gradient(90deg, rgba(255,255,255,0.8), transparent)",
-            transform: "rotate(215deg) translateY(-50%)",
+            background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.3), rgba(255,255,255,0.9))",
           }}
         />
-      </div>
+      </motion.div>
     </motion.div>
   );
 }
 
 function ShootingStars() {
   const stars = useMemo(() => [
-    { id: 1, delay: 2, duration: 1.5, startX: 80, startY: 10 },
-    { id: 2, delay: 8, duration: 1.2, startX: 60, startY: 5 },
-    { id: 3, delay: 15, duration: 1.8, startX: 90, startY: 15 },
-    { id: 4, delay: 22, duration: 1.3, startX: 70, startY: 8 },
-    { id: 5, delay: 30, duration: 1.6, startX: 85, startY: 12 },
+    { id: 1, delay: 3, duration: 1.2, startX: 75, startY: 8 },
+    { id: 2, delay: 10, duration: 0.9, startX: 55, startY: 5 },
+    { id: 3, delay: 18, duration: 1.4, startX: 85, startY: 12 },
+    { id: 4, delay: 28, duration: 1.0, startX: 65, startY: 6 },
   ], []);
 
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-0 dark:opacity-100 transition-opacity duration-500">
-      {stars.map(star => (
-        <ShootingStar key={star.id} {...star} />
-      ))}
+      {stars.map(star => <ShootingStar key={star.id} {...star} />)}
     </div>
   );
 }
 
 // ============= TWINKLING STARS =============
-function Stars({ count = 80 }: { count?: number }) {
+function Stars({ count = 100 }: { count?: number }) {
   const stars = useMemo(() => {
     return Array.from({ length: count }, (_, i) => ({
       id: i,
       x: Math.random() * 100,
-      y: Math.random() * 50,
-      size: 0.5 + Math.random() * 2.5,
+      y: Math.random() * 45,
+      size: 0.8 + Math.random() * 2,
       delay: Math.random() * 5,
-      duration: 1.5 + Math.random() * 3,
-      brightness: 0.4 + Math.random() * 0.6,
+      duration: 2 + Math.random() * 3,
+      brightness: 0.5 + Math.random() * 0.5,
     }));
   }, [count]);
 
@@ -101,11 +98,11 @@ function Stars({ count = 80 }: { count?: number }) {
             width: star.size,
             height: star.size,
             backgroundColor: `rgba(255, 255, 255, ${star.brightness})`,
-            boxShadow: star.size > 1.5 ? `0 0 ${star.size * 2}px rgba(255,255,255,0.5)` : 'none',
+            boxShadow: star.size > 1.8 ? `0 0 ${star.size * 3}px rgba(255,255,255,0.4)` : 'none',
           }}
           animate={{
-            opacity: [star.brightness * 0.5, star.brightness, star.brightness * 0.5],
-            scale: [0.9, 1.1, 0.9],
+            opacity: [star.brightness * 0.4, star.brightness, star.brightness * 0.4],
+            scale: [0.85, 1.15, 0.85],
           }}
           transition={{
             duration: star.duration,
@@ -119,118 +116,122 @@ function Stars({ count = 80 }: { count?: number }) {
   );
 }
 
-// ============= V-FORMATION BIRDS =============
-interface BirdProps {
-  x: number;
-  y: number;
-  size: number;
-  flapSpeed: number;
-  flapOffset: number;
-}
-
-function Bird({ x, y, size, flapSpeed, flapOffset }: BirdProps) {
+// ============= REALISTIC FLYING BIRDS =============
+function Bird({ size, flapDuration, flapDelay }: { size: number; flapDuration: number; flapDelay: number }) {
   return (
     <motion.svg
       width={size}
-      height={size * 0.4}
-      viewBox="0 0 40 16"
-      className="absolute text-foreground/70"
-      style={{ left: x, top: y }}
-      animate={{
-        scaleY: [1, 0.6, 1],
-      }}
-      transition={{
-        duration: flapSpeed,
-        repeat: Infinity,
-        ease: "easeInOut",
-        delay: flapOffset,
-      }}
+      height={size * 0.35}
+      viewBox="0 0 50 18"
+      className="text-foreground/60"
+      style={{ overflow: 'visible' }}
     >
-      {/* More elegant bird shape */}
-      <path
-        d="M20 8 
-           Q12 2, 2 6 
-           Q8 7, 12 8 
-           Q8 9, 2 10 
-           Q12 14, 20 8
-           Q28 2, 38 6 
-           Q32 7, 28 8 
-           Q32 9, 38 10 
-           Q28 14, 20 8"
-        fill="currentColor"
+      {/* Left wing */}
+      <motion.path
+        d="M25 9 Q18 9, 12 7 Q6 5, 0 8"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        animate={{
+          d: [
+            "M25 9 Q18 9, 12 7 Q6 5, 0 8",
+            "M25 9 Q18 6, 12 3 Q6 0, 0 2",
+            "M25 9 Q18 9, 12 7 Q6 5, 0 8",
+            "M25 9 Q18 12, 12 11 Q6 10, 0 12",
+            "M25 9 Q18 9, 12 7 Q6 5, 0 8",
+          ]
+        }}
+        transition={{
+          duration: flapDuration,
+          repeat: Infinity,
+          delay: flapDelay,
+          ease: "easeInOut",
+        }}
       />
+      {/* Right wing */}
+      <motion.path
+        d="M25 9 Q32 9, 38 7 Q44 5, 50 8"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        animate={{
+          d: [
+            "M25 9 Q32 9, 38 7 Q44 5, 50 8",
+            "M25 9 Q32 6, 38 3 Q44 0, 50 2",
+            "M25 9 Q32 9, 38 7 Q44 5, 50 8",
+            "M25 9 Q32 12, 38 11 Q44 10, 50 12",
+            "M25 9 Q32 9, 38 7 Q44 5, 50 8",
+          ]
+        }}
+        transition={{
+          duration: flapDuration,
+          repeat: Infinity,
+          delay: flapDelay,
+          ease: "easeInOut",
+        }}
+      />
+      {/* Body hint */}
+      <circle cx="25" cy="9" r="2" fill="currentColor" />
     </motion.svg>
   );
 }
 
-interface BirdFlockProps {
-  startX: number;
-  startY: number;
-  birdCount: number;
-  speed: number;
-  delay: number;
-  formation: 'v' | 'line' | 'scattered';
-}
-
-function BirdFlock({ startX, startY, birdCount, speed, delay, formation }: BirdFlockProps) {
+function BirdFlock({ startX, startY, birdCount, speed, delay, formation }: {
+  startX: number; startY: number; birdCount: number; speed: number; delay: number; formation: 'v' | 'line' | 'scattered';
+}) {
   const [position, setPosition] = useState({ x: startX, y: startY });
   const [isActive, setIsActive] = useState(false);
+  const baseY = useRef(startY);
   
   useEffect(() => {
-    const startTimer = setTimeout(() => setIsActive(true), delay);
-    return () => clearTimeout(startTimer);
+    const timer = setTimeout(() => setIsActive(true), delay);
+    return () => clearTimeout(timer);
   }, [delay]);
 
   useEffect(() => {
     if (!isActive) return;
-
     const animate = () => {
       setPosition(prev => {
         const newX = prev.x + speed;
-        const newY = prev.y + Math.sin(newX / 100) * 0.5; // Gentle wave motion
-        
-        // Reset when off screen
-        if (newX > window.innerWidth + 200) {
-          return { x: -200, y: startY + (Math.random() - 0.5) * 100 };
+        // Gentle sine wave for natural flight path
+        const newY = baseY.current + Math.sin(newX / 80) * 15;
+        if (newX > window.innerWidth + 250) {
+          baseY.current = startY + (Math.random() - 0.5) * 80;
+          return { x: -250, y: baseY.current };
         }
         return { x: newX, y: newY };
       });
     };
-
-    const interval = setInterval(animate, 50);
+    const interval = setInterval(animate, 40);
     return () => clearInterval(interval);
   }, [isActive, speed, startY]);
 
-  // Generate bird positions based on formation
   const birds = useMemo(() => {
-    const result = [];
-    for (let i = 0; i < birdCount; i++) {
+    return Array.from({ length: birdCount }, (_, i) => {
       let offsetX = 0, offsetY = 0;
-      
       if (formation === 'v') {
-        // V formation
         const side = i % 2 === 0 ? 1 : -1;
         const row = Math.floor((i + 1) / 2);
-        offsetX = -row * 35;
-        offsetY = side * row * 20;
+        offsetX = -row * 40;
+        offsetY = side * row * 25;
       } else if (formation === 'line') {
-        offsetX = -i * 40;
-        offsetY = Math.sin(i * 0.5) * 10;
+        offsetX = -i * 45;
+        offsetY = Math.sin(i * 0.6) * 12;
       } else {
-        offsetX = -Math.random() * 80 - i * 20;
-        offsetY = (Math.random() - 0.5) * 60;
+        offsetX = -Math.random() * 100 - i * 25;
+        offsetY = (Math.random() - 0.5) * 70;
       }
-
-      result.push({
+      return {
         id: i,
         offsetX,
         offsetY,
-        size: 20 + Math.random() * 10,
-        flapSpeed: 0.3 + Math.random() * 0.2,
-        flapOffset: Math.random() * 0.3,
-      });
-    }
-    return result;
+        size: 28 + Math.random() * 12,
+        flapDuration: 0.4 + Math.random() * 0.15,
+        flapDelay: Math.random() * 0.3,
+      };
+    });
   }, [birdCount, formation]);
 
   if (!isActive) return null;
@@ -238,14 +239,13 @@ function BirdFlock({ startX, startY, birdCount, speed, delay, formation }: BirdF
   return (
     <div className="absolute pointer-events-none">
       {birds.map(bird => (
-        <Bird
+        <div
           key={bird.id}
-          x={position.x + bird.offsetX}
-          y={position.y + bird.offsetY}
-          size={bird.size}
-          flapSpeed={bird.flapSpeed}
-          flapOffset={bird.flapOffset}
-        />
+          className="absolute"
+          style={{ left: position.x + bird.offsetX, top: position.y + bird.offsetY }}
+        >
+          <Bird size={bird.size} flapDuration={bird.flapDuration} flapDelay={bird.flapDelay} />
+        </div>
       ))}
     </div>
   );
@@ -253,111 +253,160 @@ function BirdFlock({ startX, startY, birdCount, speed, delay, formation }: BirdF
 
 function BirdFlocks() {
   const flocks = useMemo(() => [
-    { id: 1, startX: -100, startY: 120, birdCount: 7, speed: 1.2, delay: 0, formation: 'v' as const },
-    { id: 2, startX: -300, startY: 80, birdCount: 5, speed: 0.9, delay: 5000, formation: 'v' as const },
-    { id: 3, startX: -200, startY: 180, birdCount: 4, speed: 1.5, delay: 12000, formation: 'line' as const },
-    { id: 4, startX: -150, startY: 140, birdCount: 6, speed: 1.1, delay: 20000, formation: 'v' as const },
+    { id: 1, startX: -150, startY: 100, birdCount: 7, speed: 1.4, delay: 500, formation: 'v' as const },
+    { id: 2, startX: -300, startY: 160, birdCount: 5, speed: 1.1, delay: 8000, formation: 'v' as const },
+    { id: 3, startX: -200, startY: 70, birdCount: 4, speed: 1.7, delay: 15000, formation: 'line' as const },
   ], []);
 
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none dark:opacity-0 transition-opacity duration-500">
-      {flocks.map(flock => (
-        <BirdFlock key={flock.id} {...flock} />
-      ))}
+      {flocks.map(flock => <BirdFlock key={flock.id} {...flock} />)}
     </div>
   );
 }
 
-// ============= CLOUDS =============
-function Cloud({ x, y, scale, speed }: { x: number; y: number; scale: number; speed: number }) {
+// ============= IMPROVED CLOUDS =============
+function Cloud({ x, y, scale, speed, variant }: { x: number; y: number; scale: number; speed: number; variant: number }) {
+  const cloudPaths = [
+    // Fluffy cumulus
+    "M20,45 Q10,45 10,38 Q5,35 10,30 Q8,25 15,23 Q15,15 28,15 Q35,10 45,15 Q55,12 62,18 Q72,15 78,22 Q88,20 90,28 Q98,30 95,38 Q100,42 90,45 Z",
+    // Stretched cloud
+    "M15,40 Q5,38 8,32 Q5,28 12,25 Q10,18 25,18 Q35,12 50,16 Q65,10 75,18 Q88,15 92,25 Q100,28 95,35 Q100,40 88,42 Q70,45 50,43 Q30,45 15,40 Z",
+    // Puffy cloud
+    "M18,42 Q8,40 12,33 Q6,30 12,25 Q10,18 22,17 Q30,8 45,14 Q58,8 68,16 Q80,12 85,22 Q95,25 92,34 Q98,38 88,42 Q60,46 18,42 Z",
+  ];
+
   return (
     <motion.svg
-      className="absolute text-foreground/[0.07] dark:text-foreground/[0.03]"
+      className="absolute text-foreground/[0.06] dark:text-foreground/[0.025]"
       style={{ left: `${x}%`, top: `${y}%` }}
-      width={150 * scale}
-      height={60 * scale}
-      viewBox="0 0 150 60"
-      animate={{ x: [0, 80, 0] }}
+      width={120 * scale}
+      height={50 * scale}
+      viewBox="0 0 100 50"
+      animate={{ x: [0, 60, 0] }}
       transition={{ duration: speed, repeat: Infinity, ease: "linear" }}
     >
-      <ellipse cx="45" cy="40" rx="40" ry="18" fill="currentColor" />
-      <ellipse cx="80" cy="30" rx="35" ry="25" fill="currentColor" />
-      <ellipse cx="110" cy="38" rx="30" ry="18" fill="currentColor" />
-      <ellipse cx="65" cy="45" rx="25" ry="12" fill="currentColor" />
-      <ellipse cx="95" cy="42" rx="28" ry="15" fill="currentColor" />
+      <path d={cloudPaths[variant % 3]} fill="currentColor" />
     </motion.svg>
   );
 }
 
 function Clouds() {
   const clouds = useMemo(() => [
-    { id: 1, x: 5, y: 8, scale: 1.2, speed: 45 },
-    { id: 2, x: 25, y: 15, scale: 0.8, speed: 55 },
-    { id: 3, x: 55, y: 5, scale: 1, speed: 40 },
-    { id: 4, x: 75, y: 18, scale: 0.7, speed: 60 },
-    { id: 5, x: 40, y: 22, scale: 0.9, speed: 50 },
+    { id: 1, x: 5, y: 6, scale: 1.4, speed: 50, variant: 0 },
+    { id: 2, x: 28, y: 12, scale: 0.9, speed: 65, variant: 1 },
+    { id: 3, x: 52, y: 4, scale: 1.1, speed: 45, variant: 2 },
+    { id: 4, x: 78, y: 14, scale: 0.8, speed: 70, variant: 0 },
+    { id: 5, x: 38, y: 20, scale: 1.0, speed: 55, variant: 1 },
   ], []);
 
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {clouds.map(cloud => (
-        <Cloud key={cloud.id} {...cloud} />
-      ))}
+      {clouds.map(cloud => <Cloud key={cloud.id} {...cloud} />)}
     </div>
   );
 }
 
-// ============= SUN & MOON =============
-function Sun() {
+// ============= ANIMATED WATERFALL =============
+function Waterfall() {
   return (
-    <motion.div
-      className="absolute dark:opacity-0 transition-opacity duration-700"
-      style={{ right: "12%", top: "8%" }}
-      animate={{ scale: [1, 1.05, 1] }}
-      transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-    >
-      <div className="relative">
-        {/* Outer glow */}
-        <div className="absolute -inset-8 rounded-full bg-gradient-radial from-highlight-4/30 via-highlight-4/10 to-transparent blur-xl" />
-        {/* Sun body with gradient */}
-        <div className="w-20 h-20 rounded-full bg-gradient-to-br from-highlight-4 via-highlight-1/80 to-highlight-4/60 shadow-[0_0_60px_20px_rgba(255,200,100,0.3)]" />
-        {/* Sun rays */}
-        <motion.div
-          className="absolute inset-0 flex items-center justify-center"
-          animate={{ rotate: 360 }}
-          transition={{ duration: 120, repeat: Infinity, ease: "linear" }}
-        >
-          {[...Array(12)].map((_, i) => (
-            <div
-              key={i}
-              className="absolute w-1 h-8 bg-gradient-to-t from-highlight-4/60 to-transparent rounded-full"
-              style={{ transform: `rotate(${i * 30}deg) translateY(-52px)` }}
-            />
-          ))}
-        </motion.div>
-      </div>
-    </motion.div>
+    <div className="absolute dark:opacity-70 transition-opacity duration-700" style={{ left: '8%', top: '25%' }}>
+      <svg width="80" height="200" viewBox="0 0 80 200" className="overflow-visible">
+        {/* Cliff/rock on sides */}
+        <path
+          d="M0,0 L15,0 L18,20 L12,50 L15,80 L10,120 L14,160 L8,200 L0,200 Z"
+          className="text-highlight-1/30 dark:text-highlight-1/20"
+          fill="currentColor"
+        />
+        <path
+          d="M80,0 L65,0 L62,25 L68,55 L64,90 L70,130 L66,170 L72,200 L80,200 Z"
+          className="text-highlight-1/30 dark:text-highlight-1/20"
+          fill="currentColor"
+        />
+        
+        {/* Water streams */}
+        {[0, 1, 2, 3, 4].map(i => (
+          <motion.path
+            key={i}
+            d={`M${25 + i * 8},0 Q${28 + i * 7},50 ${24 + i * 8},100 Q${27 + i * 7},150 ${25 + i * 8},200`}
+            fill="none"
+            className="text-highlight-3/40 dark:text-highlight-3/25"
+            stroke="currentColor"
+            strokeWidth={3 - i * 0.3}
+            strokeLinecap="round"
+            initial={{ pathLength: 0, opacity: 0 }}
+            animate={{ 
+              pathLength: [0, 1, 1],
+              opacity: [0, 0.8, 0],
+              y: [0, 10, 20],
+            }}
+            transition={{
+              duration: 1.5 + i * 0.2,
+              repeat: Infinity,
+              delay: i * 0.15,
+              ease: "easeIn",
+            }}
+          />
+        ))}
+        
+        {/* Mist/spray at bottom */}
+        <motion.ellipse
+          cx="40"
+          cy="195"
+          rx="35"
+          ry="12"
+          className="text-highlight-3/20 dark:text-highlight-3/10"
+          fill="currentColor"
+          animate={{ 
+            rx: [30, 40, 30],
+            opacity: [0.15, 0.3, 0.15],
+          }}
+          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+        />
+        
+        {/* Water droplets */}
+        {[...Array(8)].map((_, i) => (
+          <motion.circle
+            key={`drop-${i}`}
+            cx={20 + Math.random() * 40}
+            cy={180}
+            r={1.5}
+            className="text-highlight-3/50 dark:text-highlight-3/30"
+            fill="currentColor"
+            animate={{
+              y: [-20, 20],
+              x: [(Math.random() - 0.5) * 20, (Math.random() - 0.5) * 40],
+              opacity: [0.6, 0],
+              scale: [1, 0.5],
+            }}
+            transition={{
+              duration: 0.8 + Math.random() * 0.4,
+              repeat: Infinity,
+              delay: i * 0.2,
+              ease: "easeOut",
+            }}
+          />
+        ))}
+      </svg>
+    </div>
   );
 }
 
+// ============= MOON =============
 function Moon() {
   return (
     <motion.div
       className="absolute opacity-0 dark:opacity-100 transition-opacity duration-700"
       style={{ right: "12%", top: "8%" }}
-      animate={{ y: [0, -8, 0] }}
+      animate={{ y: [0, -6, 0] }}
       transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
     >
       <div className="relative">
-        {/* Moon glow */}
-        <div className="absolute -inset-6 rounded-full bg-foreground/10 blur-2xl" />
-        {/* Moon body */}
-        <div className="w-16 h-16 rounded-full bg-gradient-to-br from-foreground/95 via-foreground/80 to-foreground/60 shadow-[0_0_40px_10px_rgba(255,255,255,0.2)] relative overflow-hidden">
-          {/* Craters with better styling */}
-          <div className="absolute w-4 h-4 rounded-full bg-foreground/40 top-2 left-4 shadow-inner" />
-          <div className="absolute w-2.5 h-2.5 rounded-full bg-foreground/35 top-7 left-9 shadow-inner" />
-          <div className="absolute w-5 h-5 rounded-full bg-foreground/30 top-9 left-2 shadow-inner" />
-          <div className="absolute w-2 h-2 rounded-full bg-foreground/40 top-4 left-10 shadow-inner" />
+        <div className="absolute -inset-8 rounded-full bg-foreground/8 blur-2xl" />
+        <div className="w-16 h-16 rounded-full bg-gradient-to-br from-foreground/95 via-foreground/75 to-foreground/55 shadow-[0_0_50px_15px_rgba(255,255,255,0.15)] relative overflow-hidden">
+          <div className="absolute w-4 h-4 rounded-full bg-foreground/30 top-2 left-4" />
+          <div className="absolute w-2.5 h-2.5 rounded-full bg-foreground/25 top-6 left-9" />
+          <div className="absolute w-5 h-5 rounded-full bg-foreground/20 top-8 left-2" />
         </div>
       </div>
     </motion.div>
@@ -365,107 +414,88 @@ function Moon() {
 }
 
 // ============= MOUNTAIN LAYERS =============
-interface MountainLayerProps {
-  path: string;
-  colorLight: string;
-  colorDark: string;
-  parallaxOffset: number;
-  scrollYProgress: any;
-  className?: string;
-}
-
-function MountainLayer({ path, colorLight, colorDark, parallaxOffset, scrollYProgress, className = "" }: MountainLayerProps) {
+function MountainLayer({ path, colorClass, parallaxOffset, scrollYProgress }: {
+  path: string; colorClass: string; parallaxOffset: number; scrollYProgress: any;
+}) {
   const y = useTransform(scrollYProgress, [0, 1], [0, parallaxOffset]);
   const smoothY = useSpring(y, { stiffness: 100, damping: 30 });
 
   return (
     <motion.svg
-      className={`absolute bottom-0 left-0 w-full ${className}`}
+      className="absolute bottom-0 left-0 w-full"
       viewBox="0 0 1440 400"
       preserveAspectRatio="none"
       style={{ y: smoothY }}
     >
-      <defs>
-        <linearGradient id={`mountain-gradient-${parallaxOffset}`} x1="0%" y1="0%" x2="0%" y2="100%">
-          <stop offset="0%" className={`${colorLight} dark:${colorDark}`} stopColor="currentColor" stopOpacity="1" />
-          <stop offset="100%" className={`${colorLight} dark:${colorDark}`} stopColor="currentColor" stopOpacity="0.7" />
-        </linearGradient>
-      </defs>
-      <path
-        d={path}
-        className={`${colorLight} dark:${colorDark} transition-colors duration-700`}
-        fill="currentColor"
-      />
+      <path d={path} className={colorClass} fill="currentColor" />
     </motion.svg>
   );
 }
 
-// ============= TREES/FOREST =============
+// ============= FOREST WITH WIND SWAY =============
 function ForestLayer({ scrollYProgress }: { scrollYProgress: any }) {
-  const y = useTransform(scrollYProgress, [0, 1], [0, 140]);
+  const y = useTransform(scrollYProgress, [0, 1], [0, 130]);
   const smoothY = useSpring(y, { stiffness: 100, damping: 30 });
 
-  // Generate procedural pine trees
   const trees = useMemo(() => {
-    return Array.from({ length: 40 }, (_, i) => {
-      const x = (i / 40) * 1440 + (Math.sin(i * 1.5) * 15);
-      const height = 60 + Math.sin(i * 0.8) * 30 + Math.random() * 20;
-      const width = 25 + Math.random() * 15;
-      return { x, height, width, id: i };
+    return Array.from({ length: 35 }, (_, i) => {
+      const x = (i / 35) * 1440 + (Math.sin(i * 1.2) * 20);
+      const height = 50 + Math.sin(i * 0.9) * 25 + Math.random() * 20;
+      const width = 20 + Math.random() * 12;
+      return { x, height, width, id: i, swayDelay: Math.random() * 2, swayAmount: 2 + Math.random() * 3 };
     });
   }, []);
 
   return (
     <motion.svg
       className="absolute bottom-0 left-0 w-full"
-      viewBox="0 0 1440 180"
+      viewBox="0 0 1440 160"
       preserveAspectRatio="none"
       style={{ y: smoothY }}
     >
-      <defs>
-        <linearGradient id="forest-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
-          <stop offset="0%" className="text-secondary dark:text-muted" stopColor="currentColor" />
-          <stop offset="100%" className="text-muted dark:text-muted/80" stopColor="currentColor" />
-        </linearGradient>
-      </defs>
+      {/* Ground base */}
+      <rect x="0" y="145" width="1440" height="15" className="text-secondary dark:text-muted transition-colors duration-700" fill="currentColor" />
       
-      {/* Tree silhouettes */}
-      <g className="text-secondary dark:text-muted transition-colors duration-700">
-        {trees.map(tree => (
-          <g key={tree.id}>
-            {/* Pine tree shape */}
-            <path
-              d={`
-                M${tree.x},180 
-                L${tree.x + tree.width * 0.4},180
-                L${tree.x + tree.width * 0.4},${180 - tree.height * 0.15}
-                L${tree.x + tree.width * 0.7},${180 - tree.height * 0.15}
-                L${tree.x + tree.width * 0.5},${180 - tree.height * 0.4}
-                L${tree.x + tree.width * 0.8},${180 - tree.height * 0.4}
-                L${tree.x + tree.width * 0.5},${180 - tree.height * 0.65}
-                L${tree.x + tree.width * 0.75},${180 - tree.height * 0.65}
-                L${tree.x + tree.width * 0.5},${180 - tree.height}
-                L${tree.x + tree.width * 0.25},${180 - tree.height * 0.65}
-                L${tree.x + tree.width * 0.5},${180 - tree.height * 0.65}
-                L${tree.x + tree.width * 0.2},${180 - tree.height * 0.4}
-                L${tree.x + tree.width * 0.5},${180 - tree.height * 0.4}
-                L${tree.x + tree.width * 0.3},${180 - tree.height * 0.15}
-                L${tree.x + tree.width * 0.6},${180 - tree.height * 0.15}
-                L${tree.x + tree.width * 0.6},180
-                Z
-              `}
-              fill="currentColor"
-            />
-          </g>
-        ))}
-      </g>
-      
-      {/* Ground */}
-      <rect 
-        x="0" y="165" width="1440" height="15" 
-        className="text-secondary dark:text-muted transition-colors duration-700" 
-        fill="currentColor" 
-      />
+      {/* Trees with wind sway */}
+      {trees.map(tree => (
+        <motion.g
+          key={tree.id}
+          style={{ transformOrigin: `${tree.x + tree.width / 2}px 160px` }}
+          animate={{ 
+            rotate: [-tree.swayAmount, tree.swayAmount, -tree.swayAmount],
+          }}
+          transition={{
+            duration: 3 + Math.random() * 2,
+            repeat: Infinity,
+            delay: tree.swayDelay,
+            ease: "easeInOut",
+          }}
+        >
+          {/* Pine tree silhouette */}
+          <path
+            d={`
+              M${tree.x + tree.width * 0.45},160 
+              L${tree.x + tree.width * 0.55},160
+              L${tree.x + tree.width * 0.55},${160 - tree.height * 0.2}
+              L${tree.x + tree.width * 0.75},${160 - tree.height * 0.2}
+              L${tree.x + tree.width * 0.5},${160 - tree.height * 0.45}
+              L${tree.x + tree.width * 0.72},${160 - tree.height * 0.45}
+              L${tree.x + tree.width * 0.5},${160 - tree.height * 0.7}
+              L${tree.x + tree.width * 0.68},${160 - tree.height * 0.7}
+              L${tree.x + tree.width * 0.5},${160 - tree.height}
+              L${tree.x + tree.width * 0.32},${160 - tree.height * 0.7}
+              L${tree.x + tree.width * 0.5},${160 - tree.height * 0.7}
+              L${tree.x + tree.width * 0.28},${160 - tree.height * 0.45}
+              L${tree.x + tree.width * 0.5},${160 - tree.height * 0.45}
+              L${tree.x + tree.width * 0.25},${160 - tree.height * 0.2}
+              L${tree.x + tree.width * 0.45},${160 - tree.height * 0.2}
+              Z
+            `}
+            className="text-secondary dark:text-muted transition-colors duration-700"
+            fill="currentColor"
+          />
+        </motion.g>
+      ))}
     </motion.svg>
   );
 }
@@ -473,68 +503,65 @@ function ForestLayer({ scrollYProgress }: { scrollYProgress: any }) {
 // ============= MAIN COMPONENT =============
 export function ScenicParallax({ className = "" }: { className?: string }) {
   const containerRef = useRef<HTMLDivElement>(null);
-  
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end start"]
   });
 
-  // Smooth mountain paths with artistic curves
   const mountainPaths = {
-    far: "M0,400 L0,260 Q80,220 160,250 Q280,200 380,230 Q500,160 620,200 Q740,140 860,180 Q980,120 1100,160 Q1200,130 1280,170 Q1360,140 1440,160 L1440,400 Z",
-    mid: "M0,400 L0,290 Q100,250 200,280 Q320,220 440,260 Q560,200 680,240 Q800,180 920,220 Q1040,170 1160,210 Q1280,180 1360,200 Q1420,190 1440,220 L1440,400 Z",
-    near: "M0,400 L0,320 Q120,280 240,310 Q380,260 500,290 Q640,240 780,280 Q920,230 1060,270 Q1200,250 1320,280 Q1400,260 1440,290 L1440,400 Z",
+    far: "M0,400 L0,240 Q100,200 200,230 Q350,170 480,210 Q620,140 760,190 Q900,130 1040,170 Q1180,120 1300,160 Q1380,140 1440,170 L1440,400 Z",
+    mid: "M0,400 L0,280 Q120,230 260,270 Q400,200 540,250 Q700,180 840,230 Q980,170 1120,210 Q1260,180 1360,210 Q1420,195 1440,230 L1440,400 Z",
+    near: "M0,400 L0,310 Q150,265 300,300 Q480,240 650,280 Q830,220 1000,265 Q1180,230 1320,270 Q1400,255 1440,285 L1440,400 Z",
   };
 
   return (
     <div ref={containerRef} className={`absolute inset-0 overflow-hidden ${className}`}>
       {/* Sky gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-highlight-3/15 via-highlight-2/8 via-50% to-highlight-1/5 dark:from-[hsl(220,30%,8%)] dark:via-[hsl(220,25%,10%)] dark:to-[hsl(220,20%,14%)] transition-colors duration-700" />
+      <div className="absolute inset-0 bg-gradient-to-b from-highlight-3/12 via-highlight-2/6 via-60% to-highlight-1/4 dark:from-[hsl(220,35%,6%)] dark:via-[hsl(220,30%,9%)] dark:to-[hsl(220,25%,13%)] transition-colors duration-700" />
       
-      {/* Stars (night only) */}
-      <Stars count={80} />
+      {/* Stars (night) */}
+      <Stars count={100} />
       
-      {/* Shooting stars (night only) */}
+      {/* Shooting stars (night) */}
       <ShootingStars />
       
       {/* Clouds */}
       <Clouds />
       
-      {/* Sun / Moon */}
-      <Sun />
+      {/* Waterfall (replaces sun) */}
+      <Waterfall />
+      
+      {/* Moon (night) */}
       <Moon />
       
-      {/* Far mountains - slowest parallax */}
+      {/* Far mountains */}
       <MountainLayer
         path={mountainPaths.far}
-        colorLight="text-highlight-2/15"
-        colorDark="text-highlight-2/8"
-        parallaxOffset={25}
+        colorClass="text-highlight-2/12 dark:text-highlight-2/6 transition-colors duration-700"
+        parallaxOffset={20}
         scrollYProgress={scrollYProgress}
       />
       
       {/* Mid mountains */}
       <MountainLayer
         path={mountainPaths.mid}
-        colorLight="text-highlight-1/20"
-        colorDark="text-highlight-1/12"
-        parallaxOffset={55}
+        colorClass="text-highlight-1/18 dark:text-highlight-1/10 transition-colors duration-700"
+        parallaxOffset={50}
         scrollYProgress={scrollYProgress}
       />
       
       {/* Near hills */}
       <MountainLayer
         path={mountainPaths.near}
-        colorLight="text-highlight-3/25"
-        colorDark="text-highlight-3/15"
-        parallaxOffset={85}
+        colorClass="text-highlight-3/22 dark:text-highlight-3/12 transition-colors duration-700"
+        parallaxOffset={80}
         scrollYProgress={scrollYProgress}
       />
       
-      {/* Trees/Forest layer */}
+      {/* Forest with wind sway */}
       <ForestLayer scrollYProgress={scrollYProgress} />
       
-      {/* Flying birds (day only) */}
+      {/* Flying birds (day) */}
       <BirdFlocks />
     </div>
   );
