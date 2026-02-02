@@ -7,6 +7,7 @@ import { Moon, MoonlightOverlay } from "./Moon";
 import { MountainLayer, mountainPaths } from "./Mountains";
 import { ForestLayer } from "./Forest";
 import { Fireflies } from "./Fireflies";
+import { FloatingLeaves } from "./Leaves";
 
 // ============= MAIN COMPONENT =============
 export function ScenicParallax({ className = "" }: { className?: string }) {
@@ -71,6 +72,9 @@ export function ScenicParallax({ className = "" }: { className?: string }) {
       
       {/* Fireflies (night) */}
       <Fireflies count={25} />
+      
+      {/* Floating leaves (day) */}
+      <FloatingLeaves count={15} />
       
       {/* Flying birds (day) */}
       <BirdFlocks />
