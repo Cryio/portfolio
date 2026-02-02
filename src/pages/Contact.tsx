@@ -224,8 +224,7 @@ export default function Contact() {
 
                   <div className="space-y-4">
                     {[
-                      { icon: Mail, label: "Primary Email", value: personalInfo.email, href: `mailto:${personalInfo.email}` },
-                      { icon: Mail, label: "Alternate Email", value: personalInfo.altEmail, href: `mailto:${personalInfo.altEmail}` },
+                      { icon: Mail, label: "Email", value: personalInfo.email, href: `mailto:${personalInfo.email}` },
                       { icon: Github, label: "GitHub", value: "github.com/Cryio", href: personalInfo.github },
                       { icon: Linkedin, label: "LinkedIn", value: "linkedin.com/in/srachetrai", href: personalInfo.linkedin },
                     ].map((contact, i) => (

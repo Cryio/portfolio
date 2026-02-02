@@ -81,12 +81,6 @@ export function Footer() {
               >
                 {personalInfo.email}
               </a>
-              <a 
-                href={`mailto:${personalInfo.altEmail}`}
-                className="block text-muted-foreground hover:text-foreground transition-colors"
-              >
-                {personalInfo.altEmail}
-              </a>
             </div>
           </div>
 

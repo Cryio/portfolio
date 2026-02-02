@@ -7,8 +7,7 @@ export const personalInfo = {
 I have contributed to impactful projects—including developing a mobile application that tackles real-world health challenges—and earned certifications in Ethical Hacking and Machine Learning. My goal is to deliver innovative, practical solutions that blend creativity with technical expertise.
 
 In my leadership roles with the Google Developers Student Club and TEDxNIITUniversity, I drive innovation and leverage my animation skills to craft immersive user experiences.`,
-  email: "contact@srachetrai.dev",
-  altEmail: "srachetrai@gmail.com",
+  email: "srachetrai@gmail.com",
   github: "https://github.com/Cryio",
   linkedin: "https://linkedin.com/in/srachetrai",
   cvUrl: "/assets/documents/resume.pdf",
