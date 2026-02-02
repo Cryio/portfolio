@@ -32,20 +32,25 @@ export function ScenicParallax({ className = "" }: { className?: string }) {
       {/* Moon (night) */}
       <Moon />
       
-      {/* Far mountains - subtle muted blue-gray */}
+      {/* Far mountains - with snow caps and distant birds */}
       <MountainLayer
         path={mountainPaths.far}
         colorClass="text-muted-foreground/15 dark:text-muted-foreground/8 transition-colors duration-700"
         parallaxOffset={20}
         scrollYProgress={scrollYProgress}
+        showSnowCaps
+        showBirds
+        baseY={170}
       />
       
-      {/* Mid mountains - slightly darker */}
+      {/* Mid mountains - with texture details */}
       <MountainLayer
         path={mountainPaths.mid}
         colorClass="text-muted-foreground/25 dark:text-muted-foreground/12 transition-colors duration-700"
         parallaxOffset={50}
         scrollYProgress={scrollYProgress}
+        showTexture
+        baseY={220}
       />
       
       {/* Near hills - more prominent */}
@@ -54,6 +59,8 @@ export function ScenicParallax({ className = "" }: { className?: string }) {
         colorClass="text-muted-foreground/35 dark:text-muted-foreground/18 transition-colors duration-700"
         parallaxOffset={80}
         scrollYProgress={scrollYProgress}
+        showTexture
+        baseY={270}
       />
       
       {/* Forest with wind sway */}
