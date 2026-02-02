@@ -2,21 +2,20 @@ import { useMemo } from "react";
 import { motion, useTransform, useSpring } from "framer-motion";
 import type { MotionValue } from "framer-motion";
 
-// ============= REALISTIC PINE TREE =============
-function PineTree({ x, height, width, swayDelay, swayAmount }: {
-  x: number; height: number; width: number; swayDelay: number; swayAmount: number;
+// ============= DETAILED PINE TREE =============
+function PineTree({ x, height, width, swayDelay, swayAmount, variant }: {
+  x: number; height: number; width: number; swayDelay: number; swayAmount: number; variant: number;
 }) {
-  // Create a more realistic pine tree with layered branches
-  const trunkWidth = width * 0.12;
-  const trunkHeight = height * 0.25;
-  const branchLayers = 5;
+  const trunkWidth = width * 0.1;
+  const trunkHeight = height * 0.2;
+  const branchLayers = 6 + (variant % 2);
   
   return (
     <motion.g
       style={{ transformOrigin: `${x + width / 2}px 160px` }}
       animate={{ rotate: [-swayAmount, swayAmount, -swayAmount] }}
       transition={{
-        duration: 3 + Math.random() * 2,
+        duration: 3.5 + Math.random() * 2,
         repeat: Infinity,
         delay: swayDelay,
         ease: "easeInOut",
@@ -28,34 +27,31 @@ function PineTree({ x, height, width, swayDelay, swayAmount }: {
         y={160 - trunkHeight}
         width={trunkWidth}
         height={trunkHeight}
-        className="text-muted-foreground/40 dark:text-muted-foreground/25"
+        className="text-muted-foreground/50 dark:text-muted-foreground/30"
         fill="currentColor"
       />
       
-      {/* Branch layers - creates realistic pine silhouette */}
+      {/* Branch layers */}
       {Array.from({ length: branchLayers }, (_, i) => {
         const layerProgress = i / (branchLayers - 1);
         const layerY = 160 - trunkHeight - (height - trunkHeight) * layerProgress;
-        const layerWidth = width * (1 - layerProgress * 0.7) * (0.9 + Math.random() * 0.2);
-        const layerHeight = (height - trunkHeight) / branchLayers * 1.4;
-        
-        // Slightly irregular branch shape for realism
-        const leftOffset = (Math.random() - 0.5) * 4;
-        const rightOffset = (Math.random() - 0.5) * 4;
+        const layerWidth = width * (1 - layerProgress * 0.65) * (0.85 + (variant % 3) * 0.05);
+        const layerHeight = (height - trunkHeight) / branchLayers * 1.5;
+        const wobble = Math.sin(i * 1.3 + variant) * 2;
         
         return (
           <path
             key={i}
             d={`
-              M${x + width / 2},${layerY - layerHeight * 0.3}
-              Q${x + width / 2 - layerWidth * 0.2},${layerY}
-              ${x + width / 2 - layerWidth / 2 + leftOffset},${layerY + layerHeight * 0.5}
-              Q${x + width / 2 - layerWidth * 0.3},${layerY + layerHeight * 0.7}
-              ${x + width / 2},${layerY + layerHeight * 0.4}
-              Q${x + width / 2 + layerWidth * 0.3},${layerY + layerHeight * 0.7}
-              ${x + width / 2 + layerWidth / 2 + rightOffset},${layerY + layerHeight * 0.5}
-              Q${x + width / 2 + layerWidth * 0.2},${layerY}
-              ${x + width / 2},${layerY - layerHeight * 0.3}
+              M${x + width / 2},${layerY - layerHeight * 0.25}
+              C${x + width / 2 - layerWidth * 0.3},${layerY + layerHeight * 0.1}
+               ${x + width / 2 - layerWidth * 0.5 + wobble},${layerY + layerHeight * 0.4}
+               ${x + width / 2 - layerWidth * 0.45},${layerY + layerHeight * 0.55}
+              Q${x + width / 2},${layerY + layerHeight * 0.35}
+               ${x + width / 2 + layerWidth * 0.45},${layerY + layerHeight * 0.55}
+              C${x + width / 2 + layerWidth * 0.5 - wobble},${layerY + layerHeight * 0.4}
+               ${x + width / 2 + layerWidth * 0.3},${layerY + layerHeight * 0.1}
+               ${x + width / 2},${layerY - layerHeight * 0.25}
               Z
             `}
             className="text-secondary dark:text-muted transition-colors duration-700"
@@ -64,6 +60,107 @@ function PineTree({ x, height, width, swayDelay, swayAmount }: {
         );
       })}
     </motion.g>
+  );
+}
+
+// ============= DECIDUOUS TREE =============
+function DeciduousTree({ x, height, width, swayDelay, swayAmount }: {
+  x: number; height: number; width: number; swayDelay: number; swayAmount: number;
+}) {
+  const trunkWidth = width * 0.15;
+  const trunkHeight = height * 0.35;
+  const canopyRadius = width * 0.5;
+  
+  return (
+    <motion.g
+      style={{ transformOrigin: `${x + width / 2}px 160px` }}
+      animate={{ rotate: [-swayAmount * 0.7, swayAmount * 0.7, -swayAmount * 0.7] }}
+      transition={{
+        duration: 4 + Math.random() * 2,
+        repeat: Infinity,
+        delay: swayDelay,
+        ease: "easeInOut",
+      }}
+    >
+      {/* Trunk */}
+      <path
+        d={`
+          M${x + width / 2 - trunkWidth / 2},160
+          L${x + width / 2 - trunkWidth / 3},${160 - trunkHeight}
+          Q${x + width / 2},${160 - trunkHeight - 5}
+           ${x + width / 2 + trunkWidth / 3},${160 - trunkHeight}
+          L${x + width / 2 + trunkWidth / 2},160
+          Z
+        `}
+        className="text-muted-foreground/45 dark:text-muted-foreground/25"
+        fill="currentColor"
+      />
+      
+      {/* Foliage clusters */}
+      {[
+        { cx: 0, cy: 0, r: canopyRadius },
+        { cx: -canopyRadius * 0.5, cy: canopyRadius * 0.3, r: canopyRadius * 0.7 },
+        { cx: canopyRadius * 0.5, cy: canopyRadius * 0.25, r: canopyRadius * 0.75 },
+        { cx: 0, cy: canopyRadius * 0.5, r: canopyRadius * 0.6 },
+      ].map((cluster, i) => (
+        <ellipse
+          key={i}
+          cx={x + width / 2 + cluster.cx}
+          cy={160 - trunkHeight - canopyRadius * 0.3 + cluster.cy}
+          rx={cluster.r}
+          ry={cluster.r * 0.85}
+          className="text-secondary dark:text-muted transition-colors duration-700"
+          fill="currentColor"
+        />
+      ))}
+    </motion.g>
+  );
+}
+
+// ============= BUSH =============
+function Bush({ x, width, height }: { x: number; width: number; height: number }) {
+  return (
+    <g>
+      {[0, 0.3, 0.6].map((offset, i) => (
+        <ellipse
+          key={i}
+          cx={x + width * (0.3 + offset * 0.5)}
+          cy={158 - height * 0.3}
+          rx={width * (0.35 - i * 0.05)}
+          ry={height * (0.5 - i * 0.1)}
+          className="text-secondary/80 dark:text-muted/80 transition-colors duration-700"
+          fill="currentColor"
+        />
+      ))}
+    </g>
+  );
+}
+
+// ============= GROUND DETAIL =============
+function GroundDetail() {
+  const details = useMemo(() => 
+    Array.from({ length: 30 }, (_, i) => ({
+      id: i,
+      x: (i / 30) * 1440 + Math.random() * 40,
+      width: 8 + Math.random() * 15,
+      height: 3 + Math.random() * 6,
+    }))
+  , []);
+
+  return (
+    <g>
+      {details.map(d => (
+        <ellipse
+          key={d.id}
+          cx={d.x}
+          cy={152}
+          rx={d.width}
+          ry={d.height}
+          className="text-secondary/60 dark:text-muted/60 transition-colors duration-700"
+          fill="currentColor"
+        />
+      ))}
+    </g>
   );
 }
 
@@ -85,11 +182,7 @@ function MistLayer() {
         <motion.div
           key={patch.id}
           className="absolute bottom-0"
-          style={{
-            left: patch.x,
-            width: patch.width,
-            height: '100%',
-          }}
+          style={{ left: patch.x, width: patch.width, height: '100%' }}
           animate={{
             x: [-20, 40, -20],
             opacity: [patch.opacity * 0.7, patch.opacity, patch.opacity * 0.7],
@@ -101,13 +194,7 @@ function MistLayer() {
             ease: "easeInOut",
           }}
         >
-          <svg
-            width="100%"
-            height="100%"
-            viewBox="0 0 400 120"
-            preserveAspectRatio="none"
-            className="text-background dark:text-background"
-          >
+          <svg width="100%" height="100%" viewBox="0 0 400 120" preserveAspectRatio="none" className="text-background">
             <defs>
               <linearGradient id={`mistGrad-${patch.id}`} x1="0%" y1="0%" x2="0%" y2="100%">
                 <stop offset="0%" stopColor="currentColor" stopOpacity="0" />
@@ -115,21 +202,11 @@ function MistLayer() {
                 <stop offset="100%" stopColor="currentColor" stopOpacity="0.6" />
               </linearGradient>
             </defs>
-            <ellipse
-              cx="200"
-              cy="100"
-              rx="200"
-              ry="60"
-              fill={`url(#mistGrad-${patch.id})`}
-            />
+            <ellipse cx="200" cy="100" rx="200" ry="60" fill={`url(#mistGrad-${patch.id})`} />
           </svg>
         </motion.div>
       ))}
-      
-      {/* Base mist gradient */}
-      <div 
-        className="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t from-background/40 via-background/20 to-transparent dark:from-background/30 dark:via-background/15"
-      />
+      <div className="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t from-background/40 via-background/20 to-transparent dark:from-background/30 dark:via-background/15" />
     </div>
   );
 }
@@ -143,22 +220,49 @@ export function ForestLayer({ scrollYProgress }: ForestLayerProps) {
   const y = useTransform(scrollYProgress, [0, 1], [0, 130]);
   const smoothY = useSpring(y, { stiffness: 100, damping: 30 });
 
-  const trees = useMemo(() => {
-    return Array.from({ length: 65 }, (_, i) => {
-      const baseX = (i / 65) * 1480 - 20;
-      const x = baseX + (Math.sin(i * 1.7) * 12) + (Math.random() - 0.5) * 8;
-      const height = 50 + Math.sin(i * 0.8) * 18 + Math.random() * 28;
-      const width = 22 + Math.random() * 12;
+  const { pines, deciduous, bushes } = useMemo(() => {
+    // Generate pine trees
+    const pines = Array.from({ length: 55 }, (_, i) => {
+      const baseX = (i / 55) * 1500 - 30;
       return { 
-        x, 
-        height, 
-        width, 
+        x: baseX + Math.sin(i * 1.7) * 10 + (Math.random() - 0.5) * 15,
+        height: 45 + Math.sin(i * 0.8) * 15 + Math.random() * 30,
+        width: 20 + Math.random() * 14,
         id: i, 
-        swayDelay: Math.random() * 2, 
-        swayAmount: 1.2 + Math.random() * 1.8,
-        zIndex: Math.random() > 0.5 ? 1 : 0,
+        swayDelay: Math.random() * 2.5, 
+        swayAmount: 1 + Math.random() * 1.5,
+        zIndex: Math.floor(Math.random() * 3),
+        variant: i % 5,
       };
-    }).sort((a, b) => a.zIndex - b.zIndex);
+    });
+
+    // Generate deciduous trees (fewer, scattered)
+    const deciduous = Array.from({ length: 12 }, (_, i) => {
+      const baseX = 80 + (i / 12) * 1300;
+      return {
+        x: baseX + (Math.random() - 0.5) * 60,
+        height: 50 + Math.random() * 25,
+        width: 35 + Math.random() * 15,
+        id: i,
+        swayDelay: Math.random() * 3,
+        swayAmount: 0.8 + Math.random() * 1,
+        zIndex: 1,
+      };
+    });
+
+    // Generate bushes
+    const bushes = Array.from({ length: 20 }, (_, i) => ({
+      x: (i / 20) * 1440 + Math.random() * 50,
+      width: 15 + Math.random() * 20,
+      height: 8 + Math.random() * 10,
+      id: i,
+    }));
+
+    return { 
+      pines: pines.sort((a, b) => a.zIndex - b.zIndex),
+      deciduous,
+      bushes,
+    };
   }, []);
 
   return (
@@ -169,30 +273,39 @@ export function ForestLayer({ scrollYProgress }: ForestLayerProps) {
         preserveAspectRatio="none"
         style={{ y: smoothY }}
       >
-        {/* Ground base */}
-        <rect 
-          x="0" 
-          y="145" 
-          width="1440" 
-          height="15" 
-          className="text-secondary dark:text-muted transition-colors duration-700" 
-          fill="currentColor" 
-        />
+        {/* Ground with texture */}
+        <rect x="0" y="145" width="1440" height="15" className="text-secondary dark:text-muted transition-colors duration-700" fill="currentColor" />
+        <GroundDetail />
         
-        {/* Trees */}
-        {trees.map(tree => (
-          <PineTree
-            key={tree.id}
-            x={tree.x}
-            height={tree.height}
-            width={tree.width}
-            swayDelay={tree.swayDelay}
-            swayAmount={tree.swayAmount}
-          />
+        {/* Bushes in back */}
+        {bushes.slice(0, 10).map(bush => (
+          <Bush key={`bush-back-${bush.id}`} x={bush.x} width={bush.width} height={bush.height} />
+        ))}
+        
+        {/* Back layer trees */}
+        {pines.filter(t => t.zIndex === 0).map(tree => (
+          <PineTree key={`pine-${tree.id}`} {...tree} />
+        ))}
+        
+        {/* Mid layer - deciduous and pines */}
+        {deciduous.map(tree => (
+          <DeciduousTree key={`dec-${tree.id}`} {...tree} />
+        ))}
+        {pines.filter(t => t.zIndex === 1).map(tree => (
+          <PineTree key={`pine-${tree.id}`} {...tree} />
+        ))}
+        
+        {/* Front bushes */}
+        {bushes.slice(10).map(bush => (
+          <Bush key={`bush-front-${bush.id}`} x={bush.x} width={bush.width * 1.2} height={bush.height * 1.1} />
+        ))}
+        
+        {/* Front layer trees */}
+        {pines.filter(t => t.zIndex === 2).map(tree => (
+          <PineTree key={`pine-${tree.id}`} {...tree} />
         ))}
       </motion.svg>
       
-      {/* Mist overlay */}
       <MistLayer />
     </>
   );
