@@ -27,7 +27,7 @@ function PineTree({ x, height, width, swayDelay, swayAmount, variant }: {
         y={160 - trunkHeight}
         width={trunkWidth}
         height={trunkHeight}
-        className="text-muted-foreground/50 dark:text-muted-foreground/30"
+        className="text-[hsl(30,30%,25%)] dark:text-[hsl(30,20%,15%)]"
         fill="currentColor"
       />
       
@@ -54,7 +54,7 @@ function PineTree({ x, height, width, swayDelay, swayAmount, variant }: {
                ${x + width / 2},${layerY - layerHeight * 0.25}
               Z
             `}
-            className="text-secondary dark:text-muted transition-colors duration-700"
+            className="text-[hsl(150,35%,25%)] dark:text-[hsl(160,25%,12%)] transition-colors duration-700"
             fill="currentColor"
           />
         );
@@ -92,7 +92,7 @@ function DeciduousTree({ x, height, width, swayDelay, swayAmount }: {
           L${x + width / 2 + trunkWidth / 2},160
           Z
         `}
-        className="text-muted-foreground/45 dark:text-muted-foreground/25"
+        className="text-[hsl(30,30%,25%)] dark:text-[hsl(30,20%,15%)]"
         fill="currentColor"
       />
       
@@ -109,7 +109,7 @@ function DeciduousTree({ x, height, width, swayDelay, swayAmount }: {
           cy={160 - trunkHeight - canopyRadius * 0.3 + cluster.cy}
           rx={cluster.r}
           ry={cluster.r * 0.85}
-          className="text-secondary dark:text-muted transition-colors duration-700"
+          className="text-[hsl(130,30%,30%)] dark:text-[hsl(140,20%,15%)] transition-colors duration-700"
           fill="currentColor"
         />
       ))}
@@ -128,7 +128,7 @@ function Bush({ x, width, height }: { x: number; width: number; height: number }
           cy={158 - height * 0.3}
           rx={width * (0.35 - i * 0.05)}
           ry={height * (0.5 - i * 0.1)}
-          className="text-secondary/80 dark:text-muted/80 transition-colors duration-700"
+          className="text-[hsl(140,30%,28%)] dark:text-[hsl(150,20%,14%)] transition-colors duration-700"
           fill="currentColor"
         />
       ))}
@@ -156,7 +156,7 @@ function GroundDetail() {
           cy={152}
           rx={d.width}
           ry={d.height}
-          className="text-secondary/60 dark:text-muted/60 transition-colors duration-700"
+          className="text-[hsl(140,25%,22%)] dark:text-[hsl(150,18%,10%)] transition-colors duration-700"
           fill="currentColor"
         />
       ))}
@@ -274,7 +274,7 @@ export function ForestLayer({ scrollYProgress }: ForestLayerProps) {
         style={{ y: smoothY }}
       >
         {/* Ground with texture */}
-        <rect x="0" y="145" width="1440" height="15" className="text-secondary dark:text-muted transition-colors duration-700" fill="currentColor" />
+        <rect x="0" y="145" width="1440" height="15" className="text-[hsl(140,20%,20%)] dark:text-[hsl(150,15%,8%)] transition-colors duration-700" fill="currentColor" />
         <GroundDetail />
         
         {/* Bushes in back */}
