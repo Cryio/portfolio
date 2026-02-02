@@ -6,6 +6,7 @@ import { Clouds } from "./Clouds";
 import { Moon, MoonlightOverlay } from "./Moon";
 import { MountainLayer, mountainPaths } from "./Mountains";
 import { ForestLayer } from "./Forest";
+import { Fireflies } from "./Fireflies";
 
 // ============= MAIN COMPONENT =============
 export function ScenicParallax({ className = "" }: { className?: string }) {
@@ -67,6 +68,9 @@ export function ScenicParallax({ className = "" }: { className?: string }) {
       
       {/* Forest with wind sway */}
       <ForestLayer scrollYProgress={scrollYProgress} />
+      
+      {/* Fireflies (night) */}
+      <Fireflies count={25} />
       
       {/* Flying birds (day) */}
       <BirdFlocks />
