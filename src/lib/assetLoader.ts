@@ -2,12 +2,12 @@
  * Asset Loader Utility
  * 
  * This utility automatically discovers and loads assets from the src/assets directory.
- * Simply place files in the appropriate folders, and they'll be available for use.
+ * Certificate images are loaded on-demand for better performance.
  * 
  * Folder Structure:
- * - src/assets/certificates/ - Certificate badge images
- * - src/assets/projects/ - Project screenshots/thumbnails
- * - src/assets/profile/ - Profile photos
+ * - src/assets/certificates/ - Certificate badge images (lazy loaded)
+ * - src/assets/projects/ - Project screenshots/thumbnails (eager loaded)
+ * - src/assets/profile/ - Profile photos (eager loaded)
  * 
  * File Naming Convention:
  * - Use kebab-case: my-certificate-name.png
@@ -17,29 +17,28 @@
  * import { getCertificateImage, getProjectImage, getProfileImage, getAllAssets } from '@/lib/assetLoader';
  * 
  * const badge = getCertificateImage('paloalto-cybersecurity'); // Returns the image URL or undefined
- * const allCerts = getAllAssets('certificates'); // Returns all certificate images
  */
 
-// Use Vite's import.meta.glob to auto-discover all assets
-// The `eager: true` option loads all assets immediately
-
-// Certificate images - include nested directories
+// Certificate images - include nested directories (lazy loaded for better performance)
 const certificateModules = import.meta.glob<{ default: string }>(
   '/src/assets/certificates/**/*.{png,jpg,jpeg,webp,svg,gif}',
-  { eager: true }
-);
+  { eager: false }
+) as Record<string, () => Promise<{ default: string }>>;
 
-// Project images
+// Project images (eager loaded - these are visible on main page)
 const projectModules = import.meta.glob<{ default: string }>(
   '/src/assets/projects/*.{png,jpg,jpeg,webp,svg,gif}',
   { eager: true }
 );
 
-// Profile images
+// Profile images (eager loaded - these are visible on main page)
 const profileModules = import.meta.glob<{ default: string }>(
   '/src/assets/profile/*.{png,jpg,jpeg,webp,svg,gif}',
   { eager: true }
 );
+
+// Cache for lazy-loaded certificate assets
+const certificateCache = new Map<string, string>();
 
 // Helper to extract filename without extension
 const getBaseName = (path: string): string => {
@@ -59,10 +58,38 @@ const createAssetRegistry = (modules: Record<string, { default: string }>): Map<
   return registry;
 };
 
-// Create registries
-const certificateRegistry = createAssetRegistry(certificateModules);
+// Create registries for eager-loaded assets
 const projectRegistry = createAssetRegistry(projectModules);
 const profileRegistry = createAssetRegistry(profileModules);
+
+// Helper to find certificate path by name
+const findCertificatePath = (name: string): string | undefined => {
+  for (const [path] of Object.entries(certificateModules)) {
+    if (getBaseName(path) === name) {
+      return path;
+    }
+  }
+  return undefined;
+};
+
+// Helper to load certificate on-demand
+const loadCertificate = async (name: string): Promise<string> => {
+  // Check cache first
+  if (certificateCache.has(name)) {
+    return certificateCache.get(name)!;
+  }
+  
+  const path = findCertificatePath(name);
+  if (!path) {
+    throw new Error(`Certificate not found: ${name}`);
+  }
+  
+  // Load certificate
+  const module = certificateModules[path];
+  const loaded = await module();
+  certificateCache.set(name, loaded.default);
+  return loaded.default;
+};
 
 /**
  * Get a certificate image by name (without extension)
@@ -70,7 +97,9 @@ const profileRegistry = createAssetRegistry(profileModules);
  * @returns The image URL or undefined if not found
  */
 export const getCertificateImage = (name: string): string | undefined => {
-  return certificateRegistry.get(name);
+  // Start loading in background, but return undefined for now
+  loadCertificate(name).catch(() => {});
+  return undefined;
 };
 
 /**
@@ -92,28 +121,21 @@ export const getProfileImage = (name: string): string | undefined => {
 };
 
 /**
- * Get all assets of a specific type
+ * Get all asset names of a specific type
  * @param type - The asset type: 'certificates', 'projects', or 'profile'
- * @returns An array of { name: string, url: string } objects
+ * @returns An array of asset names
  */
-export const getAllAssets = (type: 'certificates' | 'projects' | 'profile'): Array<{ name: string; url: string }> => {
-  let registry: Map<string, string>;
-  
+export const getAllAssetNames = (type: 'certificates' | 'projects' | 'profile'): Array<string> => {
   switch (type) {
     case 'certificates':
-      registry = certificateRegistry;
-      break;
+      return Object.keys(certificateModules).map(getBaseName);
     case 'projects':
-      registry = projectRegistry;
-      break;
+      return Object.keys(projectModules).map(getBaseName);
     case 'profile':
-      registry = profileRegistry;
-      break;
+      return Object.keys(profileModules).map(getBaseName);
     default:
       return [];
   }
-  
-  return Array.from(registry.entries()).map(([name, url]) => ({ name, url }));
 };
 
 /**
@@ -125,7 +147,7 @@ export const getAllAssets = (type: 'certificates' | 'projects' | 'profile'): Arr
 export const hasAsset = (type: 'certificates' | 'projects' | 'profile', name: string): boolean => {
   switch (type) {
     case 'certificates':
-      return certificateRegistry.has(name);
+      return findCertificatePath(name) !== undefined;
     case 'projects':
       return projectRegistry.has(name);
     case 'profile':
@@ -141,15 +163,29 @@ export const hasAsset = (type: 'certificates' | 'projects' | 'profile', name: st
  */
 export const getAssetCounts = (): { certificates: number; projects: number; profile: number } => {
   return {
-    certificates: certificateRegistry.size,
-    projects: projectRegistry.size,
-    profile: profileRegistry.size,
+    certificates: Object.keys(certificateModules).length,
+    projects: Object.keys(projectModules).length,
+    profile: Object.keys(profileModules).length,
   };
 };
 
-// Export registries for direct access if needed
-export const assetRegistries = {
-  certificates: certificateRegistry,
-  projects: projectRegistry,
-  profile: profileRegistry,
+/**
+ * Clear certificate cache (useful for memory management)
+ */
+export const clearCertificateCache = (): void => {
+  certificateCache.clear();
 };
+
+/**
+ * Get certificate cache size
+ * @returns number of cached certificates
+ */
+export const getCertificateCacheSize = (): number => {
+  return certificateCache.size;
+};
+
+/**
+ * Legacy function for backward compatibility
+ * @deprecated Use getAllAssetNames instead
+ */
+export const getAllAssets = getAllAssetNames;

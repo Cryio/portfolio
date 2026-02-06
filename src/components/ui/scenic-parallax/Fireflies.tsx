@@ -65,12 +65,11 @@ export function Fireflies({ count = 25 }: { count?: number }) {
   const fireflies = useMemo(() => {
     return Array.from({ length: count }, (_, i) => ({
       id: i,
-      // Concentrate fireflies in the forest area (bottom portion of screen)
-      x: 5 + Math.random() * 90,
-      y: 55 + Math.random() * 40, // Lower portion where forest is
-      size: 2 + Math.random() * 3,
-      delay: Math.random() * 5,
-      duration: 3 + Math.random() * 4,
+      x: Math.random() * 100,
+      y: Math.random() * 100,
+      size: 3 + Math.random() * 3, // Slightly smaller for better performance
+      delay: Math.random() * 10,
+      duration: 12 + Math.random() * 8, // Shorter duration
     }));
   }, [count]);
 

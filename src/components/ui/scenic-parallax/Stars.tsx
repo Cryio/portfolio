@@ -100,15 +100,23 @@ export function ShootingStars() {
 // ============= TWINKLING STARS =============
 export function Stars({ count = 100 }: { count?: number }) {
   const stars = useMemo(() => {
-    return Array.from({ length: count }, (_, i) => ({
-      id: i,
-      x: Math.random() * 100,
-      y: Math.random() * 45,
-      size: 0.8 + Math.random() * 2,
-      delay: Math.random() * 5,
-      duration: 2 + Math.random() * 3,
-      brightness: 0.5 + Math.random() * 0.5,
-    }));
+    return Array.from({ length: count }, (_, i) => {
+      // Implement LOD: Larger stars are more important
+      const sizePriority = Math.random();
+      const size = sizePriority > 0.7 ? 0.8 + Math.random() * 1.2 : // Large stars (30%)
+                  sizePriority > 0.3 ? 0.5 + Math.random() * 0.5 : // Medium stars (40%)
+                  0.2 + Math.random() * 0.3; // Small stars (30%)
+      
+      return {
+        id: i,
+        x: Math.random() * 100,
+        y: Math.random() * 45,
+        size,
+        delay: Math.random() * 5,
+        duration: 2 + Math.random() * 3,
+        brightness: 0.3 + sizePriority * 0.7, // Larger stars are brighter
+      };
+    });
   }, [count]);
 
   return (

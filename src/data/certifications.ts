@@ -96,7 +96,7 @@ export const sortByDate = (certs: Certification[]): Certification[] => {
 export const getCertificationWithBadge = (cert: Certification): CertificationWithBadge => {
   return {
     ...cert,
-    badgeUrl: getCertificateImage(cert.id),
+    badgeUrl: getCertificateImage(cert.id) || '', // Will be undefined initially, then loaded
   };
 };
 

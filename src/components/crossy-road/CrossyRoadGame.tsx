@@ -23,19 +23,38 @@ export function CrossyRoadGame({ onBack }: CrossyRoadGameProps) {
   
   useEventListeners();
 
-  // Poll game state for updates
+  // Optimized polling with requestAnimationFrame
   useEffect(() => {
     if (!gameStarted) return;
     
-    const interval = setInterval(() => {
-      setScore(state.score);
-      setCoins(state.coinsCollected);
-      setGameOver(state.gameOver);
-      setCurrentRow(state.currentRow);
-    }, 50);
+    let lastUpdate = 0;
+    const targetFPS = 20; // 20 FPS = 50ms interval
+    const frameInterval = 1000 / targetFPS;
     
-    return () => clearInterval(interval);
-  }, [gameStarted]);
+    let animationId: number;
+    
+    const updateGameState = (timestamp: number) => {
+      if (timestamp - lastUpdate >= frameInterval) {
+        setScore(state.score);
+        setCoins(state.coinsCollected);
+        setGameOver(state.gameOver);
+        setCurrentRow(state.currentRow);
+        lastUpdate = timestamp;
+      }
+      
+      if (gameStarted && !gameOver) {
+        animationId = requestAnimationFrame(updateGameState);
+      }
+    };
+    
+    animationId = requestAnimationFrame(updateGameState);
+    
+    return () => {
+      if (animationId) {
+        cancelAnimationFrame(animationId);
+      }
+    };
+  }, [gameStarted, gameOver]);
 
   // Save high score when game ends
   useEffect(() => {

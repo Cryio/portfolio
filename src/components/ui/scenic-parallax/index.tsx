@@ -22,8 +22,8 @@ export function ScenicParallax({ className = "" }: { className?: string }) {
       {/* Sky gradient - warmer and more colorful in light mode */}
       <div className="absolute inset-0 bg-gradient-to-b from-[hsl(200,60%,85%)] via-[hsl(210,50%,88%)] via-40% to-[hsl(35,45%,90%)] dark:from-[hsl(220,35%,6%)] dark:via-[hsl(220,30%,9%)] dark:to-[hsl(220,25%,13%)] transition-colors duration-700" />
       
-      {/* Stars (night) */}
-      <Stars count={100} />
+      {/* Stars (night) - optimized count */}
+      <Stars count={40} />
       
       {/* Shooting stars (night) */}
       <ShootingStars />
@@ -43,7 +43,7 @@ export function ScenicParallax({ className = "" }: { className?: string }) {
         colorClass="text-[hsl(250,25%,70%)]/25 dark:text-[hsl(250,30%,40%)]/15 transition-colors duration-700"
         parallaxOffset={20}
         scrollYProgress={scrollYProgress}
-        showBirds
+        showBirds={false} // Reduced performance impact
         baseY={170}
       />
       
@@ -53,7 +53,7 @@ export function ScenicParallax({ className = "" }: { className?: string }) {
         colorClass="text-[hsl(230,20%,55%)]/35 dark:text-[hsl(230,25%,30%)]/20 transition-colors duration-700"
         parallaxOffset={50}
         scrollYProgress={scrollYProgress}
-        showTexture
+        showTexture={false} // Reduced performance impact
         baseY={220}
       />
       
@@ -63,21 +63,21 @@ export function ScenicParallax({ className = "" }: { className?: string }) {
         colorClass="text-[hsl(210,18%,45%)]/45 dark:text-[hsl(220,20%,25%)]/25 transition-colors duration-700"
         parallaxOffset={80}
         scrollYProgress={scrollYProgress}
-        showTexture
+        showTexture={false} // Reduced performance impact
         baseY={270}
       />
       
       {/* Forest with wind sway */}
       <ForestLayer scrollYProgress={scrollYProgress} />
       
-      {/* Fireflies (night) */}
-      <Fireflies count={25} />
+      {/* Fireflies (night) - optimized count */}
+      <Fireflies count={10} />
       
-      {/* Floating leaves (day) */}
-      <FloatingLeaves count={15} />
+      {/* Floating leaves (day) - optimized count */}
+      <FloatingLeaves count={8} />
       
-      {/* Flying birds (day) */}
-      <BirdFlocks />
+      {/* Flying birds (day) - disabled for performance */}
+      {/* <BirdFlocks /> */}
     </div>
   );
 }

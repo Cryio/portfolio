@@ -1,12 +1,25 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 
+// Debounce utility function
+const debounce = <T extends (...args: any[]) => any>(
+  func: T,
+  delay: number
+): ((...args: Parameters<T>) => void) => {
+  let timeoutId: NodeJS.Timeout;
+  return (...args: Parameters<T>) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => func(...args), delay);
+  };
+};
+
 export function CustomCursor() {
   const [isHovering, setIsHovering] = useState(false);
   const [isClicking, setIsClicking] = useState(false);
   const [cursorText, setCursorText] = useState("");
   const [isVisible, setIsVisible] = useState(true);
   const hoverCountRef = useRef(0);
+  const elementsRef = useRef<Set<HTMLElement>>(new Set());
 
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
@@ -15,10 +28,14 @@ export function CustomCursor() {
   const cursorXSpring = useSpring(cursorX, springConfig);
   const cursorYSpring = useSpring(cursorY, springConfig);
 
-  const handleMouseMove = useCallback((e: MouseEvent) => {
-    cursorX.set(e.clientX);
-    cursorY.set(e.clientY);
-  }, [cursorX, cursorY]);
+  // Debounced mouse move handler for better performance (60fps)
+  const handleMouseMove = useCallback(
+    debounce((e: MouseEvent) => {
+      cursorX.set(e.clientX);
+      cursorY.set(e.clientY);
+    }, 16), // ~60fps
+    [cursorX, cursorY]
+  );
 
   const handleMouseDown = useCallback(() => setIsClicking(true), []);
   const handleMouseUp = useCallback(() => setIsClicking(false), []);
@@ -26,81 +43,90 @@ export function CustomCursor() {
   const handleMouseEnter = useCallback(() => setIsVisible(true), []);
   const handleMouseLeave = useCallback(() => setIsVisible(false), []);
 
-  useEffect(() => {
-    window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("mousedown", handleMouseDown);
-    window.addEventListener("mouseup", handleMouseUp);
-    document.addEventListener("mouseenter", handleMouseEnter);
-    document.addEventListener("mouseleave", handleMouseLeave);
+  const handleElementEnter = useCallback((text?: string) => {
+    hoverCountRef.current += 1;
+    setIsHovering(true);
+    if (text) setCursorText(text);
+  }, []);
 
-    const handleElementEnter = (text?: string) => {
-      hoverCountRef.current += 1;
-      setIsHovering(true);
-      if (text) setCursorText(text);
-    };
-
-    const handleElementLeave = () => {
-      hoverCountRef.current -= 1;
-      // Only reset when no elements are being hovered
-      if (hoverCountRef.current <= 0) {
-        hoverCountRef.current = 0;
-        setIsHovering(false);
-        setCursorText("");
-      }
-    };
-
-    const setupListeners = () => {
-      // Clear previous count
-      hoverCountRef.current = 0;
-      
-      const interactiveElements = document.querySelectorAll(
-        'a, button, [role="button"], input, textarea, select, [data-cursor="pointer"], .cursor-pointer'
-      );
-
-      interactiveElements.forEach((el) => {
-        const element = el as HTMLElement;
-        const isLink = element.tagName === 'A' || element.closest('a');
-        const isButton = element.tagName === 'BUTTON' || element.getAttribute('role') === 'button';
-        
-        const text = isLink ? "→" : isButton ? "•" : "";
-        
-        const enterHandler = () => handleElementEnter(text);
-        const leaveHandler = () => handleElementLeave();
-        
-        element.addEventListener("mouseenter", enterHandler);
-        element.addEventListener("mouseleave", leaveHandler);
-        
-        // Store handlers for cleanup
-        (element as any)._cursorEnterHandler = enterHandler;
-        (element as any)._cursorLeaveHandler = leaveHandler;
-      });
-
-      return interactiveElements;
-    };
-
-    const elements = setupListeners();
-
-    // Use MutationObserver to handle dynamically added elements
-    const observer = new MutationObserver(() => {
-      // Reset hover state on DOM changes
+  const handleElementLeave = useCallback(() => {
+    hoverCountRef.current -= 1;
+    // Only reset when no elements are being hovered
+    if (hoverCountRef.current <= 0) {
       hoverCountRef.current = 0;
       setIsHovering(false);
       setCursorText("");
+    }
+  }, []);
+
+  const setupListeners = useCallback(() => {
+    // Clear previous count and references
+    hoverCountRef.current = 0;
+    
+    // Clean up existing listeners
+    elementsRef.current.forEach((element) => {
+      const el = element as any;
+      if (el._cursorEnterHandler) {
+        element.removeEventListener("mouseenter", el._cursorEnterHandler);
+        element.removeEventListener("mouseleave", el._cursorLeaveHandler);
+        delete el._cursorEnterHandler;
+        delete el._cursorLeaveHandler;
+      }
+    });
+    elementsRef.current.clear();
+    
+    const interactiveElements = document.querySelectorAll(
+      'a, button, [role="button"], input, textarea, select, [data-cursor="pointer"], .cursor-pointer'
+    );
+
+    interactiveElements.forEach((el) => {
+      const element = el as HTMLElement;
+      const isLink = element.tagName === 'A' || element.closest('a');
+      const isButton = element.tagName === 'BUTTON' || element.getAttribute('role') === 'button';
       
-      // Cleanup old listeners
-      elements.forEach((el) => {
-        const element = el as any;
-        if (element._cursorEnterHandler) {
-          element.removeEventListener("mouseenter", element._cursorEnterHandler);
-          element.removeEventListener("mouseleave", element._cursorLeaveHandler);
-        }
-      });
+      const text = isLink ? "→" : isButton ? "•" : "";
       
-      // Setup new listeners
-      setupListeners();
+      const enterHandler = () => handleElementEnter(text);
+      const leaveHandler = () => handleElementLeave();
+      
+      element.addEventListener("mouseenter", enterHandler, { passive: true });
+      element.addEventListener("mouseleave", leaveHandler, { passive: true });
+      
+      // Store handlers for cleanup
+      (element as any)._cursorEnterHandler = enterHandler;
+      (element as any)._cursorLeaveHandler = leaveHandler;
+      elementsRef.current.add(element);
     });
 
-    observer.observe(document.body, { childList: true, subtree: true });
+    return interactiveElements;
+  }, [handleElementEnter, handleElementLeave]);
+
+  // Debounced setup listeners to avoid excessive DOM queries
+  const debouncedSetupListeners = useCallback(debounce(setupListeners, 100), [setupListeners]);
+
+  useEffect(() => {
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    window.addEventListener("mousedown", handleMouseDown, { passive: true });
+    window.addEventListener("mouseup", handleMouseUp, { passive: true });
+    document.addEventListener("mouseenter", handleMouseEnter, { passive: true });
+    document.addEventListener("mouseleave", handleMouseLeave, { passive: true });
+
+    // Initial setup
+    const elements = setupListeners();
+
+    // Use MutationObserver with debouncing for better performance
+    const observer = new MutationObserver(
+      debounce(() => {
+        debouncedSetupListeners();
+      }, 200) // Debounce DOM changes
+    );
+
+    observer.observe(document.body, { 
+      childList: true, 
+      subtree: true,
+      attributes: false, // Don't observe attributes for better performance
+      characterData: false // Don't observe text changes
+    });
 
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
@@ -110,15 +136,17 @@ export function CustomCursor() {
       document.removeEventListener("mouseleave", handleMouseLeave);
       observer.disconnect();
 
-      document.querySelectorAll('a, button, [role="button"], input, textarea, select, [data-cursor="pointer"], .cursor-pointer').forEach((el) => {
-        const element = el as any;
-        if (element._cursorEnterHandler) {
-          element.removeEventListener("mouseenter", element._cursorEnterHandler);
-          element.removeEventListener("mouseleave", element._cursorLeaveHandler);
+      // Cleanup all listeners
+      elementsRef.current.forEach((element) => {
+        const el = element as any;
+        if (el._cursorEnterHandler) {
+          element.removeEventListener("mouseenter", el._cursorEnterHandler);
+          element.removeEventListener("mouseleave", el._cursorLeaveHandler);
         }
       });
+      elementsRef.current.clear();
     };
-  }, [handleMouseMove, handleMouseDown, handleMouseUp, handleMouseEnter, handleMouseLeave]);
+  }, [handleMouseMove, handleMouseDown, handleMouseUp, handleMouseEnter, handleMouseLeave, debouncedSetupListeners]);
 
   // Hide on touch devices
   const [isTouchDevice, setIsTouchDevice] = useState(false);

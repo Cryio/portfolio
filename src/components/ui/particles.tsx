@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 
 interface Particle {
   x: number;
@@ -16,23 +16,47 @@ interface ParticlesProps {
   connectDistance?: number;
 }
 
+// Debounce utility
+const debounce = <T extends (...args: any[]) => any>(
+  func: T,
+  delay: number
+): ((...args: Parameters<T>) => void) => {
+  let timeoutId: NodeJS.Timeout;
+  return (...args: Parameters<T>) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => func(...args), delay);
+  };
+};
+
 export function Particles({
   className = "",
-  quantity = 80,
+  quantity = 50, // Reduced from 80 for better performance
   color = "var(--primary)",
-  connectDistance = 120,
+  connectDistance = 100, // Reduced from 120
 }: ParticlesProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+  const [isVisible, setIsVisible] = useState(true);
   const particlesRef = useRef<Particle[]>([]);
   const mouseRef = useRef({ x: 0, y: 0 });
   const animationRef = useRef<number>();
+  const frameCountRef = useRef(0);
 
+  // Intersection Observer to pause animation when not visible
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const handleResize = () => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
+      },
+      { threshold: 0.1 }
+    );
+
+    observer.observe(canvas);
+
+    const handleResize = debounce(() => {
       const parent = canvas.parentElement;
       if (parent) {
         setDimensions({
@@ -40,12 +64,15 @@ export function Particles({
           height: parent.offsetHeight,
         });
       }
-    };
+    }, 250); // Debounced resize
 
     handleResize();
-    window.addEventListener("resize", handleResize);
+    window.addEventListener("resize", handleResize, { passive: true });
 
-    return () => window.removeEventListener("resize", handleResize);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
 
   useEffect(() => {
@@ -76,12 +103,18 @@ export function Particles({
       };
     };
 
-    canvas.addEventListener("mousemove", handleMouseMove);
+    canvas.addEventListener("mousemove", handleMouseMove, { passive: true });
 
     const animate = () => {
+      if (!isVisible) {
+        animationRef.current = requestAnimationFrame(animate);
+        return;
+      }
+
       ctx.clearRect(0, 0, dimensions.width, dimensions.height);
 
       const particles = particlesRef.current;
+      frameCountRef.current++;
 
       // Update and draw particles
       particles.forEach((particle, i) => {
@@ -103,8 +136,11 @@ export function Particles({
         ctx.fillStyle = `hsl(${color} / ${particle.opacity})`;
         ctx.fill();
 
-        // Connect nearby particles
-        for (let j = i + 1; j < particles.length; j++) {
+        // Optimized connection calculations - limit connections per particle
+        let connectionCount = 0;
+        const maxConnections = 3; // Limit connections for performance
+        
+        for (let j = i + 1; j < particles.length && connectionCount < maxConnections; j++) {
           const other = particles[j];
           const dx = particle.x - other.x;
           const dy = particle.y - other.y;
@@ -118,26 +154,29 @@ export function Particles({
             ctx.strokeStyle = `hsl(${color} / ${opacity})`;
             ctx.lineWidth = 0.5;
             ctx.stroke();
+            connectionCount++;
           }
         }
 
-        // Connect to mouse
-        const dx = particle.x - mouseRef.current.x;
-        const dy = particle.y - mouseRef.current.y;
-        const mouseDistance = Math.sqrt(dx * dx + dy * dy);
+        // Connect to mouse (reduced frequency for performance)
+        if (frameCountRef.current % 2 === 0) { // Only check every other frame
+          const dx = particle.x - mouseRef.current.x;
+          const dy = particle.y - mouseRef.current.y;
+          const mouseDistance = Math.sqrt(dx * dx + dy * dy);
 
-        if (mouseDistance < 150) {
-          const opacity = (1 - mouseDistance / 150) * 0.5;
-          ctx.beginPath();
-          ctx.moveTo(particle.x, particle.y);
-          ctx.lineTo(mouseRef.current.x, mouseRef.current.y);
-          ctx.strokeStyle = `hsl(${color} / ${opacity})`;
-          ctx.lineWidth = 1;
-          ctx.stroke();
+          if (mouseDistance < 120) { // Reduced from 150
+            const opacity = (1 - mouseDistance / 120) * 0.5;
+            ctx.beginPath();
+            ctx.moveTo(particle.x, particle.y);
+            ctx.lineTo(mouseRef.current.x, mouseRef.current.y);
+            ctx.strokeStyle = `hsl(${color} / ${opacity})`;
+            ctx.lineWidth = 1;
+            ctx.stroke();
 
-          // Attract particles slightly toward mouse
-          particle.vx += (mouseRef.current.x - particle.x) * 0.0001;
-          particle.vy += (mouseRef.current.y - particle.y) * 0.0001;
+            // Attract particles slightly toward mouse
+            particle.vx += (mouseRef.current.x - particle.x) * 0.00005; // Reduced attraction
+            particle.vy += (mouseRef.current.y - particle.y) * 0.00005;
+          }
         }
       });
 
@@ -152,7 +191,7 @@ export function Particles({
         cancelAnimationFrame(animationRef.current);
       }
     };
-  }, [dimensions, quantity, color, connectDistance]);
+  }, [dimensions, quantity, color, connectDistance, isVisible]);
 
   return (
     <canvas
