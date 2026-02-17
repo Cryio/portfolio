@@ -5,7 +5,6 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 import { Background } from "@/components/Background";
 import { Navigation } from "@/components/Navigation";
 import { GooeyCursor } from "@/components/GooeyCursor";
-import { Chatbot } from "@/components/Chatbot";
 import { portfolioData } from "@/data/portfolio";
 import Link from "next/link";
 export const dynamic = "force-static";
@@ -189,7 +188,6 @@ export default function RootLayout({
           <main className="min-h-screen">
             {children}
           </main>
-          <Chatbot />
           <footer className="border-t border-border/60 bg-background/80 backdrop-blur">
             <div className="container mx-auto px-4 py-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
               <div>

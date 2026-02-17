@@ -3,8 +3,14 @@
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Button } from "./ui/button";
-import { Award, ExternalLink, Image as ImageIcon, ChevronDown, BookOpen, GraduationCap } from "lucide-react";
+import { Award, ExternalLink, Image as ImageIcon, ChevronDown, BookOpen, GraduationCap, X } from "lucide-react";
 import { Badge } from "./ui/badge";
+
+type ViewableCertificate = {
+  url: string;
+  title: string;
+  isExternal: boolean;
+};
 
 // Import interfaces from types file using type-only imports
 import type { 
@@ -16,10 +22,12 @@ import type {
 // Component prop interfaces
 interface CertificationProps {
   certification: Certification;
+  onViewCertificate?: (url: string, title: string, isExternal: boolean) => void;
 }
 
 interface CertificationPathProps {
   certificationPath: CertificationPath;
+  onViewCertificate?: (url: string, title: string, isExternal: boolean) => void;
 }
 
 interface CertificationsProps {
@@ -29,9 +37,10 @@ interface CertificationsProps {
 }
 
 // Individual Certification Component
-export function Certification({ certification }: CertificationProps) {
+export function Certification({ certification, onViewCertificate }: CertificationProps) {
   const [isExpanded, setIsExpanded] = useState(false);
-  const isMediaFile = certification.credentialUrl?.endsWith('.png') || certification.credentialUrl?.endsWith('.jpg');
+  const isMediaFile = certification.credentialUrl?.endsWith('.png') || certification.credentialUrl?.endsWith('.jpg') || certification.credentialUrl?.endsWith('.pdf');
+  const isExternalUrl = certification.credentialUrl?.startsWith('http');
 
   return (
     <Card 
@@ -84,8 +93,8 @@ export function Certification({ certification }: CertificationProps) {
               )}
               {certification.skills && certification.skills.length > 0 && (
                 <div className="flex flex-wrap gap-2">
-                  {certification.skills.map((skill) => (
-                    <Badge key={skill} className="bg-primary text-primary-foreground">
+{certification.skills.map((skill) => (
+                    <Badge key={skill} variant="outline" className="border-primary/30 text-foreground bg-primary/10">
                       {skill}
                     </Badge>
                   ))}
@@ -97,21 +106,18 @@ export function Certification({ certification }: CertificationProps) {
                 </p>
               )}
             </div>
-            {certification.credentialUrl && (
+{certification.credentialUrl && (
               <div className="flex justify-end mt-4">
                 <Button 
                   variant="ghost" 
                   size="sm" 
-                  asChild
                   className="px-4 py-2 text-xs font-medium text-primary hover:text-primary/90 hover:bg-primary/10 transition-colors"
-                  onClick={(e) => e.stopPropagation()}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onViewCertificate?.(certification.credentialUrl!, certification.title, !!isExternalUrl);
+                  }}
                 >
-                  <a
-                    href={certification.credentialUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-1.5"
-                  >
+                  <span className="flex items-center gap-1.5">
                     {isMediaFile ? (
                       <>
                         <ImageIcon className="h-3.5 w-3.5" />
@@ -123,7 +129,7 @@ export function Certification({ certification }: CertificationProps) {
                         Show Credential
                       </>
                     )}
-                  </a>
+                  </span>
                 </Button>
               </div>
             )}
@@ -135,11 +141,12 @@ export function Certification({ certification }: CertificationProps) {
 }
 
 // Certification Path Component (Expandable Group)
-export function CertificationPath({ certificationPath }: CertificationPathProps) {
+export function CertificationPath({ certificationPath, onViewCertificate }: CertificationPathProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const isPathMediaFile = certificationPath.pathCredentialUrl
     ? /\.(png|jpe?g|gif|webp|pdf)$/i.test(certificationPath.pathCredentialUrl)
     : false;
+  const isExternalPath = certificationPath.pathCredentialUrl?.startsWith('http');
 
   return (
     <Card className="backdrop-blur-sm bg-background/80 hover:bg-background/90 transition-all duration-300 hover:shadow-lg border border-border">
@@ -165,28 +172,25 @@ export function CertificationPath({ certificationPath }: CertificationPathProps)
               </div>
             </div>
           </div>
-          <div className="flex items-center gap-2">
+<div className="flex items-center gap-2">
             {certificationPath.pathCredentialUrl && (
               <Button
                 variant="outline"
                 size="sm"
-                asChild
                 className="gap-1 text-xs sm:text-sm border-border text-foreground hover:bg-muted"
-                onClick={(e) => e.stopPropagation()}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onViewCertificate?.(certificationPath.pathCredentialUrl!, certificationPath.title, !!isExternalPath);
+                }}
               >
-                <a
-                  href={certificationPath.pathCredentialUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-1"
-                >
+                <span className="flex items-center gap-1">
                   {isPathMediaFile ? (
                     <ImageIcon className="h-4 w-4" />
                   ) : (
                     <ExternalLink className="h-4 w-4" />
                   )}
                   View Certification
-                </a>
+                </span>
               </Button>
             )}
             <Button
@@ -240,9 +244,9 @@ export function CertificationPath({ certificationPath }: CertificationPathProps)
                 <p className="text-sm text-muted-foreground mb-4">
                   {certificationPath.description}
                 </p>
-                <div className="flex flex-wrap gap-2 mb-6">
+<div className="flex flex-wrap gap-2 mb-6">
                   {certificationPath.skills.map((skill) => (
-                    <Badge key={skill} variant="secondary" className="text-secondary-foreground">
+                    <Badge key={skill} variant="outline" className="border-primary/30 text-foreground bg-primary/10">
                       {skill}
                     </Badge>
                   ))}
@@ -268,34 +272,32 @@ export function CertificationPath({ certificationPath }: CertificationPathProps)
                         )}
                         {cert.skills && cert.skills.length > 0 && (
                           <div className="flex flex-wrap gap-1 mb-2">
-                            {cert.skills.slice(0, 3).map((skill) => (
-                              <Badge key={skill} variant="outline" className="text-xs px-1 py-0 border-border text-muted-foreground">
+{cert.skills.slice(0, 3).map((skill) => (
+                              <Badge key={skill} variant="outline" className="text-xs px-1 py-0 border-primary/30 text-foreground bg-primary/10">
                                 {skill}
                               </Badge>
                             ))}
                             {cert.skills.length > 3 && (
-                              <Badge variant="outline" className="text-xs px-1 py-0 border-border text-muted-foreground">
+                              <Badge variant="outline" className="text-xs px-1 py-0 border-primary/30 text-foreground bg-primary/10">
                                 +{cert.skills.length - 3}
                               </Badge>
                             )}
                           </div>
                         )}
-                        {cert.credentialUrl && (
+{cert.credentialUrl && (
                           <Button 
                             variant="ghost" 
                             size="sm" 
-                            asChild
                             className="h-6 px-2 text-xs hover:bg-muted text-primary"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              onViewCertificate?.(cert.credentialUrl!, cert.title, cert.credentialUrl!.startsWith('http'));
+                            }}
                           >
-                            <a
-                              href={cert.credentialUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="flex items-center gap-1"
-                            >
+                            <span className="flex items-center gap-1">
                               <ExternalLink className="h-3 w-3" />
                               View
-                            </a>
+                            </span>
                           </Button>
                         )}
                       </div>
@@ -312,7 +314,13 @@ export function CertificationPath({ certificationPath }: CertificationPathProps)
 }
 
 // Section Component for Individual Certs and Achievements
-export function CertificationSection({ title, certifications }: { title: string; certifications: (Certification | Achievement)[] }) {
+interface CertificationSectionProps {
+  title: string;
+  certifications: (Certification | Achievement)[];
+  onViewCertificate?: (url: string, title: string, isExternal: boolean) => void;
+}
+
+export function CertificationSection({ title, certifications, onViewCertificate }: CertificationSectionProps) {
   return (
     <div className="mb-12">
       <h2 className="text-2xl font-bold text-foreground mb-6">
@@ -320,7 +328,7 @@ export function CertificationSection({ title, certifications }: { title: string;
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {certifications.map((cert) => (
-          <Certification key={cert.title} certification={cert} />
+          <Certification key={cert.title} certification={cert} onViewCertificate={onViewCertificate} />
         ))}
       </div>
     </div>
@@ -333,8 +341,55 @@ export function Certifications({
   individualCertifications = [],
   achievements = []
 }: CertificationsProps) {
+  const [viewingCertificate, setViewingCertificate] = useState<ViewableCertificate | null>(null);
+
+  const handleViewCertificate = (url: string, title: string, isExternal: boolean) => {
+    setViewingCertificate({ url, title, isExternal });
+  };
+
+  const handleCloseViewer = () => {
+    setViewingCertificate(null);
+  };
+
   return (
     <div className="space-y-12">
+      {/* Certificate Viewer Overlay */}
+      {viewingCertificate && (
+        <div 
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-background/95 backdrop-blur-sm"
+          onClick={handleCloseViewer}
+        >
+          <div className="relative w-full max-w-4xl max-h-[90vh] overflow-auto bg-background rounded-lg shadow-2xl border border-border">
+            <div className="sticky top-0 flex items-center justify-between p-4 border-b border-border bg-background/80 backdrop-blur z-10">
+              <h3 className="text-lg font-semibold text-foreground">{viewingCertificate.title}</h3>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={handleCloseViewer}
+                className="text-foreground hover:bg-muted"
+              >
+                <X className="h-5 w-5" />
+              </Button>
+            </div>
+            <div className="p-4">
+              {viewingCertificate.isExternal ? (
+                <iframe
+                  src={viewingCertificate.url}
+                  className="w-full h-[70vh] rounded border-0"
+                  title={viewingCertificate.title}
+                />
+              ) : (
+                <img
+                  src={viewingCertificate.url}
+                  alt={viewingCertificate.title}
+                  className="w-full h-auto rounded"
+                />
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Certification Paths Section */}
       {certificationPaths.length > 0 && (
         <div className="mb-12">
@@ -344,7 +399,7 @@ export function Certifications({
           </h2>
           <div className="space-y-6">
             {certificationPaths.map((path) => (
-              <CertificationPath key={path.title} certificationPath={path} />
+              <CertificationPath key={path.title} certificationPath={path} onViewCertificate={handleViewCertificate} />
             ))}
           </div>
         </div>
@@ -354,7 +409,8 @@ export function Certifications({
       {individualCertifications.length > 0 && (
         <CertificationSection 
           title="Individual Certifications" 
-          certifications={individualCertifications} 
+          certifications={individualCertifications}
+          onViewCertificate={handleViewCertificate}
         />
       )}
 
@@ -362,7 +418,8 @@ export function Certifications({
       {achievements.length > 0 && (
         <CertificationSection 
           title="Achievements & Recognition" 
-          certifications={achievements} 
+          certifications={achievements}
+          onViewCertificate={handleViewCertificate}
         />
       )}
     </div>
