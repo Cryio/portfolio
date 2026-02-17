@@ -274,14 +274,14 @@ experiences: [
           date: "Apr 2025", 
           description: "Comprehensive understanding of network devices and protocols, data flow analysis, device configuration, and network troubleshooting.",
           skills: ["Network protocols", "Network devices", "Data flow analysis", "Network troubleshooting"],
-          credentialUrl: "/certificates/certificate_networking_basics.jpg"
+          credentialUrl: "/certificates/Networking Basics.jpg"
         },
         {
           title: "Networking Devices and Initial Configuration",
           date: "Apr 2025",
           description: "Mastery in cloud and virtualization benefits, IP addressing schemes, Cisco device configuration, connectivity testing, and Cisco Packet Tracer proficiency.",
           skills: ["Cisco device configuration", "IP addressing", "Cisco Packet Tracer", "Network connectivity"],
-          credentialUrl: "/certificates/certificate_networking_device_and_initial_conf.jpg"
+          credentialUrl: "/certificates/Networking Device and Initial Conf.jpg"
         }
       ]
     },
@@ -422,26 +422,41 @@ experiences: [
           title: "Differences in Deployments of Industrial Control Systems (210W-01)",
           date: "2024",
           skills: ["ICS deployment models", "Industrial network architecture", "Control system design", "System integration"],
-          credentialUrl: "/certificates/210W-01 1 of 1.png"
+          credentialUrl: "/certificates/210W-01.png"
         },
         {
           title: "Influence of IT Components on Industrial Control Systems (210W-02)",
           date: "2024",
           skills: ["IT/OT convergence", "Industrial cybersecurity", "Network segmentation", "Risk assessment"],
-          credentialUrl: "/certificates/210W-02 1 of 1.png"
+          credentialUrl: "/certificates/210W-02.png"
         },
         {
           title: "Common ICS Components (210W-03)",
           date: "2024",
           skills: ["SCADA systems", "PLC programming", "HMI design", "Industrial protocols"],
-          credentialUrl: "/certificates/210W-03 1 of 1.png"
+          credentialUrl: "/certificates/210W-03.png"
         }
       ]
     }
   ],
 
-  // Individual/Standalone Certifications
+// Individual/Standalone Certifications
   individualCertifications: [
+    {
+      title: "Red Team Leaders - Certified Cybersecurity Educator Professional (CCEP)",
+      issuer: "Cyber Warfare Labs",
+      date: "2025",
+      description: "Certified Cybersecurity Educator Professional (CCEP) demonstrating expertise in red team leadership and cybersecurity education.",
+      skills: [
+        "Red Team Leadership",
+        "Cybersecurity Education",
+        "Threat Simulation",
+        "Security Training",
+        "Advanced Penetration Testing",
+        "Security Awareness"
+      ],
+      credentialUrl: "/certificates/Red Team Leaders - Certified Cybersecurity Educator Professional (CCEP).png"
+    },
     {
       title: "Multi-Cloud Red Team Analyst (MCRTA)",
       issuer: "Cyber Warfare Labs",
@@ -472,7 +487,7 @@ experiences: [
       date: "July 22, 2025",
       description: "Successfully completed the Cato Certified Associate (CCA) course, demonstrating foundational knowledge in secure network architecture, cloud security, and the Cato SASE platform.",
       skills: ["Secure network architecture", "Cloud security", "SASE platform", "Network fundamentals"],
-      credentialUrl: "/certificates/certificate-cato.png"
+      credentialUrl: "/certificates/Cato.png"
     },
     {
       title: "Machine Learning",
@@ -502,8 +517,16 @@ experiences: [
     }
   ],
 
-  // Achievement & Recognition Certificates
+// Achievement & Recognition Certificates
   achievements: [
+    {
+      title: "ComsNets 2026",
+      issuer: "ComsNets Conference",
+      date: "2026",
+      description: "Participation and recognition at ComsNets 2026 conference.",
+      skills: ["Networking research", "Conference participation", "Academic excellence", "Technology innovation"],
+      credentialUrl: "/certificates/ComsNets 2026.png"
+    },
     {
       title: "Design Core",
       issuer: "TEDxNIITUniversity",
