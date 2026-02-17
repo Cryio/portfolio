@@ -3,8 +3,9 @@
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Button } from "./ui/button";
-import { Award, ExternalLink, Image as ImageIcon, ChevronDown, BookOpen, GraduationCap, X } from "lucide-react";
+import { Award, ExternalLink, Image as ImageIcon, ChevronDown, BookOpen, GraduationCap } from "lucide-react";
 import { Badge } from "./ui/badge";
+import { CertificateViewer } from "./CertificateViewer";
 
 type ViewableCertificate = {
   url: string;
@@ -353,41 +354,14 @@ export function Certifications({
 
   return (
     <div className="space-y-12">
-      {/* Certificate Viewer Overlay */}
+      {/* Certificate Viewer Modal */}
       {viewingCertificate && (
-        <div 
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-background/95 backdrop-blur-sm"
-          onClick={handleCloseViewer}
-        >
-          <div className="relative w-full max-w-4xl max-h-[90vh] overflow-auto bg-background rounded-lg shadow-2xl border border-border">
-            <div className="sticky top-0 flex items-center justify-between p-4 border-b border-border bg-background/80 backdrop-blur z-10">
-              <h3 className="text-lg font-semibold text-foreground">{viewingCertificate.title}</h3>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={handleCloseViewer}
-                className="text-foreground hover:bg-muted"
-              >
-                <X className="h-5 w-5" />
-              </Button>
-            </div>
-            <div className="p-4">
-              {viewingCertificate.isExternal ? (
-                <iframe
-                  src={viewingCertificate.url}
-                  className="w-full h-[70vh] rounded border-0"
-                  title={viewingCertificate.title}
-                />
-              ) : (
-                <img
-                  src={viewingCertificate.url}
-                  alt={viewingCertificate.title}
-                  className="w-full h-auto rounded"
-                />
-              )}
-            </div>
-          </div>
-        </div>
+        <CertificateViewer
+          url={viewingCertificate.url}
+          title={viewingCertificate.title}
+          isExternal={viewingCertificate.isExternal}
+          onClose={handleCloseViewer}
+        />
       )}
 
       {/* Certification Paths Section */}
