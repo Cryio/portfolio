@@ -179,6 +179,17 @@ export default function RootLayout({
             }),
           }}
         />
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-9J8X8NP5YX"></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-9J8X8NP5YX');
+            `,
+          }}
+        />
       </head>
       <body className={`${inter.className} antialiased text-foreground bg-background`}>
         <ThemeProvider defaultTheme="dark" storageKey="portfolio-theme">
