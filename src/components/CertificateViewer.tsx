@@ -42,14 +42,14 @@ export function CertificateViewer({ url, title, isExternal, onClose }: Certifica
       <div className="absolute inset-0 bg-black/90 backdrop-blur-lg" />
       
       {/* Modal Container */}
-      <div className="relative h-full w-full flex items-center justify-center p-6 sm:p-8 lg:p-12">
+      <div className="relative h-full w-full flex items-center justify-center p-4 sm:p-6 lg:p-8">
         <div 
-          className="relative bg-card/95 backdrop-blur-xl border-4 border-primary/20 rounded-2xl shadow-[0_0_80px_rgba(0,0,0,0.7)] w-full max-w-6xl max-h-[85vh] flex flex-col animate-in zoom-in-95 duration-300 overflow-hidden ring-1 ring-border"
+          className="relative bg-card/95 backdrop-blur-xl border-4 border-primary/20 rounded-2xl shadow-[0_0_80px_rgba(0,0,0,0.7)] w-full max-w-7xl max-h-[92vh] flex flex-col animate-in zoom-in-95 duration-300 overflow-hidden ring-1 ring-border"
           style={{ boxShadow: '0 0 80px rgba(0,0,0,0.7), inset 0 0 40px rgba(255,255,255,0.03)' }}
           onClick={(e) => e.stopPropagation()}
         >
           {/* Header */}
-          <div className="flex items-center justify-between gap-4 px-6 py-4 border-b-2 border-primary/30 bg-gradient-to-r from-card via-card/95 to-card shrink-0">
+          <div className="flex items-center justify-between gap-4 px-4 py-3 border-b-2 border-primary/30 bg-gradient-to-r from-card via-card/95 to-card shrink-0">
             <h2 className="text-lg sm:text-xl font-bold text-foreground line-clamp-1 drop-shadow-sm">
               {title}
             </h2>
@@ -65,8 +65,8 @@ export function CertificateViewer({ url, title, isExternal, onClose }: Certifica
           </div>
           
           {/* Content */}
-          <div className="flex-1 min-h-0 p-6 bg-gradient-to-br from-muted/30 via-muted/20 to-muted/30 overflow-hidden">
-            <div className="h-full w-full flex items-center justify-center border-2 border-border/40 rounded-xl bg-background/80 backdrop-blur-sm p-4 shadow-inner overflow-hidden">
+          <div className="flex-1 min-h-0 p-3 sm:p-4 bg-gradient-to-br from-muted/30 via-muted/20 to-muted/30 overflow-hidden">
+            <div className="h-full w-full flex items-center justify-center border-2 border-border/40 rounded-xl bg-background/80 backdrop-blur-sm p-2 sm:p-3 shadow-inner overflow-hidden">
               {isExternal ? (
                 <iframe
                   src={url}
@@ -78,7 +78,7 @@ export function CertificateViewer({ url, title, isExternal, onClose }: Certifica
                 <img
                   src={url}
                   alt={title}
-                  className="w-full h-full object-contain rounded-lg shadow-2xl"
+                  className="max-w-full max-h-full object-contain rounded-lg shadow-2xl"
                   style={{ filter: 'drop-shadow(0 10px 30px rgba(0,0,0,0.3))' }}
                 />
               )}
