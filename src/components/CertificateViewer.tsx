@@ -65,8 +65,8 @@ export function CertificateViewer({ url, title, isExternal, onClose }: Certifica
           </div>
           
           {/* Content */}
-          <div className="flex-1 min-h-0 p-6 bg-gradient-to-br from-muted/30 via-muted/20 to-muted/30">
-            <div className="h-full w-full flex items-center justify-center border-2 border-border/40 rounded-xl bg-background/80 backdrop-blur-sm p-4 shadow-inner">
+          <div className="flex-1 min-h-0 p-6 bg-gradient-to-br from-muted/30 via-muted/20 to-muted/30 overflow-hidden">
+            <div className="h-full w-full flex items-center justify-center border-2 border-border/40 rounded-xl bg-background/80 backdrop-blur-sm p-4 shadow-inner overflow-hidden">
               {isExternal ? (
                 <iframe
                   src={url}
@@ -78,7 +78,7 @@ export function CertificateViewer({ url, title, isExternal, onClose }: Certifica
                 <img
                   src={url}
                   alt={title}
-                  className="max-w-full max-h-full object-contain rounded-lg shadow-2xl"
+                  className="w-full h-full object-contain rounded-lg shadow-2xl"
                   style={{ filter: 'drop-shadow(0 10px 30px rgba(0,0,0,0.3))' }}
                 />
               )}
