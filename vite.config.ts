@@ -33,49 +33,24 @@ export default defineConfig(({ mode }) => ({
     rollupOptions: {
       output: {
         manualChunks(id) {
-          // Vendor libraries
           if (id.includes('node_modules')) {
-            if (id.includes('react') || id.includes('react-dom') || id.includes('react-router-dom') || id.includes('scheduler') || id.includes('loose-envify')) {
-              return 'vendor-react';
-            }
-            if (id.includes('framer-motion')) {
-              return 'vendor-animations';
-            }
+            // three.js is huge and has no React deps — safe to isolate
             if (id.includes('three') || id.includes('@react-three')) {
               return 'vendor-three';
             }
-            if (id.includes('lucide-react') || id.includes('@radix-ui')) {
-              return 'vendor-ui';
-            }
+            // Everything else in one chunk — avoids circular inter-chunk deps
+            // (react-router → @remix-run/router, loose-envify → js-tokens, etc.)
             return 'vendor';
           }
-          
-          // Game components
-          if (id.includes('crossy-road')) {
-            return 'game-crossy';
-          }
-          if (id.includes('flappy-bird')) {
-            return 'game-flappy';
-          }
-          if (id.includes('chess')) {
-            return 'game-chess';
-          }
-          if (id.includes('memory-card')) {
-            return 'game-memory';
-          }
-          if (id.includes('tictactoe')) {
-            return 'game-tictactoe';
-          }
-          
-          // UI components
-          if (id.includes('components/ui')) {
-            return 'ui-components';
-          }
-          
-          // Large assets
-          if (id.includes('assets')) {
-            return 'assets';
-          }
+
+          if (id.includes('crossy-road')) return 'game-crossy';
+          if (id.includes('flappy-bird')) return 'game-flappy';
+          if (id.includes('chess')) return 'game-chess';
+          if (id.includes('memory-card')) return 'game-memory';
+          if (id.includes('tictactoe')) return 'game-tictactoe';
+
+          if (id.includes('components/ui')) return 'ui-components';
+          if (id.includes('assets')) return 'assets';
         }
       }
     },
