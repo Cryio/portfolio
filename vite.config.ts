@@ -87,9 +87,6 @@ export default defineConfig(({ mode }) => ({
       compress: {
         drop_console: true,
         drop_debugger: true
-      },
-      mangle: {
-        toplevel: true
       }
     }
   },
