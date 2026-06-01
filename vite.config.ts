@@ -35,7 +35,7 @@ export default defineConfig(({ mode }) => ({
         manualChunks(id) {
           // Vendor libraries
           if (id.includes('node_modules')) {
-            if (id.includes('react') || id.includes('react-dom') || id.includes('react-router-dom')) {
+            if (id.includes('react') || id.includes('react-dom') || id.includes('react-router-dom') || id.includes('scheduler') || id.includes('loose-envify')) {
               return 'vendor-react';
             }
             if (id.includes('framer-motion')) {
