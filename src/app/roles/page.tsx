@@ -36,20 +36,63 @@ export default function RoleAndResponsibilities() {
             ]}
           />
           <Timeline.Item
-            header="Technology Intern – Cyber Security"
-            badge="July 2025 – Present"
-            subheader="Fluidech IT Services Private Limited"
-            location="Gurgaon, Haryana"
+            header="Platform Engineer"
+            badge="June 2026 – Present"
+            subheader="Xcaliber Health"
+            location="Bangalore, Karnataka"
             description={[
-              "Undertaking internship focused on core cyber security operations, risk assessment, and secure software practices as part of Fluidech."
+              "Converted from intern to full-time Platform Engineer on the core data platform team",
+              "Design and operate change-data-capture and data-sync pipelines (Kafka, Debezium, Ray, Temporal) powering analytics at scale",
+              "Build and harden platform capabilities — data catalog, lineage, and distributed data-quality validation",
+              "Drive reliability, security, and observability across workflow orchestration and infrastructure"
             ]}
             skills={[
-              "Cybersecurity",
-              "OT Security",
+              "Kafka",
+              "Debezium",
+              "Ray",
+              "Temporal",
+              "Daft",
+              "Iceberg",
+              "Platform Engineering"
+            ]}
+          />
+          <Timeline.Item
+            header="Engineering Intern"
+            badge="March 2026 – June 2026"
+            subheader="Xcaliber Health"
+            location="Bangalore, Karnataka"
+            description={[
+              "Developed scalable CDC and Data Sync pipelines using Kafka, Debezium, Ray, and Temporal",
+              "Built Data Catalog, Lineage, and Analytics platform features for enterprise users",
+              "Implemented distributed Data Quality validation using Daft and Ray",
+              "Enhanced platform reliability, security, and observability through workflow and infrastructure improvements"
+            ]}
+            skills={[
+              "Kafka",
+              "Debezium",
+              "Ray",
+              "Temporal",
+              "Daft",
+              "Data Engineering"
+            ]}
+          />
+          <Timeline.Item
+            header="CyberSecurity Intern"
+            badge="July 2025 – March 2026"
+            subheader="Fluidech IT Services"
+            location="Gurugram, Haryana"
+            description={[
+              "Assisted in monitoring security alerts and logs from endpoints to identify suspicious activities",
+              "Performed VAPT activities using industry-standard tools and manual testing",
+              "Gained hands-on exposure to SIEM dashboards and Case Management solutions",
+              "Integrated external threat intelligence feeds into security workflows to enhance detection and prioritization"
+            ]}
+            skills={[
+              "VAPT",
+              "SIEM",
               "Threat Intelligence",
-              "Vulnerability Assessment",
-              "Reverse Engineering",
-              "Incident Response"
+              "Incident Response",
+              "Security Operations"
             ]}
           />
           <Timeline.Item
@@ -91,12 +134,13 @@ export default function RoleAndResponsibilities() {
           
           <Timeline.Item
             header="Junior Web Designer"
-            badge="2023"
-            subheader="Maa Karma Global Engineering LLP"
+            badge="Apr – Sep 2023"
+            subheader="Maa Karmaa Global Engineering LLP"
+            location="Kalyan, Maharashtra"
             description={[
-              "Designed and developed web interfaces in a remote internship",
-              "Created responsive and user-friendly website layouts",
-              "Implemented modern UI/UX principles in design solutions"
+              "Designed and developed web pages using HTML/CSS, improving UI/UX consistency",
+              "Created engaging graphic designs to enhance visual communication",
+              "Collaborated with cross-functional teams to implement responsive design solutions"
             ]}
             skills={[
               "Web Development",
