@@ -11,7 +11,7 @@ export const seoConfig = {
   author: {
     name: "Srachet Rai",
     email: "srachetrai@gmail.com",
-    bio: "Cybersecurity Specialist & Web Developer",
+    bio: "Platform Engineer & Cybersecurity Professional",
   },
 
   // Social Media
@@ -25,8 +25,8 @@ export const seoConfig = {
       handle: "srachetrai",
     },
     github: {
-      url: "https://github.com/srachetrai",
-      handle: "srachetrai",
+      url: "https://github.com/Cryio",
+      handle: "Cryio",
     },
   },
 
@@ -106,12 +106,12 @@ export const seoConfig = {
       name: "Srachet Rai",
       url: "https://srachetrai.dev",
       image: "https://srachetrai.dev/og-image-square.png",
-      description: "Cybersecurity Specialist & Web Developer",
-      jobTitle: "Cybersecurity Enthusiast & BTech CSE",
+      description: "Platform Engineer & Cybersecurity Professional",
+      jobTitle: "Platform Engineer & Cybersecurity Professional",
       email: "srachetrai@gmail.com",
       sameAs: [
         "https://www.linkedin.com/in/srachetrai",
-        "https://github.com/srachetrai",
+        "https://github.com/Cryio",
         "https://twitter.com/srachetrai",
       ],
       knowsAbout: [

@@ -3,22 +3,23 @@ import { technologyLogos } from "./technologies";
 export const portfolioData = {
   // Basic Information
   name: "Srachet Rai",
-  title: "Cybersecurity Enthusiast & BTech CSE",
-  
+  title: "Platform Engineer & Cybersecurity Professional",
+
   // Descriptions
-  description: "A passionate cybersecurity enthusiast and creative designer with a strong foundation in computer science. Experienced in penetration testing, vulnerability assessment, and secure coding practices.",
-  
+  description: "Aspiring cyber security professional with a strong foundation in vulnerability and security assessment, networking, web development, and machine learning. Passionate about innovation, digital security, and problem-solving in the evolving tech landscape.",
+
   aboutDescription: `
-    I am a Cybersecurity Enthusiast with a solid foundation in web development and ethical hacking. 
-    As a Computer Science student, I am dedicated to securing digital infrastructures and addressing 
-    emerging cyber threats.
+    I'm an aspiring cyber security professional with a strong foundation in vulnerability and security
+    assessment, networking, web development, and machine learning. As a Computer Science student, I'm
+    dedicated to securing digital infrastructures and addressing emerging cyber threats.
 
-    I have contributed to impactful projects—including developing a mobile application that tackles 
-    real-world health challenges—and earned certifications in Ethical Hacking and Machine Learning. 
-    My goal is to deliver innovative, practical solutions that blend creativity with technical expertise.
+    I've contributed to impactful work—from a research paper accepted at ComsNets 2026 on WiFi-CSI based
+    activity recognition, to VAPT engagements during my cybersecurity internship, and data engineering
+    pipelines as a Platform Engineer at Xcaliber Health. I've earned certifications spanning Palo Alto
+    Networks, Cisco, CISA, and Google Cloud.
 
-    In my leadership roles with the Google Developers Student Club and TEDxNIITUniversity, I drive 
-    innovation and leverage my animation skills to craft immersive user experiences.
+    Outside of security, I bring leadership and creative design experience from TEDxNIITUniversity and
+    the NIIT Foundation, blending technical expertise with a passion for 2D/3D digital art and game development.
   `,
 
 
@@ -84,28 +85,54 @@ technologies: [
 // Professional Experience
 experiences: [
   {
-    title: "Technology Intern – Cyber Security",
-    company: "Fluidech IT Services Private Limited",
-    location: "Gurgaon, Haryana",
-    period: "July 2025 – Present",
+    title: "Platform Engineer",
+    company: "Xcaliber Health",
+    location: "Bangalore, Karnataka",
+    period: "June 2026 – Present",
     description: [
-      "Undertaking internship focused on core cyber security operations, risk assessment, and secure software practices as part of Fluidech",
-      "Working on threat intelligence and security operations",
-      "Participating in vulnerability assessment and incident response activities",
-      "Gaining hands-on experience in OT security and reverse engineering techniques"
+      "Converted from intern to full-time Platform Engineer on the core data platform team",
+      "Design and operate change-data-capture and data-sync pipelines (Kafka, Debezium, Ray, Temporal) powering analytics at scale",
+      "Build and harden platform capabilities — data catalog, lineage, and distributed data-quality validation",
+      "Drive reliability, security, and observability across workflow orchestration and infrastructure"
     ],
-    technologies: ["Cybersecurity", "OT Security", "Threat Intelligence", "Vulnerability Assessment", "Reverse Engineering", "Incident Response"]
+    technologies: ["Kafka", "Debezium", "Ray", "Temporal", "Daft", "Iceberg", "Platform Engineering"]
+  },
+  {
+    title: "Engineering Intern",
+    company: "Xcaliber Health",
+    location: "Bangalore, Karnataka",
+    period: "March 2026 – June 2026",
+    description: [
+      "Developed scalable CDC and Data Sync pipelines using Kafka, Debezium, Ray, and Temporal",
+      "Built Data Catalog, Lineage, and Analytics platform features for enterprise users",
+      "Implemented distributed Data Quality validation using Daft and Ray",
+      "Enhanced platform reliability, security, and observability through workflow and infrastructure improvements"
+    ],
+    technologies: ["Kafka", "Debezium", "Ray", "Temporal", "Daft", "Data Engineering"]
+  },
+  {
+    title: "CyberSecurity Intern",
+    company: "Fluidech IT Services",
+    location: "Gurugram, Haryana",
+    period: "July 2025 – March 2026",
+    description: [
+      "Assisted in monitoring security alerts and logs from endpoints to identify suspicious activities",
+      "Performed VAPT activities using industry-standard tools and manual testing",
+      "Gained hands-on exposure to SIEM dashboards and Case Management solutions",
+      "Integrated external threat intelligence feeds into security workflows to enhance detection and prioritization"
+    ],
+    technologies: ["VAPT", "SIEM", "Threat Intelligence", "Incident Response", "Security Operations"]
   },
   {
     title: "Junior Web Designer",
-    company: "Maa Karma Global Engineering LLP",
-    location: "Remote",
-    period: "2023",
+    company: "Maa Karmaa Global Engineering LLP",
+    location: "Kalyan, Maharashtra",
+    period: "Apr 2023 – Sep 2023",
     description: [
-      "Designed and developed web interfaces in a remote internship",
-      "Created responsive and user-friendly website layouts",
-      "Implemented modern UI/UX principles in design solutions",
-      "Developed responsive and accessible web solutions"
+      "Designed and developed web pages using HTML/CSS, improving UI/UX consistency",
+      "Created engaging graphic designs to enhance visual communication",
+      "Collaborated with cross-functional teams to implement responsive design solutions",
+      "Developed multiple landing pages and marketing materials"
     ],
     technologies: ["Web Development", "Frontend Design", "CSS", "UI/UX", "Graphic Design", "User-Centered Design"]
   },

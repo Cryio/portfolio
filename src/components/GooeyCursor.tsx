@@ -1,171 +1,75 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
+import { motion, useMotionValue, useSpring } from "framer-motion";
 
-const TAIL_LENGTH = 40;
-const CURSOR_SIZE = 42;
-
+// A lightweight, spring-eased cursor: a snappy dot plus a softer ring that
+// lags slightly behind for a smooth trailing feel. Uses mix-blend-difference
+// so it stays visible over any background in both themes.
 export function GooeyCursor() {
   const [isVisible, setIsVisible] = useState(false);
-  const cursorRef = useRef<HTMLDivElement>(null);
-  const animationFrameRef = useRef<number | undefined>(undefined);
-  const mousePosition = useRef({ x: 0, y: 0 });
-  const cursorHistory = useRef<Array<{ x: number; y: number }>>(
-    Array.from({ length: TAIL_LENGTH }, () => ({ x: 0, y: 0 }))
-  );
-  const cursorCirclesRef = useRef<HTMLDivElement[]>([]);
+  const [isClicking, setIsClicking] = useState(false);
+
+  const x = useMotionValue(-100);
+  const y = useMotionValue(-100);
+
+  // Dot tracks tightly; ring follows with a softer spring (the lag = the trail).
+  const dotX = useSpring(x, { stiffness: 500, damping: 35, mass: 0.4 });
+  const dotY = useSpring(y, { stiffness: 500, damping: 35, mass: 0.4 });
+  const ringX = useSpring(x, { stiffness: 170, damping: 22, mass: 0.6 });
+  const ringY = useSpring(y, { stiffness: 170, damping: 22, mass: 0.6 });
 
   useEffect(() => {
-    // Only show on non-touch devices
     const isTouchDevice = "ontouchstart" in window || navigator.maxTouchPoints > 0;
     if (isTouchDevice) return;
 
     setIsVisible(true);
 
-    // Hide default cursor
     const style = document.createElement("style");
-    style.textContent = `
-      * {
-        cursor: none !important;
-      }
-      a, button, [role="button"], input, textarea, select {
-        cursor: none !important;
-      }
-    `;
+    style.textContent = `* { cursor: none !important; }`;
     document.head.appendChild(style);
 
-    // Initialize cursor circles - use setTimeout to ensure DOM is ready
-    const initCircles = () => {
-      if (!cursorRef.current) {
-        setTimeout(initCircles, 10);
-        return;
-      }
-
-      if (cursorCirclesRef.current.length === 0) {
-        for (let i = 0; i < TAIL_LENGTH; i++) {
-          const div = document.createElement("div");
-          div.className = "cursor-circle";
-          div.style.cssText = `
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: ${CURSOR_SIZE}px;
-            height: ${CURSOR_SIZE}px;
-            border-radius: ${CURSOR_SIZE}px;
-            background: white;
-            transform-origin: center center;
-            will-change: transform;
-            pointer-events: none;
-          `;
-          cursorRef.current.appendChild(div);
-          cursorCirclesRef.current.push(div);
-        }
-      }
+    const handleMove = (e: MouseEvent) => {
+      x.set(e.clientX);
+      y.set(e.clientY);
     };
+    const handleDown = () => setIsClicking(true);
+    const handleUp = () => setIsClicking(false);
 
-    // Initialize after a short delay to ensure ref is ready
-    setTimeout(initCircles, 50);
-
-    const handleMouseMove = (e: MouseEvent) => {
-      mousePosition.current = { x: e.clientX, y: e.clientY };
-    };
-
-    const handleClick = () => {
-      // Add random displacement on click for effect
-      for (let i = 0; i < TAIL_LENGTH; i++) {
-        cursorHistory.current[i] = {
-          x: cursorHistory.current[i].x + (Math.random() * 100 - 50),
-          y: cursorHistory.current[i].y + (Math.random() * 100 - 50),
-        };
-      }
-    };
-
-    const updateCursor = () => {
-      // Only update if circles are initialized
-      if (cursorCirclesRef.current.length === 0) {
-        animationFrameRef.current = requestAnimationFrame(updateCursor);
-        return;
-      }
-
-      // Shift history and add new mouse position
-      cursorHistory.current.shift();
-      cursorHistory.current.push({ x: mousePosition.current.x, y: mousePosition.current.y });
-
-      // Update each circle position
-      for (let i = 0; i < TAIL_LENGTH; i++) {
-        const current = cursorHistory.current[i];
-        const next = cursorHistory.current[i + 1] || cursorHistory.current[TAIL_LENGTH - 1];
-
-        const xDiff = next.x - current.x;
-        const yDiff = next.y - current.y;
-
-        cursorHistory.current[i] = {
-          x: current.x + xDiff * 0.35,
-          y: current.y + yDiff * 0.35,
-        };
-
-        // Scale from 0.2 to 1.0 to ensure visibility (avoid scale(0))
-        const scale = Math.max(0.2, 0.2 + (i / TAIL_LENGTH) * 0.8);
-        const circle = cursorCirclesRef.current[i];
-        if (circle) {
-          circle.style.transform = `translate(${cursorHistory.current[i].x}px, ${cursorHistory.current[i].y}px) scale(${scale})`;
-        }
-      }
-
-      animationFrameRef.current = requestAnimationFrame(updateCursor);
-    };
-
-    window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("click", handleClick);
-    animationFrameRef.current = requestAnimationFrame(updateCursor);
+    window.addEventListener("mousemove", handleMove, { passive: true });
+    window.addEventListener("mousedown", handleDown, { passive: true });
+    window.addEventListener("mouseup", handleUp, { passive: true });
 
     return () => {
-      if (style.parentNode) {
-        document.head.removeChild(style);
-      }
-      window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("click", handleClick);
-      if (animationFrameRef.current) {
-        cancelAnimationFrame(animationFrameRef.current);
-      }
-      // Clean up circles
-      const cursorElement = cursorRef.current;
-      if (cursorElement) {
-        cursorElement.innerHTML = "";
-      }
-      cursorCirclesRef.current = [];
+      if (style.parentNode) document.head.removeChild(style);
+      window.removeEventListener("mousemove", handleMove);
+      window.removeEventListener("mousedown", handleDown);
+      window.removeEventListener("mouseup", handleUp);
     };
-  }, []);
+  }, [x, y]);
 
   if (!isVisible) return null;
 
   return (
-    <>
-      <svg className="absolute w-0 h-0" style={{ position: "fixed" }}>
-        <defs>
-          <filter id="goo" x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
-            <feColorMatrix
-              in="blur"
-              mode="matrix"
-              values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9"
-              result="goo"
-            />
-            <feComposite in="SourceGraphic" in2="goo" operator="atop" />
-          </filter>
-        </defs>
-      </svg>
-      <div
-        ref={cursorRef}
-        id="cursor"
-        className="fixed pointer-events-none z-[9999]"
-        style={{
-          top: `calc(${CURSOR_SIZE}px * -0.5)`,
-          left: `calc(${CURSOR_SIZE}px * -0.5)`,
-          mixBlendMode: "difference",
-          filter: "url(#goo)",
-        }}
+    <div
+      className="pointer-events-none fixed inset-0 z-[9999]"
+      style={{ mixBlendMode: "difference" }}
+      aria-hidden
+    >
+      {/* Trailing ring */}
+      <motion.div
+        className="absolute rounded-full border-2 border-white"
+        style={{ x: ringX, y: ringY, width: 36, height: 36, marginLeft: -18, marginTop: -18 }}
+        animate={{ scale: isClicking ? 1.35 : 1, opacity: isClicking ? 0.8 : 0.6 }}
+        transition={{ duration: 0.2, ease: "easeOut" }}
       />
-    </>
+      {/* Center dot */}
+      <motion.div
+        className="absolute rounded-full bg-white"
+        style={{ x: dotX, y: dotY, width: 8, height: 8, marginLeft: -4, marginTop: -4 }}
+        animate={{ scale: isClicking ? 0.6 : 1 }}
+        transition={{ duration: 0.15, ease: "easeOut" }}
+      />
+    </div>
   );
 }
