@@ -1,18 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 
-// Debounce utility function
-const debounce = <T extends (...args: any[]) => any>(
-  func: T,
-  delay: number
-): ((...args: Parameters<T>) => void) => {
-  let timeoutId: NodeJS.Timeout;
-  return (...args: Parameters<T>) => {
-    clearTimeout(timeoutId);
-    timeoutId = setTimeout(() => func(...args), delay);
-  };
-};
-
 export function CustomCursor() {
   const [isHovering, setIsHovering] = useState(false);
   const [isClicking, setIsClicking] = useState(false);
@@ -28,14 +16,10 @@ export function CustomCursor() {
   const cursorXSpring = useSpring(cursorX, springConfig);
   const cursorYSpring = useSpring(cursorY, springConfig);
 
-  // Debounced mouse move handler for better performance (60fps)
-  const handleMouseMove = useCallback(
-    debounce((e: MouseEvent) => {
-      cursorX.set(e.clientX);
-      cursorY.set(e.clientY);
-    }, 16), // ~60fps
-    [cursorX, cursorY]
-  );
+  const handleMouseMove = useCallback((e: MouseEvent) => {
+    cursorX.set(e.clientX);
+    cursorY.set(e.clientY);
+  }, [cursorX, cursorY]);
 
   const handleMouseDown = useCallback(() => setIsClicking(true), []);
   const handleMouseUp = useCallback(() => setIsClicking(false), []);
@@ -101,9 +85,6 @@ export function CustomCursor() {
     return interactiveElements;
   }, [handleElementEnter, handleElementLeave]);
 
-  // Debounced setup listeners to avoid excessive DOM queries
-  const debouncedSetupListeners = useCallback(debounce(setupListeners, 100), [setupListeners]);
-
   useEffect(() => {
     window.addEventListener("mousemove", handleMouseMove, { passive: true });
     window.addEventListener("mousedown", handleMouseDown, { passive: true });
@@ -114,12 +95,12 @@ export function CustomCursor() {
     // Initial setup
     const elements = setupListeners();
 
-    // Use MutationObserver with debouncing for better performance
-    const observer = new MutationObserver(
-      debounce(() => {
-        debouncedSetupListeners();
-      }, 200) // Debounce DOM changes
-    );
+    // Debounce DOM mutation callbacks to avoid excessive re-querying
+    let mutationTimer: ReturnType<typeof setTimeout>;
+    const observer = new MutationObserver(() => {
+      clearTimeout(mutationTimer);
+      mutationTimer = setTimeout(setupListeners, 200);
+    });
 
     observer.observe(document.body, { 
       childList: true, 
@@ -129,6 +110,7 @@ export function CustomCursor() {
     });
 
     return () => {
+      clearTimeout(mutationTimer);
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("mousedown", handleMouseDown);
       window.removeEventListener("mouseup", handleMouseUp);
@@ -146,7 +128,7 @@ export function CustomCursor() {
       });
       elementsRef.current.clear();
     };
-  }, [handleMouseMove, handleMouseDown, handleMouseUp, handleMouseEnter, handleMouseLeave, debouncedSetupListeners]);
+  }, [handleMouseMove, handleMouseDown, handleMouseUp, handleMouseEnter, handleMouseLeave, setupListeners]);
 
   // Hide on touch devices
   const [isTouchDevice, setIsTouchDevice] = useState(false);

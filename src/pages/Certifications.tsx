@@ -4,7 +4,7 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Badge } from "@/components/ui/badge";
 import { certifications, getYear, categoryConfig, getCertificationWithBadge, type CertificationWithBadge } from "@/data/certifications";
-import { AnimatedPage, FadeInOnScroll, StaggerContainer, StaggerItem } from "@/components/AnimatedPage";
+import { FadeInOnScroll, StaggerContainer, StaggerItem } from "@/components/AnimatedPage";
 import { motion } from "framer-motion";
 
 const categoryIcons = {
@@ -22,8 +22,7 @@ export default function Certifications() {
   const others = certsWithBadges.filter((c) => !c.featured);
 
   return (
-    <AnimatedPage>
-      <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background">
         <Navbar />
 
         <main className="pt-24 pb-16">
@@ -205,7 +204,6 @@ export default function Certifications() {
         </main>
 
         <Footer />
-      </div>
-    </AnimatedPage>
+    </div>
   );
 }

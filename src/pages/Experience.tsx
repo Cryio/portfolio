@@ -4,13 +4,12 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Badge } from "@/components/ui/badge";
 import { experiences } from "@/data/portfolio";
-import { AnimatedPage, FadeInOnScroll, StaggerContainer, StaggerItem } from "@/components/AnimatedPage";
+import { FadeInOnScroll, StaggerContainer, StaggerItem } from "@/components/AnimatedPage";
 import { motion } from "framer-motion";
 
 export default function Experience() {
   return (
-    <AnimatedPage>
-      <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background">
         <Navbar />
 
         <main className="pt-24 pb-16">
@@ -107,7 +106,6 @@ export default function Experience() {
         </main>
 
         <Footer />
-      </div>
-    </AnimatedPage>
+    </div>
   );
 }

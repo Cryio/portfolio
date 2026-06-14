@@ -256,87 +256,6 @@ export const experiences = [
   },
 ];
 
-export const certifications = [
-  {
-    title: "Palo Alto Networks Certified Cybersecurity Practitioner",
-    issuer: "Palo Alto Networks",
-    year: "2024",
-    skills: ["Network security", "Cloud security", "Endpoint security", "Security operations", "Incident response"],
-    featured: true,
-    totalCertificates: 6,
-    credentialUrl: "https://www.credly.com/badges/paloalto-cybersecurity",
-  },
-  {
-    title: "Palo Alto Networks Certified Network Security Analyst",
-    issuer: "Palo Alto Networks",
-    year: "2024",
-    skills: ["PAN-OS administration", "Panorama management", "Traffic decryption", "Log analysis"],
-    featured: true,
-    totalCertificates: 4,
-    credentialUrl: "https://www.credly.com/badges/paloalto-network-security",
-  },
-  {
-    title: "Cisco Networking & Cybersecurity Track",
-    issuer: "Cisco",
-    year: "2025",
-    skills: ["Networking fundamentals", "Cybersecurity", "Device configuration", "Protocol analysis"],
-    featured: true,
-    totalCertificates: 3,
-    credentialUrl: "https://www.credly.com/badges/cisco-networking",
-  },
-  {
-    title: "Google Cloud & AI Specialization",
-    issuer: "Google Cloud",
-    year: "2023",
-    skills: ["Cloud computing", "Machine learning", "AI/ML", "Generative AI", "Data processing"],
-    featured: true,
-    totalCertificates: 12,
-    credentialUrl: "https://www.cloudskillsboost.google/public_profiles/srachetrai",
-  },
-  {
-    title: "ICS 300 (CISA)",
-    issuer: "CISA",
-    year: "2024",
-    skills: ["Advanced ICS security", "Critical infrastructure protection", "Risk management"],
-    featured: false,
-    credentialUrl: "https://www.cisa.gov/ics-training",
-  },
-  {
-    title: "Cato Certified Associate (CCA)",
-    issuer: "Cato Networks",
-    year: "2025",
-    skills: ["Secure network architecture", "Cloud security", "SASE platform"],
-    featured: false,
-    credentialUrl: "https://www.catonetworks.com/cato-academy/",
-  },
-  {
-    title: "Machine Learning",
-    issuer: "IIT Bombay",
-    year: "2023",
-    skills: ["ML fundamentals", "Data analysis", "Model training", "Algorithm implementation"],
-    featured: false,
-    credentialUrl: "https://www.iitbombayx.in/certificates",
-  },
-  {
-    title: "Ethical Hacking & Penetration Testing Track",
-    issuer: "Udemy",
-    year: "2021",
-    skills: ["Ethical hacking", "Penetration testing", "Kali Linux", "Security assessment"],
-    featured: false,
-    totalCertificates: 3,
-    credentialUrl: "https://www.udemy.com/certificate",
-  },
-  {
-    title: "Industrial Control Systems Security Track",
-    issuer: "CISA",
-    year: "2024",
-    skills: ["ICS security", "Industrial protocols", "SCADA systems", "IT/OT convergence"],
-    featured: false,
-    totalCertificates: 3,
-    credentialUrl: "https://www.cisa.gov/ics-training",
-  },
-];
-
 export const achievements = [
   {
     title: "Research Talk at Comsnets 2026",
@@ -415,15 +334,14 @@ Currently pursuing B.Tech in Computer Science.`,
 ┌─────────────────────────────────────────────────────────┐
 │ CONTACT INFO                                            │
 ├─────────────────────────────────────────────────────────┤
-│ Email:    contact@srachetrai.dev                        │
-│ Alt:      srachetrai@gmail.com                          │
+│ Email:    srachetrai@gmail.com                          │
 │ GitHub:   github.com/Cryio                              │
 │ LinkedIn: linkedin.com/in/srachetrai                    │
 └─────────────────────────────────────────────────────────┘`,
   social: `
 GitHub:   https://github.com/Cryio
 LinkedIn: https://linkedin.com/in/srachetrai
-Email:    contact@srachetrai.dev`,
+Email:    srachetrai@gmail.com`,
 };
 
 export const radarData = [

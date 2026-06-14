@@ -216,7 +216,7 @@ export const certifications: Certification[] = [
     featured: false,
   },
   {
-    id: "PAN-OS ",
+    id: "PAN-OS",
     title: "PAN-OS",
     issuer: "Palo Alto Networks",
     issueDate: "2024-05-12",

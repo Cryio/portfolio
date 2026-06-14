@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { blogPosts, categories } from "@/data/blog";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { AnimatedPage, FadeInOnScroll, StaggerContainer, StaggerItem } from "@/components/AnimatedPage";
+import { FadeInOnScroll, StaggerContainer, StaggerItem } from "@/components/AnimatedPage";
 import { motion } from "framer-motion";
 
 export default function Blog() {
@@ -26,8 +26,7 @@ export default function Blog() {
   });
 
   return (
-    <AnimatedPage>
-      <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background">
         <Navbar />
 
         <main className="pt-24 pb-16">
@@ -164,7 +163,6 @@ export default function Blog() {
         </main>
 
         <Footer />
-      </div>
-    </AnimatedPage>
+    </div>
   );
 }

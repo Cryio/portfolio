@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { blogPosts } from "@/data/blog";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
+import ReactMarkdown from "react-markdown";
 
 export default function BlogPost() {
   const { id } = useParams();
@@ -88,9 +89,7 @@ export default function BlogPost() {
             style={{ animationDelay: "0.2s" }}
           >
             <div className="glass rounded-2xl p-8 md:p-12">
-              <div className="whitespace-pre-wrap text-foreground leading-relaxed">
-                {post.content}
-              </div>
+              <ReactMarkdown>{post.content}</ReactMarkdown>
             </div>
           </div>
 

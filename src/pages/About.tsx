@@ -3,7 +3,7 @@ import { ArrowLeft, Heart, Users, Target, Lightbulb, Award, GraduationCap, MapPi
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { achievements } from "@/data/portfolio";
-import { AnimatedPage, FadeInOnScroll, StaggerContainer, StaggerItem } from "@/components/AnimatedPage";
+import { FadeInOnScroll, StaggerContainer, StaggerItem } from "@/components/AnimatedPage";
 import { motion } from "framer-motion";
 import { getProfileImage } from "@/lib/assetLoader";
 
@@ -11,8 +11,7 @@ export default function About() {
   const profileImage = getProfileImage('profile-about') || getProfileImage('avatar');
   
   return (
-    <AnimatedPage>
-      <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background">
         <Navbar />
 
         <main className="pt-24 pb-16">
@@ -140,7 +139,6 @@ export default function About() {
         </main>
 
         <Footer />
-      </div>
-    </AnimatedPage>
+    </div>
   );
 }

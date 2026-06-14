@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { personalInfo } from "@/data/portfolio";
-import { AnimatedPage, FadeInOnScroll, SlideInFromLeft, SlideInFromRight } from "@/components/AnimatedPage";
+import { FadeInOnScroll, SlideInFromLeft, SlideInFromRight } from "@/components/AnimatedPage";
 import { motion } from "framer-motion";
 import { z } from "zod";
 
@@ -94,14 +94,13 @@ export default function Contact() {
         description: "Failed to send message. Please try again later.",
         variant: "destructive",
       });
+    } finally {
+      setIsSubmitting(false);
     }
-
-    setIsSubmitting(false);
   };
 
   return (
-    <AnimatedPage>
-      <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background">
         <Navbar />
 
         <main className="pt-24 pb-16">
@@ -263,7 +262,6 @@ export default function Contact() {
         </main>
 
         <Footer />
-      </div>
-    </AnimatedPage>
+    </div>
   );
 }

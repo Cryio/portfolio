@@ -1,73 +1,121 @@
-# Welcome to your Lovable project
+<div align="center">
 
-## Project info
+# 🛡️ Srachet Rai — Portfolio
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+### A neo-brutalist developer portfolio for a cybersecurity enthusiast
 
-## How can I edit this code?
+*Penetration testing · Vulnerability assessment · Secure coding · Creative design*
 
-There are several ways of editing your application.
+[![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=white)](https://react.dev)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.8-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
+[![Vite](https://img.shields.io/badge/Vite-5-646CFF?logo=vite&logoColor=white)](https://vitejs.dev)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
+[![Three.js](https://img.shields.io/badge/Three.js-r160-000000?logo=threedotjs&logoColor=white)](https://threejs.org)
 
-**Use Lovable**
+[**Live Demo**](#) · [**Report Bug**](https://github.com/Cryio/portfolio/issues) · [**Request Feature**](https://github.com/Cryio/portfolio/issues)
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+</div>
 
-Changes made via Lovable will be committed automatically to this repo.
+---
 
-**Use your preferred IDE**
+## ✨ Overview
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+A fast, animated single-page portfolio built with React + Vite, styled in a bold **neo-brutalist** aesthetic. Beyond the standard sections, it ships with an interactive command-line interface and a small arcade of playable 3D/2D mini-games.
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+## 🚀 Features
 
-Follow these steps:
+| | Feature | Description |
+|---|---|---|
+| 🏠 | **Home** | Animated hero, highlights, and section previews |
+| 👤 | **About & Experience** | Bio, career timeline, and leadership roles |
+| 🧰 | **Skills** | Categorized toolkit with skill → related-project mapping |
+| 📂 | **Projects** | Filterable showcase with tech stacks and links |
+| 🎓 | **Certifications** | Credential cards with auto-resolved badge images |
+| ✍️ | **Blog** | Searchable, category-filtered posts with Markdown rendering |
+| 💻 | **Terminal** | Interactive CLI — type `help` to explore the portfolio by command |
+| 🎮 | **Games** | Crossy Road (Three.js), Chess, Flappy Bird, Tic-Tac-Toe, Memory Cards |
+| 📬 | **Contact** | Validated form (Zod) wired to Web3Forms |
+
+Plus: smooth route transitions (Framer Motion), a custom animated cursor, and dark-mode-aware theming.
+
+## 🛠️ Tech Stack
+
+- **Framework:** React 18 · TypeScript · Vite
+- **Styling:** Tailwind CSS · shadcn/ui · Radix UI
+- **Animation:** Framer Motion
+- **3D / Games:** Three.js · @react-three/fiber · @react-three/drei · chess.js
+- **Forms & Validation:** React Hook Form · Zod · Web3Forms
+- **Content:** react-markdown
+- **Data:** TanStack Query
+
+## 📦 Getting Started
+
+> **Prerequisites:** [Node.js](https://nodejs.org) 18+ and npm
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+# 1. Clone the repository
+git clone https://github.com/Cryio/portfolio.git
+cd portfolio
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+# 2. Install dependencies
+npm install
 
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# 3. Start the dev server
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+### Available Scripts
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+| Command | Description |
+|---|---|
+| `npm run dev` | Start the Vite dev server with hot reload |
+| `npm run build` | Build for production |
+| `npm run build:dev` | Build in development mode |
+| `npm run preview` | Preview the production build locally |
+| `npm run lint` | Run ESLint |
 
-**Use GitHub Codespaces**
+## 📁 Project Structure
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+```
+portfolio/
+├── public/                 # Static assets
+└── src/
+    ├── assets/             # Images, certificates, game assets, documents
+    ├── components/
+    │   ├── chess/          # Chess game
+    │   ├── crossy-road/    # Three.js Crossy Road (components, hooks, stores)
+    │   ├── flappy-bird/    # Flappy Bird game
+    │   ├── memory-card/    # Memory matching game
+    │   ├── tictactoe/      # Tic-Tac-Toe game
+    │   ├── layout/         # Navbar, Footer
+    │   ├── sections/       # Home page sections
+    │   └── ui/             # shadcn/ui primitives + custom cursor
+    ├── data/               # Portfolio content (projects, skills, certs, blog)
+    ├── hooks/              # Custom React hooks
+    ├── lib/                # Utilities (asset loader, helpers)
+    └── pages/              # Route pages (About, Skills, Projects, Blog, …)
+```
 
-## What technologies are used for this project?
+## ⚙️ Configuration
 
-This project is built with:
+- **Content** lives in [`src/data/`](src/data/) — edit `portfolio.ts`, `certifications.ts`, and `blog.ts` to update text, projects, certs, and posts.
+- **Certificate badges** are auto-resolved from [`src/assets/certificates/`](src/assets/certificates/) by name.
+- **Contact form** uses a public Web3Forms access key in [`src/pages/Contact.tsx`](src/pages/Contact.tsx); swap it for your own.
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## 🤝 Contributing
 
-## How can I deploy this project?
+Contributions, issues, and feature requests are welcome. Feel free to open an [issue](https://github.com/Cryio/portfolio/issues) or submit a PR.
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+## 📫 Contact
 
-## Can I connect a custom domain to my Lovable project?
+**Srachet Rai** — Cybersecurity Enthusiast & BTech CSE
 
-Yes, you can!
+[![GitHub](https://img.shields.io/badge/GitHub-Cryio-181717?logo=github&logoColor=white)](https://github.com/Cryio)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-srachetrai-0A66C2?logo=linkedin&logoColor=white)](https://linkedin.com/in/srachetrai)
+[![Email](https://img.shields.io/badge/Email-srachetrai@gmail.com-EA4335?logo=gmail&logoColor=white)](mailto:srachetrai@gmail.com)
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+---
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+<div align="center">
+<sub>Built with ☕ and a healthy paranoia about security.</sub>
+</div>

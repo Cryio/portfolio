@@ -28,20 +28,6 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const handleNavClick = (href: string) => {
-    setIsOpen(false);
-    
-    if (href.startsWith("/#")) {
-      // If we're on the home page, scroll to section
-      if (location.pathname === "/") {
-        const element = document.querySelector(href.replace("/", ""));
-        element?.scrollIntoView({ behavior: "smooth" });
-      }
-      // If we're on another page, navigate to home then scroll
-      return;
-    }
-  };
-
   const scrollToSection = (sectionId: string) => {
     const element = document.querySelector(sectionId);
     element?.scrollIntoView({ behavior: "smooth" });

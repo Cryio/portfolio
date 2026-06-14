@@ -5,7 +5,7 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Badge } from "@/components/ui/badge";
 import { skillCategories, projects } from "@/data/portfolio";
-import { AnimatedPage, FadeInOnScroll, StaggerContainer, StaggerItem } from "@/components/AnimatedPage";
+import { FadeInOnScroll, StaggerContainer, StaggerItem } from "@/components/AnimatedPage";
 import { motion } from "framer-motion";
 import {
   Dialog,
@@ -93,8 +93,7 @@ export default function Skills() {
 
   const relatedProjects = selectedSkill ? getRelatedProjects(selectedSkill.name) : [];
   return (
-    <AnimatedPage>
-      <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background">
         <Navbar />
 
         <main className="pt-24 pb-16">
@@ -285,7 +284,6 @@ export default function Skills() {
             </div>
           </DialogContent>
         </Dialog>
-      </div>
-    </AnimatedPage>
+    </div>
   );
 }

@@ -4,7 +4,7 @@ import { ArrowLeft } from "lucide-react";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { terminalCommands } from "@/data/portfolio";
-import { AnimatedPage, FadeInOnScroll } from "@/components/AnimatedPage";
+import { FadeInOnScroll } from "@/components/AnimatedPage";
 import { motion } from "framer-motion";
 
 interface TerminalLine {
@@ -92,8 +92,7 @@ export default function TerminalPage() {
   };
 
   return (
-    <AnimatedPage>
-      <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background">
         <Navbar />
 
         <main className="pt-24 pb-16">
@@ -203,7 +202,6 @@ export default function TerminalPage() {
         </main>
 
         <Footer />
-      </div>
-    </AnimatedPage>
+    </div>
   );
 }
