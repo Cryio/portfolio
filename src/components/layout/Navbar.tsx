@@ -3,6 +3,7 @@ import { Menu, X, Terminal, Gamepad2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { Link, useLocation } from "react-router-dom";
+import { createPortal } from "react-dom";
 
 const navItems = [
   { label: "Home", href: "/" },
@@ -20,6 +21,9 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
 
+  // True while the transparent navbar sits over the home hero parallax.
+  const overHero = !scrolled && location.pathname === "/";
+
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
@@ -34,7 +38,7 @@ export function Navbar() {
     setIsOpen(false);
   };
 
-  return (
+  const navbar = (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-150 ${
         scrolled ? "bg-background border-b-4 border-foreground" : "bg-transparent"
@@ -48,7 +52,9 @@ export function Navbar() {
               scrollToSection("#home");
             }
           }}
-          className="text-2xl font-display uppercase tracking-tight"
+          className={`text-2xl font-display uppercase tracking-tight transition-colors duration-150 ${
+            overHero ? "text-background dark:text-foreground" : ""
+          }`}
         >
           Srachet<span className="text-highlight-1">.</span>
         </Link>
@@ -61,7 +67,7 @@ export function Navbar() {
                 <button
                   key={item.href}
                   onClick={() => scrollToSection(item.href.replace("/", ""))}
-                  className="nav-link"
+                  className={`nav-link ${overHero ? "!text-background dark:!text-foreground hover:!text-accent-foreground" : ""}`}
                 >
                   {item.label}
                 </button>
@@ -69,7 +75,7 @@ export function Navbar() {
                 <Link
                   key={item.href}
                   to={item.href}
-                  className="nav-link"
+                  className={`nav-link ${overHero ? "!text-background dark:!text-foreground hover:!text-accent-foreground" : ""}`}
                 >
                   {item.label}
                 </Link>
@@ -78,7 +84,7 @@ export function Navbar() {
               <Link
                 key={item.href}
                 to={item.href}
-                className="nav-link"
+                className={`nav-link ${overHero ? "!text-background dark:!text-foreground hover:!text-accent-foreground" : ""}`}
               >
                 {item.label}
               </Link>
@@ -185,4 +191,11 @@ export function Navbar() {
       )}
     </nav>
   );
+
+  // Render outside the page wrapper (which animates transform/filter and would
+  // otherwise become the containing block for this fixed nav, breaking sticky
+  // scrolling). Portaling to <body> keeps it pinned in both themes.
+  return typeof document !== "undefined"
+    ? createPortal(navbar, document.body)
+    : navbar;
 }

@@ -20,7 +20,7 @@ function Leaf({
   color: string;
 }) {
   const swayAmount = useMemo(() => 30 + Math.random() * 50, []);
-  
+
   return (
     <motion.div
       className="absolute pointer-events-none"
@@ -65,7 +65,7 @@ function Leaf({
           />
           <path
             d="M10 5V25M10 10L6 14M10 15L14 19"
-            stroke="rgba(0,0,0,0.15)"
+            stroke="rgba(80,30,0,0.2)"
             strokeWidth="0.5"
           />
         </svg>
@@ -77,14 +77,15 @@ function Leaf({
 // ============= FLOATING LEAVES =============
 export function FloatingLeaves({ count = 15 }: { count?: number }) {
   const leaves = useMemo(() => {
+    // Warm autumn palette to match the orange/yellow sunset theme
     const colors = [
-      "hsl(90, 40%, 45%)",   // Green
-      "hsl(100, 35%, 50%)",  // Light green
-      "hsl(80, 45%, 40%)",   // Dark green
-      "hsl(35, 60%, 55%)",   // Orange/autumn
-      "hsl(45, 50%, 50%)",   // Yellow-green
+      "hsl(32, 85%, 52%)",  // orange
+      "hsl(42, 90%, 55%)",  // amber
+      "hsl(24, 82%, 48%)",  // deep orange
+      "hsl(48, 88%, 58%)",  // golden yellow
+      "hsl(15, 78%, 50%)",  // burnt orange
     ];
-    
+
     return Array.from({ length: count }, (_, i) => ({
       id: i,
       startX: Math.random() * 100,
@@ -98,7 +99,7 @@ export function FloatingLeaves({ count = 15 }: { count?: number }) {
   }, [count]);
 
   return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none dark:opacity-0 opacity-60 transition-opacity duration-700">
+    <div className="absolute inset-0 overflow-hidden pointer-events-none dark:opacity-0 opacity-70 transition-opacity duration-700">
       {leaves.map((leaf) => (
         <Leaf key={leaf.id} {...leaf} />
       ))}

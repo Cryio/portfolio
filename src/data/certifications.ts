@@ -287,6 +287,17 @@ export const certifications: Certification[] = [
     category: "development",
     featured: false,
   },
+  // === CYBERWARFARE LABS ===
+  {
+    id: "mcrta-cyberwarfare-labs",
+    title: "Multi-Cloud Red Team Analyst (MCRTA)",
+    issuer: "CyberWarFare Labs",
+    issueDate: "2024-09-01",
+    credentialUrl: "https://cyberwarfare.live/product/multi-cloud-red-team-analyst-mcrta/",
+    skills: ["Cloud red teaming", "AWS security", "Azure security", "GCP security", "Adversary emulation"],
+    category: "cloud",
+    featured: false,
+  },
   // === CISA ===
   {
     id: "ICS 300 (CISA)",

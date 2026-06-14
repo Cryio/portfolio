@@ -1,15 +1,17 @@
 export const personalInfo = {
   name: "Srachet Rai",
-  title: "Cybersecurity Enthusiast & BTech CSE",
-  tagline: "A passionate cybersecurity enthusiast and creative designer with a strong foundation in computer science. Experienced in penetration testing, vulnerability assessment, and secure coding practices.",
-  aboutDescription: `I am a Cybersecurity Enthusiast with a solid foundation in web development and ethical hacking. As a Computer Science student, I am dedicated to securing digital infrastructures and addressing emerging cyber threats.
+  title: "Platform Engineer & Cybersecurity Professional",
+  tagline: "Aspiring cyber security professional with a strong foundation in vulnerability and security assessment, networking, web development, and machine learning. Passionate about innovation, digital security, and problem-solving in the evolving tech landscape.",
+  aboutDescription: `I'm an aspiring cyber security professional with a strong foundation in vulnerability and security assessment, networking, web development, and machine learning. As a Computer Science student, I'm dedicated to securing digital infrastructures and addressing emerging cyber threats.
 
-I have contributed to impactful projects—including developing a mobile application that tackles real-world health challenges—and earned certifications in Ethical Hacking and Machine Learning. My goal is to deliver innovative, practical solutions that blend creativity with technical expertise.
+I've contributed to impactful work—from a research paper accepted at ComsNets 2026 on WiFi-CSI based activity recognition, to VAPT engagements during my cybersecurity internship, and data engineering pipelines as an engineering intern at Xcaliber Health. I've earned certifications spanning Palo Alto Networks, Cisco, CISA, and Google Cloud.
 
-In my leadership roles with the Google Developers Student Club and TEDxNIITUniversity, I drive innovation and leverage my animation skills to craft immersive user experiences.`,
+Outside of security, I bring leadership and creative design experience from TEDxNIITUniversity and the NIIT Foundation, blending technical expertise with a passion for 2D/3D digital art and game development.`,
   email: "srachetrai@gmail.com",
+  phone: "+91-7302598847",
   github: "https://github.com/Cryio",
   linkedin: "https://linkedin.com/in/srachetrai",
+  website: "https://www.srachetrai.dev",
   cvUrl: "/assets/documents/resume.pdf",
 };
 
@@ -19,7 +21,9 @@ export const skillCategories = [
     icon: "Shield",
     skills: [
       { name: "Nessus", description: "Comprehensive vulnerability scanner for identifying security weaknesses" },
+      { name: "OpenVAS", description: "Open-source vulnerability scanning and management" },
       { name: "Burp Suite", description: "Web application security testing platform" },
+      { name: "Nikto", description: "Web server scanner for vulnerabilities and misconfigurations" },
       { name: "Metasploit", description: "Penetration testing framework for exploit development" },
       { name: "Wireshark", description: "Network protocol analyzer for deep packet inspection" },
       { name: "Wazuh", description: "Open-source XDR and SIEM security platform" },
@@ -28,6 +32,7 @@ export const skillCategories = [
       { name: "MISP", description: "Threat Intelligence Platform for IOC sharing" },
       { name: "Ghidra", description: "NSA's software reverse engineering tools" },
       { name: "Cuckoo Sandbox", description: "Automated malware analysis system" },
+      { name: "Caldera", description: "Automated adversary emulation platform (MITRE ATT&CK)" },
       { name: "SQLmap", description: "SQL injection detection and exploitation tool" },
       { name: "x64dbg", description: "Open-source x64/x32 debugger for Windows" },
     ],
@@ -51,9 +56,11 @@ export const skillCategories = [
     icon: "Code",
     skills: [
       { name: "Python", description: "Security scripting & automation" },
+      { name: "Java", description: "Object-oriented application development" },
       { name: "JavaScript", description: "Web development" },
       { name: "TypeScript", description: "Type-safe JavaScript" },
       { name: "React", description: "UI component library" },
+      { name: "Flutter", description: "Cross-platform mobile app development" },
       { name: "Node.js", description: "Backend runtime" },
       { name: "Express", description: "Node.js web framework" },
       { name: "Git", description: "Version control" },
@@ -199,18 +206,46 @@ export const projects = [
 
 export const experiences = [
   {
-    title: "Technology Intern – Cyber Security",
-    company: "Fluidech IT Services Private Limited",
-    location: "Gurgaon, Haryana",
-    period: "July 2025 – Present",
+    title: "Platform Engineer",
+    company: "Xcaliber Health",
+    location: "Bangalore, Karnataka",
+    period: "June 2026 – Present",
     description: [
-      "Undertaking internship focused on core cyber security operations, risk assessment, and secure software practices",
-      "Working on threat intelligence and security operations center (SOC) activities",
-      "Participating in vulnerability assessment and incident response activities",
-      "Gaining hands-on experience in OT security and reverse engineering techniques",
+      "Converted from intern to full-time Platform Engineer on the core data platform team",
+      "Design and operate change-data-capture and data-sync pipelines (Kafka, Debezium, Ray, Temporal) powering analytics at scale",
+      "Build and harden platform capabilities — data catalog, lineage, and distributed data-quality validation",
+      "Drive reliability, security, and observability across workflow orchestration and infrastructure",
     ],
-    technologies: ["Cybersecurity", "OT Security", "Threat Intelligence", "Vulnerability Assessment", "Reverse Engineering"],
+    technologies: ["Kafka", "Debezium", "Ray", "Temporal", "Daft", "Iceberg", "Platform Engineering"],
     current: true,
+  },
+  {
+    title: "Engineering Intern",
+    company: "Xcaliber Health",
+    location: "Bangalore, Karnataka",
+    period: "March 2026 – June 2026",
+    description: [
+      "Developed scalable CDC and Data Sync pipelines using Kafka, Debezium, Ray, and Temporal",
+      "Built Data Catalog, Lineage, and Analytics platform features for enterprise users",
+      "Implemented distributed Data Quality validation using Daft and Ray",
+      "Enhanced platform reliability, security, and observability through workflow and infrastructure improvements",
+    ],
+    technologies: ["Kafka", "Debezium", "Ray", "Temporal", "Daft", "Data Engineering"],
+    current: false,
+  },
+  {
+    title: "CyberSecurity Intern",
+    company: "Fluidech IT Services",
+    location: "Gurugram, Haryana",
+    period: "July 2025 – March 2026",
+    description: [
+      "Assisted in monitoring security alerts and logs from endpoints to identify suspicious activities",
+      "Performed VAPT activities using industry-standard tools and manual testing",
+      "Gained hands-on exposure to SIEM dashboards and Case Management solutions",
+      "Integrated external threat intelligence feeds into security workflows to enhance detection and prioritization",
+    ],
+    technologies: ["VAPT", "SIEM", "Threat Intelligence", "Incident Response", "Security Operations"],
+    current: false,
   },
   {
     title: "Junior Web Designer",
@@ -335,12 +370,15 @@ Currently pursuing B.Tech in Computer Science.`,
 │ CONTACT INFO                                            │
 ├─────────────────────────────────────────────────────────┤
 │ Email:    srachetrai@gmail.com                          │
+│ Phone:    +91-7302598847                                │
+│ Website:  www.srachetrai.dev                            │
 │ GitHub:   github.com/Cryio                              │
 │ LinkedIn: linkedin.com/in/srachetrai                    │
 └─────────────────────────────────────────────────────────┘`,
   social: `
 GitHub:   https://github.com/Cryio
 LinkedIn: https://linkedin.com/in/srachetrai
+Website:  https://www.srachetrai.dev
 Email:    srachetrai@gmail.com`,
 };
 

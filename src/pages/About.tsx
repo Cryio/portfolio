@@ -76,6 +76,10 @@ export default function About() {
                         <MapPin className="w-4 h-4" />
                         NIIT University
                       </div>
+                      <div className="inline-flex items-center gap-2 border-2 border-foreground px-3 py-1.5 text-xs md:text-sm font-mono">
+                        <GraduationCap className="w-4 h-4" />
+                        CGPA 8.06
+                      </div>
                     </div>
                   </div>
                 </FadeInOnScroll>

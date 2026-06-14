@@ -334,7 +334,7 @@ export function HeroSection() {
             </StaggeredEntrance>
             
             <StaggeredEntrance delay={0.5}>
-              <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-8 font-sans">
+              <p className="text-lg md:text-xl text-background/90 dark:text-muted-foreground max-w-2xl mx-auto mb-8 font-sans">
                 {personalInfo.tagline}
               </p>
             </StaggeredEntrance>
@@ -362,19 +362,19 @@ export function HeroSection() {
               <div className="flex gap-4 justify-center">
                 <MagneticIcon
                   href={personalInfo.github}
-                  className="border-4 border-foreground p-3 shadow-xs hover:shadow-sm hover:bg-foreground hover:text-background transition-all duration-150"
+                  className="border-4 border-background dark:border-foreground text-background dark:text-foreground p-3 shadow-xs hover:shadow-sm hover:bg-foreground hover:text-background transition-all duration-150"
                 >
                   <Github className="w-6 h-6" />
                 </MagneticIcon>
                 <MagneticIcon
                   href={personalInfo.linkedin}
-                  className="border-4 border-foreground p-3 shadow-xs hover:shadow-sm hover:bg-foreground hover:text-background transition-all duration-150"
+                  className="border-4 border-background dark:border-foreground text-background dark:text-foreground p-3 shadow-xs hover:shadow-sm hover:bg-foreground hover:text-background transition-all duration-150"
                 >
                   <Linkedin className="w-6 h-6" />
                 </MagneticIcon>
                 <MagneticIcon
                   href={`mailto:${personalInfo.email}`}
-                  className="border-4 border-foreground p-3 shadow-xs hover:shadow-sm hover:bg-foreground hover:text-background transition-all duration-150"
+                  className="border-4 border-background dark:border-foreground text-background dark:text-foreground p-3 shadow-xs hover:shadow-sm hover:bg-foreground hover:text-background transition-all duration-150"
                 >
                   <Mail className="w-6 h-6" />
                 </MagneticIcon>

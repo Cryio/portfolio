@@ -59,7 +59,7 @@ export default function Certifications() {
                   return (
                     <StaggerItem key={cert.id}>
                       <motion.a
-                        href={cert.credentialUrl}
+                        href={cert.badgeUrl || cert.credentialUrl}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="block border-4 border-foreground p-6 shadow-sm bg-background group"
@@ -132,7 +132,7 @@ export default function Certifications() {
                   return (
                     <StaggerItem key={cert.id}>
                       <motion.a
-                        href={cert.credentialUrl}
+                        href={cert.badgeUrl || cert.credentialUrl}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="block border-4 border-foreground p-5 shadow-sm bg-background group"
